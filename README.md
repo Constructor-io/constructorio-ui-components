@@ -1,2 +1,11 @@
-# constructorio-ui-components
-Shared UI component library for Constructor.io. Built with React + TypeScript (Vite, Storybook, Jest). Designed for reuse across OS UI projects.
+# Constructor UI Components Library
+
+## Requirements
+
+- Node.js v18.20.3 (LTS Hydrogen)
+- React >=16.12.0
+- React DOM >=16.12.0
+
+## License
+
+MIT © Constructor.io

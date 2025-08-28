@@ -20,10 +20,6 @@
       "import": "./lib/mjs/styles.css",
       "require": "./lib/cjs/styles.css"
     },
-    "./constructorio-ui-components-bundled": {
-      "import": "./dist/constructorio-ui-components-bundled.js",
-      "require": "./dist/constructorio-ui-components-bundled.js"
-    },
     ".": {
       "import": "./lib/mjs/index.js",
       "require": "./lib/cjs/index.js"
@@ -34,8 +30,7 @@
     }
   },
   "files": [
-    "lib/**/*",
-    "dist/constructorio-ui-components-bundled.js"
+    "lib/**/*"
   ],
   "scripts": {
     "lint": "eslint src --ext js,ts,jsx,tsx",
@@ -50,7 +45,7 @@
     "build-storybook": "storybook build --docs -o 'docs'",
     "storybook-docs-dev": "storybook dev --docs -p 6007",
     "serve-built-storybook": "npx http-server docs",
-    "compile": "rm -rf lib && tsc -p tsconfig.json && tsc -p tsconfig-cjs.json && npm run copy-styles && vite build",
+    "compile": "rm -rf lib && tsc -p tsconfig.json && tsc -p tsconfig-cjs.json && npm run copy-styles",
     "check-license": "license-checker --production --onlyAllow 'Apache-2.0;BSD-3-Clause;MIT;0BSD;BSD-2-Clause' --excludePackages 'picocolors@1.0.0'",
     "prepare": "husky",
     "storybook": "storybook dev -p 6006"
@@ -104,7 +99,6 @@
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.39.1",
     "vite": "^7.1.2",
-    "vite-plugin-css-injected-by-js": "^3.5.2",
     "vitest": "^3.2.4"
   },
   "volta": {

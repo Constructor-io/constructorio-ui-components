@@ -99,7 +99,7 @@ export default tseslint.config([
   },
   {
     files: ['tests/**/*.ts'],
-    languageOptions: { globals: { ...globals.node, ...globals.jest } },
+    languageOptions: { globals: { ...globals.node } },
   },
   {
     files: ['spec/*.jsx'],

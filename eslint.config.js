@@ -98,6 +98,17 @@ export default tseslint.config([
     ignores: ['*.config.js', 'lib/**/*.js', 'lib/**/*.d.ts', 'docs/**/*.js'],
   },
   {
+    files: ['**/*.config.{js,ts}', '**/vitest.*.ts'],
+    languageOptions: { 
+      globals: { ...globals.node },
+    },
+    rules: {
+      'import/no-unresolved': ['error', { 
+        ignore: ['^vitest/', '^@vitejs/', '^storybook/'] 
+      }],
+    },
+  },
+  {
     files: ['tests/**/*.ts'],
     languageOptions: { globals: { ...globals.node } },
   },

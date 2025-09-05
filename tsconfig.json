@@ -1,7 +1,7 @@
 {
   "$schema": "http://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "removeComments": false,
     "jsx": "react",
@@ -30,6 +30,6 @@
     "noUncheckedSideEffectImports": true
   },
   "lib": ["dom"],
-  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/vitest.d.ts", "spec/**/*.ts", "spec/**/*.tsx"],
   "exclude": ["src/stories/**", "node_modules", "lib", "storybook-static", ".storybook"]
 }

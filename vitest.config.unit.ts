@@ -8,5 +8,8 @@ export default defineConfig({
     setupFiles: ['./spec/setupTests.ts'],
     include: ['**/*.test.{js,jsx,ts,tsx}'],
     exclude: ['**/*.storybook.test.{js,jsx,ts,tsx}', 'node_modules/**'],
+    typecheck: {
+      tsconfig: './tsconfig.json',
+    },
   },
 });

@@ -26,15 +26,22 @@ describe('Button component', () => {
     expect(screen.getByText('Click me')).toBeDisabled();
   });
 
+  test('spreads data attributes if passed', () => {
+    render(<Button data-cnstrc-btn='add_to_cart'>Add to Cart</Button>);
+
+    expect(screen.getByText('Add to Cart').dataset.cnstrcBtn).toBe('add_to_cart');
+  });
+
   test('renders component as is when asChild is true', () => {
     render(
-      <Button asChild>
-        <a>hello</a>
+      <Button asChild data-cnstrc-btn='add_to_cart'>
+        <a>Add to Cart</a>
       </Button>,
     );
 
-    const renderedButton = screen.getByText('hello');
+    const renderedButton = screen.getByText('Add to Cart');
     expect(renderedButton.tagName).toBe('A');
+    expect(renderedButton.dataset.cnstrcBtn).toBe('add_to_cart');
     expect(renderedButton.classList.contains('cio-button')).toBeTruthy();
   });
 
@@ -42,7 +49,7 @@ describe('Button component', () => {
     render(
       <Button
         componentOverrides={{ reactNode: <ul className='cio-button-custom'>A random list</ul> }}>
-        <a>hello</a>
+        <a>Add to Cart</a>
       </Button>,
     );
 

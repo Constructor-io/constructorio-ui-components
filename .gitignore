@@ -26,6 +26,3 @@ dist-ssr
 
 *storybook.log
 storybook-static
-
-# ShadCN Output Folder
-src/components/ui

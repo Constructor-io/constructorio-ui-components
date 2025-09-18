@@ -8,8 +8,8 @@
 
 1. Head to the [list of components](https://ui.shadcn.com/docs/components) and select the component you want to extend.
 2. Using the terminal, run the `npx` command provided in the CLI installation steps.
-   2a. You could opt for the Manual route where you can copy-paste the actual code, but this is not recommended as there might be dependencies that might be missing.
-3. Once complete, the component should be imported in the `/src/components/ui` folder. Copy-paste into your component file and begin dev-ing!
+   1. You could opt for the Manual route where you can copy-paste the actual code, but this is not recommended as there might be dependencies that are not installed yet.
+3. Once complete, the component should be imported in the `/src/components/ui` folder. Copy-paste into your component file, replace any references to components that already exist, and begin dev-ing!
 
 ## Conventions
 

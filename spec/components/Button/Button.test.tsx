@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 import { describe, test, expect, vi, afterEach } from 'vitest';
-import Button from '../../../src/components/Button';
+import Button from '../../../src/components/ui/button';
 
 describe('Button component', () => {
   afterEach(() => {

@@ -47,6 +47,7 @@ export default tseslint.config([
           extensions: ['.js', '.jsx', '.ts', '.tsx'],
           moduleDirectory: ['node_modules', '.'],
         },
+        typescript: {},
       },
     },
 
@@ -89,7 +90,7 @@ export default tseslint.config([
       'import/no-extraneous-dependencies': [
         'error',
         {
-          devDependencies: ['**/stories/**/*.*', '**/.storybook/**/*.*', 'spec/**/*.*'],
+          devDependencies: ['**/stories/**/*.*', '**/.storybook/**/*.*', 'spec/**/*.*', '*.config.*'],
           peerDependencies: true,
         },
       ],
@@ -99,12 +100,12 @@ export default tseslint.config([
   },
   {
     files: ['**/*.config.{js,ts}', '**/vitest.*.ts'],
-    languageOptions: { 
+    languageOptions: {
       globals: { ...globals.node },
     },
     rules: {
-      'import/no-unresolved': ['error', { 
-        ignore: ['^vitest/', '^@vitejs/', '^storybook/'] 
+      'import/no-unresolved': ['error', {
+        ignore: ['^vitest/', '^@vitejs/', '^storybook/']
       }],
     },
   },

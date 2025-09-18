@@ -4,6 +4,12 @@
     "esModuleInterop": true,
     "module": "commonjs",
     "target": "ES2022",
-    "outDir": "lib/cjs"
+    "outDir": "lib/cjs",
+    
+    /* ShadCDN */
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   }
 }

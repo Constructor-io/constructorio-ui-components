@@ -15,18 +15,18 @@ export interface ComponentOverrideProps<T> {
  * - ReactNode or,
  * - (renderProps) => ReactNode
  *
- * Abstract type to be extended from
+ * Abstract type to be extended
  */
 export type IncludeRenderProps<ChildrenFunctionProps> = {
   children?: RenderPropsChildren<ChildrenFunctionProps>;
 };
 
 /**
- * Includes a `children` property of type:
- * - ReactNode or,
- * - (renderProps) => ReactNode
+ * Includes the `componentOverrides` property of type:
+ * - ComponentOverrideProps<T>
+ * - Other sub-components J overrides of types `IncludeComponentOverrides<J>`
  *
- * Abstract type to be extended from
+ * Abstract type to be extended
  */
 export type IncludeComponentOverrides<T> = {
   /**

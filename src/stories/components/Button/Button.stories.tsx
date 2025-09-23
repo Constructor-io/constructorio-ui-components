@@ -140,12 +140,16 @@ export const AsChildExample: Story = {
   tags: ['!autodocs', '!dev'],
 };
 
+const componentOverrides = {
+  button: {
+    reactNode: <span>A span rendered in place of a button</span>,
+  },
+};
+
 export const TopLevelOverrideExample: Story = {
   args: {
     // @ts-expect-error: Composed types
-    componentOverrides: {
-      reactNode: <span>A span rendered in place of a button</span>,
-    },
+    componentOverrides: componentOverrides.button,
     children: 'This will be overridden',
   },
   tags: ['!autodocs', '!dev'],

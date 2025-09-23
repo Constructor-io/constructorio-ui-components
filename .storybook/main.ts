@@ -19,4 +19,5 @@ const config: StorybookConfig = {
     defaultName: "Variants",
   }
 };
+
 export default config;

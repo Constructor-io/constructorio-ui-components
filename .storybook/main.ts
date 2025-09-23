@@ -14,6 +14,9 @@ const config: StorybookConfig = {
   "framework": {
     "name": "@storybook/react-vite",
     "options": {}
+  },
+  "docs": {
+    defaultName: "Variants",
   }
 };
 export default config;

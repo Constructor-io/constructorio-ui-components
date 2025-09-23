@@ -128,3 +128,34 @@ export const SharpVariant: Story = {
   },
   name: 'Shape - Sharp',
 };
+
+// --- Usage Examples
+
+export const AsChildExample: Story = {
+  args: {
+    children: <div>A div that looks like a button</div>,
+    size: 'xl',
+    asChild: true,
+  },
+  tags: ['!autodocs', '!dev'],
+};
+
+export const TopLevelOverrideExample: Story = {
+  args: {
+    // @ts-expect-error: Composed types
+    componentOverrides: {
+      reactNode: <span>A span rendered in place of a button</span>,
+    },
+    children: 'This will be overridden',
+  },
+  tags: ['!autodocs', '!dev'],
+};
+
+export const DataAttributesExample: Story = {
+  args: {
+    // @ts-expect-error: Data Attribute
+    'data-cnstrc-price': 23.25,
+    children: 'Spreading Data Attributes',
+  },
+  tags: ['!autodocs', '!dev'],
+};

@@ -19,6 +19,7 @@ export const Default: Story = {
     children: 'Default Button',
     asChild: false,
   },
+  // '!autodocs' removes this story from being rendered as part of the <Stories /> component in the auto-generated docs.
   tags: ['!autodocs'],
 };
 
@@ -137,6 +138,8 @@ export const AsChildExample: Story = {
     size: 'xl',
     asChild: true,
   },
+  // '!autodocs' removes this story from being rendered as part of the <Stories /> component in the auto-generated docs.
+  // '!dev' prevents a story from being listed in the sidebar.
   tags: ['!autodocs', '!dev'],
 };
 
@@ -152,6 +155,8 @@ export const TopLevelOverrideExample: Story = {
     componentOverrides: componentOverrides.button,
     children: 'This will be overridden',
   },
+  // '!autodocs' removes this story from being rendered as part of the <Stories /> component in the auto-generated docs.
+  // '!dev' prevents a story from being listed in the sidebar.
   tags: ['!autodocs', '!dev'],
 };
 
@@ -161,5 +166,7 @@ export const DataAttributesExample: Story = {
     'data-cnstrc-price': 23.25,
     children: 'Spreading Data Attributes',
   },
+  // '!autodocs' removes this story from being rendered as part of the <Stories /> component in the auto-generated docs.
+  // '!dev' prevents a story from being listed in the sidebar.
   tags: ['!autodocs', '!dev'],
 };

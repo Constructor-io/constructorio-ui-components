@@ -1,0 +1,22 @@
+import { Meta, Canvas, } from '@storybook/addon-docs/blocks';
+import * as Button from './Button.stories';
+
+<Meta of={Button} name="Usage Patterns" />
+
+# Usage Examples
+
+## Render Other Components as a Button using `asChild`
+Use the `asChild` prop to render `children` as is, without nesting it under a `<button>` tag.
+
+<Canvas of={Button.AsChildExample} />
+
+## Enabling Top-Level Overrides
+To enable top-level overrides, we should pass down the props `componentOverrides`.
+
+<Canvas of={Button.TopLevelOverrideExample} />
+
+## Passing Data-Attributes for Add To Cart Buttons
+Add to cart buttons typically have `data-cnstrc-price` and other Constructor-related data attributes assigned to them.
+This can be passed down by simply setting those attributes to the parent `Button` component.
+
+<Canvas of={Button.DataAttributesExample} />

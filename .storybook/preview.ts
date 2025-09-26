@@ -1,4 +1,5 @@
 import type { Preview } from '@storybook/react-vite'
+import StorybookAutodocs from './StorybookAutodocs';
 
 const preview: Preview = {
   parameters: {
@@ -18,6 +19,9 @@ const preview: Preview = {
         ]
       }
     },
+    docs: {
+      page: StorybookAutodocs
+    }
   },
 };
 

@@ -19,6 +19,7 @@ export const Default: Story = {
     children: 'Default Button',
     asChild: false,
   },
+  // '!autodocs' removes this story from being rendered as part of the <Stories /> component in the auto-generated docs.
   tags: ['!autodocs'],
 };
 
@@ -127,4 +128,45 @@ export const SharpVariant: Story = {
     shape: 'sharp',
   },
   name: 'Shape - Sharp',
+};
+
+// --- Usage Examples
+
+export const AsChildExample: Story = {
+  args: {
+    children: <div>A div that looks like a button</div>,
+    size: 'xl',
+    asChild: true,
+  },
+  // '!autodocs' removes this story from being rendered as part of the <Stories /> component in the auto-generated docs.
+  // '!dev' prevents a story from being listed in the sidebar.
+  tags: ['!autodocs', '!dev'],
+};
+
+const componentOverrides = {
+  button: {
+    reactNode: <span>A span rendered in place of a button</span>,
+  },
+};
+
+export const TopLevelOverrideExample: Story = {
+  args: {
+    // @ts-expect-error: Composed types
+    componentOverrides: componentOverrides.button,
+    children: 'This will be overridden',
+  },
+  // '!autodocs' removes this story from being rendered as part of the <Stories /> component in the auto-generated docs.
+  // '!dev' prevents a story from being listed in the sidebar.
+  tags: ['!autodocs', '!dev'],
+};
+
+export const DataAttributesExample: Story = {
+  args: {
+    // @ts-expect-error: Data Attribute
+    'data-cnstrc-price': 23.25,
+    children: 'Spreading Data Attributes',
+  },
+  // '!autodocs' removes this story from being rendered as part of the <Stories /> component in the auto-generated docs.
+  // '!dev' prevents a story from being listed in the sidebar.
+  tags: ['!autodocs', '!dev'],
 };

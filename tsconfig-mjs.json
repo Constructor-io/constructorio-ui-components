@@ -1,12 +1,5 @@
 {
   "extends": "./tsconfig.json",
-  "compilerOptions": {
-    "esModuleInterop": true,
-    "moduleResolution": "node",
-    "module": "commonjs",
-    "target": "ES2022",
-    "outDir": "lib/cjs"
-  },
   "include": ["src/**/*.ts", "src/**/*.tsx", "src/vitest.d.ts"],
   "exclude": ["src/stories/**", "node_modules", "lib", "storybook-static", ".storybook"]
 }

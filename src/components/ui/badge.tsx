@@ -18,13 +18,11 @@ const badgeVariants = cva(
         destructive:
           'border-transparent bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60',
       },
-      // Done
       size: {
         sm: 'h-4 px-1 text-xs leading-3',
         md: 'h-5 py-1 px-2 text-[13px] leading-4',
         lg: 'h-6 py-1 px-2 text-sm leading-4',
       },
-      // Done
       shape: {
         beveled: 'rounded-sm',
         rounded: 'rounded-full',

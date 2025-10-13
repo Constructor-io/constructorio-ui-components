@@ -1,5 +1,13 @@
 import { cn } from '@/lib/utils';
 import React, { createContext, useContext } from 'react';
+import {
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+  Carousel,
+} from '../ui/carousel';
+import { Card, CardContent } from '../ui/card';
 
 type CarouselContextType = {
   title?: string;
@@ -28,17 +36,46 @@ const CarouselRoot = ({ children, title, subtitle }: RootProps) => {
   );
 };
 
-const Title = (className: string = '') => {
+const Title: React.FC<{ className?: string }> = ({ className }) => {
   const { title } = useCarouselContext();
+  if (!title) return null;
   return <div className={cn('', className)}>{title}</div>;
 };
 
-const Subtitle = (text: string, className: string = '') => {
-  return <div className={cn('', className)}>{text}</div>;
+const Subtitle: React.FC<{ className?: string }> = ({ className }) => {
+  const { subtitle } = useCarouselContext();
+  if (!subtitle) return null;
+  return <div className={cn('', className)}>{subtitle}</div>;
 };
 
-// Attach subcomponents to root
-export const Carousel = Object.assign(CarouselRoot, {
+const CarouselItems: React.FC<any> = () => {
+  return (
+    <Carousel
+      className='w-full max-w-xs'
+      opts={{
+        slidesToScroll: 'auto',
+      }}>
+      <CarouselContent>
+        {Array.from({ length: 10 }).map((_, index) => (
+          <CarouselItem key={index} className='basis-1/3 p-0'>
+            <div className='p-1'>
+              <Card>
+                <CardContent className='flex aspect-square items-center justify-center p-6'>
+                  <span className='text-4xl font-semibold'>{index + 1}</span>
+                </CardContent>
+              </Card>
+            </div>
+          </CarouselItem>
+        ))}
+      </CarouselContent>
+      <CarouselPrevious />
+      <CarouselNext />
+    </Carousel>
+  );
+};
+
+export const CarouselBase = Object.assign(CarouselRoot, {
   Title,
   Subtitle,
+  CarouselItems,
 });

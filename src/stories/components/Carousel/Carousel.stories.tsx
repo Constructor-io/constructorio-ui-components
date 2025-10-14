@@ -33,8 +33,8 @@ export const Default: Story = {
           className='col-span-4 md:col-span-12'
           title='Primary Title'
           subtitle='Secondary Title'>
-          <CioCarousel.Title />
-          <CioCarousel.Subtitle />
+          {/* <CioCarousel.Title />
+          <CioCarousel.Subtitle /> */}
           <CioCarousel.CarouselItems />
         </CioCarousel>
       </div>

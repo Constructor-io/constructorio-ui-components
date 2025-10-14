@@ -1,5 +1,6 @@
 import * as React from 'react';
 import useEmblaCarousel, { type UseEmblaCarouselType } from 'embla-carousel-react';
+import {} from 'embla-carousel-react'
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -15,6 +16,9 @@ type CarouselProps = {
   plugins?: CarouselPlugin;
   orientation?: 'horizontal' | 'vertical';
   setApi?: (api: CarouselApi) => void;
+  autoPlay?: boolean;
+  loop?: boolean;
+  slidesToScroll?: "auto" | number;
 };
 
 type CarouselContextProps = {
@@ -44,6 +48,9 @@ function useCarousel() {
 
 function Carousel({
   orientation = 'horizontal',
+  autoPlay = false,
+  loop = false,
+  slidesToScroll = 1,
   opts,
   setApi,
   plugins,
@@ -55,6 +62,8 @@ function Carousel({
     {
       ...opts,
       axis: orientation === 'horizontal' ? 'x' : 'y',
+      slidesToScroll,
+      loop,
     },
     plugins,
   );
@@ -117,21 +126,16 @@ function Carousel({
         const rect = slideNode.getBoundingClientRect();
         const slideWidth = rect.width;
 
-        console.log(slideWidth)
+        console.log(slideWidth);
 
         const visibleWidth =
           Math.min(rect.right, viewportRect.right) - Math.max(rect.left, viewportRect.left);
 
         const visibilityRatio = Math.min(Math.max(visibleWidth / slideWidth, 0), 1);
 
-        // console.log(index, visibilityRatio);
-
         const opacity = visibilityRatio >= 0.94 ? 1 : Math.max(visibilityRatio, 0.1);
 
-        // const scale = visibilityRatio === 1 ? 1 : Math.max(visibilityRatio, 0.8);
-
         slideNode.style.opacity = opacity.toString();
-        // slideNode.style.scale = scale.toString();
       });
     };
 

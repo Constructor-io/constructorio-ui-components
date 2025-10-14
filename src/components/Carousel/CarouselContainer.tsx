@@ -12,6 +12,7 @@ import { Card, CardContent } from '../ui/card';
 type CarouselContextType = {
   title?: string;
   subtitle?: string;
+  className?: string;
 };
 
 interface RootProps extends CarouselContextType {
@@ -28,10 +29,10 @@ const useCarouselContext = () => {
   return context;
 };
 
-const CarouselRoot = ({ children, title, subtitle }: RootProps) => {
+const CarouselRoot = ({ children, title, subtitle, className }: RootProps) => {
   return (
     <CarouselContext.Provider value={{ title, subtitle }}>
-      <div>{children}</div>
+      <div className={className}>{children}</div>
     </CarouselContext.Provider>
   );
 };
@@ -51,16 +52,17 @@ const Subtitle: React.FC<{ className?: string }> = ({ className }) => {
 const CarouselItems: React.FC<any> = () => {
   return (
     <Carousel
-      className='w-full max-w-xs'
+      className={cn('w-full')}
       opts={{
         slidesToScroll: 'auto',
+        align: 'start',
       }}>
       <CarouselContent>
         {Array.from({ length: 10 }).map((_, index) => (
-          <CarouselItem key={index} className='basis-1/3 p-0'>
+          <CarouselItem key={index} className='basis-[40%] pl-3'>
             <div className='p-1'>
-              <Card>
-                <CardContent className='flex aspect-square items-center justify-center p-6'>
+              <Card className='h-[456px] bg-amber-700'>
+                <CardContent className='flex aspect-square items-center justify-center p-6 h-full'>
                   <span className='text-4xl font-semibold'>{index + 1}</span>
                 </CardContent>
               </Card>

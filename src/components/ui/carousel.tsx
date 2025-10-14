@@ -26,7 +26,7 @@ type CarouselContextProps = {
   canScrollNext: boolean;
 } & CarouselProps;
 
-type NavButtonProps = Omit<React.ComponentProps<typeof Button>, "children"> & {
+type NavButtonProps = Omit<React.ComponentProps<typeof Button>, 'children'> & {
   children?: React.ReactNode;
 };
 
@@ -104,6 +104,38 @@ function Carousel({
     };
   }, [api, onSelect]);
 
+  React.useEffect(() => {
+    if (!api) return;
+
+    const tweenOpacity = () => {
+      const viewport = api.rootNode();
+      if (!viewport) return;
+      const viewportRect = viewport.getBoundingClientRect();
+
+      api.slideNodes().forEach((slideNode) => {
+        const rect = slideNode.getBoundingClientRect();
+        const slideWidth = rect.width;
+
+        const visibleWidth =
+          Math.min(rect.right, viewportRect.right) - Math.max(rect.left, viewportRect.left);
+
+        const visibilityRatio = Math.min(Math.max(visibleWidth / slideWidth, 0), 1);
+
+        const opacity = visibilityRatio === 1 ? 1 : Math.max(visibilityRatio, 0.3);
+
+        slideNode.style.opacity = opacity.toString();
+      });
+    };
+
+    tweenOpacity(); // Run once on mount
+    api.on('scroll', tweenOpacity);
+    api.on('reInit', tweenOpacity);
+
+    return () => {
+      api?.off('scroll', tweenOpacity);
+    };
+  }, [api, carouselRef]);
+
   return (
     <CarouselContext.Provider
       value={{
@@ -160,11 +192,7 @@ function CarouselItem({ className, ...props }: React.ComponentProps<'div'>) {
   );
 }
 
-function CarouselPrevious({
-  className,
-  size = 'icon',
-  ...props
-}: NavButtonProps) {
+function CarouselPrevious({ className, size = 'icon', ...props }: NavButtonProps) {
   const { orientation, scrollPrev, canScrollPrev } = useCarousel();
 
   return (
@@ -174,7 +202,7 @@ function CarouselPrevious({
       className={cn(
         'absolute size-8 rounded-full',
         orientation === 'horizontal'
-          ? 'top-1/2 -left-12 -translate-y-1/2'
+          ? 'top-1/2 left-12 -translate-y-1/2'
           : '-top-12 left-1/2 -translate-x-1/2 rotate-90',
         className,
       )}
@@ -197,7 +225,7 @@ function CarouselNext({ className, size = 'icon', ...props }: NavButtonProps) {
       className={cn(
         'absolute size-8 rounded-full',
         orientation === 'horizontal'
-          ? 'top-1/2 -right-12 -translate-y-1/2'
+          ? 'top-1/2 right-12 -translate-y-1/2'
           : '-bottom-12 left-1/2 -translate-x-1/2 rotate-90',
         className,
       )}

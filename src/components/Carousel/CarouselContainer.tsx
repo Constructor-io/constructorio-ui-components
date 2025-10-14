@@ -54,7 +54,7 @@ const CarouselItems: React.FC<any> = () => {
     <Carousel
       className={cn('w-full')}
       opts={{
-        slidesToScroll: 'auto',
+        slidesToScroll: 1,
         align: 'start',
       }}>
       <CarouselContent>

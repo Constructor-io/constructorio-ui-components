@@ -112,18 +112,26 @@ function Carousel({
       if (!viewport) return;
       const viewportRect = viewport.getBoundingClientRect();
 
-      api.slideNodes().forEach((slideNode) => {
+      api.slideNodes().forEach((slideNode, index) => {
+        console.log(slideNode);
         const rect = slideNode.getBoundingClientRect();
         const slideWidth = rect.width;
+
+        console.log(slideWidth)
 
         const visibleWidth =
           Math.min(rect.right, viewportRect.right) - Math.max(rect.left, viewportRect.left);
 
         const visibilityRatio = Math.min(Math.max(visibleWidth / slideWidth, 0), 1);
 
-        const opacity = visibilityRatio === 1 ? 1 : Math.max(visibilityRatio, 0.3);
+        // console.log(index, visibilityRatio);
+
+        const opacity = visibilityRatio >= 0.94 ? 1 : Math.max(visibilityRatio, 0.1);
+
+        // const scale = visibilityRatio === 1 ? 1 : Math.max(visibilityRatio, 0.8);
 
         slideNode.style.opacity = opacity.toString();
+        // slideNode.style.scale = scale.toString();
       });
     };
 

@@ -1,15 +1,25 @@
 import * as React from 'react';
 import useEmblaCarousel, { type UseEmblaCarouselType } from 'embla-carousel-react';
-import {} from 'embla-carousel-react'
+import {} from 'embla-carousel-react';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 import Button from '@/components/ui/button';
+import { useCarouselGap } from '@/hooks/useCarouselGap';
 
 type CarouselApi = UseEmblaCarouselType[1];
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>;
 type CarouselOptions = UseCarouselParameters[0];
 type CarouselPlugin = UseCarouselParameters[1];
+
+type ResponsivePoint = {
+  slidesToShow?: number;
+  gap?: number; // px
+};
+
+export type ResponsiveConfig = {
+  [breakpointPx: number]: ResponsivePoint;
+};
 
 type CarouselProps = {
   opts?: CarouselOptions;
@@ -18,7 +28,8 @@ type CarouselProps = {
   setApi?: (api: CarouselApi) => void;
   autoPlay?: boolean;
   loop?: boolean;
-  slidesToScroll?: "auto" | number;
+  slidesToScroll?: 'auto' | number;
+  responsive?: ResponsiveConfig;
 };
 
 type CarouselContextProps = {
@@ -54,10 +65,15 @@ function Carousel({
   opts,
   setApi,
   plugins,
+  responsive,
   className,
   children,
   ...props
 }: React.ComponentProps<'div'> & CarouselProps) {
+  const { rootProps } = useCarouselGap(responsive);
+
+  console.log(rootProps);
+
   const [carouselRef, api] = useEmblaCarousel(
     {
       ...opts,
@@ -121,12 +137,9 @@ function Carousel({
       if (!viewport) return;
       const viewportRect = viewport.getBoundingClientRect();
 
-      api.slideNodes().forEach((slideNode, index) => {
-        console.log(slideNode);
+      api.slideNodes().forEach((slideNode) => {
         const rect = slideNode.getBoundingClientRect();
         const slideWidth = rect.width;
-
-        console.log(slideWidth);
 
         const visibleWidth =
           Math.min(rect.right, viewportRect.right) - Math.max(rect.left, viewportRect.left);
@@ -166,6 +179,7 @@ function Carousel({
         role='region'
         aria-roledescription='carousel'
         data-slot='carousel'
+        {...rootProps}
         {...props}>
         {children}
       </div>

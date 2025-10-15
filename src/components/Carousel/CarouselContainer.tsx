@@ -56,10 +56,15 @@ const CarouselItems: React.FC<any> = () => {
       opts={{
         slidesToScroll: 1,
         align: 'start',
+      }}
+      responsive={{
+        0: { gap: 12 }, // mobile
+        640: { gap: 16 }, // tablet
+        1024: { gap: 24 }, // desktop
       }}>
       <CarouselContent>
         {Array.from({ length: 10 }).map((_, index) => (
-          <CarouselItem key={index} className='basis-[40%] pl-3'>
+          <CarouselItem key={index} className='basis-[45%] pl-3'>
             <div className='p-1'>
               <Card className='h-[456px] bg-amber-700'>
                 <CardContent className='flex aspect-square items-center justify-center p-6 h-full'>

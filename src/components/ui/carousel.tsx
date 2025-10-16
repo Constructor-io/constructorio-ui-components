@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils';
 import Button from '@/components/ui/button';
 import { useCarouselResponsive } from '@/hooks/useCarouselResponsive';
 import { useCarouselTweenOpacity } from '@/hooks/useCarouselTweenOpacity';
+import Autoplay from 'embla-carousel-autoplay';
 
 type CarouselApi = UseEmblaCarouselType[1];
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>;
@@ -70,12 +71,12 @@ function Carousel({
   slidesToScroll = 1,
   opts,
   setApi,
-  plugins,
   responsive,
   className,
   children,
   ...props
 }: React.ComponentProps<'div'> & CarouselProps) {
+  const plugins = autoPlay ? [Autoplay({ playOnInit: true, delay: 3000 })] : [];
   const [carouselRef, api] = useEmblaCarousel(
     {
       ...opts,
@@ -176,7 +177,7 @@ function CarouselContent({ className, ...props }: React.ComponentProps<'div'>) {
   );
 }
 
-function CarouselItem({ className, ...props }: React.ComponentProps<'div'>) {
+function CarouselItem({ className, children, ...props }: React.ComponentProps<'div'>) {
   const { orientation } = useCarousel();
 
   return (
@@ -243,6 +244,10 @@ function CarouselNext({ className, size = 'icon', ...props }: NavButtonProps) {
     </Button>
   );
 }
+
+// function CarouselContainer({ className }: React.ComponentProps<'div'>) {
+//   return <div role='region' data-slot='carousel-container' className={cn(className)}></div>;
+// }
 
 export {
   type CarouselApi,

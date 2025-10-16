@@ -33,33 +33,33 @@ export const DisabledVariant: Story = {
 export const SecondaryVariant: Story = {
   args: {
     children: 'Secondary',
-    mode: 'secondary',
+    variant: 'secondary',
   },
-  name: 'Mode - Secondary',
+  name: 'variant - Secondary',
 };
 
 export const DestructiveVariant: Story = {
   args: {
     children: 'Destructive',
-    mode: 'destructive',
+    variant: 'destructive',
   },
-  name: 'Mode - Destructive',
+  name: 'variant - Destructive',
 };
 
 export const GhostVariant: Story = {
   args: {
     children: 'Ghost',
-    mode: 'ghost',
+    variant: 'ghost',
   },
-  name: 'Mode - Ghost',
+  name: 'variant - Ghost',
 };
 
 export const LinkVariant: Story = {
   args: {
     children: 'Link',
-    mode: 'link',
+    variant: 'link',
   },
-  name: 'Mode - Link',
+  name: 'variant - Link',
 };
 
 export const XlVariant: Story = {
@@ -70,12 +70,12 @@ export const XlVariant: Story = {
   name: 'Size - xl',
 };
 
-export const LgVariant: Story = {
+export const DefaultSizeVariant: Story = {
   args: {
     children: 'Button Size',
-    size: 'lg',
+    size: 'default',
   },
-  name: 'Size - lg',
+  name: 'Size - default',
 };
 
 export const MdVariant: Story = {

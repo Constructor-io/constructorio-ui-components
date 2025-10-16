@@ -28,12 +28,13 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   render: () => (
     <main className='min-h-100svh'>
-      <div className='grid grid-cols-4 md:grid-cols-12 mx-4 md:mx-12 lg:mx-24'>
+      <div className='grid grid-cols-4 md:grid-cols-12 mx-4 md:mx-12 lg:mx-24 '>
         <CioCarousel
           className='col-span-4 md:col-span-12'
           title='Primary Title'
           subtitle='Secondary Title'
-          >
+          orientation='vertical'
+          autoPlay={true}>
           {/* <CioCarousel.Title />
           <CioCarousel.Subtitle /> */}
           <CioCarousel.CarouselItems />

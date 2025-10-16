@@ -5,7 +5,7 @@ import { ArrowLeft, ArrowRight } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 import Button from '@/components/ui/button';
-import { useCarouselGap } from '@/hooks/useCarouselGap';
+import { useResponsiveCarousel } from '@/hooks/useResponsiveCarousel';
 
 type CarouselApi = UseEmblaCarouselType[1];
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>;
@@ -23,16 +23,19 @@ export type ResponsiveConfig = {
 
 export type Orientation = 'horizontal' | 'vertical';
 
-type CarouselProps = {
-  opts?: CarouselOptions;
-  plugins?: CarouselPlugin;
+export type CioCarouselOpts = {
   orientation?: Orientation;
-  setApi?: (api: CarouselApi) => void;
   autoPlay?: boolean;
   loop?: boolean;
   slidesToScroll?: 'auto' | number;
   responsive?: ResponsiveConfig;
 };
+
+type CarouselProps = {
+  opts?: CarouselOptions;
+  plugins?: CarouselPlugin;
+  setApi?: (api: CarouselApi) => void;
+} & CioCarouselOpts;
 
 type CarouselContextProps = {
   carouselRef: ReturnType<typeof useEmblaCarousel>[0];
@@ -72,9 +75,9 @@ function Carousel({
   children,
   ...props
 }: React.ComponentProps<'div'> & CarouselProps) {
-  const { rootProps } = useCarouselGap(responsive, orientation);
+  const { rootProps } = useResponsiveCarousel(responsive, orientation);
 
-  console.log(rootProps);
+  console.log(plugins);
 
   const [carouselRef, api] = useEmblaCarousel(
     {
@@ -137,17 +140,28 @@ function Carousel({
     const tweenOpacity = () => {
       const viewport = api.rootNode();
       if (!viewport) return;
+
       const viewportRect = viewport.getBoundingClientRect();
 
       api.slideNodes().forEach((slideNode) => {
         const rect = slideNode.getBoundingClientRect();
-        const slideWidth = rect.width;
 
-        const visibleWidth =
-          Math.min(rect.right, viewportRect.right) - Math.max(rect.left, viewportRect.left);
+        let visibleLength: number;
+        let slideLength: number;
 
-        const visibilityRatio = Math.min(Math.max(visibleWidth / slideWidth, 0), 1);
+        if (orientation === 'horizontal') {
+          slideLength = rect.width;
+          visibleLength =
+            Math.min(rect.right, viewportRect.right) - Math.max(rect.left, viewportRect.left);
+        } else {
+          slideLength = rect.height;
+          visibleLength =
+            Math.min(rect.bottom, viewportRect.bottom) - Math.max(rect.top, viewportRect.top);
+        }
 
+        const visibilityRatio = Math.min(Math.max(visibleLength / slideLength, 0), 1);
+
+        // Apply a small minimum opacity for slides barely visible
         const opacity = visibilityRatio >= 0.94 ? 1 : Math.max(visibilityRatio, 0.1);
 
         slideNode.style.opacity = opacity.toString();
@@ -160,8 +174,9 @@ function Carousel({
 
     return () => {
       api?.off('scroll', tweenOpacity);
+      api?.off('reInit', tweenOpacity);
     };
-  }, [api, carouselRef]);
+  }, [api]);
 
   return (
     <CarouselContext.Provider
@@ -193,7 +208,10 @@ function CarouselContent({ className, ...props }: React.ComponentProps<'div'>) {
   const { carouselRef, orientation } = useCarousel();
 
   return (
-    <div ref={carouselRef} className='overflow-hidden' data-slot='carousel-content'>
+    <div
+      ref={carouselRef}
+      className='overflow-hidden w-full h-full relative'
+      data-slot='carousel-content'>
       <div
         className={cn('flex', orientation === 'horizontal' ? '' : 'flex-col', className)}
         {...props}

@@ -6,14 +6,16 @@ import {
   CarouselNext,
   CarouselPrevious,
   Carousel,
+  CioCarouselOpts,
 } from '../ui/carousel';
 import { Card, CardContent } from '../ui/card';
+import Autoplay from 'embla-carousel-autoplay';
 
 type CarouselContextType = {
   title?: string;
   subtitle?: string;
   className?: string;
-};
+} & CioCarouselOpts;
 
 interface RootProps extends CarouselContextType {
   children: Readonly<React.ReactNode>;
@@ -29,9 +31,9 @@ const useCarouselContext = () => {
   return context;
 };
 
-const CarouselRoot = ({ children, title, subtitle, className }: RootProps) => {
+const CarouselRoot = ({ children, className, ...rest }: RootProps) => {
   return (
-    <CarouselContext.Provider value={{ title, subtitle }}>
+    <CarouselContext.Provider value={rest}>
       <div className={className}>{children}</div>
     </CarouselContext.Provider>
   );
@@ -50,6 +52,8 @@ const Subtitle: React.FC<{ className?: string }> = ({ className }) => {
 };
 
 const CarouselItems: React.FC<any> = () => {
+  const { autoPlay, orientation } = useCarouselContext();
+  const plugins = autoPlay ? [Autoplay({ playOnInit: true, delay: 3000 })] : [];
   return (
     <Carousel
       className={cn('w-full')}
@@ -61,11 +65,13 @@ const CarouselItems: React.FC<any> = () => {
         0: { gap: 12, slidesToShow: 2 }, // mobile
         920: { gap: 16, slidesToShow: 4 }, // tablet
         1200: { gap: 24, slidesToShow: 6 }, // desktop
-      }}>
-      <CarouselContent>
+      }}
+      orientation={orientation}
+      plugins={plugins}>
+      <CarouselContent className="h-[600px]">
         {Array.from({ length: 10 }).map((_, index) => (
           <CarouselItem key={index} className='basis-[45%] pl-3'>
-            <Card className='h-[456px] bg-amber-700'>
+            <Card className='h-[200px] bg-amber-700'>
               <CardContent className='flex aspect-square items-center justify-center p-6 h-full'>
                 <span className='text-4xl font-semibold'>{index + 1}</span>
               </CardContent>

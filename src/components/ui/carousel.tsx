@@ -65,7 +65,7 @@ function useCarousel() {
 function Carousel({
   orientation = 'horizontal',
   autoPlay = false,
-  loop = false,
+  loop = true,
   slidesToScroll = 1,
   opts,
   setApi,
@@ -77,13 +77,11 @@ function Carousel({
 }: React.ComponentProps<'div'> & CarouselProps) {
   const { rootProps } = useResponsiveCarousel(responsive, orientation);
 
-  console.log(plugins);
-
   const [carouselRef, api] = useEmblaCarousel(
     {
       ...opts,
       axis: orientation === 'horizontal' ? 'x' : 'y',
-      slidesToScroll,
+      slidesToScroll: slidesToScroll,
       loop,
     },
     plugins,
@@ -241,6 +239,8 @@ function CarouselItem({ className, ...props }: React.ComponentProps<'div'>) {
 function CarouselPrevious({ className, size = 'icon', ...props }: NavButtonProps) {
   const { orientation, scrollPrev, canScrollPrev } = useCarousel();
 
+  if (!canScrollPrev) return null;
+
   return (
     <Button
       data-slot='carousel-previous'
@@ -263,6 +263,8 @@ function CarouselPrevious({ className, size = 'icon', ...props }: NavButtonProps
 
 function CarouselNext({ className, size = 'icon', ...props }: NavButtonProps) {
   const { orientation, scrollNext, canScrollNext } = useCarousel();
+
+  if (!canScrollNext) return null;
 
   return (
     <Button

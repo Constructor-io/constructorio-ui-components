@@ -32,6 +32,7 @@ const useCarouselContext = () => {
 };
 
 const CarouselRoot = ({ children, className, ...rest }: RootProps) => {
+  // TODO: Resolve against a default config.
   return (
     <CarouselContext.Provider value={rest}>
       <div className={className}>{children}</div>
@@ -51,14 +52,14 @@ const Subtitle: React.FC<{ className?: string }> = ({ className }) => {
   return <div className={cn('', className)}>{subtitle}</div>;
 };
 
-const CarouselItems: React.FC<any> = () => {
-  const { autoPlay, orientation } = useCarouselContext();
+const CarouselItems: React.FC = () => {
+  const { autoPlay, orientation, slidesToScroll } = useCarouselContext();
   const plugins = autoPlay ? [Autoplay({ playOnInit: true, delay: 3000 })] : [];
   return (
     <Carousel
       className={cn('w-full')}
       opts={{
-        slidesToScroll: 1,
+        slidesToScroll: slidesToScroll,
         align: 'start',
       }}
       responsive={{
@@ -68,10 +69,10 @@ const CarouselItems: React.FC<any> = () => {
       }}
       orientation={orientation}
       plugins={plugins}>
-      <CarouselContent className="h-[600px]">
+      <CarouselContent>
         {Array.from({ length: 10 }).map((_, index) => (
           <CarouselItem key={index} className='basis-[45%] pl-3'>
-            <Card className='h-[200px] bg-amber-700'>
+            <Card className='bg-amber-700'>
               <CardContent className='flex aspect-square items-center justify-center p-6 h-full'>
                 <span className='text-4xl font-semibold'>{index + 1}</span>
               </CardContent>

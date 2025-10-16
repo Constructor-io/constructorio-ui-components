@@ -1,6 +1,6 @@
 // Components
 export { default as Button } from './components/ui/button';
-// export { Carousel } from './components/ui/carousel';
+export { default as Carousel } from './components/ui/carousel';
 
 // Hooks
 

@@ -34,8 +34,8 @@ export const Default: Story = {
           title='Primary Title'
           subtitle='Secondary Title'
           autoPlay={true}>
-          <CioCarousel.Title />
-          <CioCarousel.Subtitle />
+          {/* <CioCarousel.Title />
+          <CioCarousel.Subtitle /> */}
           <CioCarousel.CarouselItems />
         </CioCarousel>
       </div>

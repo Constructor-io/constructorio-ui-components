@@ -66,7 +66,7 @@ function useCarousel() {
 
 function Carousel({
   orientation = 'horizontal',
-  autoPlay = false,
+  autoPlay = true,
   loop = true,
   slidesToScroll = 1,
   opts,
@@ -177,7 +177,7 @@ function CarouselContent({ className, ...props }: React.ComponentProps<'div'>) {
   );
 }
 
-function CarouselItem({ className, children, ...props }: React.ComponentProps<'div'>) {
+function CarouselItem({ className, ...props }: React.ComponentProps<'div'>) {
   const { orientation } = useCarousel();
 
   return (
@@ -257,3 +257,7 @@ export {
   CarouselPrevious,
   CarouselNext,
 };
+
+// const CioCarousel = Object.assign({}, Carousel, { CarouselContent, CarouselItem });
+
+// export default CioCarousel;

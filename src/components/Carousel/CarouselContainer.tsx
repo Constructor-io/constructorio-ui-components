@@ -71,7 +71,7 @@ const CarouselItems: React.FC = () => {
       plugins={plugins}>
       <CarouselContent>
         {Array.from({ length: 10 }).map((_, index) => (
-          <CarouselItem key={index} className='basis-[45%] pl-3'>
+          <CarouselItem key={index} className='basis-[45%]'>
             <Card className='bg-amber-700'>
               <CardContent className='flex aspect-square items-center justify-center p-6 h-full'>
                 <span className='text-4xl font-semibold'>{index + 1}</span>

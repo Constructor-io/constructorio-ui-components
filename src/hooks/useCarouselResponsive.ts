@@ -6,7 +6,7 @@ import * as React from 'react';
  *
  * Adds a standard 4% peek for the next slide.
  */
-export function useResponsiveCarousel(
+export function useCarouselResponsive(
   responsive: ResponsiveConfig | undefined,
   orientation: Orientation = 'horizontal',
 ) {

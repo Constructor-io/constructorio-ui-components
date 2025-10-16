@@ -5,7 +5,8 @@ import { ArrowLeft, ArrowRight } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 import Button from '@/components/ui/button';
-import { useResponsiveCarousel } from '@/hooks/useResponsiveCarousel';
+import { useCarouselResponsive } from '@/hooks/useCarouselResponsive';
+import { useCarouselTweenOpacity } from '@/hooks/useCarouselTweenOpacity';
 
 type CarouselApi = UseEmblaCarouselType[1];
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>;
@@ -75,8 +76,6 @@ function Carousel({
   children,
   ...props
 }: React.ComponentProps<'div'> & CarouselProps) {
-  const { rootProps } = useResponsiveCarousel(responsive, orientation);
-
   const [carouselRef, api] = useEmblaCarousel(
     {
       ...opts,
@@ -86,6 +85,9 @@ function Carousel({
     },
     plugins,
   );
+  const { rootProps } = useCarouselResponsive(responsive, orientation);
+  useCarouselTweenOpacity(api, orientation);
+
   const [canScrollPrev, setCanScrollPrev] = React.useState(false);
   const [canScrollNext, setCanScrollNext] = React.useState(false);
 
@@ -131,50 +133,6 @@ function Carousel({
       api?.off('select', onSelect);
     };
   }, [api, onSelect]);
-
-  React.useEffect(() => {
-    if (!api) return;
-
-    const tweenOpacity = () => {
-      const viewport = api.rootNode();
-      if (!viewport) return;
-
-      const viewportRect = viewport.getBoundingClientRect();
-
-      api.slideNodes().forEach((slideNode) => {
-        const rect = slideNode.getBoundingClientRect();
-
-        let visibleLength: number;
-        let slideLength: number;
-
-        if (orientation === 'horizontal') {
-          slideLength = rect.width;
-          visibleLength =
-            Math.min(rect.right, viewportRect.right) - Math.max(rect.left, viewportRect.left);
-        } else {
-          slideLength = rect.height;
-          visibleLength =
-            Math.min(rect.bottom, viewportRect.bottom) - Math.max(rect.top, viewportRect.top);
-        }
-
-        const visibilityRatio = Math.min(Math.max(visibleLength / slideLength, 0), 1);
-
-        // Apply a small minimum opacity for slides barely visible
-        const opacity = visibilityRatio >= 0.94 ? 1 : Math.max(visibilityRatio, 0.1);
-
-        slideNode.style.opacity = opacity.toString();
-      });
-    };
-
-    tweenOpacity(); // Run once on mount
-    api.on('scroll', tweenOpacity);
-    api.on('reInit', tweenOpacity);
-
-    return () => {
-      api?.off('scroll', tweenOpacity);
-      api?.off('reInit', tweenOpacity);
-    };
-  }, [api]);
 
   return (
     <CarouselContext.Provider

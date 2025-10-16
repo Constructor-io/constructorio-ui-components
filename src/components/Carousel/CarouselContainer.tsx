@@ -58,20 +58,18 @@ const CarouselItems: React.FC<any> = () => {
         align: 'start',
       }}
       responsive={{
-        0: { gap: 12 }, // mobile
-        640: { gap: 16 }, // tablet
-        1024: { gap: 24 }, // desktop
+        0: { gap: 12, slidesToShow: 2 }, // mobile
+        920: { gap: 16, slidesToShow: 4 }, // tablet
+        1200: { gap: 24, slidesToShow: 6 }, // desktop
       }}>
       <CarouselContent>
         {Array.from({ length: 10 }).map((_, index) => (
           <CarouselItem key={index} className='basis-[45%] pl-3'>
-            <div className='p-1'>
-              <Card className='h-[456px] bg-amber-700'>
-                <CardContent className='flex aspect-square items-center justify-center p-6 h-full'>
-                  <span className='text-4xl font-semibold'>{index + 1}</span>
-                </CardContent>
-              </Card>
-            </div>
+            <Card className='h-[456px] bg-amber-700'>
+              <CardContent className='flex aspect-square items-center justify-center p-6 h-full'>
+                <span className='text-4xl font-semibold'>{index + 1}</span>
+              </CardContent>
+            </Card>
           </CarouselItem>
         ))}
       </CarouselContent>

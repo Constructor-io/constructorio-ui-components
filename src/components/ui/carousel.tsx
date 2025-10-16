@@ -13,7 +13,7 @@ type CarouselOptions = UseCarouselParameters[0];
 type CarouselPlugin = UseCarouselParameters[1];
 
 type ResponsivePoint = {
-  slidesToShow?: number;
+  slidesToShow: number;
   gap?: number; // px
 };
 
@@ -21,10 +21,12 @@ export type ResponsiveConfig = {
   [breakpointPx: number]: ResponsivePoint;
 };
 
+export type Orientation = 'horizontal' | 'vertical';
+
 type CarouselProps = {
   opts?: CarouselOptions;
   plugins?: CarouselPlugin;
-  orientation?: 'horizontal' | 'vertical';
+  orientation?: Orientation;
   setApi?: (api: CarouselApi) => void;
   autoPlay?: boolean;
   loop?: boolean;
@@ -70,7 +72,7 @@ function Carousel({
   children,
   ...props
 }: React.ComponentProps<'div'> & CarouselProps) {
-  const { rootProps } = useCarouselGap(responsive);
+  const { rootProps } = useCarouselGap(responsive, orientation);
 
   console.log(rootProps);
 
@@ -193,7 +195,7 @@ function CarouselContent({ className, ...props }: React.ComponentProps<'div'>) {
   return (
     <div ref={carouselRef} className='overflow-hidden' data-slot='carousel-content'>
       <div
-        className={cn('flex', orientation === 'horizontal' ? '-ml-4' : '-mt-4 flex-col', className)}
+        className={cn('flex', orientation === 'horizontal' ? '' : 'flex-col', className)}
         {...props}
       />
     </div>

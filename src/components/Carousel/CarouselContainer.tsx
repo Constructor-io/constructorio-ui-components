@@ -1,14 +1,6 @@
 import { cn } from '@/lib/utils';
 import React, { createContext, useContext } from 'react';
-import {
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-  Carousel,
-  CioCarouselOpts,
-} from '../ui/carousel';
-import { Card, CardContent } from '../ui/card';
+import { CioCarouselOpts } from '../ui/carousel';
 import Autoplay from 'embla-carousel-autoplay';
 
 type CarouselContextType = {
@@ -69,17 +61,6 @@ const CarouselItems: React.FC = () => {
       }}
       orientation={orientation}
       plugins={plugins}>
-      <CarouselContent>
-        {Array.from({ length: 10 }).map((_, index) => (
-          <CarouselItem key={index} className='basis-[45%]'>
-            <Card className='bg-amber-700'>
-              <CardContent className='flex aspect-square items-center justify-center p-6 h-full'>
-                <span className='text-4xl font-semibold'>{index + 1}</span>
-              </CardContent>
-            </Card>
-          </CarouselItem>
-        ))}
-      </CarouselContent>
       <CarouselPrevious />
       <CarouselNext />
     </Carousel>

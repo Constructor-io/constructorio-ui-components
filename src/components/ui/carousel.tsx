@@ -1,13 +1,13 @@
 import * as React from 'react';
 import useEmblaCarousel, { type UseEmblaCarouselType } from 'embla-carousel-react';
-import {} from 'embla-carousel-react';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import Autoplay from 'embla-carousel-autoplay';
 
 import { cn } from '@/lib/utils';
 import Button from '@/components/ui/button';
 import { useCarouselResponsive } from '@/hooks/useCarouselResponsive';
 import { useCarouselTweenOpacity } from '@/hooks/useCarouselTweenOpacity';
-import Autoplay from 'embla-carousel-autoplay';
+import ArrowRightIcon from '@/icons/ArrowRightIcon';
+import ArrowLeftIcon from '@/icons/ArrowLeftIcon';
 
 type CarouselApi = UseEmblaCarouselType[1];
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>;
@@ -52,6 +52,27 @@ type NavButtonProps = Omit<React.ComponentProps<typeof Button>, 'children'> & {
   children?: React.ReactNode;
 };
 
+type CarouselBaseProps = { children?: Readonly<React.ReactNode> } & CioCarouselOpts;
+
+type CarouselSubComponents = {
+  Content: React.FC<React.ComponentProps<'div'>>;
+  Item: React.FC<React.ComponentProps<'div'>>;
+};
+
+type CioCarouselType = React.FC<CarouselBaseProps> & CarouselSubComponents;
+
+export const defaultCarouselConfig: CioCarouselOpts = {
+  autoPlay: true,
+  loop: true,
+  orientation: 'horizontal',
+  responsive: {
+    0: { gap: 12, slidesToShow: 2 },
+    920: { gap: 16, slidesToShow: 4 },
+    1200: { gap: 24, slidesToShow: 6 },
+  },
+  slidesToScroll: 1,
+};
+
 const CarouselContext = React.createContext<CarouselContextProps | null>(null);
 
 function useCarousel() {
@@ -64,7 +85,7 @@ function useCarousel() {
   return context;
 }
 
-function Carousel({
+function CarouselBase({
   orientation = 'horizontal',
   autoPlay = true,
   loop = true,
@@ -83,6 +104,7 @@ function Carousel({
       axis: orientation === 'horizontal' ? 'x' : 'y',
       slidesToScroll: slidesToScroll,
       loop,
+      active: false
     },
     plugins,
   );
@@ -161,17 +183,36 @@ function Carousel({
   );
 }
 
+function Carousel({ children, ...props }: CarouselBaseProps) {
+  const config: CioCarouselOpts = { ...defaultCarouselConfig, ...props };
+  const plugins = config.autoPlay ? [Autoplay({ playOnInit: true, delay: 3000 })] : [];
+  return (
+    <CarouselBase
+      className={cn('w-full h-full')}
+      opts={{
+        slidesToScroll: config.slidesToScroll,
+        align: 'start',
+      }}
+      plugins={plugins}
+      {...config}>
+      {children}
+      <CarouselPrevious />
+      <CarouselNext />
+    </CarouselBase>
+  );
+}
+
 function CarouselContent({ className, ...props }: React.ComponentProps<'div'>) {
   const { carouselRef, orientation } = useCarousel();
 
   return (
     <div
       ref={carouselRef}
-      className='overflow-hidden w-full h-full relative'
+      className={cn('overflow-hidden w-full h-full relative', className)}
       data-slot='carousel-content'>
       <div
         data-slot='carousel-track'
-        className={cn('flex', orientation === 'horizontal' ? '' : 'flex-col', className)}
+        className={cn('flex h-full', orientation === 'horizontal' ? '' : 'flex-col')}
         {...props}
       />
     </div>
@@ -179,18 +220,12 @@ function CarouselContent({ className, ...props }: React.ComponentProps<'div'>) {
 }
 
 function CarouselItem({ className, ...props }: React.ComponentProps<'div'>) {
-  const { orientation } = useCarousel();
-
   return (
     <div
       role='group'
       aria-roledescription='slide'
       data-slot='carousel-item'
-      className={cn(
-        'min-w-0 shrink-0 grow-0 basis-full',
-        // orientation === 'horizontal' ? 'pl-4' : 'pt-4',
-        className,
-      )}
+      className={cn('min-w-0 shrink-0 grow-0 basis-full', className)}
       {...props}
     />
   );
@@ -202,11 +237,10 @@ function CarouselPrevious({ className, size = 'icon', ...props }: NavButtonProps
   if (!canScrollPrev) return null;
 
   return (
-    <Button
+    <button
       data-slot='carousel-previous'
-      size={size}
       className={cn(
-        'absolute size-8 rounded-full',
+        'absolute size-8 rounded-md bg-white outline-1 outline-offset-[-1px] outline-slate-200 inline-flex justify-center items-center',
         orientation === 'horizontal'
           ? 'top-1/2 left-12 -translate-y-1/2'
           : '-top-12 left-1/2 -translate-x-1/2 rotate-90',
@@ -215,9 +249,9 @@ function CarouselPrevious({ className, size = 'icon', ...props }: NavButtonProps
       disabled={!canScrollPrev}
       onClick={scrollPrev}
       {...props}>
-      <ArrowLeft />
+      <ArrowLeftIcon />
       <span className='sr-only'>Previous slide</span>
-    </Button>
+    </button>
   );
 }
 
@@ -227,11 +261,10 @@ function CarouselNext({ className, size = 'icon', ...props }: NavButtonProps) {
   if (!canScrollNext) return null;
 
   return (
-    <Button
+    <button
       data-slot='carousel-next'
-      size={size}
       className={cn(
-        'absolute size-8 rounded-full',
+        'absolute size-8 rounded-md bg-white outline-1 outline-offset-[-1px] outline-slate-200 inline-flex justify-center items-center',
         orientation === 'horizontal'
           ? 'top-1/2 right-12 -translate-y-1/2'
           : '-bottom-12 left-1/2 -translate-x-1/2 rotate-90',
@@ -240,25 +273,15 @@ function CarouselNext({ className, size = 'icon', ...props }: NavButtonProps) {
       disabled={!canScrollNext}
       onClick={scrollNext}
       {...props}>
-      <ArrowRight />
+      <ArrowRightIcon />
       <span className='sr-only'>Next slide</span>
-    </Button>
+    </button>
   );
 }
 
-// function CarouselContainer({ className }: React.ComponentProps<'div'>) {
-//   return <div role='region' data-slot='carousel-container' className={cn(className)}></div>;
-// }
+const CioCarousel = Carousel as CioCarouselType;
 
-export {
-  type CarouselApi,
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselPrevious,
-  CarouselNext,
-};
+CioCarousel.Content = CarouselContent;
+CioCarousel.Item = CarouselItem;
 
-// const CioCarousel = Object.assign({}, Carousel, { CarouselContent, CarouselItem });
-
-// export default CioCarousel;
+export default CioCarousel;

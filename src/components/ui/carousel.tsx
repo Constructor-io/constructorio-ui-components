@@ -104,7 +104,6 @@ function CarouselBase({
       axis: orientation === 'horizontal' ? 'x' : 'y',
       slidesToScroll: slidesToScroll,
       loop,
-      active: false
     },
     plugins,
   );

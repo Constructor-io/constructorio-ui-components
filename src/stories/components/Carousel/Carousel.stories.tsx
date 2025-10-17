@@ -1,8 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import CioCarousel, {
-  CioCarouselOpts,
-  defaultCarouselConfig,
-} from '../../../components/ui/carousel';
+import CioCarousel from '../../../components/ui/carousel';
 import { cn } from '../../../lib/utils';
 
 import { Card, CardContent } from '../../../components/ui/card';
@@ -26,17 +23,15 @@ const renderCarousel = (args: any, count = 10) => (
       <div
         className={cn(
           'col-span-4 md:col-span-12',
-          args.orientation === 'vertical' ? 'h-[600px]' : '',
+          args.orientation === 'vertical' ? 'h-[600px]' : 'h-[200px]',
         )}>
         <CioCarousel {...args}>
           <CioCarousel.Content>
             {Array.from({ length: count }).map((_, index) => (
               <CioCarousel.Item key={index} className='basis-[45%]'>
-                <Card>
-                  <CardContent className='flex aspect-square items-center justify-center p-6 h-full'>
-                    <span className='text-4xl font-semibold'>{index + 1}</span>
-                  </CardContent>
-                </Card>
+                <div className='h-full w-full bg-card text-card-foreground rounded-xl border py-6 shadow-sm flex items-center justify-center'>
+                  <span className='text-4xl font-semibold'>{index + 1}</span>
+                </div>
               </CioCarousel.Item>
             ))}
           </CioCarousel.Content>

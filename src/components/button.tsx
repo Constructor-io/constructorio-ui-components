@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import { Slot } from '@radix-ui/react-slot';
 import { cn } from '@/lib/utils';
-import RenderPropsWrapper from '../RenderPropsWrapper';
+import RenderPropsWrapper from './RenderPropsWrapper';
 import { ComponentOverrideProps, IncludeComponentOverrides } from '@/types';
 import { cva, VariantProps } from 'class-variance-authority';
 
@@ -52,6 +52,7 @@ export interface ButtonProps
    * True to render `children` as is. Defaults to False, rendering `children` under <button>
    */
   asChild?: boolean;
+  conversionType?: string;
 }
 
 export default function Button({
@@ -59,6 +60,7 @@ export default function Button({
   variant,
   size,
   shape,
+  conversionType,
   asChild = false,
   componentOverrides,
   ...props
@@ -72,6 +74,7 @@ export default function Button({
       <Comp
         data-slot='button'
         className={cn(buttonVariants({ variant, size, shape, className }))}
+        data-cnstrc-btn={conversionType}
         {...props}
       />
     </RenderPropsWrapper>

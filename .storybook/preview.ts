@@ -20,7 +20,7 @@ const preview: Preview = {
       }
     },
     docs: {
-      page: StorybookAutodocs,
+      page: StorybookAutodocs
     }
   },
 };

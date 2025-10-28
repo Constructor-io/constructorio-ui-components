@@ -268,6 +268,11 @@ function ProductCard({ componentOverrides, children, className, ...props }: Prod
     onAddToWishlist,
     onItemClick,
     itemTags,
+    itemDescription,
+    itemImageUrl,
+    itemRating,
+    itemReviewsCount,
+    ...restProps
   } = props || {};
 
   const renderProps = React.useMemo(
@@ -306,7 +311,8 @@ function ProductCard({ componentOverrides, children, className, ...props }: Prod
           data-cnstrc-item-name={itemName}
           data-cnstrc-item-price={itemSalePrice || itemPrice}
           data-cnstrc-sl-campaign-id={itemSlCampaignId}
-          data-cnstrc-sl-campaign-owner={itemSlCampaignOwner}>
+          data-cnstrc-sl-campaign-owner={itemSlCampaignOwner}
+          {...restProps}>
           {children}
         </Card>
       </ProductCardContext.Provider>
@@ -326,7 +332,8 @@ function ProductCard({ componentOverrides, children, className, ...props }: Prod
           data-cnstrc-item-name={itemName}
           data-cnstrc-item-price={itemSalePrice || itemPrice}
           data-cnstrc-sl-campaign-id={itemSlCampaignId}
-          data-cnstrc-sl-campaign-owner={itemSlCampaignOwner}>
+          data-cnstrc-sl-campaign-owner={itemSlCampaignOwner}
+          {...restProps}>
           {/* Image Section */}
           <ImageSection>
             {/* Badge */}

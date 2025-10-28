@@ -1,27 +1,8 @@
 import React from 'react';
-
-// Type for the props passed to render prop functions
-export interface ProductCardRenderProps {
-  itemId?: string;
-  itemVariationId?: string;
-  itemName?: string;
-  itemImageUrl?: string;
-  itemPrice?: string;
-  itemSalePrice?: string;
-  itemPriceCurrency?: string;
-  itemRating?: number;
-  itemReviewsCount?: number;
-  itemDescription?: string;
-  itemTags?: string[];
-  onAddToCart?: (e?: React.MouseEvent) => void;
-  onAddToWishlist?: (e?: React.MouseEvent) => void;
-  onItemClick?: () => void;
-  addToCartText?: string;
-  isInWishlist?: boolean;
-}
+import { ProductCardProps } from '../../../types/product-card-types';
 
 // Complete custom override component
-export const CompleteCustomOverrideCard: React.FC<ProductCardRenderProps> = (props) => (
+export const CompleteCustomOverrideCard: React.FC<ProductCardProps> = (props) => (
   <div className='bg-gradient-to-br from-purple-50 to-blue-50 p-6 rounded-3xl shadow-xl max-w-sm'>
     <div className='relative mb-4'>
       <img
@@ -83,7 +64,7 @@ export const CompleteCustomOverrideCard: React.FC<ProductCardRenderProps> = (pro
 );
 
 // Compact list style component
-export const CompactListStyleCard: React.FC<ProductCardRenderProps> = (props) => (
+export const CompactListStyleCard: React.FC<ProductCardProps> = (props) => (
   <div className='flex items-center bg-white border border-gray-200 rounded-lg p-3 max-w-lg hover:bg-gray-50 transition-colors'>
     <img
       src={props.itemImageUrl}

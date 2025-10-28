@@ -282,7 +282,9 @@ export const CompoundFullyFeatured: Story = {
   render: (args) => (
     <ProductCard {...args}>
       <ProductCard.ImageSection>
-        <ProductCard.WishlistButton onAddToWishlist={(e) => console.log('Added to wishlist', e)} />
+        <ProductCard.WishlistButton
+          onAddToWishlist={(e: React.MouseEvent) => console.log('Added to wishlist', e)}
+        />
       </ProductCard.ImageSection>
       <ProductCard.Content>
         <ProductCard.PriceSection />
@@ -291,7 +293,9 @@ export const CompoundFullyFeatured: Story = {
         <ProductCard.RatingSection />
       </ProductCard.Content>
       <ProductCard.Footer>
-        <ProductCard.AddToCartButton onAddToCart={(e) => console.log('Added to cart', e)} />
+        <ProductCard.AddToCartButton
+          onAddToCart={(e: React.MouseEvent) => console.log('Added to cart', e)}
+        />
         <ProductCard.TagsSection />
       </ProductCard.Footer>
     </ProductCard>
@@ -435,7 +439,7 @@ export const CompleteCustomOverride: Story = {
     itemTags: ['Premium', 'Limited Edition'],
     onAddToCart: (e) => console.log('Added to cart', e),
     onAddToWishlist: (e) => console.log('Added to wishlist', e),
-    children: (props) => <CompleteCustomOverrideCard {...props} />,
+    children: (props: ProductCardProps) => <CompleteCustomOverrideCard {...props} />,
   },
   argTypes: {
     onAddToCart: { action: 'add to cart clicked' },
@@ -455,7 +459,7 @@ export const CompactListStyle: Story = {
     itemRating: 4.3,
     itemReviewsCount: 156,
     onAddToCart: (e) => console.log('Added to cart', e),
-    children: (props) => <CompactListStyleCard {...props} />,
+    children: (props: ProductCardProps) => <CompactListStyleCard {...props} />,
   },
   argTypes: {
     onAddToCart: { action: 'add to cart clicked' },
@@ -464,7 +468,7 @@ export const CompactListStyle: Story = {
 
 // Example customization overrides for different sections
 const priceOverride = {
-  reactNode: (props) => (
+  reactNode: (props: ProductCardProps) => (
     <div className='bg-green-100 p-2 rounded border-l-4 border-green-500'>
       <span className='text-green-800 font-bold text-lg'>Special: ${props.itemPrice}</span>
     </div>
@@ -472,13 +476,13 @@ const priceOverride = {
 };
 
 const titleOverride = {
-  reactNode: (props) => (
+  reactNode: (props: ProductCardProps) => (
     <h3 className='text-xl font-bold text-purple-600 underline'>{props.itemName}</h3>
   ),
 };
 
 const addToCartButtonOverride = {
-  reactNode: (props) => (
+  reactNode: (props: ProductCardProps) => (
     <button
       className='w-full bg-gradient-to-r from-purple-500
 to-pink-500 text-white py-2 px-4 rounded-lg hover:from-purple-600 hover:to-pink-600 transition-all cursor-pointer'
@@ -489,7 +493,7 @@ to-pink-500 text-white py-2 px-4 rounded-lg hover:from-purple-600 hover:to-pink-
 };
 
 const wishlistButtonOverride = {
-  reactNode: (props) => (
+  reactNode: (props: ProductCardProps) => (
     <button
       className='absolute top-2 right-2 bg-white
 text-white px-1 rounded-md hover:bg-red-200 transition-colors cursor-pointer'
@@ -500,7 +504,7 @@ text-white px-1 rounded-md hover:bg-red-200 transition-colors cursor-pointer'
 };
 
 const footerOverride = {
-  reactNode: (props) => (
+  reactNode: (props: ProductCardProps) => (
     <div className='bg-gradient-to-r from-blue-50 to-indigo-50 p-4 rounded-lg border border-blue-200'>
       <div className='flex flex-col gap-3'>
         {/* Custom action buttons */}
@@ -706,7 +710,7 @@ export const CompoundComponentsWithComponentOverrides: Story = {
         {/* Using compound component with custom component overrides */}
         <ProductCard.PriceSection
           componentOverrides={{
-            reactNode: (renderProps) => (
+            reactNode: (renderProps: ProductCardProps) => (
               <div
                 className='bg-gradient-to-r from-emerald-50 to-teal-5
 0 border border-emerald-200 rounded-lg p-4 mt-2'>
@@ -792,7 +796,7 @@ export const CompoundWithRenderProps: Story = {
 
       {/* Content section with pure render props - all children are inside a render prop function */}
       <ProductCard.Content>
-        {(renderProps) => (
+        {(renderProps: ProductCardProps) => (
           <>
             <div className='flex items-baseline gap-2'>
               <span className='text-lg font-bold'>
@@ -841,7 +845,7 @@ export const CompoundWithRenderProps: Story = {
 
       {/* Footer section with pure render props - all children are inside a render prop function */}
       <ProductCard.Footer>
-        {(renderProps) => (
+        {(renderProps: ProductCardProps) => (
           <div className='space-y-2'>
             <div className='flex gap-2 text-xs text-gray-600'>
               <span className='flex items-center gap-1'>🚚 Free shipping on orders over $500</span>
@@ -850,7 +854,7 @@ export const CompoundWithRenderProps: Story = {
             {renderProps.onAddToCart && (
               <button
                 className='w-full bg-black hover:bg-gray-800 text-white text-sm py-2 px-4 rounded-lg font-medium transition-colors'
-                onClick={(e) => renderProps.onAddToCart(e)}>
+                onClick={(e) => renderProps.onAddToCart && renderProps.onAddToCart(e)}>
                 {renderProps.addToCartText || 'Add to Cart'}
               </button>
             )}

@@ -766,6 +766,79 @@ export const CompoundComponentsWithComponentOverrides: Story = {
 };
 
 // ==========================================
+// Compound Components with Direct Props Override
+// ==========================================
+
+// Demonstrates passing props directly to compound components to override context values
+// This is useful when you want to customize individual sections with different data
+export const CompoundWithDirectPropsOverride: Story = {
+  args: {
+    itemId: 'compound-props-override-chair',
+    itemVariationId: 'compound-props-override-chair-variation',
+    itemName: "Norman's Chair",
+    itemImageUrl: DEMO_IMAGE_URL,
+    itemPrice: '599',
+    itemSalePrice: '449',
+    itemPriceCurrency: '$',
+    itemRating: 4.5,
+    itemReviewsCount: 156,
+    itemDescription: 'A comfortable and stylish chair perfect for any modern home',
+    itemTags: ['Standard Shipping'],
+    onAddToCart: (e) => console.log('Added to cart', e),
+    onAddToWishlist: (e) => console.log('Added to wishlist', e),
+  },
+  render: (args) => (
+    <ProductCard {...args}>
+      <ProductCard.ImageSection>
+        {/* Override wishlist handler for this specific button */}
+        <ProductCard.WishlistButton
+          onAddToWishlist={(e: React.MouseEvent) => {
+            e.stopPropagation();
+            console.log('Custom wishlist handler - adding to favorites!', e);
+          }}
+          isInWishlist={true}
+        />
+      </ProductCard.ImageSection>
+
+      <ProductCard.Content>
+        {/* Override title with custom text */}
+        <ProductCard.TitleSection itemName="Premium Edition - Norman's Chair" />
+
+        {/* Override price with promotional pricing */}
+        <ProductCard.PriceSection itemPrice='799' itemSalePrice='399' itemPriceCurrency='$' />
+
+        {/* Override rating with different values */}
+        <ProductCard.RatingSection itemRating='4.9' itemReviewsCount='500' />
+
+        <ProductCard.DescriptionSection />
+      </ProductCard.Content>
+
+      <ProductCard.Footer>
+        {/* Override tags with promotional tags */}
+        <ProductCard.TagsSection
+          itemTags={['🎉 50% OFF', '🚚 Express Shipping', '🎁 Gift Wrap Available']}
+        />
+
+        {/* Override button text and handler */}
+        <ProductCard.AddToCartButton
+          addToCartText='Buy Now - Limited Offer!'
+          onAddToCart={(e: React.MouseEvent) => {
+            e.stopPropagation();
+            console.log('Special promotional purchase!', e);
+          }}
+        />
+      </ProductCard.Footer>
+    </ProductCard>
+  ),
+  argTypes: {
+    onAddToCart: { action: 'add to cart clicked' },
+    onAddToWishlist: { action: 'add to wishlist clicked' },
+  },
+  // Hide from sidebar but keep available for Canvas
+  tags: ['!dev'],
+};
+
+// ==========================================
 // Compound Components with Render Props
 // ==========================================
 
@@ -885,4 +958,149 @@ export const CompoundWithRenderProps: Story = {
   },
   // Hide from sidebar but keep available for Canvas
   tags: ['!dev'],
+};
+
+// --- Usage Examples
+
+export const ComponentOverrideExample: Story = {
+  args: {
+    itemId: 'component-override-chair',
+    itemVariationId: 'component-override-chair-variation',
+    itemName: "Norman's Chair",
+    itemImageUrl: DEMO_IMAGE_URL,
+    itemDescription: 'A comfortable and stylish chair perfect for any modern home',
+    itemPrice: '899',
+    itemSalePrice: '699',
+    itemPriceCurrency: '$',
+    itemRating: 4.8,
+    itemReviewsCount: 2713,
+    itemTags: ['Same day delivery', 'Free assembly'],
+    onAddToCart: (e) => console.log('Added to cart', e),
+    onAddToWishlist: (e) => console.log('Added to wishlist', e),
+    addToCartText: 'Add to Cart',
+    componentOverrides: {
+      addToCartButton: {
+        reactNode: (props: {
+          onAddToCart?: (e: React.MouseEvent) => void;
+          addToCartText?: string;
+        }) => (
+          <button
+            className='w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white py-2 px-4 rounded-lg font-medium transition-all duration-200 transform hover:scale-105'
+            onClick={(e) => props.onAddToCart && props.onAddToCart(e)}>
+            🛒 {props.addToCartText || 'Add to Cart'}
+          </button>
+        ),
+      },
+    },
+  },
+  argTypes: {
+    onAddToCart: { action: 'add to cart clicked' },
+    onAddToWishlist: { action: 'add to wishlist clicked' },
+  },
+  // '!autodocs' removes this story from being rendered as part of the <Stories /> component in the auto-generated docs.
+  // '!dev' prevents a story from being listed in the sidebar.
+  tags: ['!autodocs', '!dev'],
+};
+
+export const DataAttributesExample: Story = {
+  args: {
+    itemId: 'data-attributes-chair',
+    itemVariationId: 'data-attributes-chair-variation',
+    itemName: "Norman's Chair",
+    itemImageUrl: DEMO_IMAGE_URL,
+    itemDescription: 'A comfortable and stylish chair perfect for any modern home',
+    itemPrice: '899',
+    itemPriceCurrency: '$',
+    itemRating: 4.8,
+    itemReviewsCount: 2713,
+    onAddToCart: (e) => console.log('Added to cart', e),
+    onAddToWishlist: (e) => console.log('Added to wishlist', e),
+    addToCartText: 'Add to Cart',
+    // @ts-expect-error: Data Attribute
+    'data-cnstrc-item-id': 'product-123',
+    'data-cnstrc-price': 29.99,
+    'data-cnstrc-category': 'electronics',
+  },
+  argTypes: {
+    onAddToCart: { action: 'add to cart clicked' },
+    onAddToWishlist: { action: 'add to wishlist clicked' },
+  },
+  // '!autodocs' removes this story from being rendered as part of the <Stories /> component in the auto-generated docs.
+  // '!dev' prevents a story from being listed in the sidebar.
+  tags: ['!autodocs', '!dev'],
+};
+
+export const RenderPropsExample: Story = {
+  render: (args) => (
+    <ProductCard {...args}>
+      {(renderProps: ProductCardProps) => (
+        <div className='p-4 bg-gradient-to-br from-blue-50 to-indigo-100 rounded-lg'>
+          <div className='flex items-center gap-3 mb-3'>
+            {renderProps.itemImageUrl && (
+              <img
+                src={renderProps.itemImageUrl}
+                alt={renderProps.itemName}
+                className='w-16 h-16 object-cover rounded-lg'
+              />
+            )}
+            <div>
+              <h3 className='font-bold text-lg text-gray-800'>{renderProps.itemName}</h3>
+              <p className='text-sm text-gray-600'>{renderProps.itemDescription}</p>
+            </div>
+          </div>
+
+          <div className='flex items-center justify-between'>
+            <div className='flex items-center gap-2'>
+              <span className='text-xl font-bold text-green-600'>
+                {renderProps.itemPriceCurrency}
+                {renderProps.itemSalePrice || renderProps.itemPrice}
+              </span>
+              {renderProps.itemSalePrice && (
+                <span className='text-sm text-gray-400 line-through'>
+                  {renderProps.itemPriceCurrency}
+                  {renderProps.itemPrice}
+                </span>
+              )}
+            </div>
+
+            <div className='flex items-center gap-2'>
+              <span className='text-yellow-500'>⭐</span>
+              <span className='text-sm font-medium'>{renderProps.itemRating}</span>
+              <span className='text-sm text-gray-500'>({renderProps.itemReviewsCount})</span>
+            </div>
+          </div>
+
+          {renderProps.onAddToCart && (
+            <button
+              className='w-full mt-3 bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-lg font-medium transition-colors'
+              onClick={(e) => renderProps.onAddToCart && renderProps.onAddToCart(e)}>
+              {renderProps.addToCartText || 'Add to Cart'}
+            </button>
+          )}
+        </div>
+      )}
+    </ProductCard>
+  ),
+  args: {
+    itemId: 'render-props-chair',
+    itemVariationId: 'render-props-chair-variation',
+    itemName: "Norman's Chair",
+    itemImageUrl: DEMO_IMAGE_URL,
+    itemDescription: 'A comfortable and stylish chair perfect for any modern home',
+    itemPrice: '899',
+    itemSalePrice: '699',
+    itemPriceCurrency: '$',
+    itemRating: 4.8,
+    itemReviewsCount: 2713,
+    onAddToCart: (e) => console.log('Added to cart', e),
+    onAddToWishlist: (e) => console.log('Added to wishlist', e),
+    addToCartText: 'Add to Cart',
+  },
+  argTypes: {
+    onAddToCart: { action: 'add to cart clicked' },
+    onAddToWishlist: { action: 'add to wishlist clicked' },
+  },
+  // '!autodocs' removes this story from being rendered as part of the <Stories /> component in the auto-generated docs.
+  // '!dev' prevents a story from being listed in the sidebar.
+  tags: ['!autodocs', '!dev'],
 };

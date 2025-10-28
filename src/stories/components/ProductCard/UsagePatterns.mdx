@@ -1,0 +1,37 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import * as ProductCardStories from './ProductCard.stories';
+
+<Meta of={ProductCardStories} name="Usage Patterns" />
+
+# Usage Examples
+
+## Basic ProductCard Usage
+The simplest way to use ProductCard is by passing product data props. The component will automatically render a default layout with all provided information including price, description, ratings, tags, and action buttons.
+
+<Canvas of={ProductCardStories.FullyFeatured} />
+
+## Enabling Component Overrides
+To enable component overrides, pass the `componentOverrides` prop to customize specific parts of the ProductCard. This example shows how to override the add to cart button with a custom styled button.
+
+<Canvas of={ProductCardStories.ComponentOverrideExample} />
+
+## Passing Data-Attributes for Product Tracking
+Product cards typically have Constructor-related data attributes assigned to them for analytics and tracking purposes. Data attributes can be passed down by simply setting those attributes to the parent `ProductCard` component.
+
+<Canvas of={ProductCardStories.DataAttributesExample} />
+
+## Using Render Props for Complete Customization
+ProductCard supports render props pattern for complete layout customization while still providing access to all product data. This is useful when you need a completely different layout but want to leverage the ProductCard's data management.
+
+<Canvas of={ProductCardStories.RenderPropsExample} />
+
+## Using Compound Components with Direct Props Override
+ProductCard compound components support passing props directly to individual sections to override context values from the root. This is powerful for promotional displays, A/B testing, or showing dynamic content per section while maintaining the same base product data.
+
+Each compound component accepts its own props that take precedence over the root ProductCard props. This allows you to:
+- Override pricing for special promotional displays
+- Show different titles or descriptions for variants
+- Use custom event handlers for specific components
+- Display different ratings or tags per section
+
+<Canvas of={ProductCardStories.CompoundWithDirectPropsOverride} />

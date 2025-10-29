@@ -80,7 +80,7 @@ describe('ProductCard component', () => {
     test('calls onAddToWishlist when wishlist button is clicked', () => {
       const mockOnAddToWishlist = vi.fn();
       render(<ProductCard {...mockProductData} onAddToWishlist={mockOnAddToWishlist} />);
-      fireEvent.click(screen.getByRole('button', { name: /add-to-wishlist/i }));
+      fireEvent.click(screen.getByRole('button', { name: /add to wishlist/i }));
       expect(mockOnAddToWishlist).toHaveBeenCalledTimes(1);
       expect(mockOnAddToWishlist).toHaveBeenCalledWith(expect.any(Object));
     });
@@ -105,7 +105,7 @@ describe('ProductCard component', () => {
 
     test('does not render wishlist button when onAddToWishlist is not provided', () => {
       render(<ProductCard itemId={mockProductData.itemId} itemName={mockProductData.itemName} />);
-      expect(screen.queryByRole('button', { name: /add-to-wishlist/i })).not.toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: /add to wishlist/i })).not.toBeInTheDocument();
     });
   });
 
@@ -334,9 +334,9 @@ describe('ProductCard component', () => {
     test('shows empty heart when not in wishlist', () => {
       render(<ProductCard {...mockProductData} isInWishlist={false} onAddToWishlist={vi.fn()} />);
 
-      const wishlistButton = screen.getByRole('button', { name: /add-to-wishlist/i });
+      const wishlistButton = screen.getByRole('button', { name: /add to wishlist/i });
       const heartImage = wishlistButton.querySelector('img');
-      expect(heartImage?.alt).toBe('add-to-wishlist');
+      expect(heartImage?.alt).toBe('Add to wishlist');
       // Check that the image src contains SVG data for empty heart (stroke but no fill)
       expect(heartImage?.src).toMatch(/fill='none'/);
     });
@@ -344,9 +344,9 @@ describe('ProductCard component', () => {
     test('shows filled heart when in wishlist', () => {
       render(<ProductCard {...mockProductData} isInWishlist={true} onAddToWishlist={vi.fn()} />);
 
-      const wishlistButton = screen.getByRole('button', { name: /add-to-wishlist/i });
+      const wishlistButton = screen.getByRole('button', { name: /remove from wishlist/i });
       const heartImage = wishlistButton.querySelector('img');
-      expect(heartImage?.alt).toBe('add-to-wishlist');
+      expect(heartImage?.alt).toBe('Remove from wishlist');
       // Check that the image src contains SVG data for filled heart (has fill color)
       expect(heartImage?.src).toMatch(/fill='%230F172A'/);
     });

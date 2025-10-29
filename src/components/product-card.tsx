@@ -61,7 +61,7 @@ const WishlistButton: React.FC<WishlistButtonProps> = (props) => {
           <img
             src={isInWishlist ? HeartFilled : Heart}
             className='w-3 h-3 sm:w-[9px] sm:h-[9px]'
-            alt='Add to wishlist button'
+            alt={isInWishlist ? 'Remove from wishlist' : 'Add to wishlist'}
           />
         </Button>
       )}

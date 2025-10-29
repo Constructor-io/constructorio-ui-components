@@ -56,11 +56,12 @@ const WishlistButton: React.FC<WishlistButtonProps> = (props) => {
           size='icon'
           variant='secondary'
           conversionType='add_to_wishlist'
-          onClick={onAddToWishlist}>
+          onClick={onAddToWishlist}
+          aria-label={isInWishlist ? 'Remove from wishlist' : 'Add to wishlist'}>
           <img
             src={isInWishlist ? HeartFilled : Heart}
-            className='w-3 h-3 sm:w-[9px] sm:[9px]'
-            alt='add-to-wishlist'
+            className='w-3 h-3 sm:w-[9px] sm:h-[9px]'
+            alt='Add to wishlist button'
           />
         </Button>
       )}
@@ -85,9 +86,9 @@ const PriceSection: React.FC<PriceSectionProps> = (props) => {
         <div className={cn('flex items-baseline gap-2', props.className)}>
           <span className='text-lg font-bold'>
             {priceCurrency}&nbsp;
-            {salePrice || price}
+            {salePrice ?? price}
           </span>
-          {salePrice && (
+          {salePrice !== undefined && salePrice !== null && (
             <span className='text-sm text-gray-400 line-through'>
               {priceCurrency}&nbsp;
               {price}
@@ -111,13 +112,13 @@ const RatingSection: React.FC<RatingSectionProps> = (props) => {
     <RenderPropsWrapper
       props={renderProps}
       override={componentOverrides?.rating?.reactNode || props.componentOverrides?.reactNode}>
-      {(rating || reviewsCount) && (
+      {(rating !== undefined && rating !== null) || reviewsCount ? (
         <div
           className={cn('flex justify-between gap-1 text-sm text-gray-500 py-2', props.className)}>
-          {rating && <span>⭐ {rating}</span>}
+          {rating !== undefined && rating !== null && <span>⭐ {rating}</span>}
           {reviewsCount && <span>{reviewsCount} reviews</span>}
         </div>
-      )}
+      ) : null}
     </RenderPropsWrapper>
   );
 };
@@ -161,8 +162,6 @@ const ImageSection: React.FC<ImageSectionProps> = (props) => {
         <img
           src={imageUrl}
           alt={name || 'product image'}
-          width='100%'
-          height={224}
           className='object-cover w-full h-[224px] rounded-2xl'
         />
         {props.children}
@@ -234,7 +233,7 @@ const ProductCardContent: React.FC<CardContentProps> = (props) => {
   return (
     <Card.Content
       className={cn('flex flex-col gap-1', props.className)}
-      componentOverrides={componentOverrides?.footer || props.componentOverrides}
+      componentOverrides={componentOverrides?.content || props.componentOverrides}
       {...props}
     />
   );

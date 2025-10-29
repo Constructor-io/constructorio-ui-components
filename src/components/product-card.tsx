@@ -86,9 +86,9 @@ const PriceSection: React.FC<PriceSectionProps> = (props) => {
         <div className={cn('flex items-baseline gap-2', props.className)}>
           <span className='text-lg font-bold'>
             {priceCurrency}&nbsp;
-            {salePrice ?? price}
+            {salePrice || price}
           </span>
-          {salePrice !== undefined && salePrice !== null && (
+          {salePrice && (
             <span className='text-sm text-gray-400 line-through'>
               {priceCurrency}&nbsp;
               {price}

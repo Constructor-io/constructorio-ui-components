@@ -16,6 +16,7 @@
   },
   "main": "lib/cjs/index.js",
   "module": "lib/mjs/index.js",
+  "types": "lib/types/index.d.ts",
   "exports": {
     "./styles.css": {
       "import": "./lib/mjs/styles.css",
@@ -35,7 +36,6 @@
   "files": [
     "lib/**/*"
   ],
-  "types": "lib/types/index.d.ts",
   "scripts": {
     "lint": "eslint src --ext js,ts,jsx,tsx",
     "check-types": "npx tsc --noEmit",

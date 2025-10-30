@@ -1,0 +1,21 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import * as Badge from './Badge.stories';
+
+<Meta of={Badge} name="Usage Patterns" />
+
+# Usage Examples
+
+## Render Other Components as a Badge using `asChild`
+Use the `asChild` prop to render `children` as is, without nesting it under a `<span>` tag.
+
+<Canvas of={Badge.AsChildExample} />
+
+## Enabling Top-Level Overrides
+To enable top-level overrides, we should pass down the props `componentOverrides`.
+
+<Canvas of={Badge.TopLevelOverrideExample} />
+
+## Passing Data-Attributes
+Data attributes can be passed down by simply setting those attributes to the parent `Badge` component.
+
+<Canvas of={Badge.DataAttributesExample} />

@@ -35,10 +35,6 @@ describe('ProductCard component', () => {
 
   describe('Basic Rendering', () => {
     test('renders product card with required props', () => {
-      const item = {
-        itemId: mockProductData.product.itemId,
-        itemName: mockProductData.product.itemName,
-      };
       render(<ProductCard product={mockBasicItem} />);
 
       expect(screen.getByText(mockProductData.product.itemName)).toBeInTheDocument();

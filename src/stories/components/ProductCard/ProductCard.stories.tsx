@@ -507,9 +507,7 @@ export const CompactListStyle: Story = {
 // Example customization overrides for different sections
 const priceOverride = {
   reactNode: (renderProps: ProductCardProps) => (
-    <div
-      className='bg-gradient-to-r from-emerald-50 to-teal-5
-0 border border-emerald-200 rounded-lg p-4 mt-2'>
+    <div className='bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200 rounded-lg p-4 mt-2'>
       <div className='flex items-center justify-between'>
         <div className='flex flex-col'>
           <span className='text-xs text-emerald-600 font-medium uppercase tracking-wide'>

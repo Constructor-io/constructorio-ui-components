@@ -4,7 +4,14 @@ import { cn } from '@/lib/utils';
 import RenderPropsWrapper from './RenderPropsWrapper';
 import { ComponentOverrideProps, IncludeComponentOverrides } from '@/types';
 
-export type CardOverrides = ComponentOverrideProps<CardProps>;
+export type CardOverrides = ComponentOverrideProps<CardProps> & {
+  header?: CardHeaderOverrides;
+  title?: CardTitleOverrides;
+  description?: CardDescriptionOverrides;
+  action?: CardActionOverrides;
+  content?: CardContentOverrides;
+  footer?: CardFooterOverrides;
+};
 export type CardHeaderOverrides = ComponentOverrideProps<CardHeaderProps>;
 export type CardTitleOverrides = ComponentOverrideProps<CardTitleProps>;
 export type CardDescriptionOverrides = ComponentOverrideProps<CardDescriptionProps>;
@@ -16,57 +23,36 @@ export interface CardProps
   extends React.ComponentProps<'div'>,
     IncludeComponentOverrides<CardOverrides> {
   children?: ReactNode;
-  externalRenderProps?: unknown;
 }
 
-export interface CardHeaderProps
-  extends React.ComponentProps<'div'>,
-    IncludeComponentOverrides<CardHeaderOverrides> {
+export interface CardHeaderProps extends React.ComponentProps<'div'> {
   children?: ReactNode;
 }
 
-export interface CardTitleProps
-  extends React.ComponentProps<'div'>,
-    IncludeComponentOverrides<CardTitleOverrides> {
+export interface CardTitleProps extends React.ComponentProps<'div'> {
   children?: ReactNode;
 }
 
-export interface CardDescriptionProps
-  extends React.ComponentProps<'div'>,
-    IncludeComponentOverrides<CardDescriptionOverrides> {
+export interface CardDescriptionProps extends React.ComponentProps<'div'> {
   children?: ReactNode;
 }
 
-export interface CardActionProps
-  extends React.ComponentProps<'div'>,
-    IncludeComponentOverrides<CardActionOverrides> {
+export interface CardActionProps extends React.ComponentProps<'div'> {
   children?: ReactNode;
 }
 
-export interface CardContentProps
-  extends React.ComponentProps<'div'>,
-    IncludeComponentOverrides<CardContentOverrides> {
+export interface CardContentProps extends React.ComponentProps<'div'> {
   children?: ReactNode;
 }
 
-export interface CardFooterProps
-  extends React.ComponentProps<'div'>,
-    IncludeComponentOverrides<CardFooterOverrides> {
+export interface CardFooterProps extends React.ComponentProps<'div'> {
   children?: ReactNode;
 }
 
 // Card Context
 interface CardContextType {
-  renderProps: CardProps;
-  componentOverrides?: {
-    card?: CardOverrides;
-    header?: CardHeaderOverrides;
-    title?: CardTitleOverrides;
-    description?: CardDescriptionOverrides;
-    action?: CardActionOverrides;
-    content?: CardContentOverrides;
-    footer?: CardFooterOverrides;
-  };
+  renderProps: Omit<CardProps, 'children' | 'componentOverrides' | 'className'>;
+  componentOverrides?: CardOverrides;
 }
 
 const CardContext = createContext<CardContextType | null>(null);
@@ -80,36 +66,18 @@ const useCardContext = (): CardContextType => {
 };
 
 // Helper function to create the Card root
-function CardRoot({
-  componentOverrides,
-  children,
-  className,
-  externalRenderProps,
-  ...props
-}: CardProps) {
-  const renderProps = React.useMemo(() => ({ className, ...props }), [className, props]);
-
-  // Merge external props at the root level
-  const mergedRenderProps = React.useMemo(() => {
-    return externalRenderProps
-      ? { ...renderProps, ...(externalRenderProps as Record<string, unknown>) }
-      : renderProps;
-  }, [renderProps, externalRenderProps]);
-
+function Card({ children, componentOverrides, className, ...props }: CardProps) {
   const contextValue: CardContextType = React.useMemo(
     () => ({
-      renderProps: mergedRenderProps, // Use merged props in context
-      componentOverrides: {
-        card: componentOverrides,
-        // Individual component overrides can be passed through props or context
-      },
+      renderProps: props, // Use merged props in context
+      componentOverrides, // Individual component overrides can be passed through props or context
     }),
-    [mergedRenderProps, componentOverrides],
+    [props, componentOverrides],
   );
 
   return (
     <CardContext.Provider value={contextValue}>
-      <RenderPropsWrapper props={renderProps} override={componentOverrides?.reactNode}>
+      <RenderPropsWrapper props={props} override={componentOverrides?.reactNode}>
         <div
           data-slot='card'
           className={cn(
@@ -124,29 +92,11 @@ function CardRoot({
   );
 }
 
-function Card({
-  componentOverrides,
-  children,
-  className,
-  externalRenderProps,
-  ...props
-}: CardProps) {
-  return (
-    <CardRoot
-      componentOverrides={componentOverrides}
-      className={className}
-      externalRenderProps={externalRenderProps}
-      {...props}>
-      {children}
-    </CardRoot>
-  );
-}
-
-function CardHeader({ componentOverrides, children, className, ...props }: CardHeaderProps) {
-  const { renderProps } = useCardContext();
+function CardHeader({ children, className, ...props }: CardHeaderProps) {
+  const { renderProps, componentOverrides } = useCardContext();
 
   return (
-    <RenderPropsWrapper props={renderProps} override={children || componentOverrides?.reactNode}>
+    <RenderPropsWrapper props={renderProps} override={componentOverrides?.reactNode}>
       <div
         data-slot='card-header'
         className={cn(
@@ -160,11 +110,11 @@ function CardHeader({ componentOverrides, children, className, ...props }: CardH
   );
 }
 
-function CardTitle({ componentOverrides, children, className, ...props }: CardTitleProps) {
-  const { renderProps } = useCardContext();
+function CardTitle({ children, className, ...props }: CardTitleProps) {
+  const { renderProps, componentOverrides } = useCardContext();
 
   return (
-    <RenderPropsWrapper props={renderProps} override={children || componentOverrides?.reactNode}>
+    <RenderPropsWrapper props={renderProps} override={componentOverrides?.reactNode}>
       <div
         data-slot='card-title'
         className={cn('leading-none font-semibold', className)}
@@ -175,16 +125,11 @@ function CardTitle({ componentOverrides, children, className, ...props }: CardTi
   );
 }
 
-function CardDescription({
-  componentOverrides,
-  children,
-  className,
-  ...props
-}: CardDescriptionProps) {
-  const { renderProps } = useCardContext();
+function CardDescription({ children, className, ...props }: CardDescriptionProps) {
+  const { renderProps, componentOverrides } = useCardContext();
 
   return (
-    <RenderPropsWrapper props={renderProps} override={children || componentOverrides?.reactNode}>
+    <RenderPropsWrapper props={renderProps} override={componentOverrides?.reactNode}>
       <div
         data-slot='card-description'
         className={cn('text-muted-foreground text-sm', className)}
@@ -195,11 +140,11 @@ function CardDescription({
   );
 }
 
-function CardAction({ componentOverrides, children, className, ...props }: CardActionProps) {
-  const { renderProps } = useCardContext();
+function CardAction({ children, className, ...props }: CardActionProps) {
+  const { renderProps, componentOverrides } = useCardContext();
 
   return (
-    <RenderPropsWrapper props={renderProps} override={children || componentOverrides?.reactNode}>
+    <RenderPropsWrapper props={renderProps} override={componentOverrides?.reactNode}>
       <div
         data-slot='card-action'
         className={cn('col-start-2 row-span-2 row-start-1 self-start justify-self-end', className)}
@@ -210,11 +155,11 @@ function CardAction({ componentOverrides, children, className, ...props }: CardA
   );
 }
 
-function CardContent({ componentOverrides, children, className, ...props }: CardContentProps) {
-  const { renderProps } = useCardContext();
+function CardContent({ children, className, ...props }: CardContentProps) {
+  const { renderProps, componentOverrides } = useCardContext();
 
   return (
-    <RenderPropsWrapper props={renderProps} override={children || componentOverrides?.reactNode}>
+    <RenderPropsWrapper props={renderProps} override={componentOverrides?.reactNode}>
       <div data-slot='card-content' className={cn('flex flex-col gap-1', className)} {...props}>
         {children}
       </div>
@@ -222,11 +167,11 @@ function CardContent({ componentOverrides, children, className, ...props }: Card
   );
 }
 
-function CardFooter({ componentOverrides, children, className, ...props }: CardFooterProps) {
-  const { renderProps } = useCardContext();
+function CardFooter({ children, className, ...props }: CardFooterProps) {
+  const { renderProps, componentOverrides } = useCardContext();
 
   return (
-    <RenderPropsWrapper props={renderProps} override={children || componentOverrides?.reactNode}>
+    <RenderPropsWrapper props={renderProps} override={componentOverrides?.reactNode}>
       <div
         data-slot='card-footer'
         className={cn('flex items-center [.border-t]:pt-6', className)}

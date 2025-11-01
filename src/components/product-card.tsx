@@ -16,11 +16,12 @@ import {
   TagsSectionProps,
   TitleSectionProps,
   WishlistButtonProps,
+  Product,
 } from '@/types/product-card-types';
 
 // Context for sharing ProductCard data
 interface ProductCardContextValue {
-  renderProps: ProductCardProps;
+  renderProps: Omit<ProductCardProps, 'children' | 'componentOverrides' | 'className'>;
   componentOverrides?: ProductCardOverrides;
 }
 
@@ -36,21 +37,20 @@ const useProductCardContext = () => {
 
 const WishlistButton: React.FC<WishlistButtonProps> = (props) => {
   const { renderProps, componentOverrides } = useProductCardContext();
-
-  // Use props with fallback to context values
-  const onAddToWishlist = props.onAddToWishlist || renderProps.onAddToWishlist;
-  const isInWishlist = props.isInWishlist ?? renderProps.isInWishlist;
+  const {
+    isInWishlist = renderProps.isInWishlist || false,
+    onAddToWishlist = renderProps.onAddToWishlist,
+    children,
+  } = props;
 
   return (
     <RenderPropsWrapper
-      props={renderProps}
-      override={
-        componentOverrides?.wishlistButton?.reactNode || props.componentOverrides?.reactNode
-      }>
+      props={{ ...renderProps, isInWishlist }}
+      override={children || componentOverrides?.wishlistButton?.reactNode}>
       {onAddToWishlist && (
         <Button
           className={cn(
-            'absolute top-2 sm:top-4 right-2 sm:right-[22px] bg-white size-6 sm:size-[18px]',
+            'cio-product-card-wishlist-btn absolute top-2 sm:top-4 right-2 sm:right-[22px] bg-white size-6 sm:size-[18px]',
             props.className,
           )}
           size='icon'
@@ -71,27 +71,27 @@ const WishlistButton: React.FC<WishlistButtonProps> = (props) => {
 
 const PriceSection: React.FC<PriceSectionProps> = (props) => {
   const { renderProps, componentOverrides } = useProductCardContext();
-  const { itemPrice, itemPriceCurrency, itemSalePrice } = renderProps;
-
-  // Use props with fallback to context values
-  const price = props.itemPrice ?? itemPrice;
-  const priceCurrency = props.itemPriceCurrency || itemPriceCurrency;
-  const salePrice = props.itemSalePrice ?? itemSalePrice;
+  const {
+    product: { itemPrice, itemSalePrice },
+  } = renderProps;
+  const { itemPriceCurrency = renderProps.itemPriceCurrency || '$' } = props;
 
   return (
     <RenderPropsWrapper
-      props={renderProps}
-      override={componentOverrides?.price?.reactNode || props.componentOverrides?.reactNode}>
-      {price && (
-        <div className={cn('flex items-baseline gap-2', props.className)}>
+      props={{ ...renderProps, itemPriceCurrency }}
+      override={props.children || componentOverrides?.price?.reactNode}>
+      {itemPrice && (
+        <div
+          className={cn(
+            'cio-product-card-price-section flex items-baseline gap-2',
+            props.className,
+          )}>
           <span className='text-lg font-bold'>
-            {priceCurrency}&nbsp;
-            {salePrice || price}
+            {itemPriceCurrency}&nbsp;{itemSalePrice || itemPrice}
           </span>
-          {salePrice && (
+          {itemSalePrice && (
             <span className='text-sm text-gray-400 line-through'>
-              {priceCurrency}&nbsp;
-              {price}
+              {itemPriceCurrency}&nbsp;{itemPrice}
             </span>
           )}
         </div>
@@ -102,7 +102,7 @@ const PriceSection: React.FC<PriceSectionProps> = (props) => {
 
 const RatingSection: React.FC<RatingSectionProps> = (props) => {
   const { renderProps, componentOverrides } = useProductCardContext();
-  const { itemRating, itemReviewsCount } = renderProps;
+  const { itemRating, itemReviewsCount } = renderProps.product;
 
   // Use props with fallback to context values
   const rating = props.itemRating ?? itemRating;
@@ -111,10 +111,13 @@ const RatingSection: React.FC<RatingSectionProps> = (props) => {
   return (
     <RenderPropsWrapper
       props={renderProps}
-      override={componentOverrides?.rating?.reactNode || props.componentOverrides?.reactNode}>
+      override={props.children || componentOverrides?.rating?.reactNode}>
       {(rating !== undefined && rating !== null) || reviewsCount ? (
         <div
-          className={cn('flex justify-between gap-1 text-sm text-gray-500 py-2', props.className)}>
+          className={cn(
+            'cio-product-card-ratings-section flex justify-between gap-1 text-sm text-gray-500 py-2',
+            props.className,
+          )}>
           {rating !== undefined && rating !== null && <span>⭐ {rating}</span>}
           {reviewsCount && <span>{reviewsCount} reviews</span>}
         </div>
@@ -125,7 +128,7 @@ const RatingSection: React.FC<RatingSectionProps> = (props) => {
 
 const TagsSection: React.FC<TagsSectionProps> = (props) => {
   const { renderProps, componentOverrides } = useProductCardContext();
-  const { itemTags } = renderProps;
+  const { itemTags } = renderProps.product;
 
   // Use props with fallback to context values
   const tags = props.itemTags || itemTags;
@@ -133,8 +136,12 @@ const TagsSection: React.FC<TagsSectionProps> = (props) => {
   return (
     <RenderPropsWrapper
       props={renderProps}
-      override={componentOverrides?.tags?.reactNode || props.componentOverrides?.reactNode}>
-      <div className={cn('flex flex-col gap-1 items-center', props.className)}>
+      override={props.children || componentOverrides?.tags?.reactNode}>
+      <div
+        className={cn(
+          'cio-product-card-tags-section flex flex-col gap-1 items-center',
+          props.className,
+        )}>
         {tags &&
           tags.map((tag) => (
             <span key={tag} className='text-xs text-gray-500'>
@@ -148,20 +155,17 @@ const TagsSection: React.FC<TagsSectionProps> = (props) => {
 
 const ImageSection: React.FC<ImageSectionProps> = (props) => {
   const { renderProps, componentOverrides } = useProductCardContext();
-  const { itemImageUrl, itemName } = renderProps;
+  const { itemImageUrl, itemName } = renderProps.product;
 
   // Use props with fallback to context values
   const imageUrl = props.itemImageUrl || itemImageUrl;
-  const name = props.itemName || itemName;
 
   return (
-    <RenderPropsWrapper
-      props={renderProps}
-      override={componentOverrides?.image?.reactNode || props.componentOverrides?.reactNode}>
-      <div className={cn('relative', props.className)}>
+    <RenderPropsWrapper props={renderProps} override={componentOverrides?.image?.reactNode}>
+      <div className={cn('cio-product-card-image-section relative', props.className)}>
         <img
           src={imageUrl}
-          alt={name || 'product image'}
+          alt={itemName || 'product image'}
           className='object-cover w-full h-[224px] rounded-2xl'
         />
         {props.children}
@@ -172,7 +176,7 @@ const ImageSection: React.FC<ImageSectionProps> = (props) => {
 
 const TitleSection: React.FC<TitleSectionProps> = (props) => {
   const { renderProps, componentOverrides } = useProductCardContext();
-  const { itemName } = renderProps;
+  const { itemName } = renderProps.product;
 
   // Use props with fallback to context values
   const name = props.itemName || itemName;
@@ -180,15 +184,17 @@ const TitleSection: React.FC<TitleSectionProps> = (props) => {
   return (
     <RenderPropsWrapper
       props={renderProps}
-      override={componentOverrides?.title?.reactNode || props.componentOverrides?.reactNode}>
-      <p className={cn('text-base font-medium', props.className)}>{name}</p>
+      override={props.children || componentOverrides?.title?.reactNode}>
+      <p className={cn('cio-product-card-title-section text-base font-medium', props.className)}>
+        {name}
+      </p>
     </RenderPropsWrapper>
   );
 };
 
 const DescriptionSection: React.FC<DescriptionSectionProps> = (props) => {
   const { renderProps, componentOverrides } = useProductCardContext();
-  const { itemDescription } = renderProps;
+  const { itemDescription } = renderProps.product;
 
   // Use props with fallback to context values
   const description = props.itemDescription || itemDescription;
@@ -196,28 +202,34 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = (props) => {
   return (
     <RenderPropsWrapper
       props={renderProps}
-      override={componentOverrides?.description?.reactNode || props.componentOverrides?.reactNode}>
-      {description && <p className={cn('text-sm text-gray-500', props.className)}>{description}</p>}
+      override={props.children || componentOverrides?.description?.reactNode}>
+      {description && (
+        <p className={cn('cio-product-card-description text-sm text-gray-500', props.className)}>
+          {description}
+        </p>
+      )}
     </RenderPropsWrapper>
   );
 };
 
 const AddToCartButton: React.FC<AddToCartButtonProps> = (props) => {
   const { renderProps, componentOverrides } = useProductCardContext();
-
-  // Use props with fallback to context values
-  const onAddToCart = props.onAddToCart || renderProps.onAddToCart;
-  const addToCartText = props.addToCartText || renderProps.addToCartText;
+  const {
+    addToCartText = renderProps.addToCartText || 'Add to Cart',
+    onAddToCart = renderProps.onAddToCart,
+    children,
+  } = props;
 
   return (
     <RenderPropsWrapper
-      props={renderProps}
-      override={
-        componentOverrides?.addToCartButton?.reactNode || props.componentOverrides?.reactNode
-      }>
+      props={{ ...renderProps, addToCartText }}
+      override={children || componentOverrides?.addToCartButton?.reactNode}>
       {onAddToCart && (
         <Button
-          className={cn('w-full bg-black hover:bg-gray-800 text-white text-sm', props.className)}
+          className={cn(
+            'cio-product-card-add-to-cart-btn w-full bg-black hover:bg-gray-800 text-white text-sm',
+            props.className,
+          )}
           conversionType='add_to_cart'
           onClick={onAddToCart}>
           {addToCartText}
@@ -227,134 +239,115 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = (props) => {
   );
 };
 
-const ProductCardContent: React.FC<CardContentProps> = (props) => {
-  const { componentOverrides } = useProductCardContext();
+const ProductCardContent: React.FC<CardContentProps> = ({ children, ...props }) => {
+  const { componentOverrides, renderProps } = useProductCardContext();
+  const renderPropFn = typeof children === 'function' && children;
 
   return (
-    <Card.Content
-      className={cn('flex flex-col gap-1', props.className)}
-      componentOverrides={componentOverrides?.content || props.componentOverrides}
-      {...props}
-    />
+    <RenderPropsWrapper
+      props={renderProps}
+      override={renderPropFn || componentOverrides?.reactNode}>
+      <Card.Content
+        className={cn('cio-product-card-content flex flex-col gap-1', props.className)}
+        {...props}>
+        {children}
+      </Card.Content>
+    </RenderPropsWrapper>
   );
 };
 
-const ProductCardFooter: React.FC<CardFooterProps> = (props) => {
-  const { componentOverrides } = useProductCardContext();
+const ProductCardFooter: React.FC<CardFooterProps> = ({ children, ...props }) => {
+  const { componentOverrides, renderProps } = useProductCardContext();
+  const renderPropFn = typeof children === 'function' && children;
 
   return (
-    <Card.Footer
-      className={cn('flex flex-col gap-2', props.className)}
-      componentOverrides={componentOverrides?.footer || props.componentOverrides}
-      {...props}
-    />
+    <RenderPropsWrapper
+      props={renderProps}
+      override={renderPropFn || componentOverrides?.reactNode}>
+      <Card.Footer
+        className={cn('cio-product-card-footer flex flex-col gap-2', props.className)}
+        {...props}>
+        {children}
+      </Card.Footer>
+    </RenderPropsWrapper>
   );
 };
+
+function getProductCardDataAttributes({
+  itemId,
+  itemName,
+  itemVariationId,
+  itemPrice,
+  itemSalePrice,
+  itemSlCampaignId,
+  itemSlCampaignOwner,
+}: Product) {
+  return {
+    'data-cnstrc-item-id': itemId,
+    'data-cnstrc-item-variation-id': itemVariationId,
+    'data-cnstrc-item-name': itemName,
+    'data-cnstrc-item-price': itemSalePrice || itemPrice,
+    'data-cnstrc-sl-campaign-id': itemSlCampaignId,
+    'data-cnstrc-sl-campaign-owner': itemSlCampaignOwner,
+  };
+}
 
 function ProductCard({ componentOverrides, children, className, ...props }: ProductCardProps) {
-  const {
-    itemId,
-    itemName,
-    itemVariationId,
-    itemPrice,
-    itemPriceCurrency = '$',
-    itemSalePrice,
-    addToCartText = 'Add to Cart',
-    itemSlCampaignId,
-    itemSlCampaignOwner,
-    isInWishlist = false,
-    onAddToCart,
-    onAddToWishlist,
-    onItemClick,
-    itemTags,
-    itemDescription,
-    itemImageUrl,
-    itemRating,
-    itemReviewsCount,
-    ...restProps
-  } = props || {};
-
-  const renderProps = React.useMemo(
-    () => ({
-      ...props,
-      // Explicitly pass any prop with a default value here,
-      // so that the value is available in render props:
-      itemPriceCurrency,
-      addToCartText,
-      isInWishlist,
-      // Ensure callbacks are available in renderProps
-      onAddToCart,
-      onAddToWishlist,
-    }),
-    [props, itemPriceCurrency, addToCartText, isInWishlist, onAddToCart, onAddToWishlist],
-  );
-
   const contextValue = React.useMemo(
     () => ({
-      renderProps,
+      renderProps: { ...props, ...getProductCardDataAttributes(props.product) },
       componentOverrides,
     }),
-    [renderProps, componentOverrides],
+    [props, componentOverrides],
   );
 
-  // If children are provided, use compound component pattern
-  if (children && typeof children !== 'function') {
-    return (
-      <ProductCardContext.Provider value={contextValue}>
-        <Card
-          className={cn('min-w-[176px] max-w-[256px] cursor-pointer', className)}
-          onClick={onItemClick}
-          externalRenderProps={renderProps}
-          data-cnstrc-item-id={itemId}
-          data-cnstrc-item-variation-id={itemVariationId}
-          data-cnstrc-item-name={itemName}
-          data-cnstrc-item-price={itemSalePrice || itemPrice}
-          data-cnstrc-sl-campaign-id={itemSlCampaignId}
-          data-cnstrc-sl-campaign-owner={itemSlCampaignOwner}
-          {...restProps}>
-          {children}
-        </Card>
-      </ProductCardContext.Provider>
-    );
-  }
+  // Extract all ProductCard-specific Props so we don't pass it to Card
+  const {
+    product,
+    itemPriceCurrency,
+    onAddToCart,
+    onItemClick,
+    addToCartText,
+    isInWishlist,
+    onAddToWishlist,
+    ...restProps
+  } = props;
+
+  const renderPropFn = typeof children === 'function' && children;
 
   // Default layout when no children provided or render prop function
   return (
     <ProductCardContext.Provider value={contextValue}>
-      <RenderPropsWrapper props={renderProps} override={children || componentOverrides?.reactNode}>
+      <RenderPropsWrapper props={props} override={renderPropFn || componentOverrides?.reactNode}>
         <Card
-          className={cn('min-w-[176px] max-w-[256px] cursor-pointer', className)}
+          className={cn('cio-product-card min-w-[176px] max-w-[256px] cursor-pointer', className)}
           onClick={onItemClick}
-          externalRenderProps={renderProps}
-          data-cnstrc-item-id={itemId}
-          data-cnstrc-item-variation-id={itemVariationId}
-          data-cnstrc-item-name={itemName}
-          data-cnstrc-item-price={itemSalePrice || itemPrice}
-          data-cnstrc-sl-campaign-id={itemSlCampaignId}
-          data-cnstrc-sl-campaign-owner={itemSlCampaignOwner}
+          {...getProductCardDataAttributes(product)}
           {...restProps}>
-          {/* Image Section */}
-          <ImageSection>
-            {/* Badge */}
-            {/* <Badge /> */}
-            <WishlistButton />
-          </ImageSection>
+          <RenderPropsWrapper props={props} override={children}>
+            {/* Image Section */}
+            <ImageSection>
+              {/* Badge */}
+              {/* <Badge /> */}
+              <WishlistButton isInWishlist={isInWishlist} onAddToWishlist={onAddToWishlist} />
+            </ImageSection>
 
-          {/* Content Section */}
-          <ProductCardContent>
-            <PriceSection />
-            <TitleSection />
-            <DescriptionSection />
-            <RatingSection />
-          </ProductCardContent>
+            {/* Content Section */}
+            <ProductCardContent>
+              <PriceSection itemPriceCurrency={itemPriceCurrency} />
+              <TitleSection />
+              <DescriptionSection />
+              <RatingSection />
+            </ProductCardContent>
 
-          {/* Footer Section */}
-          {(onAddToCart || itemTags) && (
-            <ProductCardFooter>
-              <AddToCartButton />
-              <TagsSection />
-            </ProductCardFooter>
-          )}
+            {/* Footer Section */}
+            {(onAddToCart || product.itemTags) && (
+              <ProductCardFooter>
+                <AddToCartButton onAddToCart={onAddToCart} addToCartText={addToCartText} />
+                <TagsSection />
+              </ProductCardFooter>
+            )}
+          </RenderPropsWrapper>
         </Card>
       </RenderPropsWrapper>
     </ProductCardContext.Provider>
@@ -372,5 +365,6 @@ ProductCard.TagsSection = TagsSection;
 ProductCard.AddToCartButton = AddToCartButton;
 ProductCard.Content = ProductCardContent;
 ProductCard.Footer = ProductCardFooter;
+ProductCard.getProductCardDataAttributes = getProductCardDataAttributes;
 
 export default ProductCard;

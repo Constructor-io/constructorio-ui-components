@@ -5,6 +5,17 @@ export type RenderPropsChildren<RenderProps> = ((props: RenderProps) => ReactNod
 
 // --- Type Helpers
 
+/**
+ * Renames a single field in a Type
+ * E.g. type MyNewType = Rename<MyOldType, 'oldFieldName', 'newFieldName'>
+ */
+export type Rename<T, OldFieldName extends keyof T, NewFieldName extends string> = Pick<
+  T,
+  Exclude<keyof T, OldFieldName>
+> & {
+  [P in NewFieldName]: T[OldFieldName];
+};
+
 // Abstract Type
 export interface ComponentOverrideProps<T> {
   htmlRender?: (props?: T) => HTMLElement; // Unimplemented

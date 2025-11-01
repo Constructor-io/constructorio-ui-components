@@ -1,0 +1,135 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import * as ProductCardStories from './ProductCard.stories';
+
+<Meta of={ProductCardStories} />
+
+# `ProductCard` - Basic Code Examples
+
+Using the default `ProductCard`
+
+## Minimal Product Card
+
+<Canvas of={ProductCardStories.Basic} />
+
+```tsx
+import ProductCard from '@/components/product-card';
+
+function BasicExample() {
+  return (
+    <ProductCard
+      itemId="norman-chair-basic"
+      itemVariationId="norman-chair-basic-variation"
+      itemName="Norman's Chair"
+      itemImageUrl="https://example.com/chair.jpg"
+    />
+  );
+}
+```
+
+## Product Card with Price
+
+<Canvas of={ProductCardStories.WithPrice} />
+
+```tsx
+import ProductCard from '@/components/product-card';
+
+function WithPriceExample() {
+  return (
+    <ProductCard
+      itemId="norman-chair-with-price"
+      itemVariationId="norman-chair-with-price-variation"
+      itemName="Norman's Chair"
+      itemImageUrl="https://example.com/chair.jpg"
+      itemPrice="299"
+      itemPriceCurrency="$"
+    />
+  );
+}
+```
+
+## Product Card with Sale Price
+
+<Canvas of={ProductCardStories.WithSalePrice} />
+
+```tsx
+import ProductCard from '@/components/product-card';
+
+function SalePriceExample() {
+  return (
+    <ProductCard
+      itemId="norman-chair-sale"
+      itemVariationId="norman-chair-sale-variation"
+      itemName="Norman's Chair"
+      itemImageUrl="https://example.com/chair.jpg"
+      itemPrice="399"
+      itemSalePrice="299"
+      itemPriceCurrency="$"
+    />
+  );
+}
+```
+
+## Product Card with Rating and Reviews
+
+<Canvas of={ProductCardStories.WithRatingAndReviews} />
+
+```tsx
+import ProductCard from '@/components/product-card';
+
+function RatingExample() {
+  return (
+    <ProductCard
+      itemId="norman-chair-reviews"
+      itemVariationId="norman-chair-reviews-variation"
+      itemName="Norman's Chair"
+      itemImageUrl="https://example.com/chair.jpg"
+      itemPrice="299"
+      itemRating={4.8}
+      itemReviewsCount={2713}
+    />
+  );
+}
+```
+
+## Product Card with Description
+
+<Canvas of={ProductCardStories.WithDescription} />
+
+```tsx
+import ProductCard from '@/components/product-card';
+
+function DescriptionExample() {
+  return (
+    <ProductCard
+      itemId="norman-chair-description"
+      itemVariationId="norman-chair-description-variation"
+      itemName="Norman's Chair"
+      itemImageUrl="https://example.com/chair.jpg"
+      itemPrice="299"
+      itemDescription="A comfortable and stylish chair perfect for any modern home"
+    />
+  );
+}
+```
+
+## Product Card with Tags
+
+<Canvas of={ProductCardStories.WithTags} />
+
+```tsx
+import ProductCard from '@/components/product-card';
+
+function TagsExample() {
+  return (
+    <ProductCard
+      itemId="norman-chair-tags"
+      itemVariationId="norman-chair-tags-variation"
+      itemName="Norman's Chair"
+      itemImageUrl="https://example.com/chair.jpg"
+      itemPrice="299"
+      itemTags={['Same day delivery', 'Free shipping']}
+    />
+  );
+}
+```
+

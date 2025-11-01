@@ -1,0 +1,125 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import * as ProductCardStories from './ProductCard.stories';
+
+<Meta of={ProductCardStories} />
+
+# `ProductCard` -  Mixing Customization Patterns
+
+Mix the compound components pattern with the render props pattern to achieve your desired look!
+
+## Compound Components with Render Props
+
+<Canvas of={ProductCardStories.CompoundWithRenderProps} />
+
+```tsx
+import ProductCard from '@/components/product-card';
+
+function CompoundWithRenderPropsExample() {
+  return (
+    <ProductCard
+      itemId='compound-render-props-chair'
+      itemVariationId='compound-render-props-chair-variation'
+      itemName="Norman's Chair"
+      itemImageUrl='https://example.com/chair.jpg'
+      itemPrice='899'
+      itemSalePrice='699'
+      itemPriceCurrency='$'
+      itemRating={4.9}
+      itemReviewsCount={456}
+      itemDescription='A comfortable and stylish chair perfect for any modern home'
+      itemTags={['Premium', 'Custom Layout']}
+      onAddToCart={(e) => console.log('Added to cart', e)}
+      onAddToWishlist={(e) => console.log('Added to wishlist', e)}
+    >
+      {/* Image section with compound components */}
+      <ProductCard.ImageSection>
+        <ProductCard.WishlistButton />
+      </ProductCard.ImageSection>
+
+      {/* Content section with pure render props - all children are inside a render prop function */}
+      <ProductCard.Content>
+        {(renderProps) => (
+          <>
+            <div className='flex items-baseline gap-2'>
+              <span className='text-lg font-bold'>
+                {renderProps.itemPriceCurrency}&nbsp;
+                {renderProps.itemSalePrice || renderProps.itemPrice}
+              </span>
+              {renderProps.itemSalePrice && (
+                <span className='text-sm text-gray-400 line-through'>
+                  {renderProps.itemPriceCurrency}&nbsp;
+                  {renderProps.itemPrice}
+                </span>
+              )}
+            </div>
+
+            <p className='text-base font-medium'>{renderProps.itemName}</p>
+
+            <div className='bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 rounded-lg p-3 my-2'>
+              <div className='flex items-center gap-2 mb-2'>
+                <span className='text-blue-600 font-semibold text-sm'>🎯 Smart Recommendation</span>
+              </div>
+              <p className='text-gray-700 text-sm'>
+                Based on your preferences, this {renderProps.itemName} is perfect for you!
+                {renderProps.itemSalePrice && (
+                  <span className='text-green-600 font-medium'>
+                    {' '}
+                    Save ${Number(renderProps.itemPrice) - Number(renderProps.itemSalePrice)} today!
+                  </span>
+                )}
+              </p>
+              <div className='flex items-center gap-2 mt-2'>
+                <span className='bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full'>
+                  ⭐ {renderProps.itemRating} rating
+                </span>
+                <span className='bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded-full'>
+                  💬 {renderProps.itemReviewsCount} reviews
+                </span>
+              </div>
+            </div>
+
+            {renderProps.itemDescription && (
+              <p className='text-sm text-gray-500'>{renderProps.itemDescription}</p>
+            )}
+          </>
+        )}
+      </ProductCard.Content>
+
+      {/* Footer section with pure render props - all children are inside a render prop function */}
+      <ProductCard.Footer>
+        {(renderProps) => (
+          <div className='space-y-2'>
+            <div className='flex gap-2 text-xs text-gray-600'>
+              <span className='flex items-center gap-1'>🚚 Free shipping on orders over $500</span>
+            </div>
+
+            {renderProps.onAddToCart && (
+              <button
+                className='w-full bg-black hover:bg-gray-800 text-white text-sm py-2 px-4 rounded-lg font-medium transition-colors'
+                onClick={(e) => renderProps.onAddToCart && renderProps.onAddToCart(e)}>
+                {renderProps.addToCartText || 'Add to Cart'}
+              </button>
+            )}
+
+            <button
+              className='w-full bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 px-4 rounded-lg text-sm font-medium transition-colors'
+              onClick={() => console.log(`Quick view for ${renderProps.itemName}`)}>
+              👁️ Quick View
+            </button>
+
+            {renderProps.itemTags && renderProps.itemTags.length > 0 && (
+              <div className='flex flex-col gap-1 items-center'>
+                {renderProps.itemTags.map((tag) => (
+                  <span key={tag} className='text-xs text-gray-500'>
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+      </ProductCard.Footer>
+    </ProductCard>
+  );
+}
+```

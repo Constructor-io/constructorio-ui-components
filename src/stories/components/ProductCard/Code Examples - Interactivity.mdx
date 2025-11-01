@@ -1,0 +1,167 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import * as ProductCardStories from './ProductCard.stories';
+
+<Meta of={ProductCardStories} />
+
+# `ProductCard` - Adding Interactivity
+
+Adding interactive functionality to the `ProductCard`
+
+## Product Card with Add to Cart
+
+<Canvas of={ProductCardStories.WithAddToCart} />
+
+```tsx
+import ProductCard from '@/components/product-card';
+
+function AddToCartExample() {
+  const handleAddToCart = (e) => {
+    console.log('Added to cart', e);
+    // Add your cart logic here
+  };
+
+  return (
+    <ProductCard
+      itemId="norman-chair-cart"
+      itemVariationId="norman-chair-cart-variation"
+      itemName="Norman's Chair"
+      itemImageUrl="https://example.com/chair.jpg"
+      itemPrice="299"
+      onAddToCart={handleAddToCart}
+    />
+  );
+}
+```
+
+## Product Card with Wishlist
+
+<Canvas of={ProductCardStories.WithWishlist} />
+
+```tsx
+import ProductCard from '@/components/product-card';
+
+function WishlistExample() {
+  const handleAddToWishlist = (e) => {
+    console.log('Added to wishlist', e);
+    // Add your wishlist logic here
+  };
+
+  return (
+    <ProductCard
+      itemId="norman-chair-wishlist"
+      itemVariationId="norman-chair-wishlist-variation"
+      itemName="Norman's Chair"
+      itemImageUrl="https://example.com/chair.jpg"
+      itemPrice="299"
+      onAddToWishlist={handleAddToWishlist}
+    />
+  );
+}
+```
+
+## Product Card with Custom Add to Cart Text
+
+<Canvas of={ProductCardStories.CustomAddToCartText} />
+
+```tsx
+import ProductCard from '@/components/product-card';
+
+function CustomAddToCartTextExample() {
+  const handleAddToCart = (e) => {
+    console.log('Added to cart', e);
+    // Add your cart logic here
+  };
+
+  return (
+    <ProductCard
+      itemId="norman-chair-custom-text"
+      itemVariationId="norman-chair-custom-text-variation"
+      itemName="Norman's Chair"
+      itemImageUrl="https://example.com/chair.jpg"
+      itemPrice="299"
+      onAddToCart={handleAddToCart}
+      addToCartText="Buy Now"
+    />
+  );
+}
+```
+
+## Product Card with Click Handler
+
+```tsx
+import ProductCard from '@/components/product-card';
+import { useRouter } from 'next/router';
+
+function ClickableExample() {
+  const router = useRouter();
+
+  const handleItemClick = () => {
+    router.push('/products/norman-chair');
+  };
+
+  return (
+    <ProductCard
+      itemId="clickable-chair"
+      itemVariationId="clickable-chair-variation"
+      itemName="Norman's Chair"
+      itemImageUrl="https://example.com/chair.jpg"
+      itemPrice="299"
+      itemPriceCurrency="$"
+      onItemClick={handleItemClick}
+    />
+  );
+}
+```
+
+## Product Card with Custom Currency
+
+<Canvas of={ProductCardStories.CustomCurrency} />
+
+```tsx
+import ProductCard from '@/components/product-card';
+
+function CustomCurrencyExample() {
+  return (
+    <ProductCard
+      itemId="designer-lamp-eu"
+      itemVariationId="designer-lamp-eu-variation"
+      itemName="Norman's Chair"
+      itemImageUrl="https://example.com/chair.jpg"
+      itemPrice="150"
+      itemSalePrice="120"
+      itemPriceCurrency="€"
+      itemRating={4.5}
+      itemReviewsCount={89}
+      onAddToCart={(e) => console.log('Added to cart', e)}
+      onAddToWishlist={(e) => console.log('Added to wishlist', e)}
+    />
+  );
+}
+```
+
+## Product Card Already in Wishlist
+
+<Canvas of={ProductCardStories.InWishlist} />
+
+```tsx
+import ProductCard from '@/components/product-card';
+
+function InWishlistExample() {
+  return (
+    <ProductCard
+      itemId="wishlist-chair"
+      itemVariationId="wishlist-chair-variation"
+      itemName="Norman's Chair"
+      itemImageUrl="https://example.com/chair.jpg"
+      itemDescription="A comfortable and stylish chair perfect for any modern home"
+      itemPrice="399"
+      itemPriceCurrency="$"
+      itemRating={4.5}
+      itemReviewsCount={156}
+      isInWishlist={true}
+      onAddToWishlist={(e) => console.log('Removed from wishlist', e)}
+      onAddToCart={(e) => console.log('Added to cart', e)}
+    />
+  );
+}
+```

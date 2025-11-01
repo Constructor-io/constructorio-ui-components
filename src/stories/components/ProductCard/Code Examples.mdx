@@ -823,87 +823,8 @@ function MultipleOverridesExample() {
 
 ## Mixed Customization Patterns
 
-The ProductCard component exports its inner components, allowing you to create completely custom layouts by reordering and composing the individual sections using Compound Components, children render props, or component overrides.
-
-### Compound Components with Component Overrides 
-
-<Canvas of={ProductCardStories.CompoundComponentsWithComponentOverrides} />
-
-```tsx
-import ProductCard from '@/components/product-card';
-
-function CompoundComponentsWithComponentOverridesExample() {
-  return (
-    <ProductCard
-      itemId='component-overrides-compound-chair'
-      itemName="Norman's Chair"
-      itemImageUrl='https://example.com/chair.jpg'
-      itemPrice='899'
-      itemSalePrice='699'
-      itemPriceCurrency='$'
-      itemRating={4.9}
-      itemReviewsCount={342}
-      itemDescription='A comfortable and stylish chair perfect for any modern home'
-      onAddToCart={(e) => console.log('Added to cart', e)}
-    >
-      <div className='bg-white rounded-lg shadow-md overflow-hidden max-w-xs'>
-        <ProductCard.ImageSection />
-        <div className='p-4 space-y-3'>
-          <ProductCard.TitleSection />
-          <ProductCard.DescriptionSection />
-
-          {/* Using compound component with custom component overrides */}
-          <ProductCard.PriceSection
-            componentOverrides={{
-              reactNode: (renderProps) => (
-                <div className='bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200 rounded-lg p-4'>
-                  <div className='flex items-center justify-between'>
-                    <div className='flex flex-col'>
-                      <span className='text-xs text-emerald-600 font-medium uppercase tracking-wide'>
-                        Special Offer
-                      </span>
-                      <div className='flex items-baseline gap-2 mt-1'>
-                        <span className='text-2xl font-bold text-emerald-800'>
-                          {renderProps.itemPriceCurrency}
-                          {renderProps.itemSalePrice || renderProps.itemPrice}
-                        </span>
-                        {renderProps.itemSalePrice && (
-                          <span className='text-sm text-gray-500 line-through'>
-                            {renderProps.itemPriceCurrency}
-                            {renderProps.itemPrice}
-                          </span>
-                        )}
-                      </div>
-                      {renderProps.itemSalePrice && (
-                        <span className='text-xs text-emerald-600 font-medium mt-1'>
-                          Save {renderProps.itemPriceCurrency}
-                          {Number(renderProps.itemPrice) - Number(renderProps.itemSalePrice)}
-                        </span>
-                      )}
-                    </div>
-                    <div className='bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full text-xs font-bold'>
-                      {renderProps.itemSalePrice
-                        ? `${Math.round(
-                            ((Number(renderProps.itemPrice) - Number(renderProps.itemSalePrice)) /
-                              Number(renderProps.itemPrice)) *
-                              100,
-                          )}% OFF`
-                        : 'Best Price'}
-                    </div>
-                  </div>
-                </div>
-              ),
-            }}
-          />
-
-          <ProductCard.RatingSection />
-          <ProductCard.AddToCartButton />
-        </div>
-      </div>
-    </ProductCard>
-  );
-}
-```
+The ProductCard component exports its inner components, allowing you to create completely custom layouts by reordering and composing the individual sections using Compound Components, children or render props.
+However, passing `componentOverrides` as props to sub-components is not allowed.
 
 ### Compound Components with Render Props
 

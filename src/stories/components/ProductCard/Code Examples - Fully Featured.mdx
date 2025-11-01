@@ -32,17 +32,19 @@ function FullyFeaturedExample() {
 
   return (
     <ProductCard
-      itemId="designer-office-chair"
-      itemVariationId="designer-office-chair-variation"
-      itemName="Norman's Chair"
-      itemImageUrl="https://example.com/chair.jpg"
-      itemDescription="A comfortable and stylish chair perfect for any modern home"
-      itemPrice="899"
-      itemSalePrice="699"
+      product={{
+        itemId="designer-office-chair",
+        itemVariationId="designer-office-chair-variation",
+        itemName="Norman's Chair",
+        itemImageUrl="https://example.com/chair.jpg",
+        itemDescription="A comfortable and stylish chair perfect for any modern home",
+        itemPrice="899",
+        itemSalePrice="699",
+        itemRating={4.8},
+        itemReviewsCount={2713},
+        itemTags={['Same day delivery', 'Free assembly', '10-year warranty']},
+      }},
       itemPriceCurrency="$"
-      itemRating={4.8}
-      itemReviewsCount={2713}
-      itemTags={['Same day delivery', 'Free assembly', '10-year warranty']}
       onAddToCart={handleAddToCart}
       onAddToWishlist={handleAddToWishlist}
       onItemClick={handleItemClick}

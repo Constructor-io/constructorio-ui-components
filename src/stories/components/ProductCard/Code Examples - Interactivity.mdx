@@ -22,11 +22,13 @@ function AddToCartExample() {
 
   return (
     <ProductCard
-      itemId="norman-chair-cart"
-      itemVariationId="norman-chair-cart-variation"
-      itemName="Norman's Chair"
-      itemImageUrl="https://example.com/chair.jpg"
-      itemPrice="299"
+      product={{
+        itemId="norman-chair-cart",
+        itemVariationId="norman-chair-cart-variation",
+        itemName="Norman's Chair",
+        itemImageUrl="https://example.com/chair.jpg",
+        itemPrice="299",
+      }}
       onAddToCart={handleAddToCart}
     />
   );
@@ -48,11 +50,13 @@ function WishlistExample() {
 
   return (
     <ProductCard
-      itemId="norman-chair-wishlist"
-      itemVariationId="norman-chair-wishlist-variation"
-      itemName="Norman's Chair"
-      itemImageUrl="https://example.com/chair.jpg"
-      itemPrice="299"
+      product={{
+        itemId="norman-chair-wishlist",
+        itemVariationId="norman-chair-wishlist-variation",
+        itemName="Norman's Chair",
+        itemImageUrl="https://example.com/chair.jpg",
+        itemPrice="299",
+      }}
       onAddToWishlist={handleAddToWishlist}
     />
   );
@@ -74,11 +78,13 @@ function CustomAddToCartTextExample() {
 
   return (
     <ProductCard
-      itemId="norman-chair-custom-text"
-      itemVariationId="norman-chair-custom-text-variation"
-      itemName="Norman's Chair"
-      itemImageUrl="https://example.com/chair.jpg"
-      itemPrice="299"
+      product={{
+        itemId="norman-chair-custom-text",
+        itemVariationId="norman-chair-custom-text-variation",
+        itemName="Norman's Chair",
+        itemImageUrl="https://example.com/chair.jpg",
+        itemPrice="299",
+      }}
       onAddToCart={handleAddToCart}
       addToCartText="Buy Now"
     />
@@ -101,11 +107,13 @@ function ClickableExample() {
 
   return (
     <ProductCard
-      itemId="clickable-chair"
-      itemVariationId="clickable-chair-variation"
-      itemName="Norman's Chair"
-      itemImageUrl="https://example.com/chair.jpg"
-      itemPrice="299"
+      product={{
+        itemId="clickable-chair",
+        itemVariationId="clickable-chair-variation",
+        itemName="Norman's Chair",
+        itemImageUrl="https://example.com/chair.jpg",
+        itemPrice="299",
+      }}
       itemPriceCurrency="$"
       onItemClick={handleItemClick}
     />
@@ -123,15 +131,17 @@ import ProductCard from '@/components/product-card';
 function CustomCurrencyExample() {
   return (
     <ProductCard
-      itemId="designer-lamp-eu"
-      itemVariationId="designer-lamp-eu-variation"
-      itemName="Norman's Chair"
-      itemImageUrl="https://example.com/chair.jpg"
-      itemPrice="150"
-      itemSalePrice="120"
+      product={{
+        itemId="designer-lamp-eu",
+        itemVariationId="designer-lamp-eu-variation",
+        itemName="Norman's Chair",
+        itemImageUrl="https://example.com/chair.jpg",
+        itemPrice="150",
+        itemSalePrice="120",
+        itemRating={4.5},
+        itemReviewsCount={89},
+      }}
       itemPriceCurrency="€"
-      itemRating={4.5}
-      itemReviewsCount={89}
       onAddToCart={(e) => console.log('Added to cart', e)}
       onAddToWishlist={(e) => console.log('Added to wishlist', e)}
     />
@@ -149,15 +159,17 @@ import ProductCard from '@/components/product-card';
 function InWishlistExample() {
   return (
     <ProductCard
-      itemId="wishlist-chair"
-      itemVariationId="wishlist-chair-variation"
-      itemName="Norman's Chair"
-      itemImageUrl="https://example.com/chair.jpg"
-      itemDescription="A comfortable and stylish chair perfect for any modern home"
-      itemPrice="399"
+      product={{
+        itemId="wishlist-chair",
+        itemVariationId="wishlist-chair-variation",
+        itemName="Norman's Chair",
+        itemImageUrl="https://example.com/chair.jpg",
+        itemDescription="A comfortable and stylish chair perfect for any modern home",
+        itemPrice="399",
+        itemRating={4.5},
+        itemReviewsCount={156},
+      }}
       itemPriceCurrency="$"
-      itemRating={4.5}
-      itemReviewsCount={156}
       isInWishlist={true}
       onAddToWishlist={(e) => console.log('Removed from wishlist', e)}
       onAddToCart={(e) => console.log('Added to cart', e)}

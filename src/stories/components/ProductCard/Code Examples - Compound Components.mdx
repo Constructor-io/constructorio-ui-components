@@ -17,11 +17,13 @@ import ProductCard from '@/components/product-card';
 function CompoundBasicExample() {
   return (
     <ProductCard
-      itemId='compound-basic-chair'
-      itemVariationId='compound-basic-chair-variation'
-      itemName="Norman's Chair"
-      itemImageUrl='https://example.com/chair.jpg'
-      itemPrice='299'
+      product={{
+        itemId='compound-basic-chair',
+        itemVariationId='compound-basic-chair-variation',
+        itemName="Norman's Chair",
+        itemImageUrl='https://example.com/chair.jpg',
+        itemPrice='299',
+      }}
       itemPriceCurrency='$'
       onAddToCart={(e) => console.log('Added to cart', e)}
       onAddToWishlist={(e) => console.log('Added to wishlist', e)}
@@ -51,17 +53,20 @@ import ProductCard from '@/components/product-card';
 function CompoundFullyFeaturedExample() {
   return (
     <ProductCard
-      itemId='compound-full-chair'
-      itemVariationId='compound-full-chair-variation'
-      itemName="Norman's Chair"
-      itemImageUrl='https://example.com/chair.jpg'
-      itemDescription='A comfortable and stylish chair perfect for any modern home'
-      itemPrice='899'
-      itemSalePrice='699'
+      product={{
+        itemId='compound-full-chair',
+        itemVariationId='compound-full-chair-variation',
+        itemName="Norman's Chair",
+        itemImageUrl='https://example.com/chair.jpg',
+        itemDescription='A comfortable and stylish chair perfect for any modern home',
+        itemPrice='899',
+        itemSalePrice='699',
+        itemRating={4.8},
+        itemReviewsCount={2713},
+        itemTags={['Same day delivery', 'Free assembly', '10-year warranty']},
+      }}
       itemPriceCurrency='$'
-      itemRating={4.8}
-      itemReviewsCount={2713}
-      itemTags={['Same day delivery', 'Free assembly', '10-year warranty']}
+    
       onItemClick={() => console.log('Product clicked')}
       addToCartText='Add to Cart'
     >
@@ -93,17 +98,19 @@ import ProductCard from '@/components/product-card';
 function CompoundCustomLayoutExample() {
   return (
     <ProductCard
-      itemId='compound-custom-chair'
-      itemVariationId='compound-custom-chair-variation'
-      itemName="Norman's Chair"
-      itemImageUrl='https://example.com/chair.jpg'
-      itemPrice='599'
-      itemSalePrice='449'
+      product={{
+        itemId='compound-custom-chair'
+        itemVariationId='compound-custom-chair-variation',
+        itemName="Norman's Chair",
+        itemImageUrl='https://example.com/chair.jpg',
+        itemPrice='599',
+        itemSalePrice='449',
+        itemRating={4.7},
+        itemReviewsCount={156},
+        itemDescription='A comfortable and stylish chair perfect for any modern home',
+        itemTags={['Premium', 'Fast Shipping']},
+      }}
       itemPriceCurrency='$'
-      itemRating={4.7}
-      itemReviewsCount={156}
-      itemDescription='A comfortable and stylish chair perfect for any modern home'
-      itemTags={['Premium', 'Fast Shipping']}
       onAddToCart={(e) => console.log('Added to cart', e)}
       onAddToWishlist={(e) => console.log('Added to wishlist', e)}
     >
@@ -137,15 +144,17 @@ import ProductCard from '@/components/product-card';
 function CompoundGridLayoutExample() {
   return (
     <ProductCard
-      itemId='compound-grid-chair'
-      itemVariationId='compound-grid-chair-variation'
-      itemName="Norman's Chair"
-      itemImageUrl='https://example.com/chair.jpg'
-      itemPrice='799'
+      product={{
+        itemId='compound-grid-chair',
+        itemVariationId='compound-grid-chair-variation',
+        itemName="Norman's Chair",
+        itemImageUrl='https://example.com/chair.jpg',
+        itemPrice='799',
+        itemRating={4.8},
+        itemReviewsCount={203},
+        itemDescription='A comfortable and stylish chair perfect for any modern home',
+      }}
       itemPriceCurrency='$'
-      itemRating={4.8}
-      itemReviewsCount={203}
-      itemDescription='A comfortable and stylish chair perfect for any modern home'
       onAddToCart={(e) => console.log('Added to cart', e)}
       className='overflow-hidden max-w-md'
     >
@@ -175,11 +184,13 @@ import ProductCard from '@/components/product-card';
 function CompoundMinimalExample() {
   return (
     <ProductCard
-      itemId='compound-minimal-chair'
-      itemVariationId='compound-minimal-chair-variation'
-      itemName="Norman's Chair"
-      itemImageUrl='https://example.com/chair.jpg'
-      itemPrice='199'
+      product={{
+        itemId='compound-minimal-chair',
+        itemVariationId='compound-minimal-chair-variation',
+        itemName="Norman's Chair",
+        itemImageUrl='https://example.com/chair.jpg',
+        itemPrice='199',
+      }}
       itemPriceCurrency='$'
       onAddToCart={(e) => console.log('Added to cart', e)}
     >

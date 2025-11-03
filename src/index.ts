@@ -9,4 +9,3 @@ export { default as ProductCard } from './components/product-card';
 export type { ButtonVariants, ButtonOverrides, ButtonProps } from './components/button';
 export type { BadgeVariants, BadgeOverrides, BadgeProps } from './components/badge';
 export * from './types';
-export * from './types/product-card-types';

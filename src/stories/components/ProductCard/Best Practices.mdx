@@ -1,0 +1,127 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import * as ProductCardStories from './ProductCard.stories';
+
+<Meta of={ProductCardStories} />
+
+# Best Practices
+
+## Choosing the Right Pattern
+
+```tsx
+// ✅ Use default layout for standard cards
+<ProductCard {...props} />
+
+// ✅ Use compound components for custom layouts
+<ProductCard {...props}>
+  <ProductCard.ImageSection>
+    <ProductCard.WishlistButton />
+  </ProductCard.ImageSection>
+  <ProductCard.Content>
+    <ProductCard.PriceSection />
+    <ProductCard.TitleSection />
+  </ProductCard.Content>
+</ProductCard>
+
+// ✅ Use render props for complex custom logic
+<ProductCard {...props}>
+  {(renderProps) => <CompletelyCustomCard {...renderProps} />}
+</ProductCard>
+
+// ✅ Use component overrides for minor customizations
+<ProductCard
+  {...props}
+  componentOverrides={{
+    price: { reactNode: (props) => <CustomPrice {...props} /> }
+  }}
+/>
+```
+
+## Performance Optimization
+
+```tsx
+import ProductCard from '@/components/product-card';
+import { memo, useCallback } from 'react';
+
+const OptimizedProductCard = memo(ProductCard);
+
+function OptimizedExample({ product }) {
+  const handleAddToCart = useCallback(() => {
+    // Cart logic here
+  }, []);
+
+  const handleWishlistToggle = useCallback(() => {
+    // Wishlist logic here
+  }, []);
+
+  return (
+    <OptimizedProductCard
+      {...product}
+      onAddToCart={handleAddToCart}
+      onAddToWishlist={handleWishlistToggle}
+    />
+  );
+}
+```
+
+## Compound Component Best Practices
+
+```tsx
+// ✅ Good: Use semantic structure
+<ProductCard {...props}>
+  <ProductCard.ImageSection>
+    <ProductCard.WishlistButton />
+  </ProductCard.ImageSection>
+  <ProductCard.Content>
+    <ProductCard.PriceSection />
+    <ProductCard.TitleSection />
+    <ProductCard.DescriptionSection />
+  </ProductCard.Content>
+  <ProductCard.Footer>
+    <ProductCard.AddToCartButton />
+  </ProductCard.Footer>
+</ProductCard>
+
+// ❌ Avoid: Using compound components outside ProductCard context
+<div>
+  <ProductCard.PriceSection /> {/* This will throw an error */}
+</div>
+
+// ✅ Good: Conditional rendering with compound components
+<ProductCard {...props}>
+  <ProductCard.ImageSection>
+    <ProductCard.WishlistButton />
+  </ProductCard.ImageSection>
+  <ProductCard.Content>
+    <ProductCard.PriceSection />
+    <ProductCard.TitleSection />
+    {product.itemDescription && <ProductCard.DescriptionSection />}
+    {product.itemRating && <ProductCard.RatingSection />}
+  </ProductCard.Content>
+</ProductCard>
+```
+
+## Error Handling
+
+```tsx
+import ProductCard from '@/components/product-card';
+
+function ErrorHandlingExample({ product }) {
+  const handleAddToCart = async () => {
+    try {
+      await addToCartAPI(product.itemId);
+      console.log('Successfully added to cart');
+    } catch (error) {
+      console.error('Failed to add to cart:', error);
+      // Show error message to user
+    }
+  };
+
+  return (
+    <ProductCard
+      {...product}
+      onAddToCart={handleAddToCart}
+      itemImageUrl={product.itemImageUrl || '/placeholder-image.jpg'}
+    />
+  );
+}
+```

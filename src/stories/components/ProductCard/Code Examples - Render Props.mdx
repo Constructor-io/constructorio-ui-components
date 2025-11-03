@@ -1,0 +1,100 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import * as ProductCardStories from './ProductCard.stories';
+
+<Meta of={ProductCardStories}/>
+
+# `ProductCard` - Code Examples with Render Props 
+
+How to use the render props pattern to take full control of how `ProductCard` renders
+
+## Example - Using an Inline Render Props Function
+
+<Canvas of={ProductCardStories.CompleteCustomOverride} />
+
+```tsx
+import ProductCard from '@/components/product-card';
+
+function CustomOverrideExample() {
+  return (
+    <ProductCard
+      product={{
+        itemId="custom-chair",
+        itemVariationId="custom-chair-variation",
+        itemName="Norman's Chair",
+        itemImageUrl="https://example.com/chair.jpg",
+        itemPrice="599",
+      }}
+      itemPriceCurrency="$"
+    >
+      {(props) => (
+        <div className="custom-product-card">
+          <div className="custom-image-container">
+            <img src={props.product.itemImageUrl} alt={props.product.itemName} />
+          </div>
+          <div className="custom-content">
+            <h3>{props.product.itemName}</h3>
+            <p className="custom-price">
+              {props.itemPriceCurrency}{props.product.itemPrice}
+            </p>
+            <button onClick={(e) => props.onAddToCart && props.onAddToCart(e)}>
+              Custom Add to Cart
+            </button>
+          </div>
+        </div>
+      )}
+    </ProductCard>
+  );
+}
+```
+
+## Example - Using your own React Component
+
+<Canvas of={ProductCardStories.CompactListStyle} />
+
+```tsx
+import ProductCard from '@/components/product-card';
+
+function App() {
+  return (
+    <ProductCard {...args}>
+      <CompactListStyleCard />
+    </ProductCard>
+  )
+}
+
+function CompactListStyleCard(props) {
+  return (
+    <div className='flex items-center bg-white border border-gray-200 rounded-lg p-3 max-w-lg hover:bg-gray-50 transition-colors'>
+      <img
+        src={props.product.product.itemImageUrl}
+        alt={props.product.product.itemName}
+        className='w-16 h-16 object-cover rounded-lg mr-4'
+      />
+      <div className='flex-1'>
+        <h3 className='font-semibold text-gray-800'>{props.product.product.itemName}</h3>
+        <div className='flex items-center gap-2 mt-1'>
+          <div className='flex items-baseline gap-1'>
+            <span className='font-bold text-red-600'>
+              {props.itemPriceCurrency}
+              {props.product.product.itemSalePrice}
+            </span>
+            <span className='text-sm text-gray-400 line-through'>
+              {props.itemPriceCurrency}
+              {props.product.product.itemPrice}
+            </span>
+          </div>
+          <div className='flex items-center gap-1 text-xs'>
+            <span className='text-yellow-500'>⭐</span>
+            <span>{props.product.product.itemRating}</span>
+          </div>
+        </div>
+      </div>
+      <button
+        onClick={props.onAddToCart}
+        className='bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors ml-4 cursor-pointer'>
+        Add to Cart
+      </button>
+    </div>
+  );
+}
+```

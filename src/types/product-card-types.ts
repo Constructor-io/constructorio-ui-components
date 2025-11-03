@@ -1,33 +1,36 @@
-import { CardContentOverrides, CardFooterOverrides } from '@/components/card';
-import { ComponentOverrideProps, RenderPropsChildren } from '@/types';
+import { ComponentOverrideProps, IncludeRenderProps, RenderPropsChildren } from '@/types';
 
-export interface ProductCardProps extends Omit<React.ComponentProps<'div'>, 'children'> {
-  children?: RenderPropsChildren<ProductCardProps> | React.ReactNode;
+export interface Product {
   itemId: string;
   itemName: string;
   itemVariationId?: string;
   itemDescription?: string;
   itemImageUrl?: string;
   itemPrice?: string | number;
-  itemPriceCurrency?: string;
   itemSalePrice?: string | number;
   itemRating?: string | number;
   itemReviewsCount?: string | number;
   itemTags?: string[];
-  addToCartText?: string;
   itemSlCampaignId?: string;
   itemSlCampaignOwner?: string;
+}
+
+export interface ProductCardProps extends Omit<React.ComponentProps<'div'>, 'children'> {
+  product: Product;
+  itemPriceCurrency?: string;
+  addToCartText?: string;
   isInWishlist?: boolean;
   onAddToCart?: (e: React.MouseEvent) => void;
   onAddToWishlist?: (e: React.MouseEvent) => void;
   onItemClick?: () => void;
+  children?: RenderPropsChildren<ProductCardProps>;
   componentOverrides?: ProductCardOverrides;
 }
 
 export type ProductCardOverrides = ComponentOverrideProps<ProductCardProps> & {
   image?: ComponentOverrideProps<ProductCardProps>;
-  content?: CardContentOverrides;
-  footer?: CardFooterOverrides;
+  content?: ComponentOverrideProps<ProductCardProps>;
+  footer?: ComponentOverrideProps<ProductCardProps>;
   wishlistButton?: ComponentOverrideProps<ProductCardProps>;
   addToCartButton?: ComponentOverrideProps<ProductCardProps>;
   price?: ComponentOverrideProps<ProductCardProps>;
@@ -38,61 +41,48 @@ export type ProductCardOverrides = ComponentOverrideProps<ProductCardProps> & {
 };
 
 // Section component interfaces
-export interface WishlistButtonProps {
-  componentOverrides?: ComponentOverrideProps<ProductCardProps>;
+export interface WishlistButtonProps extends IncludeRenderProps<ProductCardProps> {
   onAddToWishlist?: (e: React.MouseEvent) => void;
   isInWishlist?: boolean;
   className?: string;
 }
 
-export interface PriceSectionProps {
-  componentOverrides?: ComponentOverrideProps<ProductCardProps>;
+export interface PriceSectionProps extends IncludeRenderProps<ProductCardProps> {
   itemPrice?: string | number;
   itemPriceCurrency?: string;
   itemSalePrice?: string | number;
-  children?: React.ReactNode;
   className?: string;
 }
 
-export interface RatingSectionProps {
-  componentOverrides?: ComponentOverrideProps<ProductCardProps>;
+export interface RatingSectionProps extends IncludeRenderProps<ProductCardProps> {
   itemRating?: string | number;
   itemReviewsCount?: string | number;
-  children?: React.ReactNode;
   className?: string;
 }
 
-export interface TagsSectionProps {
-  componentOverrides?: ComponentOverrideProps<ProductCardProps>;
+export interface TagsSectionProps extends IncludeRenderProps<ProductCardProps> {
   itemTags?: string[];
-  children?: React.ReactNode;
   className?: string;
 }
 
 export interface ImageSectionProps {
-  componentOverrides?: ComponentOverrideProps<ProductCardProps>;
   itemImageUrl?: string;
   itemName?: string;
   children?: React.ReactNode;
   className?: string;
 }
 
-export interface TitleSectionProps {
-  componentOverrides?: ComponentOverrideProps<ProductCardProps>;
+export interface TitleSectionProps extends IncludeRenderProps<ProductCardProps> {
   itemName?: string;
-  children?: React.ReactNode;
   className?: string;
 }
 
-export interface DescriptionSectionProps {
-  componentOverrides?: ComponentOverrideProps<ProductCardProps>;
+export interface DescriptionSectionProps extends IncludeRenderProps<ProductCardProps> {
   itemDescription?: string;
-  children?: React.ReactNode;
   className?: string;
 }
 
-export interface AddToCartButtonProps {
-  componentOverrides?: ComponentOverrideProps<ProductCardProps>;
+export interface AddToCartButtonProps extends IncludeRenderProps<ProductCardProps> {
   onAddToCart?: (e: React.MouseEvent) => void;
   addToCartText?: string;
   className?: string;

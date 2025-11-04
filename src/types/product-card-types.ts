@@ -1,28 +1,28 @@
 import { ComponentOverrideProps, IncludeRenderProps, RenderPropsChildren } from '@/types';
 
 export interface Product {
-  itemId: string;
-  itemName: string;
-  itemVariationId?: string;
-  itemDescription?: string;
-  itemImageUrl?: string;
-  itemPrice?: string | number;
-  itemSalePrice?: string | number;
-  itemRating?: string | number;
-  itemReviewsCount?: string | number;
-  itemTags?: string[];
-  itemSlCampaignId?: string;
-  itemSlCampaignOwner?: string;
+  id: string;
+  name: string;
+  variationId?: string;
+  description?: string;
+  imageUrl?: string;
+  price?: string | number;
+  salePrice?: string | number;
+  rating?: string | number;
+  reviewsCount?: string | number;
+  tags?: string[];
+  slCampaignId?: string;
+  slCampaignOwner?: string;
 }
 
 export interface ProductCardProps extends Omit<React.ComponentProps<'div'>, 'children'> {
   product: Product;
-  itemPriceCurrency?: string;
+  priceCurrency?: string;
   addToCartText?: string;
   isInWishlist?: boolean;
   onAddToCart?: (e: React.MouseEvent) => void;
   onAddToWishlist?: (e: React.MouseEvent) => void;
-  onItemClick?: () => void;
+  onProductClick?: () => void;
   children?: RenderPropsChildren<ProductCardProps>;
   componentOverrides?: ProductCardOverrides;
 }
@@ -48,37 +48,37 @@ export interface WishlistButtonProps extends IncludeRenderProps<ProductCardProps
 }
 
 export interface PriceSectionProps extends IncludeRenderProps<ProductCardProps> {
-  itemPrice?: string | number;
-  itemPriceCurrency?: string;
-  itemSalePrice?: string | number;
+  price?: string | number;
+  priceCurrency?: string;
+  salePrice?: string | number;
   className?: string;
 }
 
 export interface RatingSectionProps extends IncludeRenderProps<ProductCardProps> {
-  itemRating?: string | number;
-  itemReviewsCount?: string | number;
+  rating?: string | number;
+  reviewsCount?: string | number;
   className?: string;
 }
 
 export interface TagsSectionProps extends IncludeRenderProps<ProductCardProps> {
-  itemTags?: string[];
+  tags?: string[];
   className?: string;
 }
 
 export interface ImageSectionProps {
-  itemImageUrl?: string;
-  itemName?: string;
+  imageUrl?: string;
+  name?: string;
   children?: React.ReactNode;
   className?: string;
 }
 
 export interface TitleSectionProps extends IncludeRenderProps<ProductCardProps> {
-  itemName?: string;
+  name?: string;
   className?: string;
 }
 
 export interface DescriptionSectionProps extends IncludeRenderProps<ProductCardProps> {
-  itemDescription?: string;
+  description?: string;
   className?: string;
 }
 

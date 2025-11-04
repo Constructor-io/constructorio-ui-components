@@ -5,27 +5,27 @@ import ProductCard from '../../../src/components/product-card';
 
 const mockProductData = {
   product: {
-    itemId: 'test-product-1',
-    itemName: 'Test Product',
-    itemDescription: 'A great test product',
-    itemImageUrl: 'https://example.com/image.jpg',
-    itemPrice: '99.99',
-    itemSalePrice: '79.99' as string | undefined,
-    itemRating: '4.5',
-    itemReviewsCount: '150',
-    itemTags: ['Popular', 'Sale'],
-    itemVariationId: 'variation-1',
-    itemSlCampaignId: 'campaign-1',
-    itemSlCampaignOwner: 'owner-1',
+    id: 'test-product-1',
+    name: 'Test Product',
+    description: 'A great test product',
+    imageUrl: 'https://example.com/image.jpg',
+    price: '99.99',
+    salePrice: '79.99' as string | undefined,
+    rating: '4.5',
+    reviewsCount: '150',
+    tags: ['Popular', 'Sale'],
+    variationId: 'variation-1',
+    slCampaignId: 'campaign-1',
+    slCampaignOwner: 'owner-1',
   },
-  itemPriceCurrency: '$',
+  priceCurrency: '$',
   addToCartText: 'Add to Cart',
   isInWishlist: false,
 };
 
-const mockBasicItem = {
-  itemId: mockProductData.product.itemId,
-  itemName: mockProductData.product.itemName,
+const mockBasicProduct = {
+  id: mockProductData.product.id,
+  name: mockProductData.product.name,
 };
 
 describe('ProductCard component', () => {
@@ -35,16 +35,16 @@ describe('ProductCard component', () => {
 
   describe('Basic Rendering', () => {
     test('renders product card with required props', () => {
-      render(<ProductCard product={mockBasicItem} />);
+      render(<ProductCard product={mockBasicProduct} />);
 
-      expect(screen.getByText(mockProductData.product.itemName)).toBeInTheDocument();
+      expect(screen.getByText(mockProductData.product.name)).toBeInTheDocument();
     });
 
     test('renders product card with all props', () => {
       render(<ProductCard {...mockProductData} onAddToCart={vi.fn()} />);
 
-      expect(screen.getByText(mockProductData.product.itemName)).toBeInTheDocument();
-      expect(screen.getByText(mockProductData.product.itemDescription)).toBeInTheDocument();
+      expect(screen.getByText(mockProductData.product.name)).toBeInTheDocument();
+      expect(screen.getByText(mockProductData.product.description)).toBeInTheDocument();
       expect(screen.getByText('$ 79.99')).toBeInTheDocument();
       expect(screen.getByText('$ 99.99')).toBeInTheDocument();
       expect(screen.getByText('⭐ 4.5')).toBeInTheDocument();
@@ -57,9 +57,9 @@ describe('ProductCard component', () => {
     test('renders product image with correct alt text', () => {
       render(<ProductCard {...mockProductData} />);
 
-      const image = screen.getByAltText(mockProductData.product.itemName);
+      const image = screen.getByAltText(mockProductData.product.name);
       expect(image).toBeInTheDocument();
-      expect(image).toHaveAttribute('src', mockProductData.product.itemImageUrl);
+      expect(image).toHaveAttribute('src', mockProductData.product.imageUrl);
     });
 
     test('applies custom className', () => {
@@ -92,26 +92,26 @@ describe('ProductCard component', () => {
       expect(mockOnAddToWishlist).toHaveBeenCalledWith(expect.any(Object));
     });
 
-    test('calls onItemClick when product card is clicked', () => {
-      const mockOnItemClick = vi.fn();
+    test('calls onProductClick when product card is clicked', () => {
+      const mockOnProductClick = vi.fn();
       render(
         <ProductCard
           {...mockProductData}
-          onItemClick={mockOnItemClick}
+          onProductClick={mockOnProductClick}
           data-testid='product-card'
         />,
       );
       fireEvent.click(screen.getByTestId('product-card'));
-      expect(mockOnItemClick).toHaveBeenCalledTimes(1);
+      expect(mockOnProductClick).toHaveBeenCalledTimes(1);
     });
 
     test('does not render add to cart button when onAddToCart is not provided', () => {
-      render(<ProductCard product={mockBasicItem} />);
+      render(<ProductCard product={mockBasicProduct} />);
       expect(screen.queryByText('Add to Cart')).not.toBeInTheDocument();
     });
 
     test('does not render wishlist button when onAddToWishlist is not provided', () => {
-      render(<ProductCard product={mockBasicItem} />);
+      render(<ProductCard product={mockBasicProduct} />);
       expect(screen.queryByRole('button', { name: /add to wishlist/i })).not.toBeInTheDocument();
     });
   });
@@ -120,27 +120,25 @@ describe('ProductCard component', () => {
     test('spreads Constructor.io tracking data attributes', () => {
       render(<ProductCard {...mockProductData} data-testid='product-card' />);
       const productCard = screen.getByTestId('product-card');
-      expect(productCard.dataset.cnstrcItemId).toBe(mockProductData.product.itemId);
-      expect(productCard.dataset.cnstrcItemVariationId).toBe(
-        mockProductData.product.itemVariationId,
-      );
-      expect(productCard.dataset.cnstrcItemName).toBe(mockProductData.product.itemName);
-      expect(productCard.dataset.cnstrcItemPrice).toBe(mockProductData.product.itemSalePrice);
-      expect(productCard.dataset.cnstrcSlCampaignId).toBe(mockProductData.product.itemSlCampaignId);
+      expect(productCard.dataset.cnstrcItemId).toBe(mockProductData.product.id);
+      expect(productCard.dataset.cnstrcItemVariationId).toBe(mockProductData.product.variationId);
+      expect(productCard.dataset.cnstrcItemName).toBe(mockProductData.product.name);
+      expect(productCard.dataset.cnstrcItemPrice).toBe(mockProductData.product.salePrice);
+      expect(productCard.dataset.cnstrcSlCampaignId).toBe(mockProductData.product.slCampaignId);
       expect(productCard.dataset.cnstrcSlCampaignOwner).toBe(
-        mockProductData.product.itemSlCampaignOwner,
+        mockProductData.product.slCampaignOwner,
       );
     });
 
     test('uses regular price when sale price is not provided', () => {
       const productWithoutSale = structuredClone(mockProductData);
-      productWithoutSale.product.itemSalePrice = undefined;
+      productWithoutSale.product.salePrice = undefined;
 
       render(<ProductCard {...productWithoutSale} data-testid='product-card' />);
 
       const productCard = screen.getByTestId('product-card');
 
-      expect(productCard.dataset.cnstrcItemPrice).toBe(mockProductData.product.itemPrice);
+      expect(productCard.dataset.cnstrcItemPrice).toBe(mockProductData.product.price);
     });
   });
 
@@ -163,9 +161,9 @@ describe('ProductCard component', () => {
           </ProductCard.Footer>
         </ProductCard>,
       );
-      expect(screen.getByText(mockProductData.product.itemName)).toBeInTheDocument();
+      expect(screen.getByText(mockProductData.product.name)).toBeInTheDocument();
       expect(screen.getByText('$ 79.99')).toBeInTheDocument();
-      expect(screen.getByText(mockProductData.product.itemDescription)).toBeInTheDocument();
+      expect(screen.getByText(mockProductData.product.description)).toBeInTheDocument();
       expect(screen.getByText('⭐ 4.5')).toBeInTheDocument();
       expect(screen.getByText('Add to Cart')).toBeInTheDocument();
       expect(screen.getByText('Popular')).toBeInTheDocument();
@@ -175,8 +173,8 @@ describe('ProductCard component', () => {
       render(
         <ProductCard {...mockProductData}>
           <ProductCard.Content>
-            <ProductCard.TitleSection itemName='Custom Title' />
-            <ProductCard.PriceSection itemPriceCurrency='€' />
+            <ProductCard.TitleSection name='Custom Title' />
+            <ProductCard.PriceSection priceCurrency='€' />
           </ProductCard.Content>
         </ProductCard>,
       );
@@ -192,7 +190,7 @@ describe('ProductCard component', () => {
           </ProductCard.Content>
         </ProductCard>,
       );
-      const titleElement = screen.getByText(mockProductData.product.itemName);
+      const titleElement = screen.getByText(mockProductData.product.name);
       expect(titleElement).toHaveClass('custom-title');
     });
   });
@@ -210,7 +208,7 @@ describe('ProductCard component', () => {
       const customCard = screen.getByText('Custom Product Card');
       expect(customCard).toBeInTheDocument();
       expect(customCard).toHaveClass('custom-product-card');
-      expect(screen.queryByText(mockProductData.product.itemName)).not.toBeInTheDocument();
+      expect(screen.queryByText(mockProductData.product.name)).not.toBeInTheDocument();
     });
 
     test('renders component override for title section', () => {
@@ -256,10 +254,10 @@ describe('ProductCard component', () => {
           {(renderProps) => (
             <div>
               <h3>Custom Layout</h3>
-              <p>Product: {renderProps.product.itemName}</p>
+              <p>Product: {renderProps.product.name}</p>
               <p>
-                Price: {renderProps.itemPriceCurrency}
-                {renderProps.product.itemSalePrice || renderProps.product.itemPrice}
+                Price: {renderProps.priceCurrency}
+                {renderProps.product.salePrice || renderProps.product.price}
               </p>
             </div>
           )}
@@ -282,35 +280,35 @@ describe('ProductCard component', () => {
 
   describe('Conditional Rendering', () => {
     test('does not render footer when no add to cart or tags', () => {
-      render(<ProductCard product={mockBasicItem} />);
+      render(<ProductCard product={mockBasicProduct} />);
 
-      // Footer should not be rendered when no onAddToCart and no itemTags
+      // Footer should not be rendered when no onAddToCart and no tags
       expect(screen.queryByText('Add to Cart')).not.toBeInTheDocument();
     });
 
     test('renders footer when tags are provided', () => {
-      render(<ProductCard product={{ ...mockBasicItem, itemTags: ['Tag1', 'Tag2'] }} />);
+      render(<ProductCard product={{ ...mockBasicProduct, tags: ['Tag1', 'Tag2'] }} />);
 
       expect(screen.getByText('Tag1')).toBeInTheDocument();
       expect(screen.getByText('Tag2')).toBeInTheDocument();
     });
 
     test('does not render rating section when no rating or reviews', () => {
-      render(<ProductCard product={mockBasicItem} />);
+      render(<ProductCard product={mockBasicProduct} />);
 
       expect(screen.queryByText(/⭐/)).not.toBeInTheDocument();
       expect(screen.queryByText(/reviews/)).not.toBeInTheDocument();
     });
 
     test('renders only rating when reviews count is not provided', () => {
-      render(<ProductCard product={{ ...mockBasicItem, itemRating: '4.0' }} />);
+      render(<ProductCard product={{ ...mockBasicProduct, rating: '4.0' }} />);
 
       expect(screen.getByText('⭐ 4.0')).toBeInTheDocument();
       expect(screen.queryByText(/reviews/)).not.toBeInTheDocument();
     });
 
     test('renders only reviews when rating is not provided', () => {
-      render(<ProductCard product={{ ...mockBasicItem, itemReviewsCount: '25' }} />);
+      render(<ProductCard product={{ ...mockBasicProduct, reviewsCount: '25' }} />);
 
       expect(screen.getByText('25 reviews')).toBeInTheDocument();
       expect(screen.queryByText(/⭐/)).not.toBeInTheDocument();
@@ -353,7 +351,7 @@ describe('ProductCard component', () => {
 
     test('shows only regular price when no sale price', () => {
       const productWithoutSale = structuredClone(mockProductData);
-      productWithoutSale.product.itemSalePrice = undefined;
+      productWithoutSale.product.salePrice = undefined;
 
       render(<ProductCard {...productWithoutSale} />);
 
@@ -362,7 +360,7 @@ describe('ProductCard component', () => {
     });
 
     test('uses custom currency', () => {
-      render(<ProductCard {...mockProductData} itemPriceCurrency='€' />);
+      render(<ProductCard {...mockProductData} priceCurrency='€' />);
 
       expect(screen.getByText('€ 79.99')).toBeInTheDocument();
       expect(screen.getByText('€ 99.99')).toBeInTheDocument();

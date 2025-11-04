@@ -6,8 +6,8 @@ export const CompleteCustomOverrideCard: React.FC<ProductCardProps> = (props) =>
   <div className='bg-gradient-to-br from-purple-50 to-blue-50 p-6 rounded-3xl shadow-xl max-w-sm'>
     <div className='relative mb-4'>
       <img
-        src={props.product.itemImageUrl}
-        alt={props.product.itemName}
+        src={props.product.imageUrl}
+        alt={props.product.name}
         className='w-full h-48 object-cover rounded-2xl'
       />
       <div className='absolute top-3 right-3 bg-red-500 text-white px-2 py-1 rounded-full text-xs font-bold'>
@@ -16,31 +16,31 @@ export const CompleteCustomOverrideCard: React.FC<ProductCardProps> = (props) =>
     </div>
 
     <div className='space-y-3'>
-      <h3 className='text-xl font-bold text-gray-800'>{props.product.itemName}</h3>
+      <h3 className='text-xl font-bold text-gray-800'>{props.product.name}</h3>
 
       <div className='flex items-center justify-between'>
         <div className='flex items-baseline gap-2'>
           <span className='text-2xl font-bold text-purple-600'>
-            {props.itemPriceCurrency}
-            {props.product.itemSalePrice}
+            {props.priceCurrency}
+            {props.product.salePrice}
           </span>
           <span className='text-sm text-gray-400 line-through'>
-            {props.itemPriceCurrency}
-            {props.product.itemPrice}
+            {props.priceCurrency}
+            {props.product.price}
           </span>
         </div>
 
         <div className='flex items-center gap-1 text-yellow-500'>
           <span>⭐</span>
-          <span className='text-sm font-medium'>{props.product.itemRating}</span>
-          <span className='text-xs text-gray-500'>({props.product.itemReviewsCount})</span>
+          <span className='text-sm font-medium'>{props.product.rating}</span>
+          <span className='text-xs text-gray-500'>({props.product.reviewsCount})</span>
         </div>
       </div>
 
-      <p className='text-gray-600 text-sm'>{props.product.itemDescription}</p>
+      <p className='text-gray-600 text-sm'>{props.product.description}</p>
 
       <div className='flex gap-2 flex-wrap'>
-        {props.product.itemTags?.map((tag) => (
+        {props.product.tags?.map((tag) => (
           <span key={tag} className='bg-purple-100 text-purple-700 px-2 py-1 rounded-full text-xs'>
             {tag}
           </span>
@@ -67,26 +67,26 @@ export const CompleteCustomOverrideCard: React.FC<ProductCardProps> = (props) =>
 export const CompactListStyleCard: React.FC<ProductCardProps> = (props) => (
   <div className='flex items-center bg-white border border-gray-200 rounded-lg p-3 max-w-lg hover:bg-gray-50 transition-colors'>
     <img
-      src={props.product.itemImageUrl}
-      alt={props.product.itemName}
+      src={props.product.imageUrl}
+      alt={props.product.name}
       className='w-16 h-16 object-cover rounded-lg mr-4'
     />
     <div className='flex-1'>
-      <h3 className='font-semibold text-gray-800'>{props.product.itemName}</h3>
+      <h3 className='font-semibold text-gray-800'>{props.product.name}</h3>
       <div className='flex items-center gap-2 mt-1'>
         <div className='flex items-baseline gap-1'>
           <span className='font-bold text-red-600'>
-            {props.itemPriceCurrency}
-            {props.product.itemSalePrice}
+            {props.priceCurrency}
+            {props.product.salePrice}
           </span>
           <span className='text-sm text-gray-400 line-through'>
-            {props.itemPriceCurrency}
-            {props.product.itemPrice}
+            {props.priceCurrency}
+            {props.product.price}
           </span>
         </div>
         <div className='flex items-center gap-1 text-xs'>
           <span className='text-yellow-500'>⭐</span>
-          <span>{props.product.itemRating}</span>
+          <span>{props.product.rating}</span>
         </div>
       </div>
     </div>

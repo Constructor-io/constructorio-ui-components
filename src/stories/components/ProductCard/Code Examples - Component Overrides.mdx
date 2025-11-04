@@ -19,7 +19,7 @@ const priceOverride = {
   reactNode: (props) => (
     <div className='bg-green-100 p-2 rounded border-l-4 border-green-500'>
       <span className='text-green-800 font-bold text-lg'>
-        Special: {props.itemPriceCurrency}{props.product.itemPrice}
+        Special: {props.priceCurrency}{props.product.price}
       </span>
     </div>
   ),
@@ -29,16 +29,16 @@ function CustomPriceSectionExample() {
   return (
     <ProductCard
       product={{
-        itemId="custom-price-chair",
-        itemVariationId="custom-price-chair-variation",
-        itemName="Norman's Chair",
-        itemImageUrl="https://example.com/chair.jpg",
-        itemPrice="599",
-        itemRating={4.8},
-        itemReviewsCount={156},
-        itemDescription="A comfortable and stylish chair perfect for any modern home",
+        id="custom-price-chair",
+        variationId="custom-price-chair-variation",
+        name="Norman's Chair",
+        imageUrl="https://example.com/chair.jpg",
+        price="599",
+        rating={4.8},
+        reviewsCount={156},
+        description="A comfortable and stylish chair perfect for any modern home",
       }}
-      itemPriceCurrency="$"
+      priceCurrency="$"
       onAddToCart={(e) => console.log('Added to cart', e)}
       componentOverrides={{
         price: priceOverride,
@@ -58,7 +58,7 @@ import ProductCard from '@/components/product-card';
 const titleOverride = {
   reactNode: (props) => (
     <h3 className='text-xl font-bold text-purple-600 underline'>
-      {props.product.itemName}
+      {props.product.name}
     </h3>
   ),
 };
@@ -67,16 +67,16 @@ function CustomTitleSectionExample() {
   return (
     <ProductCard
       product={{
-        itemId="custom-title-chair",
-        itemVariationId="custom-title-chair-variation",
-        itemName="Norman's Chair",
-        itemImageUrl="https://example.com/chair.jpg",
-        itemPrice="449",
-        itemRating={4.5},
-        itemReviewsCount={89},
-        itemDescription="A comfortable and stylish chair perfect for any modern home",
+        id="custom-title-chair",
+        variationId="custom-title-chair-variation",
+        name="Norman's Chair",
+        imageUrl="https://example.com/chair.jpg",
+        price="449",
+        rating={4.5},
+        reviewsCount={89},
+        description="A comfortable and stylish chair perfect for any modern home",
       }}
-      itemPriceCurrency="$"
+      priceCurrency="$"
       onAddToCart={(e) => console.log('Added to cart', e)}
       componentOverrides={{
         title: titleOverride,
@@ -108,16 +108,16 @@ function CustomAddToCartButtonExample() {
   return (
     <ProductCard
       product={{
-        itemId="custom-button-chair",
-        itemVariationId="custom-button-chair-variation",
-        itemName="Norman's Chair",
-        itemImageUrl="https://example.com/chair.jpg",
-        itemPrice="399",
-        itemRating={4.3},
-        itemReviewsCount={67},
-        itemDescription="A comfortable and stylish chair perfect for any modern home",
+        id="custom-button-chair",
+        variationId="custom-button-chair-variation",
+        name="Norman's Chair",
+        imageUrl="https://example.com/chair.jpg",
+        price="399",
+        rating={4.3},
+        reviewsCount={67},
+        description="A comfortable and stylish chair perfect for any modern home",
       }}
-      itemPriceCurrency="$"
+      priceCurrency="$"
       onAddToCart={(e) => console.log('Added to cart', e)}
       componentOverrides={{
         addToCartButton: addToCartButtonOverride,
@@ -149,16 +149,16 @@ function CustomWishlistButtonExample() {
   return (
     <ProductCard
       product={{
-        itemId="custom-wishlist-chair",
-        itemVariationId="custom-wishlist-chair-variation",
-        itemName="Norman's Chair",
-        itemImageUrl="https://example.com/chair.jpg",
-        itemPrice="529",
-        itemPriceCurrency="$",
-        itemRating={4.7},
-        itemReviewsCount={123},
-        itemDescription="A comfortable and stylish chair perfect for any modern home",
+        id="custom-wishlist-chair",
+        variationId="custom-wishlist-chair-variation",
+        name="Norman's Chair",
+        imageUrl="https://example.com/chair.jpg",
+        price="529",
+        rating={4.7},
+        reviewsCount={123},
+        description="A comfortable and stylish chair perfect for any modern home",
       }}
+      priceCurrency="$"
       onAddToCart={(e) => console.log('Added to cart', e)}
       onAddToWishlist={(e) => console.log('Added to wishlist', e)}
       componentOverrides={{
@@ -182,16 +182,15 @@ function MultipleOverridesExample() {
   return (
     <ProductCard
       product={{
-        itemId="multiple-custom-chair",
-        itemVariationId="multiple-custom-chair-variation",
-        itemName="Norman's Chair",
-        itemImageUrl="https://example.com/chair.jpg",
-        itemPrice="799",
-        itemPriceCurrency="$",
-        itemRating={4.9},
-        itemReviewsCount={234},
+        id="multiple-custom-chair",
+        variationId="multiple-custom-chair-variation",
+        name="Norman's Chair",
+        imageUrl="https://example.com/chair.jpg",
+        price="799",
+        rating={4.9},
+        reviewsCount={234},
       }}
-      
+      priceCurrency="$"
       onAddToCart={(e) => console.log('Added to cart', e)}
       onAddToWishlist={(e) => console.log('Added to wishlist', e)}
       componentOverrides={{

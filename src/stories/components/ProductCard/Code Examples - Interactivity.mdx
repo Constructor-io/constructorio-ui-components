@@ -23,11 +23,11 @@ function AddToCartExample() {
   return (
     <ProductCard
       product={{
-        itemId="norman-chair-cart",
-        itemVariationId="norman-chair-cart-variation",
-        itemName="Norman's Chair",
-        itemImageUrl="https://example.com/chair.jpg",
-        itemPrice="299",
+        id="norman-chair-cart",
+        variationId="norman-chair-cart-variation",
+        name="Norman's Chair",
+        imageUrl="https://example.com/chair.jpg",
+        price="299",
       }}
       onAddToCart={handleAddToCart}
     />
@@ -51,11 +51,11 @@ function WishlistExample() {
   return (
     <ProductCard
       product={{
-        itemId="norman-chair-wishlist",
-        itemVariationId="norman-chair-wishlist-variation",
-        itemName="Norman's Chair",
-        itemImageUrl="https://example.com/chair.jpg",
-        itemPrice="299",
+        id="norman-chair-wishlist",
+        variationId="norman-chair-wishlist-variation",
+        name="Norman's Chair",
+        imageUrl="https://example.com/chair.jpg",
+        price="299",
       }}
       onAddToWishlist={handleAddToWishlist}
     />
@@ -79,11 +79,11 @@ function CustomAddToCartTextExample() {
   return (
     <ProductCard
       product={{
-        itemId="norman-chair-custom-text",
-        itemVariationId="norman-chair-custom-text-variation",
-        itemName="Norman's Chair",
-        itemImageUrl="https://example.com/chair.jpg",
-        itemPrice="299",
+        id="norman-chair-custom-text",
+        variationId="norman-chair-custom-text-variation",
+        name="Norman's Chair",
+        imageUrl="https://example.com/chair.jpg",
+        price="299",
       }}
       onAddToCart={handleAddToCart}
       addToCartText="Buy Now"
@@ -101,21 +101,21 @@ import { useRouter } from 'next/router';
 function ClickableExample() {
   const router = useRouter();
 
-  const handleItemClick = () => {
+  const handleProductClick = () => {
     router.push('/products/norman-chair');
   };
 
   return (
     <ProductCard
       product={{
-        itemId="clickable-chair",
-        itemVariationId="clickable-chair-variation",
-        itemName="Norman's Chair",
-        itemImageUrl="https://example.com/chair.jpg",
-        itemPrice="299",
+        id="clickable-chair",
+        variationId="clickable-chair-variation",
+        name="Norman's Chair",
+        imageUrl="https://example.com/chair.jpg",
+        price="299",
       }}
-      itemPriceCurrency="$"
-      onItemClick={handleItemClick}
+      priceCurrency="$"
+      onProductClick={handleProductClick}
     />
   );
 }
@@ -132,16 +132,16 @@ function CustomCurrencyExample() {
   return (
     <ProductCard
       product={{
-        itemId="designer-lamp-eu",
-        itemVariationId="designer-lamp-eu-variation",
-        itemName="Norman's Chair",
-        itemImageUrl="https://example.com/chair.jpg",
-        itemPrice="150",
-        itemSalePrice="120",
-        itemRating={4.5},
-        itemReviewsCount={89},
+        id="designer-lamp-eu",
+        variationId="designer-lamp-eu-variation",
+        name="Norman's Chair",
+        imageUrl="https://example.com/chair.jpg",
+        price="150",
+        salePrice="120",
+        rating={4.5},
+        reviewsCount={89},
       }}
-      itemPriceCurrency="€"
+      priceCurrency="€"
       onAddToCart={(e) => console.log('Added to cart', e)}
       onAddToWishlist={(e) => console.log('Added to wishlist', e)}
     />
@@ -160,16 +160,16 @@ function InWishlistExample() {
   return (
     <ProductCard
       product={{
-        itemId="wishlist-chair",
-        itemVariationId="wishlist-chair-variation",
-        itemName="Norman's Chair",
-        itemImageUrl="https://example.com/chair.jpg",
-        itemDescription="A comfortable and stylish chair perfect for any modern home",
-        itemPrice="399",
-        itemRating={4.5},
-        itemReviewsCount={156},
+        id="wishlist-chair",
+        variationId="wishlist-chair-variation",
+        name="Norman's Chair",
+        imageUrl="https://example.com/chair.jpg",
+        description="A comfortable and stylish chair perfect for any modern home",
+        price="399",
+        rating={4.5},
+        reviewsCount={156},
       }}
-      itemPriceCurrency="$"
+      priceCurrency="$"
       isInWishlist={true}
       onAddToWishlist={(e) => console.log('Removed from wishlist', e)}
       onAddToCart={(e) => console.log('Added to cart', e)}

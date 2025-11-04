@@ -15,20 +15,20 @@ const meta = {
   },
   tags: ['autodocs'],
   argTypes: {
-    itemId: { control: 'text' },
-    itemName: { control: 'text' },
-    itemVariationId: { control: 'text' },
-    itemDescription: { control: 'text' },
-    itemImageUrl: { control: 'text' },
-    itemPrice: { control: 'text' },
-    itemPriceCurrency: { control: 'text' },
-    itemSalePrice: { control: 'text' },
-    itemRating: { control: 'number' },
-    itemReviewsCount: { control: 'number' },
+    id: { control: 'text' },
+    name: { control: 'text' },
+    variationId: { control: 'text' },
+    description: { control: 'text' },
+    imageUrl: { control: 'text' },
+    price: { control: 'text' },
+    priceCurrency: { control: 'text' },
+    salePrice: { control: 'text' },
+    rating: { control: 'number' },
+    reviewsCount: { control: 'number' },
     addToCartText: { control: 'text' },
-    itemTags: { control: 'object' },
-    itemSlCampaignId: { control: 'text' },
-    itemSlCampaignOwner: { control: 'text' },
+    tags: { control: 'object' },
+    slCampaignId: { control: 'text' },
+    slCampaignOwner: { control: 'text' },
     isInWishlist: { control: 'boolean' },
   },
 } satisfies Meta<typeof ProductCard>;
@@ -40,10 +40,10 @@ type Story = StoryObj<ProductCardProps>;
 export const Basic: Story = {
   args: {
     product: {
-      itemId: 'norman-chair-basic',
-      itemVariationId: 'norman-chair-basic-variation',
-      itemName: "Norman's Chair",
-      itemImageUrl: DEMO_IMAGE_URL,
+      id: 'norman-chair-basic',
+      variationId: 'norman-chair-basic-variation',
+      name: "Norman's Chair",
+      imageUrl: DEMO_IMAGE_URL,
     },
   },
 };
@@ -52,13 +52,13 @@ export const Basic: Story = {
 export const WithPrice: Story = {
   args: {
     product: {
-      itemId: 'norman-chair-with-price',
-      itemVariationId: 'norman-chair-with-price-variation',
-      itemName: "Norman's Chair",
-      itemImageUrl: DEMO_IMAGE_URL,
-      itemPrice: '299',
+      id: 'norman-chair-with-price',
+      variationId: 'norman-chair-with-price-variation',
+      name: "Norman's Chair",
+      imageUrl: DEMO_IMAGE_URL,
+      price: '299',
     },
-    itemPriceCurrency: '$',
+    priceCurrency: '$',
   },
 };
 
@@ -66,14 +66,14 @@ export const WithPrice: Story = {
 export const WithSalePrice: Story = {
   args: {
     product: {
-      itemId: 'norman-chair-sale',
-      itemVariationId: 'norman-chair-sale-variation',
-      itemName: "Norman's Chair",
-      itemImageUrl: DEMO_IMAGE_URL,
-      itemPrice: '399',
-      itemSalePrice: '299',
+      id: 'norman-chair-sale',
+      variationId: 'norman-chair-sale-variation',
+      name: "Norman's Chair",
+      imageUrl: DEMO_IMAGE_URL,
+      price: '399',
+      salePrice: '299',
     },
-    itemPriceCurrency: '$',
+    priceCurrency: '$',
   },
 };
 
@@ -81,12 +81,12 @@ export const WithSalePrice: Story = {
 export const WithDescription: Story = {
   args: {
     product: {
-      itemId: 'norman-chair-description',
-      itemVariationId: 'norman-chair-description-variation',
-      itemName: "Norman's Chair",
-      itemImageUrl: DEMO_IMAGE_URL,
-      itemPrice: '299',
-      itemDescription: 'A comfortable and stylish chair perfect for any modern home',
+      id: 'norman-chair-description',
+      variationId: 'norman-chair-description-variation',
+      name: "Norman's Chair",
+      imageUrl: DEMO_IMAGE_URL,
+      price: '299',
+      description: 'A comfortable and stylish chair perfect for any modern home',
     },
   },
 };
@@ -95,13 +95,13 @@ export const WithDescription: Story = {
 export const WithRatingAndReviews: Story = {
   args: {
     product: {
-      itemId: 'norman-chair-reviews',
-      itemVariationId: 'norman-chair-reviews-variation',
-      itemName: "Norman's Chair",
-      itemImageUrl: DEMO_IMAGE_URL,
-      itemPrice: '299',
-      itemRating: 4.8,
-      itemReviewsCount: 2713,
+      id: 'norman-chair-reviews',
+      variationId: 'norman-chair-reviews-variation',
+      name: "Norman's Chair",
+      imageUrl: DEMO_IMAGE_URL,
+      price: '299',
+      rating: 4.8,
+      reviewsCount: 2713,
     },
   },
 };
@@ -110,11 +110,11 @@ export const WithRatingAndReviews: Story = {
 export const WithAddToCart: Story = {
   args: {
     product: {
-      itemId: 'norman-chair-cart',
-      itemVariationId: 'norman-chair-cart-variation',
-      itemName: "Norman's Chair",
-      itemImageUrl: DEMO_IMAGE_URL,
-      itemPrice: '299',
+      id: 'norman-chair-cart',
+      variationId: 'norman-chair-cart-variation',
+      name: "Norman's Chair",
+      imageUrl: DEMO_IMAGE_URL,
+      price: '299',
     },
     onAddToCart: (e) => console.log('Added to cart', e),
   },
@@ -127,11 +127,11 @@ export const WithAddToCart: Story = {
 export const WithWishlist: Story = {
   args: {
     product: {
-      itemId: 'norman-chair-wishlist',
-      itemVariationId: 'norman-chair-wishlist-variation',
-      itemName: "Norman's Chair",
-      itemImageUrl: DEMO_IMAGE_URL,
-      itemPrice: '299',
+      id: 'norman-chair-wishlist',
+      variationId: 'norman-chair-wishlist-variation',
+      name: "Norman's Chair",
+      imageUrl: DEMO_IMAGE_URL,
+      price: '299',
     },
     onAddToWishlist: (e) => console.log('Added to wishlist', e),
   },
@@ -144,12 +144,12 @@ export const WithWishlist: Story = {
 export const WithTags: Story = {
   args: {
     product: {
-      itemId: 'norman-chair-tags',
-      itemVariationId: 'norman-chair-tags-variation',
-      itemName: "Norman's Chair",
-      itemImageUrl: DEMO_IMAGE_URL,
-      itemPrice: '299',
-      itemTags: ['Same day delivery', 'Free shipping'],
+      id: 'norman-chair-tags',
+      variationId: 'norman-chair-tags-variation',
+      name: "Norman's Chair",
+      imageUrl: DEMO_IMAGE_URL,
+      price: '299',
+      tags: ['Same day delivery', 'Free shipping'],
     },
   },
 };
@@ -158,11 +158,11 @@ export const WithTags: Story = {
 export const CustomAddToCartText: Story = {
   args: {
     product: {
-      itemId: 'norman-chair-custom-text',
-      itemVariationId: 'norman-chair-custom-text-variation',
-      itemName: "Norman's Chair",
-      itemImageUrl: DEMO_IMAGE_URL,
-      itemPrice: '299',
+      id: 'norman-chair-custom-text',
+      variationId: 'norman-chair-custom-text-variation',
+      name: "Norman's Chair",
+      imageUrl: DEMO_IMAGE_URL,
+      price: '299',
     },
     onAddToCart: (e) => console.log('Added to cart', e),
     addToCartText: 'Buy Now',
@@ -176,23 +176,23 @@ export const CustomAddToCartText: Story = {
 export const CustomCurrency: Story = {
   args: {
     product: {
-      itemId: 'designer-lamp-eu',
-      itemVariationId: 'designer-lamp-eu-variation',
-      itemName: "Norman's Chair",
-      itemImageUrl: DEMO_IMAGE_URL,
-      itemPrice: '150',
-      itemSalePrice: '120',
-      itemRating: 4.5,
-      itemReviewsCount: 89,
+      id: 'designer-lamp-eu',
+      variationId: 'designer-lamp-eu-variation',
+      name: "Norman's Chair",
+      imageUrl: DEMO_IMAGE_URL,
+      price: '150',
+      salePrice: '120',
+      rating: 4.5,
+      reviewsCount: 89,
     },
-    itemPriceCurrency: '€',
+    priceCurrency: '€',
     onAddToCart: (e) => console.log('Added to cart', e),
     onAddToWishlist: (e) => console.log('Added to wishlist', e),
   },
   argTypes: {
     onAddToCart: { action: 'add to cart clicked' },
     onAddToWishlist: { action: 'add to wishlist clicked' },
-    onItemClick: { action: 'item clicked' },
+    onProductClick: { action: 'product clicked' },
   },
 };
 
@@ -200,44 +200,44 @@ export const CustomCurrency: Story = {
 export const FullyFeatured: Story = {
   args: {
     product: {
-      itemId: 'designer-office-chair',
-      itemVariationId: 'designer-office-chair-variation',
-      itemName: "Norman's Chair",
-      itemImageUrl: DEMO_IMAGE_URL,
-      itemDescription: 'A comfortable and stylish chair perfect for any modern home',
-      itemPrice: '899',
-      itemSalePrice: '699',
-      itemRating: 4.8,
-      itemReviewsCount: 2713,
-      itemTags: ['Same day delivery', 'Free assembly', '10-year warranty'],
+      id: 'designer-office-chair',
+      variationId: 'designer-office-chair-variation',
+      name: "Norman's Chair",
+      imageUrl: DEMO_IMAGE_URL,
+      description: 'A comfortable and stylish chair perfect for any modern home',
+      price: '899',
+      salePrice: '699',
+      rating: 4.8,
+      reviewsCount: 2713,
+      tags: ['Same day delivery', 'Free assembly', '10-year warranty'],
     },
-    itemPriceCurrency: '$',
+    priceCurrency: '$',
     onAddToCart: (e) => console.log('Added to cart', e),
     onAddToWishlist: (e) => console.log('Added to wishlist', e),
-    onItemClick: () => console.log('Product clicked'),
+    onProductClick: () => console.log('Product clicked'),
     addToCartText: 'Add to Cart',
   },
   argTypes: {
     onAddToCart: { action: 'add to cart clicked' },
     onAddToWishlist: { action: 'add to wishlist clicked' },
-    onItemClick: { action: 'item clicked' },
+    onProductClick: { action: 'product clicked' },
   },
 };
 
-// Card with item already in wishlist
+// Card with product already in wishlist
 export const InWishlist: Story = {
   args: {
     product: {
-      itemId: 'wishlist-chair',
-      itemVariationId: 'wishlist-chair-variation',
-      itemName: "Norman's Chair",
-      itemImageUrl: DEMO_IMAGE_URL,
-      itemDescription: 'A comfortable and stylish chair perfect for any modern home',
-      itemPrice: '399',
-      itemRating: 4.5,
-      itemReviewsCount: 156,
+      id: 'wishlist-chair',
+      variationId: 'wishlist-chair-variation',
+      name: "Norman's Chair",
+      imageUrl: DEMO_IMAGE_URL,
+      description: 'A comfortable and stylish chair perfect for any modern home',
+      price: '399',
+      rating: 4.5,
+      reviewsCount: 156,
     },
-    itemPriceCurrency: '$',
+    priceCurrency: '$',
     isInWishlist: true,
     onAddToWishlist: (e) => console.log('Removed from wishlist', e),
     onAddToCart: (e) => console.log('Added to cart', e),
@@ -256,13 +256,13 @@ export const InWishlist: Story = {
 export const CompoundBasic: Story = {
   args: {
     product: {
-      itemId: 'compound-basic-chair',
-      itemVariationId: 'compound-basic-chair-variation',
-      itemName: "Norman's Chair",
-      itemImageUrl: DEMO_IMAGE_URL,
-      itemPrice: '299',
+      id: 'compound-basic-chair',
+      variationId: 'compound-basic-chair-variation',
+      name: "Norman's Chair",
+      imageUrl: DEMO_IMAGE_URL,
+      price: '299',
     },
-    itemPriceCurrency: '$',
+    priceCurrency: '$',
     onAddToCart: (e) => console.log('Added to cart', e),
     onAddToWishlist: (e) => console.log('Added to wishlist', e),
   },
@@ -292,19 +292,19 @@ export const CompoundBasic: Story = {
 export const CompoundFullyFeatured: Story = {
   args: {
     product: {
-      itemId: 'compound-full-chair',
-      itemVariationId: 'compound-full-chair-variation',
-      itemName: "Norman's Chair",
-      itemImageUrl: DEMO_IMAGE_URL,
-      itemDescription: 'A comfortable and stylish chair perfect for any modern home',
-      itemPrice: '899',
-      itemSalePrice: '699',
-      itemRating: 4.8,
-      itemReviewsCount: 2713,
-      itemTags: ['Same day delivery', 'Free assembly', '10-year warranty'],
+      id: 'compound-full-chair',
+      variationId: 'compound-full-chair-variation',
+      name: "Norman's Chair",
+      imageUrl: DEMO_IMAGE_URL,
+      description: 'A comfortable and stylish chair perfect for any modern home',
+      price: '899',
+      salePrice: '699',
+      rating: 4.8,
+      reviewsCount: 2713,
+      tags: ['Same day delivery', 'Free assembly', '10-year warranty'],
     },
-    itemPriceCurrency: '$',
-    onItemClick: () => console.log('Product clicked'),
+    priceCurrency: '$',
+    onProductClick: () => console.log('Product clicked'),
     addToCartText: 'Add to Cart',
   },
   render: (args) => (
@@ -331,7 +331,7 @@ export const CompoundFullyFeatured: Story = {
   argTypes: {
     onAddToCart: { action: 'add to cart clicked' },
     onAddToWishlist: { action: 'add to wishlist clicked' },
-    onItemClick: { action: 'item clicked' },
+    onProductClick: { action: 'product clicked' },
   },
   // Hide from sidebar but keep available for Canvas
   tags: ['!dev'],
@@ -341,18 +341,18 @@ export const CompoundFullyFeatured: Story = {
 export const CompoundCustomLayout: Story = {
   args: {
     product: {
-      itemId: 'compound-custom-chair',
-      itemVariationId: 'compound-custom-chair-variation',
-      itemName: "Norman's Chair",
-      itemImageUrl: DEMO_IMAGE_URL,
-      itemPrice: '599',
-      itemSalePrice: '449',
-      itemRating: 4.7,
-      itemReviewsCount: 156,
-      itemDescription: 'A comfortable and stylish chair perfect for any modern home',
-      itemTags: ['Premium', 'Fast Shipping'],
+      id: 'compound-custom-chair',
+      variationId: 'compound-custom-chair-variation',
+      name: "Norman's Chair",
+      imageUrl: DEMO_IMAGE_URL,
+      price: '599',
+      salePrice: '449',
+      rating: 4.7,
+      reviewsCount: 156,
+      description: 'A comfortable and stylish chair perfect for any modern home',
+      tags: ['Premium', 'Fast Shipping'],
     },
-    itemPriceCurrency: '$',
+    priceCurrency: '$',
     onAddToCart: (e) => console.log('Added to cart', e),
     onAddToWishlist: (e) => console.log('Added to wishlist', e),
   },
@@ -387,16 +387,16 @@ export const CompoundCustomLayout: Story = {
 export const CompoundGridLayout: Story = {
   args: {
     product: {
-      itemId: 'compound-grid-chair',
-      itemVariationId: 'compound-grid-chair-variation',
-      itemName: "Norman's Chair",
-      itemImageUrl: DEMO_IMAGE_URL,
-      itemPrice: '799',
-      itemRating: 4.8,
-      itemReviewsCount: 203,
-      itemDescription: 'A comfortable and stylish chair perfect for any modern home',
+      id: 'compound-grid-chair',
+      variationId: 'compound-grid-chair-variation',
+      name: "Norman's Chair",
+      imageUrl: DEMO_IMAGE_URL,
+      price: '799',
+      rating: 4.8,
+      reviewsCount: 203,
+      description: 'A comfortable and stylish chair perfect for any modern home',
     },
-    itemPriceCurrency: '$',
+    priceCurrency: '$',
     onAddToCart: (e) => console.log('Added to cart', e),
     className: 'overflow-hidden max-w-md',
   },
@@ -426,13 +426,13 @@ export const CompoundGridLayout: Story = {
 export const CompoundMinimal: Story = {
   args: {
     product: {
-      itemId: 'compound-minimal-chair',
-      itemVariationId: 'compound-minimal-chair-variation',
-      itemName: "Norman's Chair",
-      itemImageUrl: DEMO_IMAGE_URL,
-      itemPrice: '199',
+      id: 'compound-minimal-chair',
+      variationId: 'compound-minimal-chair-variation',
+      name: "Norman's Chair",
+      imageUrl: DEMO_IMAGE_URL,
+      price: '199',
     },
-    itemPriceCurrency: '$',
+    priceCurrency: '$',
     onAddToCart: (e) => console.log('Added to cart', e),
   },
   render: (args) => (
@@ -461,18 +461,18 @@ export const CompoundMinimal: Story = {
 export const CompleteCustomOverride: Story = {
   args: {
     product: {
-      itemId: 'custom-override-chair',
-      itemVariationId: 'custom-override-chair-variation',
-      itemName: "Norman's Chair",
-      itemImageUrl: DEMO_IMAGE_URL,
-      itemPrice: '599',
-      itemSalePrice: '449',
-      itemRating: 4.7,
-      itemReviewsCount: 892,
-      itemDescription: 'A comfortable and stylish chair perfect for any modern home',
-      itemTags: ['Premium', 'Limited Edition'],
+      id: 'custom-override-chair',
+      variationId: 'custom-override-chair-variation',
+      name: "Norman's Chair",
+      imageUrl: DEMO_IMAGE_URL,
+      price: '599',
+      salePrice: '449',
+      rating: 4.7,
+      reviewsCount: 892,
+      description: 'A comfortable and stylish chair perfect for any modern home',
+      tags: ['Premium', 'Limited Edition'],
     },
-    itemPriceCurrency: '$',
+    priceCurrency: '$',
     onAddToCart: (e) => console.log('Added to cart', e),
     onAddToWishlist: (e) => console.log('Added to wishlist', e),
     children: (props: ProductCardProps) => <CompleteCustomOverrideCard {...props} />,
@@ -487,15 +487,15 @@ export const CompleteCustomOverride: Story = {
 export const CompactListStyle: Story = {
   args: {
     product: {
-      itemId: 'compact-list-chair',
-      itemName: "Norman's Chair",
-      itemImageUrl: DEMO_IMAGE_URL,
-      itemPrice: '249',
-      itemSalePrice: '199',
-      itemRating: 4.3,
-      itemReviewsCount: 156,
+      id: 'compact-list-chair',
+      name: "Norman's Chair",
+      imageUrl: DEMO_IMAGE_URL,
+      price: '249',
+      salePrice: '199',
+      rating: 4.3,
+      reviewsCount: 156,
     },
-    itemPriceCurrency: '$',
+    priceCurrency: '$',
     onAddToCart: (e) => console.log('Added to cart', e),
     children: (props: ProductCardProps) => <CompactListStyleCard {...props} />,
   },
@@ -515,29 +515,28 @@ const priceOverride = {
           </span>
           <div className='flex items-baseline gap-2 mt-1'>
             <span className='text-2xl font-bold text-emerald-800'>
-              {renderProps.itemPriceCurrency}
-              {renderProps.product.itemSalePrice || renderProps.product.itemPrice}
+              {renderProps.priceCurrency}
+              {renderProps.product.salePrice || renderProps.product.price}
             </span>
-            {renderProps.product.itemSalePrice && (
+            {renderProps.product.salePrice && (
               <span className='text-sm text-gray-500 line-through'>
-                {renderProps.itemPriceCurrency}
-                {renderProps.product.itemPrice}
+                {renderProps.priceCurrency}
+                {renderProps.product.price}
               </span>
             )}
           </div>
-          {renderProps.product.itemSalePrice && (
+          {renderProps.product.salePrice && (
             <span className='text-xs text-emerald-600 font-medium mt-1'>
-              Save {renderProps.itemPriceCurrency}
-              {Number(renderProps.product.itemPrice) - Number(renderProps.product.itemSalePrice)}
+              Save {renderProps.priceCurrency}
+              {Number(renderProps.product.price) - Number(renderProps.product.salePrice)}
             </span>
           )}
         </div>
         <div className='bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full text-xs font-bold'>
-          {renderProps.product.itemSalePrice
+          {renderProps.product.salePrice
             ? `${Math.round(
-                ((Number(renderProps.product.itemPrice) -
-                  Number(renderProps.product.itemSalePrice)) /
-                  Number(renderProps.product.itemPrice)) *
+                ((Number(renderProps.product.price) - Number(renderProps.product.salePrice)) /
+                  Number(renderProps.product.price)) *
                   100,
               )}% OFF`
             : 'Best Price'}
@@ -549,17 +548,17 @@ const priceOverride = {
 
 const titleOverride = {
   reactNode: (props: ProductCardProps) => (
-    <h3 className='text-xl font-bold text-purple-600 underline'>{props.product.itemName}</h3>
+    <h3 className='text-xl font-bold text-purple-600 underline'>{props.product.name}</h3>
   ),
 };
 
 const addToCartButtonOverride = {
-  reactNode: (props: ProductCardProps) => (
+  reactNode: (props: { onAddToCart?: (e: React.MouseEvent) => void; addToCartText?: string }) => (
     <button
       className='w-full bg-gradient-to-r from-purple-500
 to-pink-500 text-white py-2 px-4 rounded-lg hover:from-purple-600 hover:to-pink-600 transition-all cursor-pointer'
       onClick={(e) => props.onAddToCart && props.onAddToCart(e)}>
-      🛒 Add
+      🛒 {props.addToCartText || 'Add to Cart'}
     </button>
   ),
 };
@@ -600,9 +599,9 @@ blue-600 border border-blue-600 py-2 px-4 rounded-lg font-medium transition-colo
           <span className='flex items-center gap-1'>🔄 30-day returns</span>
         </div>
         {/* Custom tags display */}
-        {props.product.itemTags && props.product.itemTags.length > 0 && (
+        {props.product.tags && props.product.tags.length > 0 && (
           <div className='flex flex-wrap gap-1'>
-            {props.product.itemTags.map((tag, index) => (
+            {props.product.tags.map((tag, index) => (
               <span
                 key={index}
                 className='bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full'>
@@ -620,15 +619,15 @@ blue-600 border border-blue-600 py-2 px-4 rounded-lg font-medium transition-colo
 export const CustomPriceSection: Story = {
   args: {
     product: {
-      itemId: 'custom-price-chair',
-      itemName: "Norman's Chair",
-      itemImageUrl: DEMO_IMAGE_URL,
-      itemPrice: '599',
-      itemRating: 4.8,
-      itemReviewsCount: 156,
-      itemDescription: 'A comfortable and stylish chair perfect for any modern home',
+      id: 'custom-price-chair',
+      name: "Norman's Chair",
+      imageUrl: DEMO_IMAGE_URL,
+      price: '599',
+      rating: 4.8,
+      reviewsCount: 156,
+      description: 'A comfortable and stylish chair perfect for any modern home',
     },
-    itemPriceCurrency: '$',
+    priceCurrency: '$',
     onAddToCart: (e) => console.log('Added to cart', e),
     componentOverrides: {
       price: priceOverride,
@@ -643,15 +642,15 @@ export const CustomPriceSection: Story = {
 export const CustomTitleSection: Story = {
   args: {
     product: {
-      itemId: 'custom-title-chair',
-      itemName: "Norman's Chair",
-      itemImageUrl: DEMO_IMAGE_URL,
-      itemPrice: '449',
-      itemRating: 4.5,
-      itemReviewsCount: 89,
-      itemDescription: 'A comfortable and stylish chair perfect for any modern home',
+      id: 'custom-title-chair',
+      name: "Norman's Chair",
+      imageUrl: DEMO_IMAGE_URL,
+      price: '449',
+      rating: 4.5,
+      reviewsCount: 89,
+      description: 'A comfortable and stylish chair perfect for any modern home',
     },
-    itemPriceCurrency: '$',
+    priceCurrency: '$',
     onAddToCart: (e) => console.log('Added to cart', e),
     componentOverrides: {
       title: titleOverride,
@@ -666,15 +665,15 @@ export const CustomTitleSection: Story = {
 export const CustomAddToCartButton: Story = {
   args: {
     product: {
-      itemId: 'custom-button-chair',
-      itemName: "Norman's Chair",
-      itemImageUrl: DEMO_IMAGE_URL,
-      itemPrice: '399',
-      itemRating: 4.3,
-      itemReviewsCount: 67,
-      itemDescription: 'A comfortable and stylish chair perfect for any modern home',
+      id: 'custom-button-chair',
+      name: "Norman's Chair",
+      imageUrl: DEMO_IMAGE_URL,
+      price: '399',
+      rating: 4.3,
+      reviewsCount: 67,
+      description: 'A comfortable and stylish chair perfect for any modern home',
     },
-    itemPriceCurrency: '$',
+    priceCurrency: '$',
     onAddToCart: (e) => console.log('Added to cart', e),
     componentOverrides: {
       addToCartButton: addToCartButtonOverride,
@@ -689,15 +688,15 @@ export const CustomAddToCartButton: Story = {
 export const CustomWishlistButton: Story = {
   args: {
     product: {
-      itemId: 'custom-wishlist-chair',
-      itemName: "Norman's Chair",
-      itemImageUrl: DEMO_IMAGE_URL,
-      itemPrice: '529',
-      itemRating: 4.7,
-      itemReviewsCount: 123,
-      itemDescription: 'A comfortable and stylish chair perfect for any modern home',
+      id: 'custom-wishlist-chair',
+      name: "Norman's Chair",
+      imageUrl: DEMO_IMAGE_URL,
+      price: '529',
+      rating: 4.7,
+      reviewsCount: 123,
+      description: 'A comfortable and stylish chair perfect for any modern home',
     },
-    itemPriceCurrency: '$',
+    priceCurrency: '$',
     onAddToCart: (e) => console.log('Added to cart', e),
     onAddToWishlist: (e) => console.log('Added to wishlist', e),
     componentOverrides: {
@@ -714,16 +713,16 @@ export const CustomWishlistButton: Story = {
 export const CustomFooterSection: Story = {
   args: {
     product: {
-      itemId: 'custom-footer-chair',
-      itemName: "Norman's Chair",
-      itemImageUrl: DEMO_IMAGE_URL,
-      itemPrice: '649',
-      itemRating: 4.8,
-      itemReviewsCount: 198,
-      itemDescription: 'A comfortable and stylish chair perfect for any modern home',
-      itemTags: ['Premium Quality', 'Fast Delivery', 'Eco-Friendly'],
+      id: 'custom-footer-chair',
+      name: "Norman's Chair",
+      imageUrl: DEMO_IMAGE_URL,
+      price: '649',
+      rating: 4.8,
+      reviewsCount: 198,
+      description: 'A comfortable and stylish chair perfect for any modern home',
+      tags: ['Premium Quality', 'Fast Delivery', 'Eco-Friendly'],
     },
-    itemPriceCurrency: '$',
+    priceCurrency: '$',
     onAddToCart: (e) => console.log('Added to cart', e),
     onAddToWishlist: (e) => console.log('Added to wishlist', e),
     componentOverrides: {
@@ -740,16 +739,16 @@ export const CustomFooterSection: Story = {
 export const MultipleCustomizations: Story = {
   args: {
     product: {
-      itemId: 'multiple-custom-chair',
-      itemName: "Norman's Chair",
-      itemImageUrl: DEMO_IMAGE_URL,
-      itemPrice: '699',
-      itemRating: 4.9,
-      itemReviewsCount: 234,
-      itemDescription: 'A comfortable and stylish chair perfect for any modern home',
-      itemTags: ['All Custom', 'Premium', 'Limited Edition'],
+      id: 'multiple-custom-chair',
+      name: "Norman's Chair",
+      imageUrl: DEMO_IMAGE_URL,
+      price: '699',
+      rating: 4.9,
+      reviewsCount: 234,
+      description: 'A comfortable and stylish chair perfect for any modern home',
+      tags: ['All Custom', 'Premium', 'Limited Edition'],
     },
-    itemPriceCurrency: '$',
+    priceCurrency: '$',
     onAddToCart: (e) => console.log('Added to cart', e),
     onAddToWishlist: (e) => console.log('Added to wishlist', e),
     componentOverrides: {
@@ -775,18 +774,18 @@ export const MultipleCustomizations: Story = {
 export const CompoundWithDirectPropsOverride: Story = {
   args: {
     product: {
-      itemId: 'compound-props-override-chair',
-      itemVariationId: 'compound-props-override-chair-variation',
-      itemName: "Norman's Chair",
-      itemImageUrl: DEMO_IMAGE_URL,
-      itemPrice: '599',
-      itemSalePrice: '449',
-      itemRating: 4.5,
-      itemReviewsCount: 156,
-      itemDescription: 'A comfortable and stylish chair perfect for any modern home',
-      itemTags: ['Standard Shipping'],
+      id: 'compound-props-override-chair',
+      variationId: 'compound-props-override-chair-variation',
+      name: "Norman's Chair",
+      imageUrl: DEMO_IMAGE_URL,
+      price: '599',
+      salePrice: '449',
+      rating: 4.5,
+      reviewsCount: 156,
+      description: 'A comfortable and stylish chair perfect for any modern home',
+      tags: ['Standard Shipping'],
     },
-    itemPriceCurrency: '$',
+    priceCurrency: '$',
     onAddToCart: (e) => console.log('Added to cart', e),
     onAddToWishlist: (e) => console.log('Added to wishlist', e),
   },
@@ -805,13 +804,13 @@ export const CompoundWithDirectPropsOverride: Story = {
 
       <ProductCard.Content>
         {/* Override title with custom text */}
-        <ProductCard.TitleSection itemName="Premium Edition - Norman's Chair" />
+        <ProductCard.TitleSection name="Premium Edition - Norman's Chair" />
 
         {/* Override price with promotional pricing */}
-        <ProductCard.PriceSection itemPrice='799' itemSalePrice='399' itemPriceCurrency='$' />
+        <ProductCard.PriceSection price='799' salePrice='399' priceCurrency='$' />
 
         {/* Override rating with different values */}
-        <ProductCard.RatingSection itemRating='4.9' itemReviewsCount='500' />
+        <ProductCard.RatingSection rating='4.9' reviewsCount='500' />
 
         <ProductCard.DescriptionSection />
       </ProductCard.Content>
@@ -819,7 +818,7 @@ export const CompoundWithDirectPropsOverride: Story = {
       <ProductCard.Footer>
         {/* Override tags with promotional tags */}
         <ProductCard.TagsSection
-          itemTags={['🎉 50% OFF', '🚚 Express Shipping', '🎁 Gift Wrap Available']}
+          tags={['🎉 50% OFF', '🚚 Express Shipping', '🎁 Gift Wrap Available']}
         />
 
         {/* Override button text and handler */}
@@ -850,18 +849,18 @@ export const CompoundWithDirectPropsOverride: Story = {
 export const CompoundWithRenderProps: Story = {
   args: {
     product: {
-      itemId: 'compound-render-props-chair',
-      itemVariationId: 'compound-render-props-chair-variation',
-      itemName: "Norman's Chair",
-      itemImageUrl: DEMO_IMAGE_URL,
-      itemPrice: '899',
-      itemSalePrice: '699',
-      itemRating: 4.9,
-      itemReviewsCount: 456,
-      itemDescription: 'A comfortable and stylish chair perfect for any modern home',
-      itemTags: ['Premium', 'Custom Layout'],
+      id: 'compound-render-props-chair',
+      variationId: 'compound-render-props-chair-variation',
+      name: "Norman's Chair",
+      imageUrl: DEMO_IMAGE_URL,
+      price: '899',
+      salePrice: '699',
+      rating: 4.9,
+      reviewsCount: 456,
+      description: 'A comfortable and stylish chair perfect for any modern home',
+      tags: ['Premium', 'Custom Layout'],
     },
-    itemPriceCurrency: '$',
+    priceCurrency: '$',
     onAddToCart: (e) => console.log('Added to cart', e),
     onAddToWishlist: (e) => console.log('Added to wishlist', e),
   },
@@ -878,47 +877,46 @@ export const CompoundWithRenderProps: Story = {
           <>
             <div className='flex items-baseline gap-2'>
               <span className='text-lg font-bold'>
-                {renderProps.itemPriceCurrency}&nbsp;
-                {renderProps.product.itemSalePrice || renderProps.product.itemPrice}
+                {renderProps.priceCurrency}
+                {renderProps.product.salePrice || renderProps.product.price}
               </span>
-              {renderProps.product.itemSalePrice && (
+              {renderProps.product.salePrice && (
                 <span className='text-sm text-gray-400 line-through'>
-                  {renderProps.itemPriceCurrency}&nbsp;
-                  {renderProps.product.itemPrice}
+                  {renderProps.priceCurrency}
+                  {renderProps.product.price}
                 </span>
               )}
             </div>
 
-            <p className='text-base font-medium'>{renderProps.product.itemName}</p>
+            <p className='text-base font-medium'>{renderProps.product.name}</p>
 
             <div className='bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 rounded-lg p-3 my-2'>
               <div className='flex items-center gap-2 mb-2'>
                 <span className='text-blue-600 font-semibold text-sm'>🎯 Smart Recommendation</span>
               </div>
               <p className='text-gray-700 text-sm'>
-                Based on your preferences, this {renderProps.product.itemName} is perfect for you!
-                {renderProps.product.itemSalePrice && (
+                Based on your preferences, this {renderProps.product.name} is perfect for you!
+                {renderProps.product.salePrice && (
                   <span className='text-green-600 font-medium'>
                     {' '}
                     Save $
-                    {Number(renderProps.product.itemPrice) -
-                      Number(renderProps.product.itemSalePrice)}{' '}
+                    {Number(renderProps.product.price) - Number(renderProps.product.salePrice)}{' '}
                     today!
                   </span>
                 )}
               </p>
               <div className='flex items-center gap-2 mt-2 justify-center'>
                 <span className='bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full text-center'>
-                  ⭐ {renderProps.product.itemRating} rating
+                  ⭐ {renderProps.product.rating} rating
                 </span>
                 <span className='bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded-full text-center'>
-                  💬 {renderProps.product.itemReviewsCount} reviews
+                  💬 {renderProps.product.reviewsCount} reviews
                 </span>
               </div>
             </div>
 
-            {renderProps.product.itemDescription && (
-              <p className='text-sm text-gray-500'>{renderProps.product.itemDescription}</p>
+            {renderProps.product.description && (
+              <p className='text-sm text-gray-500'>{renderProps.product.description}</p>
             )}
           </>
         )}
@@ -934,7 +932,7 @@ export const CompoundWithRenderProps: Story = {
 
             {renderProps.onAddToCart && (
               <button
-                className='w-full bg-black hover:bg-gray-800 text-white text-sm py-2 px-4 rounded-lg font-medium transition-colors'
+                className='w-full mt-3 bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-lg font-medium transition-colors'
                 onClick={(e) => renderProps.onAddToCart && renderProps.onAddToCart(e)}>
                 {renderProps.addToCartText || 'Add to Cart'}
               </button>
@@ -942,13 +940,13 @@ export const CompoundWithRenderProps: Story = {
 
             <button
               className='w-full bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 px-4 rounded-lg text-sm font-medium transition-colors'
-              onClick={() => console.log(`Quick view for ${renderProps.product.itemName}`)}>
+              onClick={() => console.log(`Quick view for ${renderProps.product.name}`)}>
               👁️ Quick View
             </button>
 
-            {renderProps.product.itemTags && renderProps.product.itemTags.length > 0 && (
+            {renderProps.product.tags && renderProps.product.tags.length > 0 && (
               <div className='flex flex-col gap-1 items-center'>
-                {renderProps.product.itemTags.map((tag) => (
+                {renderProps.product.tags.map((tag) => (
                   <span key={tag} className='text-xs text-gray-500'>
                     {tag}
                   </span>
@@ -973,18 +971,18 @@ export const CompoundWithRenderProps: Story = {
 export const ComponentOverrideExample: Story = {
   args: {
     product: {
-      itemId: 'component-override-chair',
-      itemVariationId: 'component-override-chair-variation',
-      itemName: "Norman's Chair",
-      itemImageUrl: DEMO_IMAGE_URL,
-      itemDescription: 'A comfortable and stylish chair perfect for any modern home',
-      itemPrice: '899',
-      itemSalePrice: '699',
-      itemRating: 4.8,
-      itemReviewsCount: 2713,
-      itemTags: ['Same day delivery', 'Free assembly'],
+      id: 'component-override-chair',
+      variationId: 'component-override-chair-variation',
+      name: "Norman's Chair",
+      imageUrl: DEMO_IMAGE_URL,
+      description: 'A comfortable and stylish chair perfect for any modern home',
+      price: '899',
+      salePrice: '699',
+      rating: 4.8,
+      reviewsCount: 2713,
+      tags: ['Same day delivery', 'Free assembly'],
     },
-    itemPriceCurrency: '$',
+    priceCurrency: '$',
     onAddToCart: (e) => console.log('Added to cart', e),
     onAddToWishlist: (e) => console.log('Added to wishlist', e),
     addToCartText: 'Add to Cart',
@@ -1015,16 +1013,16 @@ export const ComponentOverrideExample: Story = {
 export const DataAttributesExample: Story = {
   args: {
     product: {
-      itemId: 'data-attributes-chair',
-      itemVariationId: 'data-attributes-chair-variation',
-      itemName: "Norman's Chair",
-      itemImageUrl: DEMO_IMAGE_URL,
-      itemDescription: 'A comfortable and stylish chair perfect for any modern home',
-      itemPrice: '899',
-      itemRating: 4.8,
-      itemReviewsCount: 2713,
+      id: 'data-attributes-chair',
+      variationId: 'data-attributes-chair-variation',
+      name: "Norman's Chair",
+      imageUrl: DEMO_IMAGE_URL,
+      description: 'A comfortable and stylish chair perfect for any modern home',
+      price: '899',
+      rating: 4.8,
+      reviewsCount: 2713,
     },
-    itemPriceCurrency: '$',
+    priceCurrency: '$',
     onAddToCart: (e) => console.log('Added to cart', e),
     onAddToWishlist: (e) => console.log('Added to wishlist', e),
     addToCartText: 'Add to Cart',
@@ -1048,39 +1046,37 @@ export const RenderPropsExample: Story = {
       {(renderProps: ProductCardProps) => (
         <div className='p-4 bg-gradient-to-br from-blue-50 to-indigo-100 rounded-lg'>
           <div className='flex items-center gap-3 mb-3'>
-            {renderProps.product.itemImageUrl && (
+            {renderProps.product.imageUrl && (
               <img
-                src={renderProps.product.itemImageUrl}
-                alt={renderProps.product.itemName}
+                src={renderProps.product.imageUrl}
+                alt={renderProps.product.name}
                 className='w-16 h-16 object-cover rounded-lg'
               />
             )}
             <div>
-              <h3 className='font-bold text-lg text-gray-800'>{renderProps.product.itemName}</h3>
-              <p className='text-sm text-gray-600'>{renderProps.product.itemDescription}</p>
+              <h3 className='font-bold text-lg text-gray-800'>{renderProps.product.name}</h3>
+              <p className='text-sm text-gray-600'>{renderProps.product.description}</p>
             </div>
           </div>
 
           <div className='flex items-center justify-between'>
             <div className='flex items-center gap-2'>
               <span className='text-xl font-bold text-green-600'>
-                {renderProps.itemPriceCurrency}
-                {renderProps.product.itemSalePrice || renderProps.product.itemPrice}
+                {renderProps.priceCurrency}
+                {renderProps.product.salePrice || renderProps.product.price}
               </span>
-              {renderProps.product.itemSalePrice && (
+              {renderProps.product.salePrice && (
                 <span className='text-sm text-gray-400 line-through'>
-                  {renderProps.itemPriceCurrency}
-                  {renderProps.product.itemPrice}
+                  {renderProps.priceCurrency}
+                  {renderProps.product.price}
                 </span>
               )}
             </div>
 
             <div className='flex items-center gap-2'>
               <span className='text-yellow-500'>⭐</span>
-              <span className='text-sm font-medium'>{renderProps.product.itemRating}</span>
-              <span className='text-sm text-gray-500'>
-                ({renderProps.product.itemReviewsCount})
-              </span>
+              <span className='text-sm font-medium'>{renderProps.product.rating}</span>
+              <span className='text-sm text-gray-500'>({renderProps.product.reviewsCount})</span>
             </div>
           </div>
 
@@ -1097,17 +1093,17 @@ export const RenderPropsExample: Story = {
   ),
   args: {
     product: {
-      itemId: 'render-props-chair',
-      itemVariationId: 'render-props-chair-variation',
-      itemName: "Norman's Chair",
-      itemImageUrl: DEMO_IMAGE_URL,
-      itemDescription: 'A comfortable and stylish chair perfect for any modern home',
-      itemPrice: '899',
-      itemSalePrice: '699',
-      itemRating: 4.8,
-      itemReviewsCount: 2713,
+      id: 'render-props-chair',
+      variationId: 'render-props-chair-variation',
+      name: "Norman's Chair",
+      imageUrl: DEMO_IMAGE_URL,
+      description: 'A comfortable and stylish chair perfect for any modern home',
+      price: '899',
+      salePrice: '699',
+      rating: 4.8,
+      reviewsCount: 2713,
     },
-    itemPriceCurrency: '$',
+    priceCurrency: '$',
     onAddToCart: (e) => console.log('Added to cart', e),
     onAddToWishlist: (e) => console.log('Added to wishlist', e),
     addToCartText: 'Add to Cart',

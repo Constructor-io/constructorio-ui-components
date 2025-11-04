@@ -94,8 +94,8 @@ function OptimizedExample({ product }) {
   <ProductCard.Content>
     <ProductCard.PriceSection />
     <ProductCard.TitleSection />
-    {product.itemDescription && <ProductCard.DescriptionSection />}
-    {product.itemRating && <ProductCard.RatingSection />}
+    {product.description && <ProductCard.DescriptionSection />}
+    {product.rating && <ProductCard.RatingSection />}
   </ProductCard.Content>
 </ProductCard>
 ```
@@ -108,7 +108,7 @@ import ProductCard from '@/components/product-card';
 function ErrorHandlingExample({ product }) {
   const handleAddToCart = async () => {
     try {
-      await addToCartAPI(product.itemId);
+      await addToCartAPI(product.id);
       console.log('Successfully added to cart');
     } catch (error) {
       console.error('Failed to add to cart:', error);
@@ -120,7 +120,7 @@ function ErrorHandlingExample({ product }) {
     <ProductCard
       {...product}
       onAddToCart={handleAddToCart}
-      itemImageUrl={product.itemImageUrl || '/placeholder-image.jpg'}
+      imageUrl={product.imageUrl || '/placeholder-image.jpg'}
     />
   );
 }

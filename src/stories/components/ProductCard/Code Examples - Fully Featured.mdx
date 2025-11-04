@@ -25,7 +25,7 @@ function FullyFeaturedExample() {
     // Implement wishlist logic
   };
 
-  const handleItemClick = () => {
+  const handleProductClick = () => {
     console.log('Product clicked');
     // Navigate to product detail page
   };
@@ -33,21 +33,21 @@ function FullyFeaturedExample() {
   return (
     <ProductCard
       product={{
-        itemId="designer-office-chair",
-        itemVariationId="designer-office-chair-variation",
-        itemName="Norman's Chair",
-        itemImageUrl="https://example.com/chair.jpg",
-        itemDescription="A comfortable and stylish chair perfect for any modern home",
-        itemPrice="899",
-        itemSalePrice="699",
-        itemRating={4.8},
-        itemReviewsCount={2713},
-        itemTags={['Same day delivery', 'Free assembly', '10-year warranty']},
+        id="designer-office-chair",
+        variationId="designer-office-chair-variation",
+        name="Norman's Chair",
+        imageUrl="https://example.com/chair.jpg",
+        description="A comfortable and stylish chair perfect for any modern home",
+        price="899",
+        salePrice="699",
+        rating={4.8},
+        reviewsCount={2713},
+        tags={['Same day delivery', 'Free assembly', '10-year warranty']},
       }},
-      itemPriceCurrency="$"
+      priceCurrency="$"
       onAddToCart={handleAddToCart}
       onAddToWishlist={handleAddToWishlist}
-      onItemClick={handleItemClick}
+      onProductClick={handleProductClick}
       addToCartText="Add to Cart"
     />
   );

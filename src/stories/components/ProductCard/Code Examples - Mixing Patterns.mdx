@@ -18,18 +18,18 @@ function CompoundWithRenderPropsExample() {
   return (
     <ProductCard
       product={{
-        itemId='compound-render-props-chair',
-        itemVariationId='compound-render-props-chair-variation',
-        itemName="Norman's Chair",
-        itemImageUrl='https://example.com/chair.jpg',
-        itemPrice='899',
-        itemSalePrice='699',
-        itemRating={4.9},
-        itemReviewsCount={456},
-        itemDescription='A comfortable and stylish chair perfect for any modern home',
-        itemTags={['Premium', 'Custom Layout']},
+        id='compound-render-props-chair',
+        variationId='compound-render-props-chair-variation',
+        name="Norman's Chair",
+        imageUrl='https://example.com/chair.jpg',
+        price='899',
+        salePrice='699',
+        rating={4.9},
+        reviewsCount={456},
+        description='A comfortable and stylish chair perfect for any modern home',
+        tags={['Premium', 'Custom Layout']},
       }}
-      itemPriceCurrency='$'
+      priceCurrency='$'
       onAddToCart={(e) => console.log('Added to cart', e)}
       onAddToWishlist={(e) => console.log('Added to wishlist', e)}
     >
@@ -44,44 +44,44 @@ function CompoundWithRenderPropsExample() {
           <>
             <div className='flex items-baseline gap-2'>
               <span className='text-lg font-bold'>
-                {renderProps.itemPriceCurrency}&nbsp;
-                {renderProps.product.itemSalePrice || renderProps.product.itemPrice}
+                {renderProps.priceCurrency}&nbsp;
+                {renderProps.product.salePrice || renderProps.product.price}
               </span>
-              {renderProps.product.itemSalePrice && (
+              {renderProps.product.salePrice && (
                 <span className='text-sm text-gray-400 line-through'>
-                  {renderProps.itemPriceCurrency}&nbsp;
-                  {renderProps.product.itemPrice}
+                  {renderProps.priceCurrency}&nbsp;
+                  {renderProps.product.price}
                 </span>
               )}
             </div>
 
-            <p className='text-base font-medium'>{renderProps.product.itemName}</p>
+            <p className='text-base font-medium'>{renderProps.product.name}</p>
 
             <div className='bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 rounded-lg p-3 my-2'>
               <div className='flex items-center gap-2 mb-2'>
                 <span className='text-blue-600 font-semibold text-sm'>🎯 Smart Recommendation</span>
               </div>
               <p className='text-gray-700 text-sm'>
-                Based on your preferences, this {renderProps.product.itemName} is perfect for you!
-                {renderProps.product.itemSalePrice && (
+                Based on your preferences, this {renderProps.product.name} is perfect for you!
+                {renderProps.product.salePrice && (
                   <span className='text-green-600 font-medium'>
                     {' '}
-                    Save ${Number(renderProps.product.itemPrice) - Number(renderProps.product.itemSalePrice)} today!
+                    Save ${Number(renderProps.product.price) - Number(renderProps.product.salePrice)} today!
                   </span>
                 )}
               </p>
               <div className='flex items-center gap-2 mt-2'>
                 <span className='bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full'>
-                  ⭐ {renderProps.product.itemRating} rating
+                  ⭐ {renderProps.product.rating} rating
                 </span>
                 <span className='bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded-full'>
-                  💬 {renderProps.product.itemReviewsCount} reviews
+                  💬 {renderProps.product.reviewsCount} reviews
                 </span>
               </div>
             </div>
 
-            {renderProps.product.itemDescription && (
-              <p className='text-sm text-gray-500'>{renderProps.product.itemDescription}</p>
+            {renderProps.product.description && (
+              <p className='text-sm text-gray-500'>{renderProps.product.description}</p>
             )}
           </>
         )}
@@ -105,13 +105,13 @@ function CompoundWithRenderPropsExample() {
 
             <button
               className='w-full bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 px-4 rounded-lg text-sm font-medium transition-colors'
-              onClick={() => console.log(`Quick view for ${renderProps.product.itemName}`)}>
+              onClick={() => console.log(`Quick view for ${renderProps.product.name}`)}>
               👁️ Quick View
             </button>
 
-            {renderProps.product.itemTags && renderProps.product.itemTags.length > 0 && (
+            {renderProps.product.tags && renderProps.product.tags.length > 0 && (
               <div className='flex flex-col gap-1 items-center'>
-                {renderProps.product.itemTags.map((tag) => (
+                {renderProps.product.tags.map((tag) => (
                   <span key={tag} className='text-xs text-gray-500'>
                     {tag}
                   </span>

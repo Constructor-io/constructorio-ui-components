@@ -17,10 +17,12 @@ import ProductCard from '@/components/product-card';
 function BasicExample() {
   return (
     <ProductCard
-      itemId="norman-chair-basic"
-      itemVariationId="norman-chair-basic-variation"
-      itemName="Norman's Chair"
-      itemImageUrl="https://example.com/chair.jpg"
+      product={{
+        id: "norman-chair-basic",
+        variationId: "norman-chair-basic-variation",
+        name: "Norman's Chair",
+        imageUrl: "https://example.com/chair.jpg"
+      }}
     />
   );
 }
@@ -36,12 +38,14 @@ import ProductCard from '@/components/product-card';
 function WithPriceExample() {
   return (
     <ProductCard
-      itemId="norman-chair-with-price"
-      itemVariationId="norman-chair-with-price-variation"
-      itemName="Norman's Chair"
-      itemImageUrl="https://example.com/chair.jpg"
-      itemPrice="299"
-      itemPriceCurrency="$"
+      product={{
+        id: "norman-chair-with-price",
+        variationId: "norman-chair-with-price-variation",
+        name: "Norman's Chair",
+        imageUrl: "https://example.com/chair.jpg",
+        price: "299"
+      }}
+      priceCurrency="$"
     />
   );
 }
@@ -57,13 +61,15 @@ import ProductCard from '@/components/product-card';
 function SalePriceExample() {
   return (
     <ProductCard
-      itemId="norman-chair-sale"
-      itemVariationId="norman-chair-sale-variation"
-      itemName="Norman's Chair"
-      itemImageUrl="https://example.com/chair.jpg"
-      itemPrice="399"
-      itemSalePrice="299"
-      itemPriceCurrency="$"
+      product={{
+        id: "norman-chair-sale",
+        variationId: "norman-chair-sale-variation",
+        name: "Norman's Chair",
+        imageUrl: "https://example.com/chair.jpg",
+        price: "399",
+        salePrice: "299"
+      }}
+      priceCurrency="$"
     />
   );
 }
@@ -79,13 +85,15 @@ import ProductCard from '@/components/product-card';
 function RatingExample() {
   return (
     <ProductCard
-      itemId="norman-chair-reviews"
-      itemVariationId="norman-chair-reviews-variation"
-      itemName="Norman's Chair"
-      itemImageUrl="https://example.com/chair.jpg"
-      itemPrice="299"
-      itemRating={4.8}
-      itemReviewsCount={2713}
+      product={{
+        id: "norman-chair-reviews",
+        variationId: "norman-chair-reviews-variation",
+        name: "Norman's Chair",
+        imageUrl: "https://example.com/chair.jpg",
+        price: "299",
+        rating: 4.8,
+        reviewsCount: 2713
+      }}
     />
   );
 }
@@ -101,12 +109,14 @@ import ProductCard from '@/components/product-card';
 function DescriptionExample() {
   return (
     <ProductCard
-      itemId="norman-chair-description"
-      itemVariationId="norman-chair-description-variation"
-      itemName="Norman's Chair"
-      itemImageUrl="https://example.com/chair.jpg"
-      itemPrice="299"
-      itemDescription="A comfortable and stylish chair perfect for any modern home"
+      product={{
+        id: "norman-chair-description",
+        variationId: "norman-chair-description-variation",
+        name: "Norman's Chair",
+        imageUrl: "https://example.com/chair.jpg",
+        price: "299",
+        description: "A comfortable and stylish chair perfect for any modern home"
+      }}
     />
   );
 }
@@ -122,12 +132,14 @@ import ProductCard from '@/components/product-card';
 function TagsExample() {
   return (
     <ProductCard
-      itemId="norman-chair-tags"
-      itemVariationId="norman-chair-tags-variation"
-      itemName="Norman's Chair"
-      itemImageUrl="https://example.com/chair.jpg"
-      itemPrice="299"
-      itemTags={['Same day delivery', 'Free shipping']}
+      product={{
+        id: "norman-chair-tags",
+        variationId: "norman-chair-tags-variation",
+        name: "Norman's Chair",
+        imageUrl: "https://example.com/chair.jpg",
+        price: "299",
+        tags: ['Same day delivery', 'Free shipping']
+      }}
     />
   );
 }

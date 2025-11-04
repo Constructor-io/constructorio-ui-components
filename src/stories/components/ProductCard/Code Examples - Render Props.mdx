@@ -18,23 +18,23 @@ function CustomOverrideExample() {
   return (
     <ProductCard
       product={{
-        itemId="custom-chair",
-        itemVariationId="custom-chair-variation",
-        itemName="Norman's Chair",
-        itemImageUrl="https://example.com/chair.jpg",
-        itemPrice="599",
+        id: "custom-chair",
+        variationId: "custom-chair-variation",
+        name: "Norman's Chair",
+        imageUrl: "https://example.com/chair.jpg",
+        price: "599"
       }}
-      itemPriceCurrency="$"
+      priceCurrency="$"
     >
       {(props) => (
         <div className="custom-product-card">
           <div className="custom-image-container">
-            <img src={props.product.itemImageUrl} alt={props.product.itemName} />
+            <img src={props.product.imageUrl} alt={props.product.name} />
           </div>
           <div className="custom-content">
-            <h3>{props.product.itemName}</h3>
+            <h3>{props.product.name}</h3>
             <p className="custom-price">
-              {props.itemPriceCurrency}{props.product.itemPrice}
+              {props.priceCurrency}{props.product.price}
             </p>
             <button onClick={(e) => props.onAddToCart && props.onAddToCart(e)}>
               Custom Add to Cart
@@ -66,26 +66,26 @@ function CompactListStyleCard(props) {
   return (
     <div className='flex items-center bg-white border border-gray-200 rounded-lg p-3 max-w-lg hover:bg-gray-50 transition-colors'>
       <img
-        src={props.product.product.itemImageUrl}
-        alt={props.product.product.itemName}
+        src={props.product.imageUrl}
+        alt={props.product.name}
         className='w-16 h-16 object-cover rounded-lg mr-4'
       />
       <div className='flex-1'>
-        <h3 className='font-semibold text-gray-800'>{props.product.product.itemName}</h3>
+        <h3 className='font-semibold text-gray-800'>{props.product.name}</h3>
         <div className='flex items-center gap-2 mt-1'>
           <div className='flex items-baseline gap-1'>
             <span className='font-bold text-red-600'>
-              {props.itemPriceCurrency}
-              {props.product.product.itemSalePrice}
+              {props.priceCurrency}
+              {props.product.salePrice}
             </span>
             <span className='text-sm text-gray-400 line-through'>
-              {props.itemPriceCurrency}
-              {props.product.product.itemPrice}
+              {props.priceCurrency}
+              {props.product.price}
             </span>
           </div>
           <div className='flex items-center gap-1 text-xs'>
             <span className='text-yellow-500'>⭐</span>
-            <span>{props.product.product.itemRating}</span>
+            <span>{props.product.rating}</span>
           </div>
         </div>
       </div>

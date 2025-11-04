@@ -216,8 +216,10 @@ describe('ProductCard component', () => {
         <ProductCard
           {...mockProductData}
           componentOverrides={{
-            title: {
-              reactNode: <h2 className='custom-title'>Custom Title Override</h2>,
+            content: {
+              title: {
+                reactNode: <h2 className='custom-title'>Custom Title Override</h2>,
+              },
             },
           }}
         />,
@@ -234,8 +236,10 @@ describe('ProductCard component', () => {
           {...mockProductData}
           onAddToCart={vi.fn()}
           componentOverrides={{
-            addToCartButton: {
-              reactNode: <button className='custom-button'>Custom Add to Cart</button>,
+            footer: {
+              addToCartButton: {
+                reactNode: <button className='custom-button'>Custom Add to Cart</button>,
+              },
             },
           }}
         />,

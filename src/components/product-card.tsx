@@ -46,7 +46,7 @@ const WishlistButton: React.FC<WishlistButtonProps> = (props) => {
   return (
     <RenderPropsWrapper
       props={{ ...renderProps, isInWishlist }}
-      override={children || componentOverrides?.wishlistButton?.reactNode}>
+      override={children || componentOverrides?.image?.wishlistButton?.reactNode}>
       {onAddToWishlist && (
         <Button
           className={cn(
@@ -60,7 +60,7 @@ const WishlistButton: React.FC<WishlistButtonProps> = (props) => {
           aria-label={isInWishlist ? 'Remove from wishlist' : 'Add to wishlist'}>
           <img
             src={isInWishlist ? HeartFilled : Heart}
-            className='w-3 h-3 sm:w-[9px] sm:h-[9px]'
+            className='w-3 h-3 sm:w-[8px] sm:h-[8px]'
             alt={isInWishlist ? 'Remove from wishlist' : 'Add to wishlist'}
           />
         </Button>
@@ -71,16 +71,13 @@ const WishlistButton: React.FC<WishlistButtonProps> = (props) => {
 
 const PriceSection: React.FC<PriceSectionProps> = (props) => {
   const { renderProps, componentOverrides } = useProductCardContext();
-  const { price: contextPrice, salePrice: contextSalePrice } = renderProps.product;
+  const { price, salePrice } = renderProps.product;
   const { priceCurrency = renderProps.priceCurrency || '$' } = props;
-
-  const price = props.price || contextPrice;
-  const salePrice = props.salePrice || contextSalePrice;
 
   return (
     <RenderPropsWrapper
       props={{ ...renderProps, priceCurrency }}
-      override={props.children || componentOverrides?.price?.reactNode}>
+      override={props.children || componentOverrides?.content?.price?.reactNode}>
       {price && (
         <div
           className={cn(
@@ -112,7 +109,7 @@ const RatingSection: React.FC<RatingSectionProps> = (props) => {
   return (
     <RenderPropsWrapper
       props={renderProps}
-      override={props.children || componentOverrides?.rating?.reactNode}>
+      override={props.children || componentOverrides?.content?.rating?.reactNode}>
       {(rating !== undefined && rating !== null) || reviewsCount ? (
         <div
           className={cn(
@@ -137,7 +134,7 @@ const TagsSection: React.FC<TagsSectionProps> = (props) => {
   return (
     <RenderPropsWrapper
       props={renderProps}
-      override={props.children || componentOverrides?.tags?.reactNode}>
+      override={props.children || componentOverrides?.footer?.tags?.reactNode}>
       <div
         className={cn(
           'cio-product-card-tags-section flex flex-col gap-1 items-center',
@@ -167,7 +164,7 @@ const ImageSection: React.FC<ImageSectionProps> = (props) => {
         <img
           src={imageUrl}
           alt={name || 'product image'}
-          className='object-cover w-full min-h-[224px] rounded-2xl'
+          className='cio-product-card-image object-cover w-full min-h-[224px] rounded-2xl'
         />
         {props.children}
       </div>
@@ -185,7 +182,7 @@ const TitleSection: React.FC<TitleSectionProps> = (props) => {
   return (
     <RenderPropsWrapper
       props={renderProps}
-      override={props.children || componentOverrides?.title?.reactNode}>
+      override={props.children || componentOverrides?.content?.title?.reactNode}>
       <p className={cn('cio-product-card-title-section text-base font-medium', props.className)}>
         {name}
       </p>
@@ -203,7 +200,7 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = (props) => {
   return (
     <RenderPropsWrapper
       props={renderProps}
-      override={props.children || componentOverrides?.description?.reactNode}>
+      override={props.children || componentOverrides?.content?.description?.reactNode}>
       {description && (
         <p className={cn('cio-product-card-description text-sm text-gray-500', props.className)}>
           {description}
@@ -224,7 +221,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = (props) => {
   return (
     <RenderPropsWrapper
       props={{ ...renderProps, addToCartText }}
-      override={children || componentOverrides?.addToCartButton?.reactNode}>
+      override={children || componentOverrides?.footer?.addToCartButton?.reactNode}>
       {onAddToCart && (
         <Button
           className={cn(
@@ -247,7 +244,7 @@ const ProductCardContent: React.FC<CardContentProps> = ({ children, ...props }) 
   return (
     <RenderPropsWrapper
       props={renderProps}
-      override={renderPropFn || componentOverrides?.reactNode}>
+      override={renderPropFn || componentOverrides?.content?.reactNode}>
       <Card.Content
         className={cn('cio-product-card-content flex flex-col gap-1', props.className)}
         {...props}>
@@ -264,7 +261,7 @@ const ProductCardFooter: React.FC<CardFooterProps> = ({ children, ...props }) =>
   return (
     <RenderPropsWrapper
       props={renderProps}
-      override={renderPropFn || componentOverrides?.reactNode}>
+      override={renderPropFn || componentOverrides?.footer?.reactNode}>
       <Card.Footer
         className={cn('cio-product-card-footer flex flex-col gap-2', props.className)}
         {...props}>

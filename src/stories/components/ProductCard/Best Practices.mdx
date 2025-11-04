@@ -31,7 +31,9 @@ import * as ProductCardStories from './ProductCard.stories';
 <ProductCard
   {...props}
   componentOverrides={{
-    price: { reactNode: (props) => <CustomPrice {...props} /> }
+    content: {
+      price: { reactNode: (props) => <CustomPrice {...props} /> }
+    }
   }}
 />
 ```

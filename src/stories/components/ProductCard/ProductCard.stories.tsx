@@ -601,7 +601,7 @@ blue-600 border border-blue-600 py-2 px-4 rounded-lg font-medium transition-colo
         </div>
         {/* Custom tags display */}
         {props.product.tags && props.product.tags.length > 0 && (
-          <div className='flex flex-wrap gap-1'>
+          <div className='flex flex-wrap gap-1 justify-center'>
             {props.product.tags.map((tag, index) => (
               <span
                 key={index}
@@ -632,7 +632,9 @@ export const CustomPriceSection: Story = {
     priceCurrency: '$',
     onAddToCart: (e) => console.log('Added to cart', e),
     componentOverrides: {
-      price: priceOverride,
+      content: {
+        price: priceOverride,
+      },
     },
   },
   argTypes: {
@@ -656,7 +658,9 @@ export const CustomTitleSection: Story = {
     priceCurrency: '$',
     onAddToCart: (e) => console.log('Added to cart', e),
     componentOverrides: {
-      title: titleOverride,
+      content: {
+        title: titleOverride,
+      },
     },
   },
   argTypes: {
@@ -680,7 +684,9 @@ export const CustomAddToCartButton: Story = {
     priceCurrency: '$',
     onAddToCart: (e) => console.log('Added to cart', e),
     componentOverrides: {
-      addToCartButton: addToCartButtonOverride,
+      footer: {
+        addToCartButton: addToCartButtonOverride,
+      },
     },
   },
   argTypes: {
@@ -705,7 +711,9 @@ export const CustomWishlistButton: Story = {
     onAddToCart: (e) => console.log('Added to cart', e),
     onAddToWishlist: (e) => console.log('Added to wishlist', e),
     componentOverrides: {
-      wishlistButton: wishlistButtonOverride,
+      image: {
+        wishlistButton: wishlistButtonOverride,
+      },
     },
   },
   argTypes: {
@@ -759,11 +767,17 @@ export const MultipleCustomizations: Story = {
     onAddToCart: (e) => console.log('Added to cart', e),
     onAddToWishlist: (e) => console.log('Added to wishlist', e),
     componentOverrides: {
-      price: priceOverride,
-      title: titleOverride,
-      addToCartButton: addToCartButtonOverride,
-      wishlistButton: wishlistButtonOverride,
-      footer: footerOverride,
+      content: {
+        price: priceOverride,
+        title: titleOverride,
+      },
+      footer: {
+        addToCartButton: addToCartButtonOverride,
+        ...footerOverride,
+      },
+      image: {
+        wishlistButton: wishlistButtonOverride,
+      },
     },
   },
   argTypes: {
@@ -810,7 +824,7 @@ export const CompoundWithDirectPropsOverride: Story = {
         <ProductCard.TitleSection name='Premium Edition - Highland Golf Pants' />
 
         {/* Override price with promotional pricing */}
-        <ProductCard.PriceSection price='799' salePrice='399' priceCurrency='$' />
+        <ProductCard.PriceSection />
 
         {/* Override rating with different values */}
         <ProductCard.RatingSection rating='4.9' reviewsCount='500' />
@@ -990,17 +1004,19 @@ export const ComponentOverrideExample: Story = {
     onAddToWishlist: (e) => console.log('Added to wishlist', e),
     addToCartText: 'Add to Cart',
     componentOverrides: {
-      addToCartButton: {
-        reactNode: (props: {
-          onAddToCart?: (e: React.MouseEvent) => void;
-          addToCartText?: string;
-        }) => (
-          <button
-            className='w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white py-2 px-4 rounded-lg font-medium transition-all duration-200 transform hover:scale-105'
-            onClick={(e) => props.onAddToCart && props.onAddToCart(e)}>
-            🛒 {props.addToCartText || 'Add to Cart'}
-          </button>
-        ),
+      footer: {
+        addToCartButton: {
+          reactNode: (props: {
+            onAddToCart?: (e: React.MouseEvent) => void;
+            addToCartText?: string;
+          }) => (
+            <button
+              className='w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white py-2 px-4 rounded-lg font-medium transition-all duration-200 transform hover:scale-105'
+              onClick={(e) => props.onAddToCart && props.onAddToCart(e)}>
+              🛒 {props.addToCartText || 'Add to Cart'}
+            </button>
+          ),
+        },
       },
     },
   },

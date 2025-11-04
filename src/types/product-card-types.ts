@@ -28,16 +28,19 @@ export interface ProductCardProps extends Omit<React.ComponentProps<'div'>, 'chi
 }
 
 export type ProductCardOverrides = ComponentOverrideProps<ProductCardProps> & {
-  image?: ComponentOverrideProps<ProductCardProps>;
-  content?: ComponentOverrideProps<ProductCardProps>;
-  footer?: ComponentOverrideProps<ProductCardProps>;
-  wishlistButton?: ComponentOverrideProps<ProductCardProps>;
-  addToCartButton?: ComponentOverrideProps<ProductCardProps>;
-  price?: ComponentOverrideProps<ProductCardProps>;
-  title?: ComponentOverrideProps<ProductCardProps>;
-  description?: ComponentOverrideProps<ProductCardProps>;
-  rating?: ComponentOverrideProps<ProductCardProps>;
-  tags?: ComponentOverrideProps<ProductCardProps>;
+  image?: ComponentOverrideProps<ProductCardProps> & {
+    wishlistButton?: ComponentOverrideProps<ProductCardProps>;
+  };
+  content?: ComponentOverrideProps<ProductCardProps> & {
+    title?: ComponentOverrideProps<ProductCardProps>;
+    description?: ComponentOverrideProps<ProductCardProps>;
+    rating?: ComponentOverrideProps<ProductCardProps>;
+    price?: ComponentOverrideProps<ProductCardProps>;
+  };
+  footer?: ComponentOverrideProps<ProductCardProps> & {
+    addToCartButton?: ComponentOverrideProps<ProductCardProps>;
+    tags?: ComponentOverrideProps<ProductCardProps>;
+  };
 };
 
 // Section component interfaces

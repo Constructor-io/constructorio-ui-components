@@ -5,7 +5,7 @@ import { CompleteCustomOverrideCard, CompactListStyleCard } from './ProductCardV
 import { ProductCardProps } from '../../../types/product-card-types';
 
 const DEMO_IMAGE_URL =
-  'https://magnoliahome.co.in/wp-content/uploads/2021/08/Jasper-Arm-Chair-1.1-1.jpg';
+  'https://constructorio-integrations.s3.amazonaws.com/tikus-threads/2022-06-29/PANT_ACTIVE-PANT_GWB00623SBL770_1_category.jpg';
 
 const meta = {
   title: 'Components/ProductCard',
@@ -40,9 +40,9 @@ type Story = StoryObj<ProductCardProps>;
 export const Basic: Story = {
   args: {
     product: {
-      id: 'norman-chair-basic',
-      variationId: 'norman-chair-basic-variation',
-      name: "Norman's Chair",
+      id: 'highland-golf-pants',
+      variationId: 'highland-golf-pants--navy',
+      name: 'Highland Golf Pants',
       imageUrl: DEMO_IMAGE_URL,
     },
   },
@@ -52,9 +52,9 @@ export const Basic: Story = {
 export const WithPrice: Story = {
   args: {
     product: {
-      id: 'norman-chair-with-price',
-      variationId: 'norman-chair-with-price-variation',
-      name: "Norman's Chair",
+      id: 'highland-golf-pants',
+      variationId: 'highland-golf-pants--navy',
+      name: 'Highland Golf Pants',
       imageUrl: DEMO_IMAGE_URL,
       price: '299',
     },
@@ -66,9 +66,9 @@ export const WithPrice: Story = {
 export const WithSalePrice: Story = {
   args: {
     product: {
-      id: 'norman-chair-sale',
-      variationId: 'norman-chair-sale-variation',
-      name: "Norman's Chair",
+      id: 'highland-golf-pants',
+      variationId: 'highland-golf-pants--navy',
+      name: 'Highland Golf Pants',
       imageUrl: DEMO_IMAGE_URL,
       price: '399',
       salePrice: '299',
@@ -81,12 +81,12 @@ export const WithSalePrice: Story = {
 export const WithDescription: Story = {
   args: {
     product: {
-      id: 'norman-chair-description',
-      variationId: 'norman-chair-description-variation',
-      name: "Norman's Chair",
+      id: 'highland-golf-pants',
+      variationId: 'highland-golf-pants--navy',
+      name: 'Highland Golf Pants',
       imageUrl: DEMO_IMAGE_URL,
       price: '299',
-      description: 'A comfortable and stylish chair perfect for any modern home',
+      description: 'Premium golf pants designed for comfort and performance on the course',
     },
   },
 };
@@ -95,9 +95,9 @@ export const WithDescription: Story = {
 export const WithRatingAndReviews: Story = {
   args: {
     product: {
-      id: 'norman-chair-reviews',
-      variationId: 'norman-chair-reviews-variation',
-      name: "Norman's Chair",
+      id: 'highland-golf-pants',
+      variationId: 'highland-golf-pants--navy',
+      name: 'Highland Golf Pants',
       imageUrl: DEMO_IMAGE_URL,
       price: '299',
       rating: 4.8,
@@ -110,9 +110,9 @@ export const WithRatingAndReviews: Story = {
 export const WithAddToCart: Story = {
   args: {
     product: {
-      id: 'norman-chair-cart',
-      variationId: 'norman-chair-cart-variation',
-      name: "Norman's Chair",
+      id: 'highland-golf-pants',
+      variationId: 'highland-golf-pants--navy',
+      name: 'Highland Golf Pants',
       imageUrl: DEMO_IMAGE_URL,
       price: '299',
     },
@@ -127,9 +127,9 @@ export const WithAddToCart: Story = {
 export const WithWishlist: Story = {
   args: {
     product: {
-      id: 'norman-chair-wishlist',
-      variationId: 'norman-chair-wishlist-variation',
-      name: "Norman's Chair",
+      id: 'highland-golf-pants',
+      variationId: 'highland-golf-pants--navy',
+      name: 'Highland Golf Pants',
       imageUrl: DEMO_IMAGE_URL,
       price: '299',
     },
@@ -144,9 +144,9 @@ export const WithWishlist: Story = {
 export const WithTags: Story = {
   args: {
     product: {
-      id: 'norman-chair-tags',
-      variationId: 'norman-chair-tags-variation',
-      name: "Norman's Chair",
+      id: 'highland-golf-pants',
+      variationId: 'highland-golf-pants--navy',
+      name: 'Highland Golf Pants',
       imageUrl: DEMO_IMAGE_URL,
       price: '299',
       tags: ['Same day delivery', 'Free shipping'],
@@ -158,9 +158,9 @@ export const WithTags: Story = {
 export const CustomAddToCartText: Story = {
   args: {
     product: {
-      id: 'norman-chair-custom-text',
-      variationId: 'norman-chair-custom-text-variation',
-      name: "Norman's Chair",
+      id: 'highland-golf-pants',
+      variationId: 'highland-golf-pants--navy',
+      name: 'Highland Golf Pants',
       imageUrl: DEMO_IMAGE_URL,
       price: '299',
     },
@@ -176,9 +176,9 @@ export const CustomAddToCartText: Story = {
 export const CustomCurrency: Story = {
   args: {
     product: {
-      id: 'designer-lamp-eu',
-      variationId: 'designer-lamp-eu-variation',
-      name: "Norman's Chair",
+      id: 'highland-golf-pants',
+      variationId: 'highland-golf-pants--navy',
+      name: 'Highland Golf Pants',
       imageUrl: DEMO_IMAGE_URL,
       price: '150',
       salePrice: '120',
@@ -200,11 +200,11 @@ export const CustomCurrency: Story = {
 export const FullyFeatured: Story = {
   args: {
     product: {
-      id: 'designer-office-chair',
-      variationId: 'designer-office-chair-variation',
-      name: "Norman's Chair",
+      id: 'highland-golf-pants',
+      variationId: 'highland-golf-pants--navy',
+      name: 'Highland Golf Pants',
       imageUrl: DEMO_IMAGE_URL,
-      description: 'A comfortable and stylish chair perfect for any modern home',
+      description: 'Premium golf pants designed for comfort and performance on the course',
       price: '899',
       salePrice: '699',
       rating: 4.8,
@@ -228,11 +228,11 @@ export const FullyFeatured: Story = {
 export const InWishlist: Story = {
   args: {
     product: {
-      id: 'wishlist-chair',
-      variationId: 'wishlist-chair-variation',
-      name: "Norman's Chair",
+      id: 'highland-golf-pants',
+      variationId: 'highland-golf-pants--navy',
+      name: 'Highland Golf Pants',
       imageUrl: DEMO_IMAGE_URL,
-      description: 'A comfortable and stylish chair perfect for any modern home',
+      description: 'Premium golf pants designed for comfort and performance on the course',
       price: '399',
       rating: 4.5,
       reviewsCount: 156,
@@ -256,9 +256,9 @@ export const InWishlist: Story = {
 export const CompoundBasic: Story = {
   args: {
     product: {
-      id: 'compound-basic-chair',
-      variationId: 'compound-basic-chair-variation',
-      name: "Norman's Chair",
+      id: 'highland-golf-pants',
+      variationId: 'highland-golf-pants--navy',
+      name: 'Highland Golf Pants',
       imageUrl: DEMO_IMAGE_URL,
       price: '299',
     },
@@ -292,11 +292,11 @@ export const CompoundBasic: Story = {
 export const CompoundFullyFeatured: Story = {
   args: {
     product: {
-      id: 'compound-full-chair',
-      variationId: 'compound-full-chair-variation',
-      name: "Norman's Chair",
+      id: 'highland-golf-pants',
+      variationId: 'highland-golf-pants--navy',
+      name: 'Highland Golf Pants',
       imageUrl: DEMO_IMAGE_URL,
-      description: 'A comfortable and stylish chair perfect for any modern home',
+      description: 'Premium golf pants designed for comfort and performance on the course',
       price: '899',
       salePrice: '699',
       rating: 4.8,
@@ -341,15 +341,15 @@ export const CompoundFullyFeatured: Story = {
 export const CompoundCustomLayout: Story = {
   args: {
     product: {
-      id: 'compound-custom-chair',
-      variationId: 'compound-custom-chair-variation',
-      name: "Norman's Chair",
+      id: 'highland-golf-pants',
+      variationId: 'highland-golf-pants--navy',
+      name: 'Highland Golf Pants',
       imageUrl: DEMO_IMAGE_URL,
       price: '599',
       salePrice: '449',
       rating: 4.7,
       reviewsCount: 156,
-      description: 'A comfortable and stylish chair perfect for any modern home',
+      description: 'Premium golf pants designed for comfort and performance on the course',
       tags: ['Premium', 'Fast Shipping'],
     },
     priceCurrency: '$',
@@ -387,14 +387,14 @@ export const CompoundCustomLayout: Story = {
 export const CompoundGridLayout: Story = {
   args: {
     product: {
-      id: 'compound-grid-chair',
-      variationId: 'compound-grid-chair-variation',
-      name: "Norman's Chair",
+      id: 'highland-golf-pants',
+      variationId: 'highland-golf-pants--navy',
+      name: 'Highland Golf Pants',
       imageUrl: DEMO_IMAGE_URL,
       price: '799',
       rating: 4.8,
       reviewsCount: 203,
-      description: 'A comfortable and stylish chair perfect for any modern home',
+      description: 'Premium golf pants designed for comfort and performance on the course',
     },
     priceCurrency: '$',
     onAddToCart: (e) => console.log('Added to cart', e),
@@ -426,9 +426,9 @@ export const CompoundGridLayout: Story = {
 export const CompoundMinimal: Story = {
   args: {
     product: {
-      id: 'compound-minimal-chair',
-      variationId: 'compound-minimal-chair-variation',
-      name: "Norman's Chair",
+      id: 'highland-golf-pants',
+      variationId: 'highland-golf-pants--navy',
+      name: 'Highland Golf Pants',
       imageUrl: DEMO_IMAGE_URL,
       price: '199',
     },
@@ -461,15 +461,15 @@ export const CompoundMinimal: Story = {
 export const CompleteCustomOverride: Story = {
   args: {
     product: {
-      id: 'custom-override-chair',
-      variationId: 'custom-override-chair-variation',
-      name: "Norman's Chair",
+      id: 'highland-golf-pants',
+      variationId: 'highland-golf-pants--navy',
+      name: 'Highland Golf Pants',
       imageUrl: DEMO_IMAGE_URL,
       price: '599',
       salePrice: '449',
       rating: 4.7,
       reviewsCount: 892,
-      description: 'A comfortable and stylish chair perfect for any modern home',
+      description: 'Premium golf pants designed for comfort and performance on the course',
       tags: ['Premium', 'Limited Edition'],
     },
     priceCurrency: '$',
@@ -487,8 +487,9 @@ export const CompleteCustomOverride: Story = {
 export const CompactListStyle: Story = {
   args: {
     product: {
-      id: 'compact-list-chair',
-      name: "Norman's Chair",
+      id: 'highland-golf-pants',
+      variationId: 'highland-golf-pants--navy',
+      name: 'Highland Golf Pants',
       imageUrl: DEMO_IMAGE_URL,
       price: '249',
       salePrice: '199',
@@ -619,13 +620,14 @@ blue-600 border border-blue-600 py-2 px-4 rounded-lg font-medium transition-colo
 export const CustomPriceSection: Story = {
   args: {
     product: {
-      id: 'custom-price-chair',
-      name: "Norman's Chair",
+      id: 'highland-golf-pants',
+      variationId: 'highland-golf-pants--navy',
+      name: 'Highland Golf Pants',
       imageUrl: DEMO_IMAGE_URL,
       price: '599',
       rating: 4.8,
       reviewsCount: 156,
-      description: 'A comfortable and stylish chair perfect for any modern home',
+      description: 'Premium golf pants designed for comfort and performance on the course',
     },
     priceCurrency: '$',
     onAddToCart: (e) => console.log('Added to cart', e),
@@ -642,13 +644,14 @@ export const CustomPriceSection: Story = {
 export const CustomTitleSection: Story = {
   args: {
     product: {
-      id: 'custom-title-chair',
-      name: "Norman's Chair",
+      id: 'highland-golf-pants',
+      variationId: 'highland-golf-pants--navy',
+      name: 'Highland Golf Pants',
       imageUrl: DEMO_IMAGE_URL,
       price: '449',
       rating: 4.5,
       reviewsCount: 89,
-      description: 'A comfortable and stylish chair perfect for any modern home',
+      description: 'Premium golf pants designed for comfort and performance on the course',
     },
     priceCurrency: '$',
     onAddToCart: (e) => console.log('Added to cart', e),
@@ -665,13 +668,14 @@ export const CustomTitleSection: Story = {
 export const CustomAddToCartButton: Story = {
   args: {
     product: {
-      id: 'custom-button-chair',
-      name: "Norman's Chair",
+      id: 'highland-golf-pants',
+      variationId: 'highland-golf-pants--navy',
+      name: 'Highland Golf Pants',
       imageUrl: DEMO_IMAGE_URL,
       price: '399',
       rating: 4.3,
       reviewsCount: 67,
-      description: 'A comfortable and stylish chair perfect for any modern home',
+      description: 'Premium golf pants designed for comfort and performance on the course',
     },
     priceCurrency: '$',
     onAddToCart: (e) => console.log('Added to cart', e),
@@ -688,13 +692,14 @@ export const CustomAddToCartButton: Story = {
 export const CustomWishlistButton: Story = {
   args: {
     product: {
-      id: 'custom-wishlist-chair',
-      name: "Norman's Chair",
+      id: 'highland-golf-pants',
+      variationId: 'highland-golf-pants--navy',
+      name: 'Highland Golf Pants',
       imageUrl: DEMO_IMAGE_URL,
       price: '529',
       rating: 4.7,
       reviewsCount: 123,
-      description: 'A comfortable and stylish chair perfect for any modern home',
+      description: 'Premium golf pants designed for comfort and performance on the course',
     },
     priceCurrency: '$',
     onAddToCart: (e) => console.log('Added to cart', e),
@@ -713,13 +718,14 @@ export const CustomWishlistButton: Story = {
 export const CustomFooterSection: Story = {
   args: {
     product: {
-      id: 'custom-footer-chair',
-      name: "Norman's Chair",
+      id: 'highland-golf-pants',
+      variationId: 'highland-golf-pants--navy',
+      name: 'Highland Golf Pants',
       imageUrl: DEMO_IMAGE_URL,
       price: '649',
       rating: 4.8,
       reviewsCount: 198,
-      description: 'A comfortable and stylish chair perfect for any modern home',
+      description: 'Premium golf pants designed for comfort and performance on the course',
       tags: ['Premium Quality', 'Fast Delivery', 'Eco-Friendly'],
     },
     priceCurrency: '$',
@@ -739,13 +745,14 @@ export const CustomFooterSection: Story = {
 export const MultipleCustomizations: Story = {
   args: {
     product: {
-      id: 'multiple-custom-chair',
-      name: "Norman's Chair",
+      id: 'highland-golf-pants',
+      variationId: 'highland-golf-pants--navy',
+      name: 'Highland Golf Pants',
       imageUrl: DEMO_IMAGE_URL,
       price: '699',
       rating: 4.9,
       reviewsCount: 234,
-      description: 'A comfortable and stylish chair perfect for any modern home',
+      description: 'Premium golf pants designed for comfort and performance on the course',
       tags: ['All Custom', 'Premium', 'Limited Edition'],
     },
     priceCurrency: '$',
@@ -774,15 +781,15 @@ export const MultipleCustomizations: Story = {
 export const CompoundWithDirectPropsOverride: Story = {
   args: {
     product: {
-      id: 'compound-props-override-chair',
-      variationId: 'compound-props-override-chair-variation',
-      name: "Norman's Chair",
+      id: 'highland-golf-pants',
+      variationId: 'highland-golf-pants--navy',
+      name: 'Highland Golf Pants',
       imageUrl: DEMO_IMAGE_URL,
       price: '599',
       salePrice: '449',
       rating: 4.5,
       reviewsCount: 156,
-      description: 'A comfortable and stylish chair perfect for any modern home',
+      description: 'Premium golf pants designed for comfort and performance on the course',
       tags: ['Standard Shipping'],
     },
     priceCurrency: '$',
@@ -804,7 +811,7 @@ export const CompoundWithDirectPropsOverride: Story = {
 
       <ProductCard.Content>
         {/* Override title with custom text */}
-        <ProductCard.TitleSection name="Premium Edition - Norman's Chair" />
+        <ProductCard.TitleSection name='Premium Edition - Highland Golf Pants' />
 
         {/* Override price with promotional pricing */}
         <ProductCard.PriceSection price='799' salePrice='399' priceCurrency='$' />
@@ -849,15 +856,15 @@ export const CompoundWithDirectPropsOverride: Story = {
 export const CompoundWithRenderProps: Story = {
   args: {
     product: {
-      id: 'compound-render-props-chair',
-      variationId: 'compound-render-props-chair-variation',
-      name: "Norman's Chair",
+      id: 'highland-golf-pants',
+      variationId: 'highland-golf-pants--navy',
+      name: 'Highland Golf Pants',
       imageUrl: DEMO_IMAGE_URL,
       price: '899',
       salePrice: '699',
       rating: 4.9,
       reviewsCount: 456,
-      description: 'A comfortable and stylish chair perfect for any modern home',
+      description: 'Premium golf pants designed for comfort and performance on the course',
       tags: ['Premium', 'Custom Layout'],
     },
     priceCurrency: '$',
@@ -971,11 +978,11 @@ export const CompoundWithRenderProps: Story = {
 export const ComponentOverrideExample: Story = {
   args: {
     product: {
-      id: 'component-override-chair',
-      variationId: 'component-override-chair-variation',
-      name: "Norman's Chair",
+      id: 'highland-golf-pants',
+      variationId: 'highland-golf-pants--navy',
+      name: 'Highland Golf Pants',
       imageUrl: DEMO_IMAGE_URL,
-      description: 'A comfortable and stylish chair perfect for any modern home',
+      description: 'Premium golf pants designed for comfort and performance on the course',
       price: '899',
       salePrice: '699',
       rating: 4.8,
@@ -1013,11 +1020,11 @@ export const ComponentOverrideExample: Story = {
 export const DataAttributesExample: Story = {
   args: {
     product: {
-      id: 'data-attributes-chair',
-      variationId: 'data-attributes-chair-variation',
-      name: "Norman's Chair",
+      id: 'highland-golf-pants',
+      variationId: 'highland-golf-pants--navy',
+      name: 'Highland Golf Pants',
       imageUrl: DEMO_IMAGE_URL,
-      description: 'A comfortable and stylish chair perfect for any modern home',
+      description: 'Premium golf pants designed for comfort and performance on the course',
       price: '899',
       rating: 4.8,
       reviewsCount: 2713,
@@ -1093,11 +1100,11 @@ export const RenderPropsExample: Story = {
   ),
   args: {
     product: {
-      id: 'render-props-chair',
-      variationId: 'render-props-chair-variation',
-      name: "Norman's Chair",
+      id: 'highland-golf-pants',
+      variationId: 'highland-golf-pants--navy',
+      name: 'Highland Golf Pants',
       imageUrl: DEMO_IMAGE_URL,
-      description: 'A comfortable and stylish chair perfect for any modern home',
+      description: 'Premium golf pants designed for comfort and performance on the course',
       price: '899',
       salePrice: '699',
       rating: 4.8,

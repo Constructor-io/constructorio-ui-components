@@ -40,9 +40,7 @@ import * as ProductCardStories from './ProductCard.stories';
 
 ```tsx
 import ProductCard from '@/components/product-card';
-import { memo, useCallback } from 'react';
-
-const OptimizedProductCard = memo(ProductCard);
+import { useCallback } from 'react';
 
 function OptimizedExample({ product }) {
   const handleAddToCart = useCallback(() => {
@@ -54,7 +52,7 @@ function OptimizedExample({ product }) {
   }, []);
 
   return (
-    <OptimizedProductCard
+    <ProductCard
       {...product}
       onAddToCart={handleAddToCart}
       onAddToWishlist={handleWishlistToggle}
@@ -85,43 +83,4 @@ function OptimizedExample({ product }) {
 <div>
   <ProductCard.PriceSection /> {/* This will throw an error */}
 </div>
-
-// ✅ Good: Conditional rendering with compound components
-<ProductCard {...props}>
-  <ProductCard.ImageSection>
-    <ProductCard.WishlistButton />
-  </ProductCard.ImageSection>
-  <ProductCard.Content>
-    <ProductCard.PriceSection />
-    <ProductCard.TitleSection />
-    {product.description && <ProductCard.DescriptionSection />}
-    {product.rating && <ProductCard.RatingSection />}
-  </ProductCard.Content>
-</ProductCard>
-```
-
-## Error Handling
-
-```tsx
-import ProductCard from '@/components/product-card';
-
-function ErrorHandlingExample({ product }) {
-  const handleAddToCart = async () => {
-    try {
-      await addToCartAPI(product.id);
-      console.log('Successfully added to cart');
-    } catch (error) {
-      console.error('Failed to add to cart:', error);
-      // Show error message to user
-    }
-  };
-
-  return (
-    <ProductCard
-      {...product}
-      onAddToCart={handleAddToCart}
-      imageUrl={product.imageUrl || '/placeholder-image.jpg'}
-    />
-  );
-}
 ```

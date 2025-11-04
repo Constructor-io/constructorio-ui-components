@@ -8,7 +8,7 @@ export const CompleteCustomOverrideCard: React.FC<ProductCardProps> = (props) =>
       <img
         src={props.product.imageUrl}
         alt={props.product.name}
-        className='w-full h-48 object-cover rounded-2xl'
+        className='w-full object-cover rounded-2xl'
       />
       <div className='absolute top-3 right-3 bg-red-500 text-white px-2 py-1 rounded-full text-xs font-bold'>
         SALE
@@ -69,7 +69,7 @@ export const CompactListStyleCard: React.FC<ProductCardProps> = (props) => (
     <img
       src={props.product.imageUrl}
       alt={props.product.name}
-      className='w-16 h-16 object-cover rounded-lg mr-4'
+      className='w-16 object-cover rounded-lg mr-4'
     />
     <div className='flex-1'>
       <h3 className='font-semibold text-gray-800'>{props.product.name}</h3>

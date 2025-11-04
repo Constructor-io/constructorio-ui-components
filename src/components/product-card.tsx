@@ -166,7 +166,7 @@ const ImageSection: React.FC<ImageSectionProps> = (props) => {
         <img
           src={imageUrl}
           alt={name || 'product image'}
-          className='object-cover w-full h-[224px] rounded-2xl'
+          className='object-cover w-full min-h-[224px] rounded-2xl'
         />
         {props.children}
       </div>

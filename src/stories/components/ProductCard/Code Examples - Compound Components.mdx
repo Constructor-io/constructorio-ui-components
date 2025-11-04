@@ -18,10 +18,10 @@ function CompoundBasicExample() {
   return (
     <ProductCard
       product={{
-        id='compound-basic-chair',
-        variationId='compound-basic-chair-variation',
-        name="Norman's Chair",
-        imageUrl='https://example.com/chair.jpg',
+        id='highland-golf-pants',
+        variationId='highland-golf-pants--navy',
+        name="Highland Golf Pants",
+        imageUrl='https://example.com/pants.jpg',
         price='299',
       }}
       priceCurrency='$'
@@ -54,11 +54,11 @@ function CompoundFullyFeaturedExample() {
   return (
     <ProductCard
       product={{
-        id='compound-full-chair',
-        variationId='compound-full-chair-variation',
-        name="Norman's Chair",
-        imageUrl='https://example.com/chair.jpg',
-        description='A comfortable and stylish chair perfect for any modern home',
+        id='highland-golf-pants',
+        variationId='highland-golf-pants--navy',
+        name="Highland Golf Pants",
+        imageUrl='https://example.com/pants.jpg',
+        description='Premium golf pants designed for comfort and performance on the course',
         price='899',
         salePrice='699',
         rating={4.8},
@@ -98,15 +98,15 @@ function CompoundCustomLayoutExample() {
   return (
     <ProductCard
       product={{
-        id='compound-custom-chair'
-        variationId='compound-custom-chair-variation',
-        name="Norman's Chair",
-        imageUrl='https://example.com/chair.jpg',
+        id='highland-golf-pants',
+        variationId='highland-golf-pants--navy',
+        name="Highland Golf Pants",
+        imageUrl='https://example.com/pants.jpg',
         price='599',
         salePrice='449',
         rating={4.7},
         reviewsCount={156},
-        description='A comfortable and stylish chair perfect for any modern home',
+        description='Premium golf pants designed for comfort and performance on the course',
         tags={['Premium', 'Fast Shipping']},
       }}
       priceCurrency='$'
@@ -144,14 +144,14 @@ function CompoundGridLayoutExample() {
   return (
     <ProductCard
       product={{
-        id='compound-grid-chair',
-        variationId='compound-grid-chair-variation',
-        name="Norman's Chair",
-        imageUrl='https://example.com/chair.jpg',
+        id='highland-golf-pants',
+        variationId='highland-golf-pants--navy',
+        name="Highland Golf Pants",
+        imageUrl='https://example.com/pants.jpg',
         price='799',
         rating={4.8},
         reviewsCount={203},
-        description='A comfortable and stylish chair perfect for any modern home',
+        description='Premium golf pants designed for comfort and performance on the course',
       }}
       priceCurrency='$'
       onAddToCart={(e) => console.log('Added to cart', e)}
@@ -184,10 +184,10 @@ function CompoundMinimalExample() {
   return (
     <ProductCard
       product={{
-        id='compound-minimal-chair',
-        variationId='compound-minimal-chair-variation',
-        name="Norman's Chair",
-        imageUrl='https://example.com/chair.jpg',
+        id='highland-golf-pants',
+        variationId='highland-golf-pants--navy',
+        name="Highland Golf Pants",
+        imageUrl='https://example.com/pants.jpg',
         price='199',
       }}
       priceCurrency='$'
@@ -215,7 +215,7 @@ The following sub-components are available for composition:
 - `ProductCard.TitleSection` - Product title/name display
 - `ProductCard.DescriptionSection` - Product description text
 - `ProductCard.PriceSection` - Displays price and sale price
-- `ProductCard.RatingSection` - Shows rating stars and review count 
+- `ProductCard.RatingSection` - Shows rating stars and review count
 - `ProductCard.TagsSection` - Renders product tags
 - `ProductCard.AddToCartButton` - Add to cart button
 - `ProductCard.WishlistButton` - Wishlist toggle button

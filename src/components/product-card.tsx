@@ -71,10 +71,11 @@ const WishlistButton: React.FC<WishlistButtonProps> = (props) => {
 
 const PriceSection: React.FC<PriceSectionProps> = (props) => {
   const { renderProps, componentOverrides } = useProductCardContext();
-  const {
-    product: { price, salePrice },
-  } = renderProps;
+  const { price: contextPrice, salePrice: contextSalePrice } = renderProps.product;
   const { priceCurrency = renderProps.priceCurrency || '$' } = props;
+
+  const price = props.price || contextPrice;
+  const salePrice = props.salePrice || contextSalePrice;
 
   return (
     <RenderPropsWrapper

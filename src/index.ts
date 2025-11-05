@@ -1,10 +1,11 @@
 // Components
-export { default as Button } from './components/ui/button';
-export { default as Badge } from './components/ui/badge';
+export { default as Button } from './components/button';
+export { default as Badge } from './components/badge';
+export { default as ProductCard } from './components/product-card';
 
 // Hooks
 
 // Types
-export type { ButtonVariants, ButtonOverrides, ButtonProps } from './components/ui/button';
-export type { BadgeVariants, BadgeOverrides, BadgeProps } from './components/ui/badge';
+export type { ButtonVariants, ButtonOverrides, ButtonProps } from './components/button';
+export type { BadgeVariants, BadgeOverrides, BadgeProps } from './components/badge';
 export * from './types';

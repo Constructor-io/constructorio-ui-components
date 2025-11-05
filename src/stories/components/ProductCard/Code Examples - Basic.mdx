@@ -1,0 +1,147 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import * as ProductCardStories from './ProductCard.stories';
+
+<Meta of={ProductCardStories} />
+
+# `ProductCard` - Basic Code Examples
+
+Using the default `ProductCard`
+
+## Minimal Product Card
+
+<Canvas of={ProductCardStories.Basic} />
+
+```tsx
+import ProductCard from '@/components/product-card';
+
+function BasicExample() {
+  return (
+    <ProductCard
+      product={{
+        id: "highland-golf-pants",
+        variationId: "highland-golf-pants--navy",
+        name: "Highland Golf Pants",
+        imageUrl: "https://example.com/pants.jpg"
+      }}
+    />
+  );
+}
+```
+
+## Product Card with Price
+
+<Canvas of={ProductCardStories.WithPrice} />
+
+```tsx
+import ProductCard from '@/components/product-card';
+
+function WithPriceExample() {
+  return (
+    <ProductCard
+      product={{
+        id: "highland-golf-pants",
+        variationId: "highland-golf-pants--navy",
+        name: "Highland Golf Pants",
+        imageUrl: "https://example.com/pants.jpg",
+        price: "299"
+      }}
+      priceCurrency="$"
+    />
+  );
+}
+```
+
+## Product Card with Sale Price
+
+<Canvas of={ProductCardStories.WithSalePrice} />
+
+```tsx
+import ProductCard from '@/components/product-card';
+
+function SalePriceExample() {
+  return (
+    <ProductCard
+      product={{
+        id: "highland-golf-pants",
+        variationId: "highland-golf-pants--navy",
+        name: "Highland Golf Pants",
+        imageUrl: "https://example.com/pants.jpg",
+        price: "399",
+        salePrice: "299"
+      }}
+      priceCurrency="$"
+    />
+  );
+}
+```
+
+## Product Card with Rating and Reviews
+
+<Canvas of={ProductCardStories.WithRatingAndReviews} />
+
+```tsx
+import ProductCard from '@/components/product-card';
+
+function RatingExample() {
+  return (
+    <ProductCard
+      product={{
+        id: "highland-golf-pants",
+        variationId: "highland-golf-pants--navy",
+        name: "Highland Golf Pants",
+        imageUrl: "https://example.com/pants.jpg",
+        price: "299",
+        rating: 4.8,
+        reviewsCount: 2713
+      }}
+    />
+  );
+}
+```
+
+## Product Card with Description
+
+<Canvas of={ProductCardStories.WithDescription} />
+
+```tsx
+import ProductCard from '@/components/product-card';
+
+function DescriptionExample() {
+  return (
+    <ProductCard
+      product={{
+        id: "highland-golf-pants",
+        variationId: "highland-golf-pants--navy",
+        name: "Highland Golf Pants",
+        imageUrl: "https://example.com/pants.jpg",
+        price: "299",
+        description: "Premium golf pants designed for comfort and performance on the course"
+      }}
+    />
+  );
+}
+```
+
+## Product Card with Tags
+
+<Canvas of={ProductCardStories.WithTags} />
+
+```tsx
+import ProductCard from '@/components/product-card';
+
+function TagsExample() {
+  return (
+    <ProductCard
+      product={{
+        id: "highland-golf-pants",
+        variationId: "highland-golf-pants--navy",
+        name: "Highland Golf Pants",
+        imageUrl: "https://example.com/pants.jpg",
+        price: "299",
+        tags: ['Same day delivery', 'Free shipping']
+      }}
+    />
+  );
+}
+```
+

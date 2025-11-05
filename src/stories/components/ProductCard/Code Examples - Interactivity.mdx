@@ -1,0 +1,179 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import * as ProductCardStories from './ProductCard.stories';
+
+<Meta of={ProductCardStories} />
+
+# `ProductCard` - Adding Interactivity
+
+Adding interactive functionality to the `ProductCard`
+
+## Product Card with Add to Cart
+
+<Canvas of={ProductCardStories.WithAddToCart} />
+
+```tsx
+import ProductCard from '@/components/product-card';
+
+function AddToCartExample() {
+  const handleAddToCart = (e) => {
+    console.log('Added to cart', e);
+    // Add your cart logic here
+  };
+
+  return (
+    <ProductCard
+      product={{
+        id="highland-golf-pants",
+        variationId="highland-golf-pants--navy",
+        name="Highland Golf Pants",
+        imageUrl="https://example.com/pants.jpg",
+        price="299",
+      }}
+      onAddToCart={handleAddToCart}
+    />
+  );
+}
+```
+
+## Product Card with Wishlist
+
+<Canvas of={ProductCardStories.WithWishlist} />
+
+```tsx
+import ProductCard from '@/components/product-card';
+
+function WishlistExample() {
+  const handleAddToWishlist = (e) => {
+    console.log('Added to wishlist', e);
+    // Add your wishlist logic here
+  };
+
+  return (
+    <ProductCard
+      product={{
+        id="highland-golf-pants",
+        variationId="highland-golf-pants--navy",
+        name="Highland Golf Pants",
+        imageUrl="https://example.com/pants.jpg",
+        price="299",
+      }}
+      onAddToWishlist={handleAddToWishlist}
+    />
+  );
+}
+```
+
+## Product Card with Custom Add to Cart Text
+
+<Canvas of={ProductCardStories.CustomAddToCartText} />
+
+```tsx
+import ProductCard from '@/components/product-card';
+
+function CustomAddToCartTextExample() {
+  const handleAddToCart = (e) => {
+    console.log('Added to cart', e);
+    // Add your cart logic here
+  };
+
+  return (
+    <ProductCard
+      product={{
+        id="highland-golf-pants",
+        variationId="highland-golf-pants--navy",
+        name="Highland Golf Pants",
+        imageUrl="https://example.com/pants.jpg",
+        price="299",
+      }}
+      onAddToCart={handleAddToCart}
+      addToCartText="Buy Now"
+    />
+  );
+}
+```
+
+## Product Card with Click Handler
+
+```tsx
+import ProductCard from '@/components/product-card';
+import { useRouter } from 'next/router';
+
+function ClickableExample() {
+  const router = useRouter();
+
+  const handleProductClick = () => {
+    router.push('/products/highland-golf-pants');
+  };
+
+  return (
+    <ProductCard
+      product={{
+        id="highland-golf-pants",
+        variationId="highland-golf-pants--navy",
+        name="Highland Golf Pants",
+        imageUrl="https://example.com/pants.jpg",
+        price="299",
+      }}
+      priceCurrency="$"
+      onProductClick={handleProductClick}
+    />
+  );
+}
+```
+
+## Product Card with Custom Currency
+
+<Canvas of={ProductCardStories.CustomCurrency} />
+
+```tsx
+import ProductCard from '@/components/product-card';
+
+function CustomCurrencyExample() {
+  return (
+    <ProductCard
+      product={{
+        id="highland-golf-pants",
+        variationId="highland-golf-pants--navy",
+        name="Highland Golf Pants",
+        imageUrl="https://example.com/pants.jpg",
+        price="150",
+        salePrice="120",
+        rating={4.5},
+        reviewsCount={89},
+      }}
+      priceCurrency="€"
+      onAddToCart={(e) => console.log('Added to cart', e)}
+      onAddToWishlist={(e) => console.log('Added to wishlist', e)}
+    />
+  );
+}
+```
+
+## Product Card Already in Wishlist
+
+<Canvas of={ProductCardStories.InWishlist} />
+
+```tsx
+import ProductCard from '@/components/product-card';
+
+function InWishlistExample() {
+  return (
+    <ProductCard
+      product={{
+        id="highland-golf-pants",
+        variationId="highland-golf-pants--navy",
+        name="Highland Golf Pants",
+        imageUrl="https://example.com/pants.jpg",
+        description="Premium golf pants designed for comfort and performance on the course",
+        price="399",
+        rating={4.5},
+        reviewsCount={156},
+      }}
+      priceCurrency="$"
+      isInWishlist={true}
+      onAddToWishlist={(e) => console.log('Removed from wishlist', e)}
+      onAddToCart={(e) => console.log('Added to cart', e)}
+    />
+  );
+}
+```

@@ -1,4 +1,7 @@
 import { Meta } from '@storybook/addon-docs/blocks';
+import Repo from './assets/repo.svg';
+import Comments from './assets/comments.svg';
+import Colors from './assets/colors.svg';
 import './assets/storybook-styles.css';
 
 <Meta title='General/Introduction' />
@@ -8,24 +11,27 @@ import './assets/storybook-styles.css';
 <div className='subheading'>Components</div>
 
 <div className='link-list'>
-    <a className='link-item' href='./?path=/docs/components-button--usage-patterns'>
-        <span>
+  <a className='link-item' href='./?path=/docs/components-button--usage-patterns'>
+    <img src={Colors} alt='cio-components-button' />
+    <span>
       <strong>Button</strong>
       Versatile button component with multiple variants, sizes, and states
     </span>
-    </a>
-    <a className='link-item' href='./?path=/docs/components-badge--usage-patterns'>
-        <span>
+  </a>
+  <a className='link-item' href='./?path=/docs/components-badge--usage-patterns'>
+  <img src={Comments} alt='cio-components-badge' />
+    <span>
       <strong>Badge</strong>
       Compact status indicator with customizable styles, shapes, and icons
     </span>
-    </a>
-    <a className='link-item' href='./?path=/docs/components-productcard--usage-patterns'>
-        <span>
+  </a>
+  <a className='link-item' href='./?path=/docs/components-productcard--usage-patterns'>
+  <img src={Repo} alt='cio-components-product-card' />
+    <span>
       <strong>Product Card</strong>
       Product card component with multiple variants, sizes, and states
     </span>
-    </a>
+  </a>
 </div>
 
 <div className='badge-wrapper tip-wrapper'>

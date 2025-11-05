@@ -508,7 +508,7 @@ export const CompactListStyle: Story = {
 // Example customization overrides for different sections
 const priceOverride = {
   reactNode: (renderProps: ProductCardProps) => (
-    <div className='bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200 rounded-lg p-4 mt-2'>
+    <div className='bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200 rounded-lg p-4 my-2'>
       <div className='flex items-center justify-between'>
         <div className='flex flex-col'>
           <span className='text-xs text-emerald-600 font-medium uppercase tracking-wide'>
@@ -557,7 +557,7 @@ const addToCartButtonOverride = {
   reactNode: (props: { onAddToCart?: (e: React.MouseEvent) => void; addToCartText?: string }) => (
     <button
       className='w-full bg-gradient-to-r from-purple-500
-to-pink-500 text-white py-2 px-4 rounded-lg hover:from-purple-600 hover:to-pink-600 transition-all cursor-pointer'
+to-pink-500 text-white py-2 px-4 rounded-lg hover:from-purple-600 hover:to-pink-600 transition-all cursor-pointer border-0'
       onClick={(e) => props.onAddToCart && props.onAddToCart(e)}>
       🛒 {props.addToCartText || 'Add to Cart'}
     </button>
@@ -568,7 +568,7 @@ const wishlistButtonOverride = {
   reactNode: (props: ProductCardProps) => (
     <button
       className='absolute top-2 right-2 bg-white
-text-white px-1 rounded-md hover:bg-red-200 transition-colors cursor-pointer'
+text-white px-1 rounded-md hover:bg-red-200 transition-colors cursor-pointer border-0'
       onClick={(e) => props.onAddToWishlist && props.onAddToWishlist(e)}>
       ❤️
     </button>
@@ -583,13 +583,13 @@ const footerOverride = {
         <div className='flex flex-col gap-2'>
           <button
             className='flex-1 bg-blue-600 hover:
-bg-blue-700 text-white py-2 px-4 rounded-lg font-medium transition-colors cursor-pointer'
+bg-blue-700 text-white py-2 px-4 rounded-lg font-medium transition-colors cursor-pointer border-0'
             onClick={(e) => props.onAddToCart && props.onAddToCart(e)}>
             🛒 Quick Buy
           </button>
           <button
             className='flex-1 bg-white hover:bg-gray-50 text-
-blue-600 border border-blue-600 py-2 px-4 rounded-lg font-medium transition-colors cursor-pointer'
+blue-600 border border-blue-600 py-2 px-4 rounded-lg font-medium transition-colors cursor-pointer border-0'
             onClick={() => console.log('Compare clicked')}>
             ⚖️ Compare
           </button>

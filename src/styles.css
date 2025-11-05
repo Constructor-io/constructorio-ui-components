@@ -13,6 +13,11 @@
   font-family: 'Inter', sans-serif;
   border: 0 solid;
   box-sizing: border-box;
+
+  & p,
+  & h3 {
+    margin: 0;
+  }
 }
 
 @theme inline {

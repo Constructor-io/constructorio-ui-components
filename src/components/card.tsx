@@ -81,7 +81,7 @@ function Card({ children, componentOverrides, className, ...props }: CardProps) 
         <div
           data-slot='card'
           className={cn(
-            'bg-card text-card-foreground flex flex-col gap-2 rounded-2xl border p-2 sm:p-4 shadow-md overflow-hidden',
+            'cio-components bg-card text-card-foreground flex flex-col gap-2 rounded-2xl border p-2 sm:p-4 shadow-md overflow-hidden',
             className,
           )}
           {...props}>

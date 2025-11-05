@@ -51,7 +51,7 @@
     "serve-built-storybook": "npx http-server docs",
     "compile": "rm -rf lib && tsc -p tsconfig-mjs.json && tsc -p tsconfig-cjs.json && npm run remove-aliases && npm run copy-styles",
     "remove-aliases": "tsc-alias -p tsconfig-mjs.json && tsc-alias -p tsconfig-cjs.json",
-    "check-license": "license-checker --production --onlyAllow 'Apache-2.0;BSD-3-Clause;MIT;0BSD;BSD-2-Clause' --excludePackages 'picocolors@1.0.0'",
+    "check-license": "license-checker --production --onlyAllow 'Apache-2.0;BSD-3-Clause;MIT;0BSD;BSD-2-Clause;ISC' --excludePackages 'picocolors@1.0.0'",
     "prepare": "husky",
     "storybook": "storybook dev -p 6006"
   },

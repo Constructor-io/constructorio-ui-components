@@ -1,0 +1,55 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import * as ProductCardStories from './ProductCard.stories';
+
+<Meta of={ProductCardStories} />
+
+# `ProductCard` - A Fully Featured Code Example
+
+Here's the full suite of `ProductCard` features
+
+##  Example
+
+<Canvas of={ProductCardStories.FullyFeatured} />
+
+```tsx
+import ProductCard from '@/components/product-card';
+
+function FullyFeaturedExample() {
+  const handleAddToCart = (e) => {
+    console.log('Added to cart', e);
+    // Implement cart logic
+  };
+
+  const handleAddToWishlist = (e) => {
+    console.log('Added to wishlist', e);
+    // Implement wishlist logic
+  };
+
+  const handleProductClick = () => {
+    console.log('Product clicked');
+    // Navigate to product detail page
+  };
+
+  return (
+    <ProductCard
+      product={{
+        id="highland-golf-pants",
+        variationId="highland-golf-pants--navy",
+        name="Highland Golf Pants",
+        imageUrl="https://example.com/pants.jpg",
+        description="Premium golf pants designed for comfort and performance on the course",
+        price="899",
+        salePrice="699",
+        rating={4.8},
+        reviewsCount={2713},
+        tags={['Same day delivery', 'Free assembly', '10-year warranty']},
+      }},
+      priceCurrency="$"
+      onAddToCart={handleAddToCart}
+      onAddToWishlist={handleAddToWishlist}
+      onProductClick={handleProductClick}
+      addToCartText="Add to Cart"
+    />
+  );
+}
+```

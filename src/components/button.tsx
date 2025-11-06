@@ -1,12 +1,12 @@
 import React, { ReactNode } from 'react';
 import { Slot } from '@radix-ui/react-slot';
 import { cn } from '@/lib/utils';
-import RenderPropsWrapper from '../RenderPropsWrapper';
+import RenderPropsWrapper from '@/components/RenderPropsWrapper';
 import { ComponentOverrideProps, IncludeComponentOverrides } from '@/types';
 import { cva, VariantProps } from 'class-variance-authority';
 
 const buttonVariants = cva(
-  "cio-button cursor-pointer inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-sm text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive cursor-pointer",
+  "cio-components cio-button cursor-pointer inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-sm text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive cursor-pointer",
   {
     variants: {
       variant: {
@@ -52,6 +52,7 @@ export interface ButtonProps
    * True to render `children` as is. Defaults to False, rendering `children` under <button>
    */
   asChild?: boolean;
+  conversionType?: string;
 }
 
 export default function Button({
@@ -59,6 +60,7 @@ export default function Button({
   variant,
   size,
   shape,
+  conversionType,
   asChild = false,
   componentOverrides,
   ...props
@@ -72,6 +74,7 @@ export default function Button({
       <Comp
         data-slot='button'
         className={cn(buttonVariants({ variant, size, shape, className }))}
+        data-cnstrc-btn={conversionType}
         {...props}
       />
     </RenderPropsWrapper>

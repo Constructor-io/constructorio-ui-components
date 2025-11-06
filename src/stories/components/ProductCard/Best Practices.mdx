@@ -1,0 +1,88 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import * as ProductCardStories from './ProductCard.stories';
+
+<Meta of={ProductCardStories} />
+
+# Best Practices
+
+## Choosing the Right Pattern
+
+```tsx
+// ✅ Use default layout for standard cards
+<ProductCard {...props} />
+
+// ✅ Use compound components for custom layouts
+<ProductCard {...props}>
+  <ProductCard.ImageSection>
+    <ProductCard.WishlistButton />
+  </ProductCard.ImageSection>
+  <ProductCard.Content>
+    <ProductCard.PriceSection />
+    <ProductCard.TitleSection />
+  </ProductCard.Content>
+</ProductCard>
+
+// ✅ Use render props for complex custom logic
+<ProductCard {...props}>
+  {(renderProps) => <CompletelyCustomCard {...renderProps} />}
+</ProductCard>
+
+// ✅ Use component overrides for minor customizations
+<ProductCard
+  {...props}
+  componentOverrides={{
+    content: {
+      price: { reactNode: (props) => <CustomPrice {...props} /> }
+    }
+  }}
+/>
+```
+
+## Performance Optimization
+
+```tsx
+import ProductCard from '@/components/product-card';
+import { useCallback } from 'react';
+
+function OptimizedExample({ product }) {
+  const handleAddToCart = useCallback(() => {
+    // Cart logic here
+  }, []);
+
+  const handleWishlistToggle = useCallback(() => {
+    // Wishlist logic here
+  }, []);
+
+  return (
+    <ProductCard
+      {...product}
+      onAddToCart={handleAddToCart}
+      onAddToWishlist={handleWishlistToggle}
+    />
+  );
+}
+```
+
+## Compound Component Best Practices
+
+```tsx
+// ✅ Good: Use semantic structure
+<ProductCard {...props}>
+  <ProductCard.ImageSection>
+    <ProductCard.WishlistButton />
+  </ProductCard.ImageSection>
+  <ProductCard.Content>
+    <ProductCard.PriceSection />
+    <ProductCard.TitleSection />
+    <ProductCard.DescriptionSection />
+  </ProductCard.Content>
+  <ProductCard.Footer>
+    <ProductCard.AddToCartButton />
+  </ProductCard.Footer>
+</ProductCard>
+
+// ❌ Avoid: Using compound components outside ProductCard context
+<div>
+  <ProductCard.PriceSection /> {/* This will throw an error */}
+</div>
+```

@@ -1,8 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import CioCarousel from '../../../components/ui/carousel';
+import CioCarousel from '../../../components/carousel';
 import { cn } from '../../../lib/utils';
-
-import { Card, CardContent } from '../../../components/ui/card';
 
 const meta = {
   title: 'Components/Carousel',

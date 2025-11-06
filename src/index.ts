@@ -2,7 +2,7 @@
 export { default as Button } from './components/button';
 export { default as Badge } from './components/badge';
 export { default as ProductCard } from './components/product-card';
-export { default as Carousel } from './components/ui/carousel';
+export { default as Carousel } from './components/carousel';
 
 // Hooks
 

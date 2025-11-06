@@ -1,4 +1,4 @@
-import { Orientation, ResponsiveConfig } from '@/components/ui/carousel';
+import { Orientation, ResponsiveConfig } from '@/components/carousel';
 import * as React from 'react';
 /**
  * Responsive carousel styling hook using flex + gap (no negative margins).

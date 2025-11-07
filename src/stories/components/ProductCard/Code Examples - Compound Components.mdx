@@ -18,11 +18,11 @@ function CompoundBasicExample() {
   return (
     <ProductCard
       product={{
-        id='highland-golf-pants',
-        variationId='highland-golf-pants--navy',
-        name="Highland Golf Pants",
-        imageUrl='https://example.com/pants.jpg',
-        price='299',
+        id: 'highland-golf-pants',
+        variationId: 'highland-golf-pants--navy',
+        name: "Highland Golf Pants",
+        imageUrl: 'https://example.com/pants.jpg',
+        price: '299',
       }}
       priceCurrency='$'
       onAddToCart={(e) => console.log('Added to cart', e)}
@@ -54,16 +54,16 @@ function CompoundFullyFeaturedExample() {
   return (
     <ProductCard
       product={{
-        id='highland-golf-pants',
-        variationId='highland-golf-pants--navy',
-        name="Highland Golf Pants",
-        imageUrl='https://example.com/pants.jpg',
-        description='Premium golf pants designed for comfort and performance on the course',
-        price='899',
-        salePrice='699',
-        rating={4.8},
-        reviewsCount={2713},
-        tags={['Same day delivery', 'Free assembly', '10-year warranty']},
+        id: 'highland-golf-pants',
+        variationId: 'highland-golf-pants--navy',
+        name: "Highland Golf Pants",
+        imageUrl: 'https://example.com/pants.jpg',
+        description: 'Premium golf pants designed for comfort and performance on the course',
+        price: '899',
+        salePrice: '699',
+        rating: 4.8,
+        reviewsCount: 2713,
+        tags: ['Same day delivery', 'Free assembly', '10-year warranty'],
       }}
       priceCurrency='$'
       onProductClick={() => console.log('Product clicked')}
@@ -98,16 +98,16 @@ function CompoundCustomLayoutExample() {
   return (
     <ProductCard
       product={{
-        id='highland-golf-pants',
-        variationId='highland-golf-pants--navy',
-        name="Highland Golf Pants",
-        imageUrl='https://example.com/pants.jpg',
-        price='599',
-        salePrice='449',
-        rating={4.7},
-        reviewsCount={156},
-        description='Premium golf pants designed for comfort and performance on the course',
-        tags={['Premium', 'Fast Shipping']},
+        id: 'highland-golf-pants',
+        variationId: 'highland-golf-pants--navy',
+        name: "Highland Golf Pants",
+        imageUrl: 'https://example.com/pants.jpg',
+        price: '599',
+        salePrice: '449',
+        rating: 4.7,
+        reviewsCount: 156,
+        description: 'Premium golf pants designed for comfort and performance on the course',
+        tags: ['Premium', 'Fast Shipping'],
       }}
       priceCurrency='$'
       onAddToCart={(e) => console.log('Added to cart', e)}
@@ -144,14 +144,14 @@ function CompoundGridLayoutExample() {
   return (
     <ProductCard
       product={{
-        id='highland-golf-pants',
-        variationId='highland-golf-pants--navy',
-        name="Highland Golf Pants",
-        imageUrl='https://example.com/pants.jpg',
-        price='799',
-        rating={4.8},
-        reviewsCount={203},
-        description='Premium golf pants designed for comfort and performance on the course',
+        id: 'highland-golf-pants',
+        variationId: 'highland-golf-pants--navy',
+        name: "Highland Golf Pants",
+        imageUrl: 'https://example.com/pants.jpg',
+        price: '799',
+        rating: 4.8,
+        reviewsCount: 203,
+        description: 'Premium golf pants designed for comfort and performance on the course',
       }}
       priceCurrency='$'
       onAddToCart={(e) => console.log('Added to cart', e)}
@@ -184,11 +184,11 @@ function CompoundMinimalExample() {
   return (
     <ProductCard
       product={{
-        id='highland-golf-pants',
-        variationId='highland-golf-pants--navy',
-        name="Highland Golf Pants",
-        imageUrl='https://example.com/pants.jpg',
-        price='199',
+        id: 'highland-golf-pants',
+        variationId: 'highland-golf-pants--navy',
+        name: "Highland Golf Pants",
+        imageUrl: 'https://example.com/pants.jpg',
+        price: '199',
       }}
       priceCurrency='$'
       onAddToCart={(e) => console.log('Added to cart', e)}
@@ -205,11 +205,55 @@ function CompoundMinimalExample() {
 }
 ```
 
+## Custom Badge with Compound Components
+
+<Canvas of={ProductCardStories.CustomBadgeCompound} />
+
+```tsx
+import ProductCard from '@/components/product-card';
+
+function CustomBadgeCompoundExample() {
+  return (
+    <ProductCard
+      product={{
+        id: 'highland-golf-pants',
+        variationId: 'highland-golf-pants--navy',
+        name: "Highland Golf Pants",
+        imageUrl: 'https://example.com/pants.jpg',
+        description: 'Premium golf pants designed for comfort and performance on the course',
+        price: '899',
+        salePrice: '699',
+        rating: 4.8,
+        reviewsCount: 2713,
+      }}
+      priceCurrency='$'
+      onAddToCart={(e) => console.log('Added to cart', e)}
+      onAddToWishlist={(e) => console.log('Added to wishlist', e)}
+    >
+      <ProductCard.ImageSection>
+        <ProductCard.BadgeSection>Hot Deal</ProductCard.BadgeSection>
+        <ProductCard.WishlistButton />
+      </ProductCard.ImageSection>
+      <ProductCard.Content>
+        <ProductCard.PriceSection />
+        <ProductCard.TitleSection />
+        <ProductCard.DescriptionSection />
+        <ProductCard.RatingSection />
+      </ProductCard.Content>
+      <ProductCard.Footer>
+        <ProductCard.AddToCartButton />
+      </ProductCard.Footer>
+    </ProductCard>
+  );
+}
+```
+
 ## Available Compound Components
 
 The following sub-components are available for composition:
 
 - `ProductCard.ImageSection` - Product image with overlay support for badges/buttons
+- `ProductCard.BadgeSection` - Product badge/label display
 - `ProductCard.Content` - Content wrapper component (replaces CardContent)
 - `ProductCard.Footer` - Footer wrapper component (replaces CardFooter)
 - `ProductCard.TitleSection` - Product title/name display

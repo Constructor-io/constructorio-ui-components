@@ -17,6 +17,7 @@ export interface Product {
 
 export interface ProductCardProps extends Omit<React.ComponentProps<'div'>, 'children'> {
   product: Product;
+  badge?: string;
   priceCurrency?: string;
   addToCartText?: string;
   isInWishlist?: boolean;
@@ -30,6 +31,7 @@ export interface ProductCardProps extends Omit<React.ComponentProps<'div'>, 'chi
 export type ProductCardOverrides = ComponentOverrideProps<ProductCardProps> & {
   image?: ComponentOverrideProps<ProductCardProps> & {
     wishlistButton?: ComponentOverrideProps<ProductCardProps>;
+    badge?: ComponentOverrideProps<ProductCardProps>;
   };
   content?: ComponentOverrideProps<ProductCardProps> & {
     title?: ComponentOverrideProps<ProductCardProps>;
@@ -88,5 +90,10 @@ export interface DescriptionSectionProps extends IncludeRenderProps<ProductCardP
 export interface AddToCartButtonProps extends IncludeRenderProps<ProductCardProps> {
   onAddToCart?: (e: React.MouseEvent) => void;
   addToCartText?: string;
+  className?: string;
+}
+
+export interface BadgeSectionProps extends IncludeRenderProps<ProductCardProps> {
+  badge?: string;
   className?: string;
 }

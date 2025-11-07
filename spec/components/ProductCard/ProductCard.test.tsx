@@ -370,4 +370,35 @@ describe('ProductCard component', () => {
       expect(screen.getByText('€ 99.99')).toBeInTheDocument();
     });
   });
+
+  describe('Badge Section', () => {
+    test('renders badge when badge is provided', () => {
+      const productWithBadge = {
+        ...mockProductData,
+        badge: 'New',
+      };
+      render(<ProductCard {...productWithBadge} />);
+
+      const badge = screen.getByText('New');
+      expect(badge).toBeInTheDocument();
+    });
+
+    test('does not render badge when badge text is not provided', () => {
+      render(<ProductCard {...mockProductData} />);
+
+      const badgeElement = document.querySelector('.cio-product-card-badge');
+      expect(badgeElement).not.toBeInTheDocument();
+    });
+
+    test('does not render badge when badge is empty string', () => {
+      const productWithEmptyBadge = {
+        ...mockProductData,
+        badge: '',
+      };
+      render(<ProductCard {...productWithEmptyBadge} />);
+
+      const badgeElement = document.querySelector('.cio-product-card-badge');
+      expect(badgeElement).not.toBeInTheDocument();
+    });
+  });
 });

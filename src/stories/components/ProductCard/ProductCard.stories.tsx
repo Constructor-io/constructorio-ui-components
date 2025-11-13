@@ -412,6 +412,7 @@ export const CompoundFullyFeatured: Story = {
         <ProductCard.WishlistButton
           onAddToWishlist={(e: React.MouseEvent) => console.log('Added to wishlist', e)}
         />
+        <ProductCard.Badge>New</ProductCard.Badge>
       </ProductCard.ImageSection>
       <ProductCard.Content>
         <ProductCard.PriceSection />

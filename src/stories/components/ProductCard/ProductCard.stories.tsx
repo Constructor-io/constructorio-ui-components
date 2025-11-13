@@ -259,21 +259,9 @@ export const WithBadge: Story = {
       imageUrl: DEMO_IMAGE_URL,
       description: 'Premium golf pants designed for comfort and performance on the course',
       price: '899',
-      salePrice: '699',
-      rating: 4.8,
-      reviewsCount: 2713,
-      tags: ['Same day delivery', 'Free assembly'],
     },
     badge: 'New Arrival',
     priceCurrency: '$',
-    onAddToCart: (e) => console.log('Added to cart', e),
-    onAddToWishlist: (e) => console.log('Added to wishlist', e),
-    onProductClick: () => console.log('Product clicked'),
-  },
-  argTypes: {
-    onAddToCart: { action: 'add to cart clicked' },
-    onAddToWishlist: { action: 'add to wishlist clicked' },
-    onProductClick: { action: 'product clicked' },
   },
 };
 

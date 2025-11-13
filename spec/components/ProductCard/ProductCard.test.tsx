@@ -384,9 +384,9 @@ describe('ProductCard component', () => {
     });
 
     test('does not render badge when badge text is not provided', () => {
-      render(<ProductCard {...mockProductData} />);
+      const { container } = render(<ProductCard {...mockProductData} />);
 
-      const badgeElement = document.querySelector('.cio-product-card-badge');
+      const badgeElement = container.querySelector('.cio-product-card-badge');
       expect(badgeElement).not.toBeInTheDocument();
     });
 

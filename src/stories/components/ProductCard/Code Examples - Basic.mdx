@@ -145,3 +145,35 @@ function TagsExample() {
 }
 ```
 
+## Product Card with Badge
+
+<Canvas of={ProductCardStories.WithBadge} />
+
+```tsx
+import ProductCard from '@/components/product-card';
+
+function BadgeExample() {
+  return (
+    <ProductCard
+      product={{
+        id: "highland-golf-pants",
+        variationId: "highland-golf-pants--navy",
+        name: "Highland Golf Pants",
+        imageUrl: "https://example.com/pants.jpg",
+        description: "Premium golf pants designed for comfort and performance on the course",
+        price: "899",
+        salePrice: "699",
+        rating: 4.8,
+        reviewsCount: 2713,
+        tags: ['Same day delivery', 'Free assembly'],
+        badge: "New Arrival"
+      }}
+      priceCurrency="$"
+      onAddToCart={(e) => console.log('Added to cart', e)}
+      onAddToWishlist={(e) => console.log('Added to wishlist', e)}
+      onProductClick={() => console.log('Product clicked')}
+    />
+  );
+}
+```
+

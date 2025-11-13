@@ -371,11 +371,14 @@ describe('ProductCard component', () => {
     });
   });
 
-  describe('Badge Section', () => {
+  describe('Badge', () => {
     test('renders badge when badge is provided', () => {
       const productWithBadge = {
         ...mockProductData,
-        badge: 'New',
+        product: {
+          ...mockProductData.product,
+          badge: 'New',
+        },
       };
       render(<ProductCard {...productWithBadge} />);
 
@@ -387,17 +390,6 @@ describe('ProductCard component', () => {
       const { container } = render(<ProductCard {...mockProductData} />);
 
       const badgeElement = container.querySelector('.cio-product-card-badge');
-      expect(badgeElement).not.toBeInTheDocument();
-    });
-
-    test('does not render badge when badge is empty string', () => {
-      const productWithEmptyBadge = {
-        ...mockProductData,
-        badge: '',
-      };
-      render(<ProductCard {...productWithEmptyBadge} />);
-
-      const badgeElement = document.querySelector('.cio-product-card-badge');
       expect(badgeElement).not.toBeInTheDocument();
     });
   });

@@ -211,6 +211,7 @@ export const FullyFeatured: Story = {
       rating: 4.8,
       reviewsCount: 2713,
       tags: ['Same day delivery', 'Free assembly', '10-year warranty'],
+      badge: 'New',
     },
     priceCurrency: '$',
     onAddToCart: (e) => console.log('Added to cart', e),
@@ -259,8 +260,8 @@ export const WithBadge: Story = {
       imageUrl: DEMO_IMAGE_URL,
       description: 'Premium golf pants designed for comfort and performance on the course',
       price: '899',
+      badge: 'New Arrival',
     },
-    badge: 'New Arrival',
     priceCurrency: '$',
   },
 };
@@ -324,7 +325,7 @@ export const CustomBadgeCompound: Story = {
   render: (args) => (
     <ProductCard {...args}>
       <ProductCard.ImageSection>
-        <ProductCard.BadgeSection>Hot Deal</ProductCard.BadgeSection>
+        <ProductCard.Badge>Hot Deal</ProductCard.Badge>
         <ProductCard.WishlistButton />
       </ProductCard.ImageSection>
       <ProductCard.Content>

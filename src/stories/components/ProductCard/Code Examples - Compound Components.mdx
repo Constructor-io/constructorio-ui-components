@@ -231,7 +231,7 @@ function CustomBadgeCompoundExample() {
       onAddToWishlist={(e) => console.log('Added to wishlist', e)}
     >
       <ProductCard.ImageSection>
-        <ProductCard.BadgeSection>Hot Deal</ProductCard.BadgeSection>
+        <ProductCard.Badge>Hot Deal</ProductCard.Badge>
         <ProductCard.WishlistButton />
       </ProductCard.ImageSection>
       <ProductCard.Content>
@@ -253,7 +253,7 @@ function CustomBadgeCompoundExample() {
 The following sub-components are available for composition:
 
 - `ProductCard.ImageSection` - Product image with overlay support for badges/buttons
-  - `ProductCard.BadgeSection` - Product badge/label display
+  - `ProductCard.Badge` - Product badge/label display
   - `ProductCard.WishlistButton` - Wishlist toggle button
 - `ProductCard.Content` - Content wrapper component
   - `ProductCard.PriceSection` - Displays price and sale price

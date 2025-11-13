@@ -1,5 +1,6 @@
+import { useRef, useEffect } from 'react';
 import { Orientation, ResponsiveConfig } from '@/components/carousel';
-import * as React from 'react';
+
 /**
  * Responsive carousel styling hook using flex + gap (no negative margins).
  * Adds track padding to avoid first/last slide touching when loop is enabled.
@@ -8,12 +9,12 @@ export function useCarouselResponsive(
   responsive: ResponsiveConfig | undefined,
   orientation: Orientation = 'horizontal',
 ) {
-  const styleRef = React.useRef<HTMLStyleElement | null>(null);
-  const uidRef = React.useRef<string>(`carousel-${Math.random().toString(36).slice(2, 9)}`);
+  const styleRef = useRef<HTMLStyleElement | null>(null);
+  const uidRef = useRef<string>(`carousel-${Math.random().toString(36).slice(2, 9)}`);
   const rootAttrName = 'data-carousel';
   const rootAttrValue = uidRef.current;
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!responsive) return;
 
     const isHorizontal = orientation === 'horizontal';

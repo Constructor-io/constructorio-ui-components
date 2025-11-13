@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import CioCarousel from '../../../components/carousel';
+import CioCarousel, { CioCarouselOpts } from '../../../components/carousel';
 import { cn } from '../../../lib/utils';
 
 const meta = {
@@ -15,7 +15,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const renderCarousel = (args: any, count = 10) => (
+const renderCarousel = (args: CioCarouselOpts, count = 10) => (
   <main className='min-h-100svh'>
     <div className='grid grid-cols-4 md:grid-cols-12 mx-4 md:mx-12 lg:mx-24'>
       <div

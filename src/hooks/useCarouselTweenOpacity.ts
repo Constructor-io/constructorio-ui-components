@@ -1,11 +1,11 @@
-import * as React from 'react';
+import { useEffect } from 'react';
 import type { EmblaCarouselType } from 'embla-carousel';
 
 export function useCarouselTweenOpacity(
   api: EmblaCarouselType | undefined,
   orientation: 'horizontal' | 'vertical' = 'horizontal',
 ) {
-  React.useEffect(() => {
+  useEffect(() => {
     if (!api) return;
 
     const tweenOpacity = () => {

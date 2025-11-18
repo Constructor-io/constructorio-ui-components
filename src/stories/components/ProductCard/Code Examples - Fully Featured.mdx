@@ -33,17 +33,18 @@ function FullyFeaturedExample() {
   return (
     <ProductCard
       product={{
-        id="highland-golf-pants",
-        variationId="highland-golf-pants--navy",
-        name="Highland Golf Pants",
-        imageUrl="https://example.com/pants.jpg",
-        description="Premium golf pants designed for comfort and performance on the course",
-        price="899",
-        salePrice="699",
-        rating={4.8},
-        reviewsCount={2713},
-        tags={['Same day delivery', 'Free assembly', '10-year warranty']},
-      }},
+        id: 'highland-golf-pants',
+        variationId: 'highland-golf-pants--navy',
+        name: "Highland Golf Pants",
+        imageUrl: 'https://example.com/pants.jpg',
+        description: 'Premium golf pants designed for comfort and performance on the course',
+        price: '899',
+        salePrice: '699',
+        rating: 4.8,
+        reviewsCount: 2713,
+        tags: ['Same day delivery', 'Free assembly', '10-year warranty'],
+        badge: 'New',
+      }}
       priceCurrency="$"
       onAddToCart={handleAddToCart}
       onAddToWishlist={handleAddToWishlist}

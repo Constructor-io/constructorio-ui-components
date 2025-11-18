@@ -3,10 +3,12 @@ import RenderPropsWrapper from './RenderPropsWrapper';
 import { cn } from '@/lib/utils';
 import { Card, CardContentProps, CardFooterProps } from '@/components/card';
 import Button from '@/components/button';
+import BadgeComponent from '@/components/badge';
 import Heart from '../assets/heart.svg';
 import HeartFilled from '../assets/heart-filled.svg';
 import {
   AddToCartButtonProps,
+  ProductBadgeProps,
   DescriptionSectionProps,
   ImageSectionProps,
   PriceSectionProps,
@@ -237,6 +239,35 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = (props) => {
   );
 };
 
+const Badge: React.FC<ProductBadgeProps> = ({ children, ...props }) => {
+  const { renderProps, componentOverrides } = useProductCardContext();
+  const { badge: contextBadge } = renderProps.product;
+
+  // If children is a render prop function, use it as override
+  const renderPropFn = typeof children === 'function' && children;
+
+  // Get the badge content - use non-function children or badge from context
+  const badgeContent = children && typeof children !== 'function' ? children : contextBadge;
+
+  return (
+    <RenderPropsWrapper
+      props={renderProps}
+      override={renderPropFn || componentOverrides?.image?.badge?.reactNode}>
+      {!!badgeContent && (
+        <BadgeComponent
+          variant='outline'
+          className={cn(
+            'cio-product-card-badge absolute top-2 sm:top-4 left-2 sm:left-[22px]',
+            props.className,
+          )}
+          {...props}>
+          {badgeContent}
+        </BadgeComponent>
+      )}
+    </RenderPropsWrapper>
+  );
+};
+
 const ProductCardContent: React.FC<CardContentProps> = ({ children, ...props }) => {
   const { componentOverrides, renderProps } = useProductCardContext();
   const renderPropFn = typeof children === 'function' && children;
@@ -325,8 +356,7 @@ function ProductCard({ componentOverrides, children, className, ...props }: Prod
           <RenderPropsWrapper props={props} override={children}>
             {/* Image Section */}
             <ImageSection>
-              {/* Badge */}
-              {/* <Badge /> */}
+              <Badge />
               <WishlistButton isInWishlist={isInWishlist} onAddToWishlist={onAddToWishlist} />
             </ImageSection>
 
@@ -354,6 +384,7 @@ function ProductCard({ componentOverrides, children, className, ...props }: Prod
 
 // Create compound component with all sub-components attached
 ProductCard.ImageSection = ImageSection;
+ProductCard.Badge = Badge;
 ProductCard.WishlistButton = WishlistButton;
 ProductCard.PriceSection = PriceSection;
 ProductCard.TitleSection = TitleSection;

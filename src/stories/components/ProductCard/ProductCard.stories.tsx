@@ -1,11 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import ProductCard from '../../../components/product-card';
-import '@/styles.css';
 import { CompleteCustomOverrideCard, CompactListStyleCard } from './ProductCardVariants';
 import { ProductCardProps } from '../../../types/product-card-types';
-
-const DEMO_IMAGE_URL =
-  'https://constructorio-integrations.s3.amazonaws.com/tikus-threads/2022-06-29/PANT_ACTIVE-PANT_GWB00623SBL770_1_category.jpg';
+import { DEMO_IMAGE_URL } from '../../constants';
 
 const meta = {
   title: 'Components/ProductCard',

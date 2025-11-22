@@ -11,7 +11,7 @@
 
 .cio-components {
   font-family: 'Inter', sans-serif;
-  border: 0 solid;
+  /* border: 0 solid; */
   box-sizing: border-box;
 
   & p,

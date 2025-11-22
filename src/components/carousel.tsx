@@ -1,90 +1,54 @@
 import React, {
   ComponentProps,
-  ReactNode,
   createContext,
   useContext,
   useState,
   useCallback,
   useEffect,
 } from 'react';
-import useEmblaCarousel, { type UseEmblaCarouselType } from 'embla-carousel-react';
+import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
 
+import RenderPropsWrapper from './RenderPropsWrapper';
 import { cn } from '@/lib/utils';
 import Button from '@/components/button';
 import { useCarouselResponsive } from '@/hooks/useCarouselResponsive';
 import { useCarouselTweenOpacity } from '@/hooks/useCarouselTweenOpacity';
 import ArrowRightIcon from '@/icons/ArrowRightIcon';
 import ArrowLeftIcon from '@/icons/ArrowLeftIcon';
+import ProductCard from '@/components/product-card';
+import { Product } from '@/types/product-card-types';
+import type {
+  CarouselRenderProps,
+  CarouselItemRenderProps,
+  CarouselOverrides,
+  CarouselOpts,
+  CarouselContextValue,
+  CarouselProps,
+  CarouselApi,
+  CarouselItemProps,
+  NavButtonProps,
+} from '@/types/carousel-types';
 
-type CarouselApi = UseEmblaCarouselType[1];
-type UseCarouselParameters = Parameters<typeof useEmblaCarousel>;
-type CarouselOptions = UseCarouselParameters[0];
-type CarouselPlugin = UseCarouselParameters[1];
-
-type ResponsivePoint = {
-  slidesToShow: number;
-  gap?: number; // px
-};
-
-export type ResponsiveConfig = {
-  [breakpointPx: number]: ResponsivePoint;
-};
-
-export type Orientation = 'horizontal' | 'vertical';
-
-export type CioCarouselOpts = {
-  orientation?: Orientation;
-  autoPlay?: boolean;
-  loop?: boolean;
-  slidesToScroll?: 'auto' | number;
-  responsive?: ResponsiveConfig;
-};
-
-type CarouselProps = {
-  opts?: CarouselOptions;
-  plugins?: CarouselPlugin;
-  setApi?: (api: CarouselApi) => void;
-} & CioCarouselOpts;
-
-type CarouselContextProps = {
-  carouselRef: ReturnType<typeof useEmblaCarousel>[0];
-  api: ReturnType<typeof useEmblaCarousel>[1];
-  scrollPrev: () => void;
-  scrollNext: () => void;
-  canScrollPrev: boolean;
-  canScrollNext: boolean;
-} & CarouselProps;
-
-type NavButtonProps = Omit<ComponentProps<typeof Button>, 'children'> & {
-  children?: ReactNode;
-};
-
-type CarouselBaseProps = { children?: Readonly<ReactNode> } & CioCarouselOpts;
-
-type CarouselSubComponents = {
-  Content: React.FC<ComponentProps<'div'>>;
-  Item: React.FC<ComponentProps<'div'>>;
-};
-
-type CioCarouselType = React.FC<CarouselBaseProps> & CarouselSubComponents;
-
-export const defaultCarouselConfig: CioCarouselOpts = {
-  autoPlay: true,
+// eslint-disable-next-line react-refresh/only-export-components
+export const defaultCarouselConfig: CarouselOpts = {
+  autoPlay: false,
   loop: true,
   orientation: 'horizontal',
   responsive: {
     0: { gap: 12, slidesToShow: 2 },
+    640: { gap: 14, slidesToShow: 3 },
     920: { gap: 16, slidesToShow: 4 },
     1200: { gap: 24, slidesToShow: 6 },
   },
   slidesToScroll: 1,
 };
 
-const CarouselContext = createContext<CarouselContextProps | null>(null);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const CarouselContext = createContext<CarouselContextValue<any> | null>(null);
 
-function useCarousel() {
-  const context = useContext(CarouselContext);
+function useCarousel<T = Product>() {
+  const context = useContext(CarouselContext) as CarouselContextValue<T> | null;
 
   if (!context) {
     throw new Error('useCarousel must be used within a <Carousel />');
@@ -93,18 +57,21 @@ function useCarousel() {
   return context;
 }
 
-function CarouselBase({
-  orientation = 'horizontal',
-  autoPlay = true,
-  loop = true,
-  slidesToScroll = 1,
-  opts,
-  setApi,
-  responsive,
+function CarouselBase<T = Product>({
   className,
   children,
+  componentOverrides,
   ...props
-}: ComponentProps<'div'> & CarouselProps) {
+}: ComponentProps<'div'> & CarouselProps<T>) {
+  const {
+    orientation = 'horizontal',
+    autoPlay = true,
+    loop = true,
+    slidesToScroll = 1,
+    opts,
+    setApi,
+    responsive,
+  } = props;
   const plugins = autoPlay ? [Autoplay({ playOnInit: true, delay: 3000 })] : [];
   const [carouselRef, api] = useEmblaCarousel(
     {
@@ -164,18 +131,26 @@ function CarouselBase({
     };
   }, [api, onSelect]);
 
+  const contextValue = React.useMemo<CarouselContextValue<T>>(() => {
+    // const effectiveOrientation = orientation || (opts?.axis === 'y' ? 'vertical' : 'horizontal');
+
+    return {
+      renderProps: { ...props, canScrollNext, canScrollPrev, scrollNext, scrollPrev },
+      componentOverrides: componentOverrides as CarouselOverrides<T> | undefined,
+      carouselRef,
+    };
+  }, [
+    componentOverrides,
+    props,
+    canScrollNext,
+    canScrollPrev,
+    scrollNext,
+    scrollPrev,
+    carouselRef,
+  ]);
+
   return (
-    <CarouselContext.Provider
-      value={{
-        carouselRef,
-        api: api,
-        opts,
-        orientation: orientation || (opts?.axis === 'y' ? 'vertical' : 'horizontal'),
-        scrollPrev,
-        scrollNext,
-        canScrollPrev,
-        canScrollNext,
-      }}>
+    <CarouselContext.Provider value={contextValue}>
       <div
         onKeyDownCapture={handleKeyDown}
         className={cn('relative', className)}
@@ -190,105 +165,170 @@ function CarouselBase({
   );
 }
 
-function Carousel({ children, ...props }: CarouselBaseProps) {
-  const config: CioCarouselOpts = { ...defaultCarouselConfig, ...props };
-  const plugins = config.autoPlay ? [Autoplay({ playOnInit: true, delay: 3000 })] : [];
+function Carousel<T = Product>(props: CarouselOpts<T>) {
+  const { children, items, componentOverrides, ...rest } = props;
+  const { autoPlay, slidesToScroll, orientation, loop, responsive } = rest;
+
+  const renderProps: CarouselRenderProps<T> = {
+    orientation: orientation || defaultCarouselConfig.orientation,
+    autoPlay: autoPlay ?? defaultCarouselConfig.autoPlay,
+    loop: loop ?? defaultCarouselConfig.loop,
+    slidesToScroll: slidesToScroll ?? defaultCarouselConfig.slidesToScroll,
+    responsive: responsive || defaultCarouselConfig.responsive,
+    items,
+  };
+
+  const plugins = autoPlay ? [Autoplay({ playOnInit: true, delay: 3000 })] : [];
+
   return (
     <CarouselBase
-      className={cn('w-full h-full')}
+      className={cn(
+        'cio-components w-full h-full flex items-center gap-2',
+        orientation === 'vertical' ? 'flex-col' : 'flex-row',
+      )}
       opts={{
-        slidesToScroll: config.slidesToScroll,
+        slidesToScroll: slidesToScroll || defaultCarouselConfig.slidesToScroll,
         align: 'start',
       }}
       plugins={plugins}
-      {...config}>
-      {children}
-      <CarouselPrevious />
-      <CarouselNext />
+      autoPlay={autoPlay ?? defaultCarouselConfig.autoPlay}
+      loop={loop ?? defaultCarouselConfig.loop}
+      orientation={orientation || defaultCarouselConfig.orientation}
+      responsive={responsive || defaultCarouselConfig.responsive}
+      componentOverrides={componentOverrides as CarouselOverrides<T>}
+      items={items}
+      {...rest}>
+      <RenderPropsWrapper props={renderProps} override={children || componentOverrides?.reactNode}>
+        <CarouselPrevious />
+        {items ? (
+          <CarouselContent>
+            {items.map((item, index) => (
+              <CarouselItem key={index} item={item as Product} index={index}>
+                <ProductCard product={item as Product} className='w-full h-full' />
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+        ) : null}
+        <CarouselNext />
+      </RenderPropsWrapper>
     </CarouselBase>
   );
 }
 
-function CarouselContent({ className, ...props }: ComponentProps<'div'>) {
-  const { carouselRef, orientation } = useCarousel();
+function CarouselContent({ className, children, ...props }: ComponentProps<'div'>) {
+  const { carouselRef, renderProps, componentOverrides } = useCarousel();
+  const { orientation } = renderProps;
+
+  const renderPropFn = typeof children === 'function' && children;
 
   return (
     <div
       ref={carouselRef}
-      className={cn('overflow-hidden w-full h-full relative', className)}
+      className={cn('overflow-hidden w-full relative p-3', className)}
       data-slot='carousel-content'>
-      <div
-        data-slot='carousel-track'
-        className={cn('flex h-full', orientation === 'horizontal' ? '' : 'flex-col')}
-        {...props}
-      />
+      <RenderPropsWrapper
+        props={renderProps}
+        override={renderPropFn || componentOverrides?.content?.reactNode}>
+        <div
+          data-slot='carousel-track'
+          className={cn(
+            'flex items-stretch',
+            orientation === 'vertical' ? 'flex-col h-[400px]' : 'flex-row',
+          )}
+          {...props}>
+          {children}
+        </div>
+      </RenderPropsWrapper>
     </div>
   );
 }
 
-function CarouselItem({ className, ...props }: ComponentProps<'div'>) {
+function CarouselItem<T = Product>({
+  className,
+  children,
+  item,
+  index,
+  ...props
+}: CarouselItemProps<T>) {
+  const { renderProps, componentOverrides } = useCarousel<T>();
+
+  const itemRenderProps: CarouselItemRenderProps<T> = {
+    ...(renderProps as CarouselRenderProps<T>),
+    item,
+    index,
+  };
+
   return (
-    <div
-      role='group'
-      aria-roledescription='slide'
-      data-slot='carousel-item'
-      className={cn('min-w-0 shrink-0 grow-0 basis-full', className)}
-      {...props}
-    />
+    <RenderPropsWrapper props={itemRenderProps} override={componentOverrides?.item?.reactNode}>
+      <div
+        role='group'
+        aria-roledescription='slide'
+        data-slot='carousel-item'
+        className={cn(
+          'shrink-0 grow-0 basis-full flex items-stretch justify-center items-center',
+          className,
+        )}
+        {...props}>
+        {children}
+      </div>
+    </RenderPropsWrapper>
   );
 }
 
 function CarouselPrevious({ className, ...props }: NavButtonProps) {
-  const { orientation, scrollPrev, canScrollPrev } = useCarousel();
+  const { renderProps, componentOverrides } = useCarousel();
+  const { canScrollPrev, scrollPrev, orientation } = renderProps;
 
   if (!canScrollPrev) return null;
 
   return (
-    <button
-      data-slot='carousel-previous'
-      className={cn(
-        'absolute size-8 rounded-md bg-white outline-1 outline-offset-[-1px] outline-slate-200 inline-flex justify-center items-center',
-        orientation === 'horizontal'
-          ? 'top-1/2 left-12 -translate-y-1/2'
-          : '-top-12 left-1/2 -translate-x-1/2 rotate-90',
-        className,
-      )}
-      disabled={!canScrollPrev}
-      onClick={scrollPrev}
-      {...props}>
-      <ArrowLeftIcon />
-      <span className='sr-only'>Previous slide</span>
-    </button>
+    <RenderPropsWrapper props={renderProps} override={componentOverrides?.previous?.reactNode}>
+      <Button
+        data-slot='carousel-previous'
+        className={cn(
+          'rounded-md bg-white border-1 border-gray-200 flex justify-center items-center shadow-none',
+          className,
+        )}
+        size='icon'
+        variant='secondary'
+        onClick={scrollPrev}
+        {...props}>
+        <ArrowLeftIcon className={orientation === 'vertical' ? '-rotate-90' : ''} />
+        <span className='sr-only'>Previous slide</span>
+      </Button>
+    </RenderPropsWrapper>
   );
 }
 
 function CarouselNext({ className, ...props }: NavButtonProps) {
-  const { orientation, scrollNext, canScrollNext } = useCarousel();
+  const { renderProps, componentOverrides } = useCarousel();
+  const { canScrollNext, scrollNext, orientation } = renderProps;
 
   if (!canScrollNext) return null;
 
   return (
-    <button
-      data-slot='carousel-next'
-      className={cn(
-        'absolute size-8 rounded-md bg-white outline-1 outline-offset-[-1px] outline-slate-200 inline-flex justify-center items-center',
-        orientation === 'horizontal'
-          ? 'top-1/2 right-12 -translate-y-1/2'
-          : '-bottom-12 left-1/2 -translate-x-1/2 rotate-90',
-        className,
-      )}
-      disabled={!canScrollNext}
-      onClick={scrollNext}
-      {...props}>
-      <ArrowRightIcon />
-      <span className='sr-only'>Next slide</span>
-    </button>
+    <RenderPropsWrapper props={renderProps} override={componentOverrides?.next?.reactNode}>
+      <Button
+        data-slot='carousel-next'
+        className={cn(
+          'rounded-md bg-white border-1 border-gray-200 flex justify-center items-center shadow-none',
+          className,
+        )}
+        size='icon'
+        variant='secondary'
+        onClick={scrollNext}
+        {...props}>
+        <ArrowRightIcon className={orientation === 'vertical' ? 'rotate-90' : ''} />
+        <span className='sr-only'>Next slide</span>
+      </Button>
+    </RenderPropsWrapper>
   );
 }
 
-const CioCarousel = Carousel as CioCarouselType;
+// Create compound component with all sub-components attached
+Carousel.Content = CarouselContent;
+Carousel.Item = CarouselItem;
+Carousel.Previous = CarouselPrevious;
+Carousel.Next = CarouselNext;
 
-CioCarousel.Content = CarouselContent;
-CioCarousel.Item = CarouselItem;
-
-export default CioCarousel;
+export default Carousel;

@@ -14,8 +14,8 @@ import { cn } from '@/lib/utils';
 import Button from '@/components/button';
 import { useCarouselResponsive } from '@/hooks/useCarouselResponsive';
 import { useCarouselTweenOpacity } from '@/hooks/useCarouselTweenOpacity';
-import ArrowRightIcon from '@/icons/ArrowRightIcon';
-import ArrowLeftIcon from '@/icons/ArrowLeftIcon';
+import ArrowRightIcon from '@/assets/icons/ArrowRightIcon';
+import ArrowLeftIcon from '@/assets/icons/ArrowLeftIcon';
 import ProductCard from '@/components/product-card';
 import { Product } from '@/types/product-card-types';
 import type {

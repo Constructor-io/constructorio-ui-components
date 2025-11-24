@@ -279,14 +279,13 @@ function CarouselPrevious({ className, ...props }: NavButtonProps) {
   const { renderProps, componentOverrides } = useCarousel();
   const { canScrollPrev, scrollPrev, orientation } = renderProps;
 
-  if (!canScrollPrev) return null;
-
   return (
     <RenderPropsWrapper props={renderProps} override={componentOverrides?.previous?.reactNode}>
       <Button
         data-slot='carousel-previous'
         className={cn(
           'rounded-md bg-white border-1 border-gray-200 flex justify-center items-center shadow-none',
+          canScrollPrev ? '' : 'invisible',
           className,
         )}
         size='icon'
@@ -304,14 +303,13 @@ function CarouselNext({ className, ...props }: NavButtonProps) {
   const { renderProps, componentOverrides } = useCarousel();
   const { canScrollNext, scrollNext, orientation } = renderProps;
 
-  if (!canScrollNext) return null;
-
   return (
     <RenderPropsWrapper props={renderProps} override={componentOverrides?.next?.reactNode}>
       <Button
         data-slot='carousel-next'
         className={cn(
           'rounded-md bg-white border-1 border-gray-200 flex justify-center items-center shadow-none',
+          canScrollNext ? '' : 'invisible',
           className,
         )}
         size='icon'

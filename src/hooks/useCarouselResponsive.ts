@@ -1,5 +1,5 @@
 import { useRef, useEffect } from 'react';
-import { Orientation, ResponsiveConfig } from '@/components/carousel';
+import { Orientation, ResponsiveConfig, ResponsivePoint } from '@/types/carousel-types';
 
 /**
  * Responsive carousel styling hook using flex + gap (no negative margins).
@@ -24,8 +24,8 @@ export function useCarouselResponsive(
     let css = '';
     const peekPercentage = 4; // Standard peek window percentage
 
-    const points = Object.entries(responsive)
-      .map(([bp, conf]) => ({
+    const points = Object.entries(responsive as ResponsiveConfig)
+      .map(([bp, conf]: [string, ResponsivePoint]) => ({
         bp: Number(bp),
         gap: conf.gap,
         slidesToShow: conf.slidesToShow,
@@ -64,7 +64,7 @@ export function useCarouselResponsive(
         styleRef.current.parentNode.removeChild(styleRef.current);
       }
     };
-  }, [responsive, orientation]);
+  }, [responsive, orientation, rootAttrValue]);
 
   return {
     rootProps: {

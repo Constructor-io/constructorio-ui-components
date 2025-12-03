@@ -186,11 +186,12 @@ describe('Carousel component', () => {
       );
 
       const carousel = container.querySelector('[data-testid="carousel"]') as HTMLElement;
+      expect(carousel).toBeInTheDocument();
       // Boolean data attributes are set to 'true' string in React
-      expect(carousel?.dataset.cnstrcRecommendations).toBe('true');
-      expect(carousel?.dataset.cnstrcRecommendationsPodId).toBe('pod-id');
-      expect(carousel?.dataset.cnstrcResultId).toBe('result-id');
-      expect(carousel?.dataset.cnstrcNumResults).toBe('10');
+      expect(carousel.dataset.cnstrcRecommendations).toBe('true');
+      expect(carousel.dataset.cnstrcRecommendationsPodId).toBe('pod-id');
+      expect(carousel.dataset.cnstrcResultId).toBe('result-id');
+      expect(carousel.dataset.cnstrcNumResults).toBe('10');
     });
   });
 
@@ -480,7 +481,7 @@ describe('Carousel component', () => {
           items={mockProducts}
           componentOverrides={{
             previous: {
-              reactNode: ({ scrollPrev, canScrollPrev }: CarouselRenderProps<Product>) => (
+              reactNode: ({ scrollPrev, canScrollPrev }: CarouselRenderProps) => (
                 <button
                   onClick={() => {
                     mockScrollPrev();
@@ -493,7 +494,7 @@ describe('Carousel component', () => {
               ),
             },
             next: {
-              reactNode: ({ scrollNext, canScrollNext }: CarouselRenderProps<Product>) => (
+              reactNode: ({ scrollNext, canScrollNext }: CarouselRenderProps) => (
                 <button
                   onClick={() => {
                     mockScrollNext();

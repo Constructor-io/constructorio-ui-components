@@ -1,0 +1,70 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import * as CarouselStories from './Carousel.stories';
+
+<Meta of={CarouselStories} />
+
+# `Carousel` - Code Examples with Mixed Patterns
+
+Mix the compound components pattern with the render props pattern to achieve your desired look!
+
+## Compound Components with Render Props Header
+
+<Canvas of={CarouselStories.CompoundWithRenderProps} />
+
+```tsx
+import CioCarousel from '@/components/carousel';
+import { Product } from '@/types/product-card-types';
+import { CarouselRenderProps } from '@/types/carousel-types';
+
+function MixedPatternExample() {
+  const products: Product[] = [
+    // ... product data
+  ];
+
+  return (
+    <CioCarousel items={products}>
+      {(props: CarouselRenderProps<Product>) => (
+        <div className='flex flex-col gap-4 w-full overflow-hidden p-4'>
+          {/* Header driven by render props */}
+          <div className='flex items-center justify-between'>
+            <div className='space-y-1'>
+              <h2 className='text-lg font-semibold'>Trending now</h2>
+              <p className='text-xs text-gray-500'>
+                {props.items?.length ?? 0} items ·{' '}
+                {props.orientation === 'vertical' ? 'Vertical' : 'Horizontal'} scroll
+              </p>
+            </div>
+            <div className='flex items-center gap-2 text-xs text-gray-500'>
+              <span>Slides to scroll: {props.slidesToScroll}</span>
+              <span>Loop: {props.loop ? 'On' : 'Off'}</span>
+            </div>
+          </div>
+
+          {/* Compound components for navigation + content */}
+          <div className='flex gap-4 w-full items-center overflow-hidden'>
+            <CioCarousel.Previous />
+            <CioCarousel.Content>
+              {props.items?.map((product: Product) => (
+                <CioCarousel.Item key={product.id}>
+                  <div className='w-[220px] bg-white border rounded-xl p-4 shadow-sm flex flex-col items-center gap-2'>
+                    <img
+                      src={product.imageUrl}
+                      alt={product.name}
+                      className='w-24 h-24 rounded-full object-cover'
+                    />
+                    <div className='text-center'>
+                      <p className='text-sm font-medium'>{product.name}</p>
+                      <p className='text-xs text-gray-500'>${product.price}</p>
+                    </div>
+                  </div>
+                </CioCarousel.Item>
+              ))}
+            </CioCarousel.Content>
+            <CioCarousel.Next />
+          </div>
+        </div>
+      )}
+    </CioCarousel>
+  );
+}
+```

@@ -1,0 +1,277 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import * as CarouselStories from './Carousel.stories';
+
+<Meta of={CarouselStories} />
+
+# `Carousel` - Code Examples with Component Overrides
+
+The `Carousel` component supports top-level `componentOverrides`, allowing you to customize specific sections without worrying about the other parts. 
+Useful when you need to modify a select few parts of the carousel, without completely replacing the entire component.
+
+## Custom Navigation Buttons
+
+<Canvas of={CarouselStories.WithCustomScrollButtons} />
+
+```tsx
+import CioCarousel from '@/components/carousel';
+import { Product } from '@/types/product-card-types';
+import { CarouselRenderProps } from '@/types/carousel-types';
+
+function CustomNavigationExample() {
+  const products: Product[] = [
+    // ... product data
+  ];
+
+  return (
+    <CioCarousel
+      items={products}
+      componentOverrides={{
+        previous: {
+          reactNode: ({ orientation, scrollPrev, canScrollPrev }: CarouselRenderProps<Product>) => (
+            <button
+              type='button'
+              className='rounded-full bg-black text-white px-3 py-2 text-xs flex items-center gap-1 cursor-pointer'
+              aria-label='Previous slide'
+              disabled={!canScrollPrev}
+              onClick={scrollPrev}>
+              <span>{orientation === 'vertical' ? 'Up' : 'Prev'}</span>
+            </button>
+          ),
+        },
+        next: {
+          reactNode: ({ orientation, scrollNext, canScrollNext }: CarouselRenderProps<Product>) => (
+            <button
+              type='button'
+              className='rounded-full bg-black text-white px-3 py-2 text-xs flex items-center gap-1 cursor-pointer'
+              aria-label='Next slide'
+              disabled={!canScrollNext}
+              onClick={scrollNext}>
+              <span>{orientation === 'vertical' ? 'Down' : 'Next'}</span>
+            </button>
+          ),
+        },
+      }}
+    />
+  );
+}
+```
+
+## Custom Item Renderer
+
+<Canvas of={CarouselStories.WithCustomItem} />
+
+```tsx
+import CioCarousel from '@/components/carousel';
+import { Product } from '@/types/product-card-types';
+import { CarouselItemRenderProps } from '@/types/carousel-types';
+
+function CustomItemExample() {
+  const products: Product[] = [
+    // ... product data
+  ];
+
+  return (
+    <CioCarousel
+      items={products}
+      componentOverrides={{
+        item: {
+          reactNode: (props: CarouselItemRenderProps<Product>) => (
+            <div className='w-full bg-gradient-to-br from-blue-500 to-purple-600 text-white rounded-xl border p-6 shadow-lg flex flex-col items-center justify-center gap-2'>
+              <img
+                src={props.item?.imageUrl}
+                alt={props.item?.name}
+                className='w-24 h-24 rounded-full object-cover border-4 border-white'
+              />
+              <h3 className='text-xl font-bold'>{props.item?.name}</h3>
+              <p className='text-sm opacity-90'>${props.item?.price}</p>
+            </div>
+          ),
+        },
+      }}
+    />
+  );
+}
+```
+
+## Custom Content Section
+
+<Canvas of={CarouselStories.CustomContentSection} />
+
+```tsx
+import CioCarousel from '@/components/carousel';
+import { Product } from '@/types/product-card-types';
+import { CarouselRenderProps } from '@/types/carousel-types';
+
+function CustomContentExample() {
+  const products: Product[] = [
+    // ... product data
+  ];
+
+  return (
+    <CioCarousel
+      items={products}
+      componentOverrides={{
+        content: {
+          reactNode: (props: CarouselRenderProps<Product>) => (
+            <div className='flex items-center gap-2 bg-slate-100 p-4 rounded-lg'>
+              {props.items?.map((product: Product) => (
+                <CioCarousel.Item key={product.id}>
+                  <div className='w-[220px] bg-white border rounded-xl p-4 shadow-sm flex flex-col items-center gap-3'>
+                    <img
+                      src={product.imageUrl}
+                      alt={product.name}
+                      className='w-24 h-24 rounded-full object-cover'
+                    />
+                    <div className='text-center space-y-1'>
+                      <p className='text-sm font-semibold'>{product.name}</p>
+                      <p className='text-xs text-gray-500 line-clamp-2'>{product.description}</p>
+                      <p className='text-sm font-medium'>${product.price}</p>
+                    </div>
+                  </div>
+                </CioCarousel.Item>
+              ))}
+            </div>
+          ),
+        },
+      }}
+    />
+  );
+}
+```
+
+## Multiple Component Overrides
+
+You can combine multiple component overrides in a single Carousel:
+
+<Canvas of={CarouselStories.MultipleCustomizations} />
+
+```tsx
+import CioCarousel from '@/components/carousel';
+import { Product } from '@/types/product-card-types';
+import { CarouselRenderProps } from '@/types/carousel-types';
+
+function MultipleCustomizationsExample() {
+  const products: Product[] = [
+    // ... product data
+  ];
+
+  return (
+    <CioCarousel
+      items={products}
+      componentOverrides={{
+        content: {
+          reactNode: (props: CarouselRenderProps<Product>) => (
+            <div className='flex items-center gap-2'>
+              {props.items?.map((product: Product) => (
+                <CioCarousel.Item key={product.id}>
+                  <div className='w-[220px] h-full bg-slate-950/90 border border-slate-700 rounded-xl p-4 shadow-lg flex flex-col items-center gap-3 text-white'>
+                    <img
+                      src={product.imageUrl}
+                      alt={product.name}
+                      className='w-24 h-24 rounded-full object-cover border-2 border-slate-500'
+                    />
+                    <div className='text-center space-y-1'>
+                      <p className='text-sm font-semibold'>{product.name}</p>
+                      <p className='text-xs text-slate-300 line-clamp-2'>{product.description}</p>
+                      <p className='text-sm font-medium text-emerald-300'>${product.price}</p>
+                    </div>
+                  </div>
+                </CioCarousel.Item>
+              ))}
+            </div>
+          ),
+        },
+        previous: {
+          reactNode: ({ scrollPrev, canScrollPrev }: CarouselRenderProps<Product>) => (
+            <button
+              type='button'
+              className='rounded-full bg-slate-900 text-white px-3 py-2 text-xs flex items-center gap-1 disabled:opacity-40 cursor-pointer'
+              aria-label='Previous slide'
+              onClick={scrollPrev}
+              disabled={!canScrollPrev}>
+              <span>◀ Prev</span>
+            </button>
+          ),
+        },
+        next: {
+          reactNode: ({ scrollNext, canScrollNext }: CarouselRenderProps<Product>) => (
+            <button
+              type='button'
+              className='rounded-full bg-slate-900 text-white px-3 py-2 text-xs flex items-center gap-1 disabled:opacity-40 cursor-pointer'
+              aria-label='Next slide'
+              onClick={scrollNext}
+              disabled={!canScrollNext}>
+              <span>Next ▶</span>
+            </button>
+          ),
+        },
+      }}
+    />
+  );
+}
+```
+
+## Complete Custom Override
+
+Override the entire carousel root for complete control:
+
+<Canvas of={CarouselStories.CompleteCustomOverride} />
+
+```tsx
+import CioCarousel from '@/components/carousel';
+import { Product } from '@/types/product-card-types';
+import { CarouselRenderProps } from '@/types/carousel-types';
+
+function CompleteCustomOverrideExample() {
+  const products: Product[] = [
+    // ... product data
+  ];
+
+  return (
+    <CioCarousel
+      items={products}
+      autoPlay={false}
+      componentOverrides={{
+        reactNode: (props: CarouselRenderProps<Product>) => (
+          <div className='flex flex-col gap-4 w-full overflow-hidden p-4 bg-slate-50 rounded-xl border border-slate-200'>
+            <div className='flex items-center justify-between'>
+              <div>
+                <h2 className='text-lg font-semibold'>Curated products</h2>
+                <p className='text-xs text-gray-500 mt-1'>
+                  Orientation: {props.orientation} · Items: {props.items?.length ?? 0}
+                </p>
+              </div>
+              <span className='text-[11px] uppercase tracking-wide text-slate-500'>
+                Custom root layout
+              </span>
+            </div>
+
+            <div className='flex items-center gap-3'>
+              <CioCarousel.Previous />
+              <CioCarousel.Content>
+                {props.items?.map((product: Product) => (
+                  <CioCarousel.Item key={product.id}>
+                    <div className='w-[220px] bg-white border rounded-xl p-4 shadow-sm flex flex-col items-center gap-3'>
+                      <img
+                        src={product.imageUrl}
+                        alt={product.name}
+                        className='w-24 h-24 rounded-full object-cover'
+                      />
+                      <div className='text-center space-y-1'>
+                        <p className='text-sm font-semibold'>{product.name}</p>
+                        <p className='text-xs text-gray-500 line-clamp-2'>{product.description}</p>
+                        <p className='text-sm font-medium'>${product.price}</p>
+                      </div>
+                    </div>
+                  </CioCarousel.Item>
+                ))}
+              </CioCarousel.Content>
+              <CioCarousel.Next />
+            </div>
+          </div>
+        ),
+      }}
+    />
+  );
+}
+```

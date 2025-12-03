@@ -52,7 +52,7 @@ const WishlistButton: React.FC<WishlistButtonProps> = (props) => {
       {onAddToWishlist && (
         <Button
           className={cn(
-            'cio-product-card-wishlist-btn absolute top-2 sm:top-4 right-2 sm:right-[22px] bg-white size-6 sm:size-[18px]',
+            'cio-product-card-wishlist-btn absolute top-2 sm:top-4 right-2 sm:right-[22px] bg-white size-6 sm:size-[18px] border-0',
             props.className,
           )}
           size='icon'
@@ -227,7 +227,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = (props) => {
       {onAddToCart && (
         <Button
           className={cn(
-            'cio-product-card-add-to-cart-btn w-full bg-black hover:bg-gray-800 text-white text-sm',
+            'cio-product-card-add-to-cart-btn w-full bg-black hover:bg-gray-800 text-white text-sm border-0',
             props.className,
           )}
           conversionType='add_to_cart'
@@ -257,7 +257,7 @@ const Badge: React.FC<ProductBadgeProps> = ({ children, ...props }) => {
         <BadgeComponent
           variant='outline'
           className={cn(
-            'cio-product-card-badge absolute top-2 sm:top-4 left-2 sm:left-[22px]',
+            'cio-product-card-badge absolute top-2 sm:top-4 left-2 sm:left-[22px] border-0',
             props.className,
           )}
           {...props}>
@@ -277,7 +277,7 @@ const ProductCardContent: React.FC<CardContentProps> = ({ children, ...props }) 
       props={renderProps}
       override={renderPropFn || componentOverrides?.content?.reactNode}>
       <Card.Content
-        className={cn('cio-product-card-content flex flex-col gap-1', props.className)}
+        className={cn('cio-product-card-content flex flex-col gap-1 flex-1', props.className)}
         {...props}>
         {children}
       </Card.Content>
@@ -294,7 +294,7 @@ const ProductCardFooter: React.FC<CardFooterProps> = ({ children, ...props }) =>
       props={renderProps}
       override={renderPropFn || componentOverrides?.footer?.reactNode}>
       <Card.Footer
-        className={cn('cio-product-card-footer flex flex-col gap-2', props.className)}
+        className={cn('cio-product-card-footer flex flex-col gap-2 mt-auto', props.className)}
         {...props}>
         {children}
       </Card.Footer>
@@ -349,7 +349,10 @@ function ProductCard({ componentOverrides, children, className, ...props }: Prod
     <ProductCardContext.Provider value={contextValue}>
       <RenderPropsWrapper props={props} override={renderPropFn || componentOverrides?.reactNode}>
         <Card
-          className={cn('cio-product-card min-w-[176px] max-w-[256px] cursor-pointer', className)}
+          className={cn(
+            'cio-product-card min-w-[176px] max-w-[256px] h-full cursor-pointer border-0',
+            className,
+          )}
           onClick={onProductClick}
           {...getProductCardDataAttributes(product)}
           {...restProps}>

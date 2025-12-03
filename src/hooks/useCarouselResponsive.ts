@@ -22,9 +22,10 @@ export function useCarouselResponsive(
     const itemSelector = `[${rootAttrName}="${rootAttrValue}"] [data-slot="carousel-item"]`;
 
     let css = '';
-    const peekPercentage = 4; // Standard peek window percentage
+    // Percentage of item width reserved, so a small part of the next/previous slide stays visible ("peek")
+    const peekPercentage = 4;
 
-    const points = Object.entries(responsive as ResponsiveConfig)
+    const points = Object.entries(responsive)
       .map(([bp, conf]: [string, ResponsivePoint]) => ({
         bp: Number(bp),
         gap: conf.gap,
@@ -62,6 +63,7 @@ export function useCarouselResponsive(
     return () => {
       if (styleRef.current?.parentNode) {
         styleRef.current.parentNode.removeChild(styleRef.current);
+        styleRef.current = null;
       }
     };
   }, [responsive, orientation, rootAttrValue]);

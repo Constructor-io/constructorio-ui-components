@@ -61,18 +61,20 @@ function CarouselBase<T = Product>({
   className,
   children,
   componentOverrides,
+  plugins,
   ...props
 }: ComponentProps<'div'> & CarouselProps<T>) {
   const {
     orientation = 'horizontal',
-    autoPlay = true,
+    autoPlay,
     loop = true,
     slidesToScroll = 1,
     opts,
     setApi,
     responsive,
+    items,
   } = props;
-  const plugins = autoPlay ? [Autoplay({ playOnInit: true, delay: 3000 })] : [];
+
   const [carouselRef, api] = useEmblaCarousel(
     {
       ...opts,
@@ -132,16 +134,30 @@ function CarouselBase<T = Product>({
   }, [api, onSelect]);
 
   const contextValue = React.useMemo<CarouselContextValue<T>>(() => {
-    // const effectiveOrientation = orientation || (opts?.axis === 'y' ? 'vertical' : 'horizontal');
-
     return {
-      renderProps: { ...props, canScrollNext, canScrollPrev, scrollNext, scrollPrev },
+      renderProps: {
+        orientation,
+        autoPlay,
+        loop,
+        slidesToScroll,
+        responsive,
+        items,
+        canScrollNext,
+        canScrollPrev,
+        scrollNext,
+        scrollPrev,
+      },
       componentOverrides: componentOverrides as CarouselOverrides<T> | undefined,
       carouselRef,
     };
   }, [
+    orientation,
+    autoPlay,
+    loop,
+    slidesToScroll,
+    responsive,
+    items,
     componentOverrides,
-    props,
     canScrollNext,
     canScrollPrev,
     scrollNext,
@@ -202,11 +218,15 @@ function Carousel<T = Product>(props: CarouselOpts<T>) {
         <CarouselPrevious />
         {items ? (
           <CarouselContent>
-            {items.map((item, index) => (
-              <CarouselItem key={index} item={item as Product} index={index}>
-                <ProductCard product={item as Product} className='w-full h-full' />
-              </CarouselItem>
-            ))}
+            {items.map((item, index) => {
+              const product = item as Product;
+
+              return (
+                <CarouselItem key={index} item={product} index={index}>
+                  <ProductCard product={product} className='w-full h-full' />
+                </CarouselItem>
+              );
+            })}
           </CarouselContent>
         ) : null}
         <CarouselNext />
@@ -275,52 +295,53 @@ function CarouselItem<T = Product>({
   );
 }
 
-function CarouselPrevious({ className, ...props }: NavButtonProps) {
+type CarouselDirection = 'previous' | 'next';
+
+function CarouselNavButton({
+  direction,
+  className,
+  ...props
+}: NavButtonProps & { direction: CarouselDirection }) {
   const { renderProps, componentOverrides } = useCarousel();
-  const { canScrollPrev, scrollPrev, orientation } = renderProps;
+  const { canScrollPrev, canScrollNext, scrollPrev, scrollNext, orientation } = renderProps;
+
+  const isPrevious = direction === 'previous';
+  const canScroll = isPrevious ? canScrollPrev : canScrollNext;
+  const handleClick = isPrevious ? scrollPrev : scrollNext;
+  const override = isPrevious
+    ? componentOverrides?.previous?.reactNode
+    : componentOverrides?.next?.reactNode;
 
   return (
-    <RenderPropsWrapper props={renderProps} override={componentOverrides?.previous?.reactNode}>
+    <RenderPropsWrapper props={renderProps} override={override}>
       <Button
-        data-slot='carousel-previous'
+        data-slot={isPrevious ? 'carousel-previous' : 'carousel-next'}
         className={cn(
           'rounded-md bg-white border-1 border-gray-200 flex justify-center items-center shadow-none',
-          canScrollPrev ? '' : 'invisible',
+          canScroll ? '' : 'invisible',
           className,
         )}
         size='icon'
         variant='secondary'
-        onClick={scrollPrev}
+        onClick={handleClick}
         {...props}>
-        <ArrowLeftIcon className={orientation === 'vertical' ? '-rotate-90' : ''} />
-        <span className='sr-only'>Previous slide</span>
+        {isPrevious ? (
+          <ArrowLeftIcon className={orientation === 'vertical' ? '-rotate-90' : ''} />
+        ) : (
+          <ArrowRightIcon className={orientation === 'vertical' ? 'rotate-90' : ''} />
+        )}
+        <span className='sr-only'>{isPrevious ? 'Previous slide' : 'Next slide'}</span>
       </Button>
     </RenderPropsWrapper>
   );
 }
 
-function CarouselNext({ className, ...props }: NavButtonProps) {
-  const { renderProps, componentOverrides } = useCarousel();
-  const { canScrollNext, scrollNext, orientation } = renderProps;
+function CarouselPrevious(props: NavButtonProps) {
+  return <CarouselNavButton direction='previous' {...props} />;
+}
 
-  return (
-    <RenderPropsWrapper props={renderProps} override={componentOverrides?.next?.reactNode}>
-      <Button
-        data-slot='carousel-next'
-        className={cn(
-          'rounded-md bg-white border-1 border-gray-200 flex justify-center items-center shadow-none',
-          canScrollNext ? '' : 'invisible',
-          className,
-        )}
-        size='icon'
-        variant='secondary'
-        onClick={scrollNext}
-        {...props}>
-        <ArrowRightIcon className={orientation === 'vertical' ? 'rotate-90' : ''} />
-        <span className='sr-only'>Next slide</span>
-      </Button>
-    </RenderPropsWrapper>
-  );
+function CarouselNext(props: NavButtonProps) {
+  return <CarouselNavButton direction='next' {...props} />;
 }
 
 // Create compound component with all sub-components attached

@@ -4,10 +4,10 @@ import type {
   IncludeComponentOverrides,
   RenderPropsChildren,
 } from '@/types';
-import { ComponentProps, ReactNode } from 'react';
+import type { ComponentProps, ReactNode } from 'react';
 import type { UseEmblaCarouselType } from 'embla-carousel-react';
-import useEmblaCarousel from 'embla-carousel-react';
-import Button from '@/components/button';
+import type useEmblaCarousel from 'embla-carousel-react';
+import type Button from '@/components/button';
 
 export type Orientation = 'horizontal' | 'vertical';
 
@@ -33,7 +33,7 @@ export type CarouselProps<T = Product> = {
 
 export type CarouselContextValue<T = Product> = {
   carouselRef: ReturnType<typeof useEmblaCarousel>[0];
-  renderProps: Omit<CarouselProps<T>, 'children' | 'componentOverrides' | 'className'>;
+  renderProps: CarouselRenderProps<T>;
   componentOverrides?: CarouselOverrides<T>;
 } & CarouselProps<T>;
 

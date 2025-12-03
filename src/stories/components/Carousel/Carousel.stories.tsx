@@ -383,7 +383,6 @@ export const WithCompoundComponents: Story = {
   render: () => (
     <CioCarousel autoPlay={false} loop>
       <CioCarousel.Previous />
-      <CioCarousel.Next />
       <CioCarousel.Content>
         {mockProducts.map((product: Product) => (
           <CioCarousel.Item key={product.id}>
@@ -402,6 +401,7 @@ export const WithCompoundComponents: Story = {
           </CioCarousel.Item>
         ))}
       </CioCarousel.Content>
+      <CioCarousel.Next />
     </CioCarousel>
   ),
 };
@@ -616,5 +616,106 @@ export const RenderPropsShowcase: Story = {
         </div>
       )}
     </CioCarousel>
+  ),
+};
+
+export const CompoundCustomLayout: Story = {
+  args: {
+    items: mockProducts,
+  },
+  render: (args: Story['args']) => (
+    <CioCarousel autoPlay={false} loop>
+      <div className='flex flex-col gap-4 w-full p-4 bg-slate-50 rounded-xl overflow-hidden'>
+        <div className='flex items-center justify-between'>
+          <h2 className='text-lg font-semibold'>Featured Products</h2>
+          <div className='flex gap-2'>
+            <CioCarousel.Previous />
+            <CioCarousel.Next />
+          </div>
+        </div>
+
+        <CioCarousel.Content>
+          {(args.items as Product[]).map((product: Product) => (
+            <CioCarousel.Item key={product.id}>
+              <div className='w-[200px] bg-white border rounded-xl p-3 shadow-sm'>
+                <img
+                  src={product.imageUrl}
+                  alt={product.name}
+                  className='w-full h-32 object-cover rounded-lg mb-2'
+                />
+                <h3 className='text-sm font-semibold'>{product.name}</h3>
+                <p className='text-xs text-gray-500'>${product.price}</p>
+              </div>
+            </CioCarousel.Item>
+          ))}
+        </CioCarousel.Content>
+      </div>
+    </CioCarousel>
+  ),
+};
+
+export const CompoundVerticalLayout: Story = {
+  args: {
+    items: mockProducts,
+  },
+  render: (args: Story['args']) => (
+    <CioCarousel orientation='vertical' autoPlay={false} loop>
+      <div className='flex flex-col gap-3 h-[400px] items-center'>
+        <CioCarousel.Previous />
+        <CioCarousel.Content>
+          {(args.items as Product[]).map((product: Product) => (
+            <CioCarousel.Item key={product.id}>
+              <div className='w-[240px] bg-white border rounded-xl p-4 shadow-sm flex items-center gap-3'>
+                <img
+                  src={product.imageUrl}
+                  alt={product.name}
+                  className='w-16 h-16 rounded-full object-cover'
+                />
+                <div className='flex-1'>
+                  <p className='text-sm font-semibold'>{product.name}</p>
+                  <p className='text-xs text-gray-500'>${product.price}</p>
+                </div>
+              </div>
+            </CioCarousel.Item>
+          ))}
+        </CioCarousel.Content>
+        <CioCarousel.Next />
+      </div>
+    </CioCarousel>
+  ),
+};
+
+export const CustomContentSection: Story = {
+  args: {
+    items: mockProducts,
+  },
+  render: (args: Story['args']) => (
+    <CioCarousel
+      items={args.items as Product[]}
+      componentOverrides={{
+        content: {
+          reactNode: (props: CarouselRenderProps<Product>) => (
+            <div className='flex items-center gap-2 bg-slate-100 p-4 rounded-lg'>
+              {props.items?.map((product: Product) => (
+                <CioCarousel.Item key={product.id}>
+                  <div className='w-[220px] bg-white border rounded-xl p-4 shadow-sm flex flex-col items-center gap-3'>
+                    <img
+                      src={product.imageUrl}
+                      alt={product.name}
+                      className='w-24 h-24 rounded-full object-cover'
+                    />
+                    <div className='text-center space-y-1'>
+                      <p className='text-sm font-semibold'>{product.name}</p>
+                      <p className='text-xs text-gray-500 line-clamp-2'>{product.description}</p>
+                      <p className='text-sm font-medium'>${product.price}</p>
+                    </div>
+                  </div>
+                </CioCarousel.Item>
+              ))}
+            </div>
+          ),
+        },
+      }}
+    />
   ),
 };

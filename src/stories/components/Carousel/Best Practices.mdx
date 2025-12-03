@@ -1,0 +1,153 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import * as CarouselStories from './Carousel.stories';
+
+<Meta of={CarouselStories} />
+
+# Best Practices
+
+## Choosing the Right Pattern
+
+```tsx
+// ✅ Use default layout with items prop for automatic ProductCard rendering
+<CioCarousel items={products} />
+
+// ✅ Use compound components for custom carousel structure
+<CioCarousel autoPlay loop>
+  <CioCarousel.Previous />
+  <CioCarousel.Content>
+    {products.map((product) => (
+      <CioCarousel.Item key={product.id}>
+        <CustomCard product={product} />
+      </CioCarousel.Item>
+    ))}
+  </CioCarousel.Content>
+  <CioCarousel.Next />
+</CioCarousel>
+
+// ✅ Use render props for complex custom logic with dynamic headers
+<CioCarousel items={products}>
+  {(props) => (
+    <div>
+      <CustomHeader data={props} />
+      <CioCarousel.Content>
+        {props.items?.map((item) => (
+          <CioCarousel.Item key={item.id}>
+            <CustomItem item={item} />
+          </CioCarousel.Item>
+        ))}
+      </CioCarousel.Content>
+    </div>
+  )}
+</CioCarousel>
+
+// ✅ Use component overrides for minor customizations
+<CioCarousel
+  items={products}
+  componentOverrides={{
+    previous: { reactNode: (props) => <CustomPrevButton {...props} /> }
+  }}
+/>
+```
+
+## Compound Component Best Practices
+
+```tsx
+// ✅ Good: Use semantic structure with proper navigation
+<CioCarousel autoPlay loop>
+  <CioCarousel.Previous />
+  <CioCarousel.Content>
+    {items.map((item) => (
+      <CioCarousel.Item key={item.id}>
+        <ItemCard item={item} />
+      </CioCarousel.Item>
+    ))}
+  </CioCarousel.Content>
+  <CioCarousel.Next />
+</CioCarousel>
+
+// ❌ Avoid: Using compound components outside Carousel context
+<div>
+  <CioCarousel.Previous /> {/* This will throw an error */}
+</div>
+```
+
+## Accessibility Considerations
+
+```tsx
+// ✅ Good: Provide proper ARIA labels for navigation
+<CioCarousel
+  items={products}
+  componentOverrides={{
+    previous: {
+      reactNode: ({ scrollPrev, canScrollPrev }) => (
+        <button
+          onClick={scrollPrev}
+          disabled={!canScrollPrev}
+          aria-label="Previous slide"
+        >
+          Previous
+        </button>
+      ),
+    },
+    next: {
+      reactNode: ({ scrollNext, canScrollNext }) => (
+        <button
+          onClick={scrollNext}
+          disabled={!canScrollNext}
+          aria-label="Next slide"
+        >
+          Next
+        </button>
+      ),
+    },
+  }}
+/>
+```
+
+## Responsive Design
+
+```tsx
+// ✅ Good: Configure responsive breakpoints based on your design
+<CioCarousel
+  items={products}
+  responsive={{
+    0: { gap: 8, slidesToShow: 1 },      // Mobile
+    640: { gap: 12, slidesToShow: 2 },   // Tablet
+    960: { gap: 16, slidesToShow: 3 },   // Desktop
+    1200: { gap: 20, slidesToShow: 4 },  // Large desktop
+  }}
+/>
+
+// ✅ Good: Adjust slidesToScroll based on viewport
+<CioCarousel
+  items={products}
+  slidesToScroll={2}
+  responsive={{
+    0: { gap: 8, slidesToShow: 1 },
+    640: { gap: 12, slidesToShow: 2 },
+  }}
+/>
+```
+
+## Generic Type Usage
+
+```tsx
+// ✅ Good: Use generic types for non-product items
+type CustomItem = {
+  id: string;
+  title: string;
+  description: string;
+};
+
+<CioCarousel<CustomItem> items={customItems}>
+  {(props) => (
+    <CioCarousel.Content>
+      {props.items?.map((item) => (
+        <CioCarousel.Item key={item.id}>
+          <div>{item.title}</div>
+        </CioCarousel.Item>
+      ))}
+    </CioCarousel.Content>
+  )}
+</CioCarousel>
+```

@@ -1,0 +1,193 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import * as CarouselStories from './Carousel.stories';
+
+<Meta of={CarouselStories} />
+
+# `Carousel` - Basic Code Examples
+
+Using the default `Carousel` with automatic ProductCard rendering
+
+## Default Carousel with Products
+
+<Canvas of={CarouselStories.Default} />
+
+```tsx
+import CioCarousel from '@/components/carousel';
+import { Product } from '@/types/product-card-types';
+
+function DefaultExample() {
+  const products: Product[] = [
+    {
+      id: 'product-1',
+      name: 'Product 1',
+      imageUrl: 'https://example.com/product1.jpg',
+      price: '49.99',
+    },
+    {
+      id: 'product-2',
+      name: 'Product 2',
+      imageUrl: 'https://example.com/product2.jpg',
+      price: '59.99',
+    },
+    // ... more products
+  ];
+
+  return <CioCarousel items={products} />;
+}
+```
+
+## Carousel with Autoplay
+
+<Canvas of={CarouselStories.Autoplay} />
+
+```tsx
+import CioCarousel from '@/components/carousel';
+import { Product } from '@/types/product-card-types';
+
+function AutoplayExample() {
+  const products: Product[] = [
+    // ... product data
+  ];
+
+  return <CioCarousel items={products} autoPlay />;
+}
+```
+
+## Non-Looping Carousel
+
+<Canvas of={CarouselStories.NonLooping} />
+
+```tsx
+import CioCarousel from '@/components/carousel';
+import { Product } from '@/types/product-card-types';
+
+function NonLoopingExample() {
+  const products: Product[] = [
+    // ... product data
+  ];
+
+  return <CioCarousel items={products} loop={false} />;
+}
+```
+
+## Vertical Carousel
+
+<Canvas of={CarouselStories.Vertical} />
+
+```tsx
+import CioCarousel from '@/components/carousel';
+import { Product } from '@/types/product-card-types';
+
+function VerticalExample() {
+  const products: Product[] = [
+    // ... product data
+  ];
+
+  return (
+    <CioCarousel
+      items={products}
+      orientation="vertical"
+      componentOverrides={{
+        item: {
+          reactNode: ({ item }: { item: Product }) => (
+            <div className='w-[240px] bg-white border rounded-xl p-4 shadow-sm flex flex-col gap-3 self-center'>
+              <div className='flex items-center gap-3'>
+                <img
+                  src={item.imageUrl}
+                  alt={item.name}
+                  className='w-14 h-14 rounded-full object-cover'
+                />
+                <div className='flex-1'>
+                  <p className='text-sm font-semibold'>{item.name}</p>
+                  <p className='text-xs text-gray-500 line-clamp-2'>{item.description}</p>
+                </div>
+              </div>
+              <div className='flex items-center justify-between text-xs text-gray-600'>
+                <span className='font-medium'>${item.price}</span>
+                <span>Rating: {item.rating}★</span>
+              </div>
+            </div>
+          ),
+        },
+      }}
+    />
+  );
+}
+```
+
+## Carousel with Data Attributes
+
+<Canvas of={CarouselStories.WithDataAttributes} />
+
+```tsx
+import CioCarousel from '@/components/carousel';
+import { Product } from '@/types/product-card-types';
+
+function DataAttributesExample() {
+  const products: Product[] = [
+    // ... product data
+  ];
+
+  return (
+    <CioCarousel
+      items={products}
+      data-cnstrc-recommendations
+      data-cnstrc-recommendations-pod-id='pod-id'
+      data-cnstrc-result-id='result-id'
+      data-cnstrc-num-results='10'
+    />
+  );
+}
+```
+
+## Carousel with Custom Slides to Scroll
+
+<Canvas of={CarouselStories.WithCustomSlidesToScroll} />
+
+```tsx
+import CioCarousel from '@/components/carousel';
+import { Product } from '@/types/product-card-types';
+import { CarouselRenderProps } from '@/types/carousel-types';
+
+function CustomSlidesToScrollExample() {
+  const products: Product[] = [
+    // ... product data
+  ];
+
+  return (
+    <CioCarousel items={products} slidesToScroll={2}>
+      {(props: CarouselRenderProps<Product>) => (
+        <div className='flex flex-col gap-3 w-full'>
+          <div className='flex items-center justify-between px-4 text-xs text-gray-500'>
+            <span>
+              Items: {props.items?.length ?? 0} · Slides to scroll: {props.slidesToScroll}
+            </span>
+            <span>Loop: {props.loop ? 'On' : 'Off'}</span>
+          </div>
+          <div className='flex gap-3 items-center px-4'>
+            <CioCarousel.Previous />
+            <CioCarousel.Content>
+              {props.items?.map((product: Product) => (
+                <CioCarousel.Item key={product.id}>
+                  <div className='w-[220px] bg-white border rounded-xl p-4 shadow-sm flex flex-col items-center gap-2'>
+                    <img
+                      src={product.imageUrl}
+                      alt={product.name}
+                      className='w-24 h-24 rounded-full object-cover'
+                    />
+                    <div className='text-center'>
+                      <p className='text-sm font-medium'>{product.name}</p>
+                      <p className='text-xs text-gray-500'>${product.price}</p>
+                    </div>
+                  </div>
+                </CioCarousel.Item>
+              ))}
+            </CioCarousel.Content>
+            <CioCarousel.Next />
+          </div>
+        </div>
+      )}
+    </CioCarousel>
+  );
+}
+```

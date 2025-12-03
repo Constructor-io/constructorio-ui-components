@@ -1,0 +1,129 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import * as CarouselStories from './Carousel.stories';
+
+<Meta of={CarouselStories} />
+
+# `Carousel` - Code Examples with Render Props
+
+Using render props pattern for complete layout customization
+
+## Basic Render Props Usage
+
+<Canvas of={CarouselStories.WithRenderProps} />
+
+```tsx
+import CioCarousel from '@/components/carousel';
+import { Product } from '@/types/product-card-types';
+import { CarouselRenderProps } from '@/types/carousel-types';
+
+function RenderPropsExample() {
+  const products: Product[] = [
+    // ... product data
+  ];
+
+  return (
+    <CioCarousel items={products}>
+      {(props: CarouselRenderProps<Product>) => (
+        <div className='flex flex-col gap-4 w-full'>
+          <div className='flex items-center justify-between px-4'>
+            <h2 className='text-lg font-semibold'>Recommended products</h2>
+            <span className='text-sm text-gray-500'>
+              {props.items?.length ?? 0} items · Orientation: {props.orientation}
+            </span>
+          </div>
+
+          <div className='flex gap-4 w-full items-center'>
+            <CioCarousel.Previous />
+            <CioCarousel.Content>
+              {props.items?.map((product: Product) => (
+                <CioCarousel.Item key={product.id}>
+                  <div className='w-full bg-white border rounded-xl p-4 shadow-sm flex flex-col items-center gap-2'>
+                    <img
+                      src={product.imageUrl}
+                      alt={product.name}
+                      className='w-24 h-24 rounded-full object-cover'
+                    />
+                    <div className='text-center'>
+                      <p className='text-sm font-medium'>{product.name}</p>
+                      <p className='text-xs text-gray-500'>${product.price}</p>
+                    </div>
+                  </div>
+                </CioCarousel.Item>
+              ))}
+            </CioCarousel.Content>
+            <CioCarousel.Next />
+          </div>
+        </div>
+      )}
+    </CioCarousel>
+  );
+}
+```
+
+## Render Props Showcase
+
+<Canvas of={CarouselStories.RenderPropsShowcase} />
+
+```tsx
+import CioCarousel from '@/components/carousel';
+import { Product } from '@/types/product-card-types';
+import { CarouselRenderProps } from '@/types/carousel-types';
+
+function RenderPropsShowcaseExample() {
+  const products: Product[] = [
+    // ... product data
+  ];
+
+  return (
+    <CioCarousel items={products}>
+      {(props: CarouselRenderProps<Product>) => (
+        <div className='flex flex-col gap-4 w-full p-4 bg-slate-50 rounded-xl border border-slate-200 overflow-hidden'>
+          <div className='flex items-center justify-between'>
+            <div>
+              <h2 className='text-lg font-semibold'>Personalized picks</h2>
+              <p className='text-xs text-gray-500 mt-1'>
+                {props.items?.length ?? 0} items ·
+                <span className='ml-1'>
+                  {props.orientation === 'vertical' ? 'Vertical scroll' : 'Horizontal scroll'}
+                </span>
+              </p>
+            </div>
+            <div className='flex flex-col items-end text-xs text-gray-500'>
+              <span>Slides to scroll: {props.slidesToScroll}</span>
+              <span>Loop: {props.loop ? 'On' : 'Off'}</span>
+            </div>
+          </div>
+
+          <div className='flex items-center gap-3'>
+            <CioCarousel.Previous />
+            <CioCarousel.Content>
+              {props.items?.map((product: Product) => (
+                <CioCarousel.Item key={product.id}>
+                  <div className='w-[240px] bg-white border rounded-xl p-4 shadow-sm flex flex-col gap-3'>
+                    <div className='flex items-center gap-3'>
+                      <img
+                        src={product.imageUrl}
+                        alt={product.name}
+                        className='w-14 h-14 rounded-full object-cover'
+                      />
+                      <div className='flex-1'>
+                        <p className='text-sm font-semibold'>{product.name}</p>
+                        <p className='text-xs text-gray-500 line-clamp-2'>{product.description}</p>
+                      </div>
+                    </div>
+                    <div className='flex items-center justify-between text-xs text-gray-600'>
+                      <span className='font-medium'>${product.price}</span>
+                      <span>Rating: {product.rating}★</span>
+                    </div>
+                  </div>
+                </CioCarousel.Item>
+              ))}
+            </CioCarousel.Content>
+            <CioCarousel.Next />
+          </div>
+        </div>
+      )}
+    </CioCarousel>
+  );
+}
+```

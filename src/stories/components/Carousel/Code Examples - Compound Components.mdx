@@ -1,0 +1,203 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import * as CarouselStories from './Carousel.stories';
+
+<Meta of={CarouselStories} />
+
+# `Carousel` - Code Examples with Compound Components
+
+Use the compound components pattern to easily customize the `Carousel` through its sub-components
+
+## Basic Compound Component Usage
+
+<Canvas of={CarouselStories.WithCompoundComponents} />
+
+```tsx
+import CioCarousel from '@/components/carousel';
+import { Product } from '@/types/product-card-types';
+
+function CompoundBasicExample() {
+  const products: Product[] = [
+    {
+      id: 'product-1',
+      name: 'Product 1',
+      imageUrl: 'https://example.com/product1.jpg',
+      price: '49.99',
+    },
+    // ... more products
+  ];
+
+  return (
+    <CioCarousel autoPlay={false} loop>
+      <CioCarousel.Previous />
+      <CioCarousel.Content>
+        {products.map((product: Product) => (
+          <CioCarousel.Item key={product.id}>
+            <div className='w-[220px] bg-white border rounded-xl p-4 shadow-sm flex flex-col items-center gap-3'>
+              <img
+                src={product.imageUrl}
+                alt={product.name}
+                className='w-24 h-24 rounded-full object-cover'
+              />
+              <div className='text-center space-y-1'>
+                <p className='text-sm font-semibold'>{product.name}</p>
+                <p className='text-xs text-gray-500 line-clamp-2'>{product.description}</p>
+                <p className='text-sm font-medium'>${product.price}</p>
+              </div>
+            </div>
+          </CioCarousel.Item>
+        ))}
+      </CioCarousel.Content>
+      <CioCarousel.Next />
+    </CioCarousel>
+  );
+}
+```
+
+## Compound Components with Custom Layout
+
+<Canvas of={CarouselStories.CompoundCustomLayout} />
+
+```tsx
+import CioCarousel from '@/components/carousel';
+import { Product } from '@/types/product-card-types';
+
+function CompoundCustomLayoutExample() {
+  const products: Product[] = [
+    // ... product data
+  ];
+
+  return (
+    <CioCarousel autoPlay={false} loop>
+      <div className='flex flex-col gap-4 w-full p-4 bg-slate-50 rounded-xl'>
+        <div className='flex items-center justify-between'>
+          <h2 className='text-lg font-semibold'>Featured Products</h2>
+          <div className='flex gap-2'>
+            <CioCarousel.Previous />
+            <CioCarousel.Next />
+          </div>
+        </div>
+
+        <CioCarousel.Content>
+          {products.map((product: Product) => (
+            <CioCarousel.Item key={product.id}>
+              <div className='w-[200px] bg-white border rounded-xl p-3 shadow-sm'>
+                <img
+                  src={product.imageUrl}
+                  alt={product.name}
+                  className='w-full h-32 object-cover rounded-lg mb-2'
+                />
+                <h3 className='text-sm font-semibold'>{product.name}</h3>
+                <p className='text-xs text-gray-500'>${product.price}</p>
+              </div>
+            </CioCarousel.Item>
+          ))}
+        </CioCarousel.Content>
+
+        <CioCarousel.Next />
+      </div>
+    </CioCarousel>
+  );
+}
+```
+
+## Compound Components with Vertical Layout
+
+<Canvas of={CarouselStories.CompoundVerticalLayout} />
+
+```tsx
+import CioCarousel from '@/components/carousel';
+import { Product } from '@/types/product-card-types';
+
+function CompoundVerticalExample() {
+  const products: Product[] = [
+    // ... product data
+  ];
+
+  return (
+    <CioCarousel orientation='vertical' autoPlay={false} loop>
+      <div className='flex flex-col gap-3 h-[400px]'>
+        <CioCarousel.Previous />
+        <CioCarousel.Content>
+          {products.map((product: Product) => (
+            <CioCarousel.Item key={product.id}>
+              <div className='w-[240px] bg-white border rounded-xl p-4 shadow-sm flex items-center gap-3'>
+                <img
+                  src={product.imageUrl}
+                  alt={product.name}
+                  className='w-16 h-16 rounded-full object-cover'
+                />
+                <div className='flex-1'>
+                  <p className='text-sm font-semibold'>{product.name}</p>
+                  <p className='text-xs text-gray-500'>${product.price}</p>
+                </div>
+              </div>
+            </CioCarousel.Item>
+          ))}
+        </CioCarousel.Content>
+        <CioCarousel.Next />
+      </div>
+    </CioCarousel>
+  );
+}
+```
+
+## Responsive Configuration with Compound Components
+
+<Canvas of={CarouselStories.WithCustomResponsiveConfig} />
+
+```tsx
+import CioCarousel from '@/components/carousel';
+import { Product } from '@/types/product-card-types';
+import { CarouselRenderProps } from '@/types/carousel-types';
+
+function ResponsiveExample() {
+  const products: Product[] = [
+    // ... product data
+  ];
+
+  return (
+    <CioCarousel
+      items={products}
+      autoPlay={false}
+      responsive={{
+        0: { gap: 8, slidesToShow: 1 },
+        640: { gap: 12, slidesToShow: 2 },
+        960: { gap: 16, slidesToShow: 3 },
+        1200: { gap: 20, slidesToShow: 4 },
+      }}>
+      {(props: CarouselRenderProps<Product>) => (
+        <div className='flex flex-col gap-4 w-full p-4 overflow-hidden'>
+          <div className='flex items-center justify-between text-xs text-gray-500'>
+            <span>
+              Breakpoints: 0/640/960/1200 · Orientation:{' '}
+              {props.orientation === 'vertical' ? 'Vertical' : 'Horizontal'}
+            </span>
+            <span>Autoplay: {props.autoPlay ? 'On' : 'Off'}</span>
+          </div>
+          <div className='flex gap-3 items-center'>
+            <CioCarousel.Previous />
+            <CioCarousel.Content>
+              {props.items?.map((product: Product) => (
+                <CioCarousel.Item key={product.id}>
+                  <div className='w-[220px] bg-white border rounded-xl p-4 shadow-sm flex flex-col items-center gap-3'>
+                    <img
+                      src={product.imageUrl}
+                      alt={product.name}
+                      className='w-24 h-24 rounded-full object-cover'
+                    />
+                    <div className='text-center space-y-1'>
+                      <p className='text-sm font-semibold'>{product.name}</p>
+                      <p className='text-xs text-gray-500 line-clamp-2'>{product.description}</p>
+                    </div>
+                  </div>
+                </CioCarousel.Item>
+              ))}
+            </CioCarousel.Content>
+            <CioCarousel.Next />
+          </div>
+        </div>
+      )}
+    </CioCarousel>
+  );
+}
+```

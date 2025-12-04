@@ -1,7 +1,7 @@
 import React, { ReactNode, createContext, useContext } from 'react';
 
-import { cn } from '@/lib/utils';
-import RenderPropsWrapper from './RenderPropsWrapper';
+import { cn } from '@/utils';
+import { RenderPropsWrapper } from '@/utils';
 import { ComponentOverrideProps, IncludeComponentOverrides } from '@/types';
 
 export type CardOverrides = ComponentOverrideProps<CardProps> & {

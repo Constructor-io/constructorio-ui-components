@@ -117,4 +117,11 @@ export default tseslint.config([
     files: ['spec/*.jsx'],
     rules: { 'react/prop-types': 'off' },
   },
+  {
+    files: ['src/**/*.ts', 'src/**/*.tsx'],
+    rules: {
+      'no-restricted-imports': ["error", { patterns: [{ group: ["../*", "./*"]}] }]
+    },
+    ignores: ["src/stories/**"]
+  },
 ], storybook.configs["flat/recommended"]);

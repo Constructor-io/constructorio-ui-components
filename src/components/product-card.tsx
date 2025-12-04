@@ -1,10 +1,10 @@
 import React, { createContext, useContext } from 'react';
-import RenderPropsWrapper from './RenderPropsWrapper';
-import { cn } from '@/lib/utils';
+import { RenderPropsWrapper } from '@/utils';
+import { cn } from '@/utils';
 import { Card, CardContentProps, CardFooterProps } from '@/components/card';
 import Button from '@/components/button';
-import Heart from '../assets/heart.svg';
-import HeartFilled from '../assets/heart-filled.svg';
+import Heart from '@/assets/heart.svg';
+import HeartFilled from '@/assets/heart-filled.svg';
 import {
   AddToCartButtonProps,
   DescriptionSectionProps,

@@ -8,13 +8,7 @@
 
 UI Components Library is a collection of React components that can be used to build UI for Constructor.io products.
 
-Our [Storybook Docs](https://constructor-io.github.io/constructorio-ui-components/?path=/docs/general-introduction--variants) are the best place to explore the behavior and the available configuration options for this UI library.
-
-## Installation
-
-```bash
-npm i @constructor-io/constructorio-ui-components
-```
+Our [Storybook Docs](https://constructor-io.github.io/constructorio-ui-components/?path=/docs/general-introduction--variants) provide a comprehensive overview of each component, including its behavior, variations, and configuration options.
 
 
 ## Requirements
@@ -22,6 +16,99 @@ npm i @constructor-io/constructorio-ui-components
 - Node.js v22.18.0 (LTS Jod)
 - React >=16.12.0
 - React DOM >=16.12.0
+
+
+## Installation
+
+```bash
+npm i @constructor-io/constructorio-ui-components
+```
+
+## Usage Patterns
+
+### Normal Usage
+
+```tsx
+import { Button } from '@constructor-io/constructorio-ui-components';
+
+function App() {
+  return <Button>Click me</Button>;
+}
+```
+
+### Render Other Components using `asChild`
+
+```tsx
+<Badge
+  asChild
+  variant="outline"
+>
+  <a href="#">
+    A link that looks like a badge
+  </a>
+</Badge>
+```
+
+### Component Overrides
+
+```tsx
+<Button
+  componentOverrides={{
+    reactNode: <span>A span rendered in place of a button</span>
+  }}
+>
+  This will be overridden
+</Button>
+```
+
+### Passing Data Attributes
+
+```tsx
+<Button data-cnstrc-price={23.25}>
+  Purchase
+</Button>
+```
+
+### Compound Components
+
+```tsx
+<ProductCard>
+  <div className='grid grid-cols-2 gap-4 p-4'>
+    <ProductCard.ImageSection />
+    <div className='space-y-2'>
+      <ProductCard.PriceSection />
+      <ProductCard.TitleSection />
+      <ProductCard.RatingSection />
+    </div>
+  </div>
+  <ProductCard.Footer>
+    <ProductCard.AddToCartButton />
+  </ProductCard.Footer>
+</ProductCard>
+```
+
+## Local Development
+
+### Development Scripts
+```bash
+npm ci                         # Install dependencies for local dev
+npm run dev                    # Start a local dev server for Storybook
+npm run lint                   # Run lint
+npm run test                   # Run unit tests
+```
+
+### Build scripts
+```bash
+npm run compile                # Compile the library, remove aliases, copy styles
+npm run build-storybook        # Build Storybook
+npm run serve-built-storybook  # Serve the built Storybook
+```
+
+## Contributing
+
+- Fork the repo & create a new branch.
+- Run npm install to install dependencies.
+- Submit a PR for review.
 
 ## License
 

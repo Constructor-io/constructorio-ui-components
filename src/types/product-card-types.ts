@@ -1,3 +1,4 @@
+import { BadgeProps } from '@/components/badge';
 import { ComponentOverrideProps, IncludeRenderProps, RenderPropsChildren } from '@/types';
 
 export interface Product {
@@ -13,6 +14,7 @@ export interface Product {
   tags?: string[];
   slCampaignId?: string;
   slCampaignOwner?: string;
+  badge?: string;
 }
 
 export interface ProductCardProps extends Omit<React.ComponentProps<'div'>, 'children'> {
@@ -30,6 +32,7 @@ export interface ProductCardProps extends Omit<React.ComponentProps<'div'>, 'chi
 export type ProductCardOverrides = ComponentOverrideProps<ProductCardProps> & {
   image?: ComponentOverrideProps<ProductCardProps> & {
     wishlistButton?: ComponentOverrideProps<ProductCardProps>;
+    badge?: ComponentOverrideProps<ProductCardProps>;
   };
   content?: ComponentOverrideProps<ProductCardProps> & {
     title?: ComponentOverrideProps<ProductCardProps>;
@@ -90,3 +93,7 @@ export interface AddToCartButtonProps extends IncludeRenderProps<ProductCardProp
   addToCartText?: string;
   className?: string;
 }
+
+export interface ProductBadgeProps
+  extends IncludeRenderProps<ProductCardProps>,
+    Omit<BadgeProps, 'children' | 'componentOverrides'> {}

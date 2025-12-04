@@ -18,16 +18,16 @@ function CompoundWithRenderPropsExample() {
   return (
     <ProductCard
       product={{
-        id='highland-golf-pants',
-        variationId='highland-golf-pants--navy',
-        name="Highland Golf Pants",
-        imageUrl='https://example.com/pants.jpg',
-        price='899',
-        salePrice='699',
-        rating={4.9},
-        reviewsCount={456},
-        description='Premium golf pants designed for comfort and performance on the course',
-        tags={['Premium', 'Custom Layout']},
+        id: 'highland-golf-pants',
+        variationId: 'highland-golf-pants--navy',
+        name: "Highland Golf Pants",
+        imageUrl: 'https://example.com/pants.jpg',
+        price: '899',
+        salePrice: '699',
+        rating: 4.9,
+        reviewsCount: 456,
+        description: 'Premium golf pants designed for comfort and performance on the course',
+        tags: ['Premium', 'Custom Layout'],
       }}
       priceCurrency='$'
       onAddToCart={(e) => console.log('Added to cart', e)}

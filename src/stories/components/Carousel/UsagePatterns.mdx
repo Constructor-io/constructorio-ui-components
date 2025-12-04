@@ -1,0 +1,46 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import * as CarouselStories from './Carousel.stories';
+
+<Meta of={CarouselStories} name="Usage Patterns" />
+
+# Usage Examples
+
+## Basic Carousel Usage
+The simplest way to use Carousel is by passing an array of items via the `items` prop. The component will automatically render ProductCards for each item with default configuration including autoplay, looping, and responsive breakpoints.
+
+<Canvas of={CarouselStories.Default} />
+
+## Enabling Component Overrides
+To enable component overrides, pass the `componentOverrides` prop to customize specific parts of the Carousel. This example shows how to override navigation buttons with custom styled buttons.
+
+<Canvas of={CarouselStories.WithCustomScrollButtons} />
+
+## Passing Data-Attributes for Tracking
+Carousels typically have Constructor-related data attributes assigned to them for analytics and tracking purposes. Data attributes can be passed down by simply setting those attributes to the parent `Carousel` component.
+
+<Canvas of={CarouselStories.WithDataAttributes} />
+
+## Using Render Props for Complete Customization
+Carousel supports render props pattern for complete layout customization while still providing access to all carousel data and controls. This is useful when you need a completely different layout but want to leverage the Carousel's state management.
+
+<Canvas of={CarouselStories.WithRenderProps} />
+
+## Using Compound Components for Custom Layouts
+Carousel compound components allow you to build custom carousel structures with full control over navigation placement and content rendering. This pattern is ideal when you need structural flexibility.
+
+<Canvas of={CarouselStories.WithCompoundComponents} />
+
+## Mixing Compound Components with Render Props
+Combine compound components with render props for maximum flexibility. Use render props for dynamic headers or custom sections while leveraging compound components for the carousel structure.
+
+<Canvas of={CarouselStories.CompoundWithRenderProps} />
+
+## Working with Non-Product Items
+Carousel supports generic types, allowing you to use it with any type of data, not just products. This example demonstrates rendering article cards in a carousel.
+
+<Canvas of={CarouselStories.WithNonProductItems} />
+
+## Responsive Configuration
+Configure responsive breakpoints to control how many items are visible at different screen sizes. This ensures optimal viewing experience across all devices.
+
+<Canvas of={CarouselStories.WithCustomResponsiveConfig} />

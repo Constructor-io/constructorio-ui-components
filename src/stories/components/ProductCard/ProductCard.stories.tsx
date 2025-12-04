@@ -1,14 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import ProductCard from '@/components/product-card';
-import '@/styles.css';
-import {
-  CompleteCustomOverrideCard,
-  CompactListStyleCard,
-} from '@/stories/components/ProductCard/ProductCardVariants';
-import { ProductCardProps } from '@/types/product-card-types';
-
-const DEMO_IMAGE_URL =
-  'https://constructorio-integrations.s3.amazonaws.com/tikus-threads/2022-06-29/PANT_ACTIVE-PANT_GWB00623SBL770_1_category.jpg';
+import ProductCard from '../../../components/product-card';
+import { CompleteCustomOverrideCard, CompactListStyleCard } from './ProductCardVariants';
+import { ProductCardProps } from '../../../types/product-card-types';
+import { DEMO_IMAGE_URL } from '../../constants';
 
 const meta = {
   title: 'Components/ProductCard',
@@ -30,6 +24,7 @@ const meta = {
     reviewsCount: { control: 'number' },
     addToCartText: { control: 'text' },
     tags: { control: 'object' },
+    badge: { control: 'text' },
     slCampaignId: { control: 'text' },
     slCampaignOwner: { control: 'text' },
     isInWishlist: { control: 'boolean' },
@@ -213,6 +208,7 @@ export const FullyFeatured: Story = {
       rating: 4.8,
       reviewsCount: 2713,
       tags: ['Same day delivery', 'Free assembly', '10-year warranty'],
+      badge: 'New',
     },
     priceCurrency: '$',
     onAddToCart: (e) => console.log('Added to cart', e),
@@ -249,6 +245,103 @@ export const InWishlist: Story = {
     onAddToCart: { action: 'add to cart clicked' },
     onAddToWishlist: { action: 'remove from wishlist clicked' },
   },
+};
+
+// Card with badge
+export const WithBadge: Story = {
+  args: {
+    product: {
+      id: 'highland-golf-pants',
+      variationId: 'highland-golf-pants--navy',
+      name: 'Highland Golf Pants',
+      imageUrl: DEMO_IMAGE_URL,
+      description: 'Premium golf pants designed for comfort and performance on the course',
+      price: '899',
+      badge: 'New Arrival',
+    },
+    priceCurrency: '$',
+  },
+};
+
+// Custom badge using component overrides
+export const CustomBadge: Story = {
+  args: {
+    product: {
+      id: 'highland-golf-pants',
+      variationId: 'highland-golf-pants--navy',
+      name: 'Highland Golf Pants',
+      imageUrl: DEMO_IMAGE_URL,
+      description: 'Premium golf pants designed for comfort and performance on the course',
+      price: '899',
+      salePrice: '699',
+      rating: 4.8,
+      reviewsCount: 2713,
+    },
+    priceCurrency: '$',
+    onAddToCart: (e) => console.log('Added to cart', e),
+    onAddToWishlist: (e) => console.log('Added to wishlist', e),
+    componentOverrides: {
+      image: {
+        badge: {
+          reactNode: () => (
+            <div className='absolute top-2 sm:top-4 left-2 sm:left-[22px] bg-gradient-to-r from-orange-500 to-red-500 text-white px-3 py-1 rounded-full shadow-lg'>
+              <div className='flex items-center gap-1'>
+                <span className='text-lg'>🔥</span>
+                <span className='text-xs font-bold uppercase tracking-wide'>Hot Deal</span>
+              </div>
+            </div>
+          ),
+        },
+      },
+    },
+  },
+  argTypes: {
+    onAddToCart: { action: 'add to cart clicked' },
+    onAddToWishlist: { action: 'add to wishlist clicked' },
+  },
+};
+
+// Custom badge using compound components
+export const CustomBadgeCompound: Story = {
+  args: {
+    product: {
+      id: 'highland-golf-pants',
+      variationId: 'highland-golf-pants--navy',
+      name: 'Highland Golf Pants',
+      imageUrl: DEMO_IMAGE_URL,
+      description: 'Premium golf pants designed for comfort and performance on the course',
+      price: '899',
+      salePrice: '699',
+      rating: 4.8,
+      reviewsCount: 2713,
+    },
+    priceCurrency: '$',
+    onAddToCart: (e) => console.log('Added to cart', e),
+    onAddToWishlist: (e) => console.log('Added to wishlist', e),
+  },
+  render: (args) => (
+    <ProductCard {...args}>
+      <ProductCard.ImageSection>
+        <ProductCard.Badge>Hot Deal</ProductCard.Badge>
+        <ProductCard.WishlistButton />
+      </ProductCard.ImageSection>
+      <ProductCard.Content>
+        <ProductCard.PriceSection />
+        <ProductCard.TitleSection />
+        <ProductCard.DescriptionSection />
+        <ProductCard.RatingSection />
+      </ProductCard.Content>
+      <ProductCard.Footer>
+        <ProductCard.AddToCartButton />
+      </ProductCard.Footer>
+    </ProductCard>
+  ),
+  argTypes: {
+    onAddToCart: { action: 'add to cart clicked' },
+    onAddToWishlist: { action: 'add to wishlist clicked' },
+  },
+  // Hide from sidebar but keep available for Canvas
+  tags: ['!dev'],
 };
 
 // ==========================================
@@ -316,6 +409,7 @@ export const CompoundFullyFeatured: Story = {
         <ProductCard.WishlistButton
           onAddToWishlist={(e: React.MouseEvent) => console.log('Added to wishlist', e)}
         />
+        <ProductCard.Badge>New</ProductCard.Badge>
       </ProductCard.ImageSection>
       <ProductCard.Content>
         <ProductCard.PriceSection />
@@ -952,14 +1046,14 @@ export const CompoundWithRenderProps: Story = {
 
             {renderProps.onAddToCart && (
               <button
-                className='w-full mt-3 bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-lg font-medium transition-colors'
+                className='w-full mt-3 bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-lg font-medium transition-colors border-0 cursor-pointer'
                 onClick={(e) => renderProps.onAddToCart && renderProps.onAddToCart(e)}>
                 {renderProps.addToCartText || 'Add to Cart'}
               </button>
             )}
 
             <button
-              className='w-full bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 px-4 rounded-lg text-sm font-medium transition-colors'
+              className='w-full bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 px-4 rounded-lg text-sm font-medium transition-colors border-0 cursor-pointer'
               onClick={() => console.log(`Quick view for ${renderProps.product.name}`)}>
               👁️ Quick View
             </button>

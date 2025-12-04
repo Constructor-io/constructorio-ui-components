@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, cleanup } from '@testing-library/react';
 import { describe, test, expect, afterEach } from 'vitest';
-import Badge from '../../../src/components/badge';
+import Badge from '@/components/badge';
 
 describe('Badge component', () => {
   afterEach(() => {

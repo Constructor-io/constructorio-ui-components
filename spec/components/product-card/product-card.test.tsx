@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 import { describe, test, expect, vi, afterEach } from 'vitest';
-import ProductCard from '../../../src/components/product-card';
+import ProductCard from '@/components/product-card';
 
 const mockProductData = {
   product: {
@@ -368,6 +368,29 @@ describe('ProductCard component', () => {
 
       expect(screen.getByText('€ 79.99')).toBeInTheDocument();
       expect(screen.getByText('€ 99.99')).toBeInTheDocument();
+    });
+  });
+
+  describe('Badge', () => {
+    test('renders badge when badge is provided', () => {
+      const productWithBadge = {
+        ...mockProductData,
+        product: {
+          ...mockProductData.product,
+          badge: 'New',
+        },
+      };
+      render(<ProductCard {...productWithBadge} />);
+
+      const badge = screen.getByText('New');
+      expect(badge).toBeInTheDocument();
+    });
+
+    test('does not render badge when badge text is not provided', () => {
+      const { container } = render(<ProductCard {...mockProductData} />);
+
+      const badgeElement = container.querySelector('.cio-product-card-badge');
+      expect(badgeElement).not.toBeInTheDocument();
     });
   });
 });

@@ -5,5 +5,5 @@
   "dictionaries": ["en_US", "html", "css"],
   "ignorePaths": ["lib", "docs"],
   "flagWords": [],
-  "words": ["constructorio", "cnstrc", "Autodocs", "autodocs"]
+  "words": ["constructorio", "cnstrc", "Autodocs", "autodocs", "Embla"]
 }

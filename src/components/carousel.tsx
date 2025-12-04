@@ -13,8 +13,8 @@ import { cn, RenderPropsWrapper } from '@/utils';
 import Button from '@/components/button';
 import { useCarouselResponsive } from '@/hooks/useCarouselResponsive';
 import { useCarouselTweenOpacity } from '@/hooks/useCarouselTweenOpacity';
-import ArrowRightIcon from '@/assets/icons/ArrowRightIcon';
-import ArrowLeftIcon from '@/assets/icons/ArrowLeftIcon';
+import ArrowRightIcon from '@/assets/icons/arrow-right-icon';
+import ArrowLeftIcon from '@/assets/icons/arrow-left-icon';
 import ProductCard from '@/components/product-card';
 import { Product } from '@/types/product-card-types';
 import type {

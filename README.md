@@ -39,52 +39,81 @@ function App() {
 ### Render Other Components using `asChild`
 
 ```tsx
-<Badge
-  asChild
-  variant="outline"
->
-  <a href="#">
-    A link that looks like a badge
-  </a>
-</Badge>
+import { Badge } from '@constructor-io/constructorio-ui-components';
+
+function App() {
+  return (
+    <Badge asChild variant="outline">
+      <a href="#">
+        A link that looks like a badge
+      </a>
+    </Badge>
+  );
+}
 ```
 
 ### Component Overrides
 
 ```tsx
-<Button
-  componentOverrides={{
-    reactNode: <span>A span rendered in place of a button</span>
-  }}
->
-  This will be overridden
-</Button>
+import { Button } from '@constructor-io/constructorio-ui-components';
+
+function App() {
+  return (
+    <Button
+      componentOverrides={{
+        reactNode: <span>A span rendered in place of a button</span>
+      }}
+    >
+      This will be overridden
+    </Button>
+  );
+}
 ```
 
 ### Passing Data Attributes
 
 ```tsx
-<Button data-cnstrc-price={23.25}>
-  Purchase
-</Button>
+import { Button } from '@constructor-io/constructorio-ui-components';
+
+function App() {
+  return <Button data-cnstrc-price={23.25}>Purchase</Button>;
+}
 ```
 
 ### Compound Components
 
 ```tsx
-<ProductCard>
-  <div className='grid grid-cols-2 gap-4 p-4'>
-    <ProductCard.ImageSection />
-    <div className='space-y-2'>
-      <ProductCard.PriceSection />
-      <ProductCard.TitleSection />
-      <ProductCard.RatingSection />
-    </div>
-  </div>
-  <ProductCard.Footer>
-    <ProductCard.AddToCartButton />
-  </ProductCard.Footer>
-</ProductCard>
+import { ProductCard } from '@constructor-io/constructorio-ui-components';
+
+function App() {
+  return (
+    <ProductCard
+      product={{
+        id: 'highland-golf-pants',
+        variationId: 'highland-golf-pants--navy',
+        name: "Highland Golf Pants",
+        imageUrl: 'https://example.com/pants.jpg',
+        price: '799',
+        rating: 4.8,
+        reviewsCount: 203,
+        description: 'Premium golf pants designed for comfort and performance on the course',
+      }}
+      className='overflow-hidden max-w-md'
+    >
+      <div className='grid grid-cols-2 gap-4 p-4'>
+        <ProductCard.ImageSection />
+        <div className='space-y-2'>
+          <ProductCard.PriceSection />
+          <ProductCard.TitleSection />
+          <ProductCard.RatingSection />
+        </div>
+      </div>
+      <ProductCard.Footer>
+        <ProductCard.AddToCartButton />
+      </ProductCard.Footer>
+    </ProductCard>
+  );
+}
 ```
 
 ## Local Development

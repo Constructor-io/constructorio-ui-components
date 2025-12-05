@@ -30,6 +30,7 @@ npm i @constructor-io/constructorio-ui-components
 
 ```tsx
 import { Button } from '@constructor-io/constructorio-ui-components';
+import '@constructor-io/constructorio-ui-components/styles.css'
 
 function App() {
   return <Button>Click me</Button>;
@@ -40,6 +41,7 @@ function App() {
 
 ```tsx
 import { Badge } from '@constructor-io/constructorio-ui-components';
+import '@constructor-io/constructorio-ui-components/styles.css'
 
 function App() {
   return (
@@ -56,6 +58,7 @@ function App() {
 
 ```tsx
 import { Button } from '@constructor-io/constructorio-ui-components';
+import '@constructor-io/constructorio-ui-components/styles.css'
 
 function App() {
   return (
@@ -74,6 +77,7 @@ function App() {
 
 ```tsx
 import { Button } from '@constructor-io/constructorio-ui-components';
+import '@constructor-io/constructorio-ui-components/styles.css'
 
 function App() {
   return <Button data-cnstrc-price={23.25}>Purchase</Button>;
@@ -84,6 +88,7 @@ function App() {
 
 ```tsx
 import { ProductCard } from '@constructor-io/constructorio-ui-components';
+import '@constructor-io/constructorio-ui-components/styles.css'
 
 function App() {
   return (

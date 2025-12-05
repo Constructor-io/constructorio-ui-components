@@ -1,4 +1,4 @@
-import type { Product } from '@/types/product-card-types';
+import type { Product } from '@/types/productCardTypes';
 import type {
   ComponentOverrideProps,
   IncludeComponentOverrides,

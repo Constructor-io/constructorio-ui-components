@@ -1,3 +1,3 @@
 /* eslint-disable no-restricted-imports */
-export * from './style-helpers';
-export { default as RenderPropsWrapper } from './render-props-wrapper';
+export * from './styleHelpers';
+export { default as RenderPropsWrapper } from './RenderPropsWrapper';

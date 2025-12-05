@@ -19,7 +19,7 @@ import {
   TitleSectionProps,
   WishlistButtonProps,
   Product,
-} from '@/types/product-card-types';
+} from '@/types/productCardTypes';
 
 // Context for sharing ProductCard data
 interface ProductCardContextValue {

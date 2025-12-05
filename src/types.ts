@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
-export * from '@/types/product-card-types';
-export * from '@/types/carousel-types';
+export * from '@/types/productCardTypes';
+export * from '@/types/carouselTypes';
 
 export type RenderPropsChildren<RenderProps> = ((props: RenderProps) => ReactNode) | ReactNode;
 

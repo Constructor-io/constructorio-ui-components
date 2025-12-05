@@ -1,5 +1,5 @@
 import React from 'react';
-import { ProductCardProps } from '../../../types/product-card-types';
+import { ProductCardProps } from '../../../types/productCardTypes';
 
 // Complete custom override component
 export const CompleteCustomOverrideCard: React.FC<ProductCardProps> = (props) => (

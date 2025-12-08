@@ -49,7 +49,6 @@
     "compile": "rm -rf lib && tsc -p tsconfig-mjs.json && tsc -p tsconfig-cjs.json && npm run copy-svgs && npm run remove-aliases && npm run copy-styles",
     "remove-aliases": "tsc-alias -p tsconfig-mjs.json && tsc-alias -p tsconfig-cjs.json",
     "check-license": "license-checker --production --onlyAllow 'Apache-2.0;BSD-3-Clause;MIT;0BSD;BSD-2-Clause;ISC;BlueOak-1.0.0;MPL-2.0' --excludePackages 'picocolors@1.0.0'",
-    "prepare": "husky install",
     "storybook": "storybook dev -p 6006"
   },
   "peerDependencies": {
@@ -90,7 +89,6 @@
     "eslint-plugin-react-refresh": "^0.4.20",
     "eslint-plugin-storybook": "^9.1.3",
     "globals": "^16.3.0",
-    "husky": "^9.1.7",
     "jsdom": "^27.0.0",
     "license-checker": "^25.0.1",
     "lint-staged": "^16.1.5",

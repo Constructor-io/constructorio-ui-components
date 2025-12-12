@@ -1,9 +1,9 @@
 import React from 'react';
 import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 import { describe, test, expect, vi, afterEach, beforeEach } from 'vitest';
-import CioCarousel from '../../../src/components/carousel';
-import { Product } from '../../../src/types/product-card-types';
-import { CarouselRenderProps } from '../../../src/types/carousel-types';
+import CioCarousel from '@/components/carousel';
+import { Product } from '@/types/productCardTypes';
+import { CarouselRenderProps } from '@/types/carouselTypes';
 
 const mockProducts: Product[] = [
   {

@@ -115,7 +115,6 @@ export const WithLeftIcon: Story = {
       </>
     ),
   },
-  name: 'With Left Icon',
 };
 
 export const WithRightIcon: Story = {
@@ -140,7 +139,6 @@ export const WithRightIcon: Story = {
       </>
     ),
   },
-  name: 'With Right Icon',
 };
 
 export const WithBothIcons: Story = {
@@ -179,7 +177,6 @@ export const WithBothIcons: Story = {
       </>
     ),
   },
-  name: 'With Both Icons',
 };
 
 export const NumberBadgeSm: Story = {

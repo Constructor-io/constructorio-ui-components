@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import CioCarousel from '../../../components/carousel';
-import { Product } from '../../../types/product-card-types';
-import { CarouselRenderProps } from '../../../types/carousel-types';
+import { Product } from '../../../types/productCardTypes';
+import { CarouselRenderProps } from '../../../types/carouselTypes';
 import { DEMO_IMAGE_URL } from '../../constants';
 
 const meta = {

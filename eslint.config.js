@@ -14,7 +14,7 @@ import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
 import react from 'eslint-plugin-react';
 import importPlugin from 'eslint-plugin-import';
 
-export default tseslint.config([
+export default tseslint.config(
   globalIgnores(['dist']),
   {
     files: ['**/*.{js,mjs,cjs,jsx,mjsx,ts,tsx,mtsx}'],
@@ -94,7 +94,7 @@ export default tseslint.config([
           peerDependencies: true,
         },
       ],
-      'import/no-unresolved': ['error', { ignore: ['^storybook/'] }],
+      'import/no-unresolved': ['error', { ignore: ['^storybook/', '^vitest/', '^@vitejs/'] }],
     },
     ignores: ['*.config.js', 'lib/**/*.js', 'lib/**/*.d.ts', 'docs/**/*.js'],
   },
@@ -102,11 +102,6 @@ export default tseslint.config([
     files: ['**/*.config.{js,ts}', '**/vitest.*.ts'],
     languageOptions: {
       globals: { ...globals.node },
-    },
-    rules: {
-      'import/no-unresolved': ['error', {
-        ignore: ['^vitest/', '^@vitejs/', '^storybook/']
-      }],
     },
   },
   {
@@ -117,4 +112,12 @@ export default tseslint.config([
     files: ['spec/*.jsx'],
     rules: { 'react/prop-types': 'off' },
   },
-], storybook.configs["flat/recommended"]);
+  {
+    files: ['src/**/*.ts', 'src/**/*.tsx'],
+    rules: {
+      'no-restricted-imports': ["error", { patterns: [{ group: ["../*", "./*"]}] }]
+    },
+    ignores: ["src/stories/**"]
+  },
+  storybook.configs["flat/recommended"],
+);

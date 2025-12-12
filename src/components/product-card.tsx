@@ -1,11 +1,11 @@
 import React, { createContext, useContext } from 'react';
-import RenderPropsWrapper from './RenderPropsWrapper';
-import { cn } from '@/lib/utils';
+import { cn, RenderPropsWrapper } from '@/utils';
 import { Card, CardContentProps, CardFooterProps } from '@/components/card';
 import Button from '@/components/button';
 import BadgeComponent from '@/components/badge';
-import Heart from '../assets/heart.svg';
-import HeartFilled from '../assets/heart-filled.svg';
+import Heart from '@/assets/svgs/heart.svg';
+import HeartFilled from '@/assets/svgs/heart-filled.svg';
+
 import {
   AddToCartButtonProps,
   ProductBadgeProps,
@@ -19,7 +19,7 @@ import {
   TitleSectionProps,
   WishlistButtonProps,
   Product,
-} from '@/types/product-card-types';
+} from '@/types/productCardTypes';
 
 // Context for sharing ProductCard data
 interface ProductCardContextValue {

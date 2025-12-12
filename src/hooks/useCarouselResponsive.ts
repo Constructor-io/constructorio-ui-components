@@ -1,5 +1,5 @@
 import { useRef, useEffect } from 'react';
-import { Orientation, ResponsiveConfig, ResponsivePoint } from '@/types/carousel-types';
+import { Orientation, ResponsiveConfig, ResponsivePoint } from '@/types/carouselTypes';
 
 /**
  * Responsive carousel styling hook using flex + gap (no negative margins).

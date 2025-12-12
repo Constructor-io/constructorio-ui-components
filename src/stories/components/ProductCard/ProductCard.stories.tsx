@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import ProductCard from '../../../components/product-card';
 import { CompleteCustomOverrideCard, CompactListStyleCard } from './ProductCardVariants';
-import { ProductCardProps } from '../../../types/product-card-types';
+import { ProductCardProps } from '../../../types/productCardTypes';
 import { DEMO_IMAGE_URL } from '../../constants';
 
 const meta = {

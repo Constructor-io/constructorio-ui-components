@@ -1,7 +1,7 @@
 {
-  "name": "constructorio-ui-components",
-  "version": "1.0.0",
-  "description": "Constructor.io UI library for web applications",
+  "name": "@constructor-io/constructorio-ui-components",
+  "version": "0.0.0",
+  "description": "Constructor UI Components library for web applications",
   "author": "Constructor.io Corporation",
   "license": "MIT",
   "type": "module",

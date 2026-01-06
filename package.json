@@ -1,7 +1,7 @@
 {
-  "name": "constructorio-ui-components",
-  "version": "1.0.0",
-  "description": "Constructor.io UI library for web applications",
+  "name": "@constructor-io/constructorio-ui-components",
+  "version": "0.0.0",
+  "description": "Constructor Components UI library for web applications",
   "author": "Constructor.io Corporation",
   "license": "MIT",
   "type": "module",
@@ -15,7 +15,6 @@
   },
   "main": "lib/cjs/index.js",
   "module": "lib/mjs/index.js",
-  "types": "lib/types/index.d.ts",
   "exports": {
     "./styles.css": {
       "import": "./lib/mjs/styles.css",
@@ -35,6 +34,10 @@
   "files": [
     "lib/**/*"
   ],
+  "engines": {
+    "node": ">=14"
+  },
+  "types": "lib/types/index.d.ts",
   "scripts": {
     "lint": "eslint src --ext js,ts,jsx,tsx",
     "check-types": "npx tsc --noEmit",

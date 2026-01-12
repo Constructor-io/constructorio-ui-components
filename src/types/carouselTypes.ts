@@ -71,8 +71,15 @@ export type CarouselOverrides<T = Product> = ComponentOverrideProps<CarouselRend
   next?: ComponentOverrideProps<CarouselRenderProps<T>>;
 };
 
+export type CarouselItemCallbacks<T = Product> = {
+  onProductClick?: (item: T, index: number) => void;
+  onAddToCart?: (e: React.MouseEvent, item: T, index: number) => void;
+  onAddToWishlist?: (e: React.MouseEvent, item: T, index: number) => void;
+};
+
 export type CarouselOpts<T = Product> = CarouselRenderProps<T> &
   IncludeComponentOverrides<CarouselOverrides<T>> &
   Omit<ComponentProps<'div'>, 'children'> & {
     children?: RenderPropsChildren<CarouselRenderProps<T>>;
+    itemCallbacks?: CarouselItemCallbacks<T>;
   };

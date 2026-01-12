@@ -536,4 +536,43 @@ describe('Carousel component', () => {
       expect(carousel).toBeInTheDocument();
     });
   });
+
+  describe('itemCallbacks', () => {
+    test('calls onProductClick when product card is clicked', () => {
+      const onProductClick = vi.fn();
+      render(<CioCarousel items={mockProducts} itemCallbacks={{ onProductClick }} />);
+
+      const productCard = screen.getByText('Product 1').closest('.cio-product-card')!;
+      fireEvent.click(productCard);
+      expect(onProductClick).toHaveBeenCalledWith(mockProducts[0], 0);
+    });
+
+    test('calls onAddToCart when add to cart button is clicked', () => {
+      const onAddToCart = vi.fn();
+      render(<CioCarousel items={mockProducts} itemCallbacks={{ onAddToCart }} />);
+
+      const buttons = screen.getAllByText('Add to Cart');
+      fireEvent.click(buttons[0]);
+      expect(onAddToCart).toHaveBeenCalledWith(expect.any(Object), mockProducts[0], 0);
+    });
+
+    test('calls onAddToWishlist when wishlist button is clicked', () => {
+      const onAddToWishlist = vi.fn();
+      render(<CioCarousel items={mockProducts} itemCallbacks={{ onAddToWishlist }} />);
+
+      const wishlistButtons = screen.getAllByLabelText(/add to wishlist/i);
+      fireEvent.click(wishlistButtons[0]);
+      expect(onAddToWishlist).toHaveBeenCalledWith(expect.any(Object), mockProducts[0], 0);
+    });
+
+    test('does not throw when itemCallbacks is not provided', () => {
+      expect(() => {
+        render(<CioCarousel items={mockProducts} />);
+
+        // Without callbacks, clicking should not throw (buttons won't exist)
+        const productCard = screen.getByText('Product 1').closest('.cio-product-card')!;
+        fireEvent.click(productCard);
+      }).not.toThrow();
+    });
+  });
 });

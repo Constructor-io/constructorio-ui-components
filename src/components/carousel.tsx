@@ -181,7 +181,8 @@ function CarouselBase<T = Product>({
 }
 
 function Carousel<T = Product>(props: CarouselOpts<T>) {
-  const { children, items, componentOverrides, ...rest } = props;
+  const { children, items, componentOverrides, itemCallbacks, ...rest } = props;
+  const { onProductClick, onAddToCart, onAddToWishlist } = itemCallbacks || {};
   const { autoPlay, slidesToScroll, orientation, loop, responsive } = rest;
 
   const renderProps: CarouselRenderProps<T> = {
@@ -222,7 +223,15 @@ function Carousel<T = Product>(props: CarouselOpts<T>) {
 
               return (
                 <CarouselItem key={index} item={product} index={index}>
-                  <ProductCard product={product} className='w-full h-full' />
+                  <ProductCard
+                    product={product}
+                    className='w-full h-full'
+                    onProductClick={onProductClick ? () => onProductClick(item, index) : undefined}
+                    onAddToCart={onAddToCart ? (e) => onAddToCart(e, item, index) : undefined}
+                    onAddToWishlist={
+                      onAddToWishlist ? (e) => onAddToWishlist(e, item, index) : undefined
+                    }
+                  />
                 </CarouselItem>
               );
             })}

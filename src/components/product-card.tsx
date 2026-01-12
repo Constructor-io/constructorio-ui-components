@@ -185,7 +185,11 @@ const TitleSection: React.FC<TitleSectionProps> = (props) => {
     <RenderPropsWrapper
       props={renderProps}
       override={props.children || componentOverrides?.content?.title?.reactNode}>
-      <p className={cn('cio-product-card-title-section text-base font-medium', props.className)}>
+      <p
+        className={cn(
+          'cio-product-card-title-section text-base font-medium line-clamp-2',
+          props.className,
+        )}>
         {name}
       </p>
     </RenderPropsWrapper>
@@ -204,7 +208,11 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = (props) => {
       props={renderProps}
       override={props.children || componentOverrides?.content?.description?.reactNode}>
       {description && (
-        <p className={cn('cio-product-card-description text-sm text-gray-500', props.className)}>
+        <p
+          className={cn(
+            'cio-product-card-description text-sm text-gray-500 line-clamp-3',
+            props.className,
+          )}>
           {description}
         </p>
       )}

@@ -222,7 +222,11 @@ function Carousel<T = Product>(props: CarouselOpts<T>) {
 
               return (
                 <CarouselItem key={index} item={product} index={index}>
-                  <ProductCard product={product} className='w-full h-full' />
+                  <ProductCard
+                    product={product}
+                    className='w-full h-full'
+                    componentOverrides={componentOverrides?.item?.productCard}
+                  />
                 </CarouselItem>
               );
             })}

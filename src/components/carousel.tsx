@@ -231,6 +231,7 @@ function Carousel<T = Product>(props: CarouselOpts<T>) {
                     onAddToWishlist={
                       onAddToWishlist ? (e) => onAddToWishlist(e, item, index) : undefined
                     }
+                    componentOverrides={componentOverrides?.item?.productCard}
                   />
                 </CarouselItem>
               );
@@ -334,7 +335,7 @@ function CarouselNavButton({
         onClick={handleClick}
         {...props}>
         {isPrevious ? (
-          <ArrowLeftIcon className={orientation === 'vertical' ? '-rotate-90' : ''} />
+          <ArrowLeftIcon className={orientation === 'vertical' ? 'rotate-90' : ''} />
         ) : (
           <ArrowRightIcon className={orientation === 'vertical' ? 'rotate-90' : ''} />
         )}

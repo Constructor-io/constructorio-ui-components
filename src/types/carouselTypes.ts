@@ -1,4 +1,4 @@
-import type { Product } from '@/types/productCardTypes';
+import type { Product, ProductCardOverrides } from '@/types/productCardTypes';
 import type {
   ComponentOverrideProps,
   IncludeComponentOverrides,
@@ -66,7 +66,9 @@ export type CarouselItemRenderProps<T = Product> = CarouselRenderProps<T> & {
 
 export type CarouselOverrides<T = Product> = ComponentOverrideProps<CarouselRenderProps<T>> & {
   content?: ComponentOverrideProps<CarouselRenderProps<T>>;
-  item?: ComponentOverrideProps<CarouselItemRenderProps<T>>;
+  item?: ComponentOverrideProps<CarouselItemRenderProps<T>> & {
+    productCard?: ProductCardOverrides;
+  };
   previous?: ComponentOverrideProps<CarouselRenderProps<T>>;
   next?: ComponentOverrideProps<CarouselRenderProps<T>>;
 };

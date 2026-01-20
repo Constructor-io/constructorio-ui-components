@@ -255,6 +255,66 @@ describe('Carousel component', () => {
       expect(screen.queryByText('Product 1')).not.toBeInTheDocument();
     });
 
+    test('Ensure ProductCard componentOverrides are passed down', () => {
+      render(
+        <CioCarousel
+          items={mockProducts}
+          componentOverrides={{
+            item: {
+              productCard: {
+                reactNode: (props) => (
+                  <div className='custom-product-card'>
+                    <h3 data-testid='custom-product-name'>{props.product?.name}</h3>
+                    <span data-testid='custom-product-price'>${props.product?.price}</span>
+                  </div>
+                ),
+              },
+            },
+          }}
+        />,
+      );
+
+      // All products should use the custom override
+      const customNames = screen.getAllByTestId('custom-product-name');
+      const customPrices = screen.getAllByTestId('custom-product-price');
+
+      expect(customNames).toHaveLength(3);
+      expect(customNames[0].textContent).toEqual(mockProducts[0].name);
+      expect(customNames[1].textContent).toEqual(mockProducts[1].name);
+      expect(customNames[2].textContent).toEqual(mockProducts[2].name);
+
+      expect(customPrices).toHaveLength(3);
+      expect(customPrices[0].textContent).toEqual(`$${mockProducts[0].price}`);
+      expect(customPrices[1].textContent).toEqual(`$${mockProducts[1].price}`);
+      expect(customPrices[2].textContent).toEqual(`$${mockProducts[2].price}`);
+    });
+
+    test('Ensure nested ProductCard componentOverrides are passed down', () => {
+      render(
+        <CioCarousel
+          items={mockProducts}
+          componentOverrides={{
+            item: {
+              productCard: {
+                image: {
+                  reactNode: (props) => (
+                    <div data-testid='custom-image' className='custom-image-override'>
+                      {props.product?.imageUrl}
+                    </div>
+                  ),
+                },
+              },
+            },
+          }}
+        />,
+      );
+
+      // Nested override (ProductCard.image) should be applied
+      const customImages = screen.getAllByTestId('custom-image');
+      expect(customImages).toHaveLength(3);
+      expect(customImages[0].textContent).toEqual(mockProducts[0].imageUrl);
+    });
+
     test('renders component override for navigation buttons', () => {
       render(
         <CioCarousel

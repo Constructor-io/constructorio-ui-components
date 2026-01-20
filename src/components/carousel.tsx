@@ -226,10 +226,10 @@ function Carousel<T = Product>(props: CarouselOpts<T>) {
                   <ProductCard
                     product={product}
                     className='w-full h-full'
-                    onProductClick={onProductClick ? () => onProductClick(product, index) : undefined}
-                    onAddToCart={onAddToCart ? (e) => onAddToCart(e, product, index) : undefined}
+                    onProductClick={onProductClick ? () => onProductClick(item, index) : undefined}
+                    onAddToCart={onAddToCart ? (e) => onAddToCart(e, item, index) : undefined}
                     onAddToWishlist={
-                      onAddToWishlist ? (e) => onAddToWishlist(e, product, index) : undefined
+                      onAddToWishlist ? (e) => onAddToWishlist(e, item, index) : undefined
                     }
                   />
                 </CarouselItem>

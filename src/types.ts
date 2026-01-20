@@ -20,6 +20,9 @@ export interface ComponentOverrideProps<T> {
  * Abstract type to be extended
  */
 export type IncludeRenderProps<ChildrenFunctionProps> = {
+  /**
+   * React Component that takes in Render Props to override the default render
+   */
   children?: RenderPropsChildren<ChildrenFunctionProps>;
 };
 

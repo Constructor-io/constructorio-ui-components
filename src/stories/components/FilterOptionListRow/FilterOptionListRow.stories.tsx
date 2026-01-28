@@ -87,12 +87,7 @@ export const FilterList: Story = {
         displayValue='Black'
         displayCountValue='685'
       />
-      <FilterOptionListRow
-        id='red'
-        optionValue='red'
-        displayValue='Red'
-        displayCountValue='646'
-      />
+      <FilterOptionListRow id='red' optionValue='red' displayValue='Red' displayCountValue='646' />
       <FilterOptionListRow
         id='blue'
         optionValue='blue'

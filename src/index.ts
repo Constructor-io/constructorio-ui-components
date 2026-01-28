@@ -13,11 +13,7 @@ export { RenderPropsWrapper } from '@/utils';
 // Types
 export type { ButtonVariants, ButtonOverrides, ButtonProps } from '@/components/button';
 export type { BadgeVariants, BadgeOverrides, BadgeProps } from '@/components/badge';
-export type {
-  ChipVariants,
-  ChipOverrides,
-  ChipProps,
-} from '@/components/chip';
+export type { ChipVariants, ChipOverrides, ChipProps } from '@/components/chip';
 export type {
   FilterOptionListRowVariants,
   FilterOptionListRowOverrides,

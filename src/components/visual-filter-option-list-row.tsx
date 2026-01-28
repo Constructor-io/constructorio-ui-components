@@ -2,7 +2,7 @@ import React from 'react';
 import { cn, RenderPropsWrapper } from '@/utils';
 import { ComponentOverrideProps, IncludeComponentOverrides } from '@/types';
 import { cva, VariantProps } from 'class-variance-authority';
-import Chip from './chip';
+import Chip from '@/components/chip';
 
 const visualFilterOptionListRowVariants = cva(
   'cio-components cio-visual-filter-option-list-row cio-filter-multiple-option',
@@ -20,7 +20,9 @@ const visualFilterOptionListRowVariants = cva(
   },
 );
 
-export type VisualFilterOptionListRowVariants = VariantProps<typeof visualFilterOptionListRowVariants>;
+export type VisualFilterOptionListRowVariants = VariantProps<
+  typeof visualFilterOptionListRowVariants
+>;
 
 export interface VisualFilterOptionListRowProps
   extends Omit<React.ComponentProps<'li'>, 'onChange' | 'children'>,
@@ -48,7 +50,8 @@ export interface VisualFilterOptionListRowProps
   visualSize?: 'sm' | 'md' | 'lg';
 }
 
-export type VisualFilterOptionListRowOverrides = ComponentOverrideProps<VisualFilterOptionListRowProps>;
+export type VisualFilterOptionListRowOverrides =
+  ComponentOverrideProps<VisualFilterOptionListRowProps>;
 
 export default function VisualFilterOptionListRow({
   className,
@@ -80,9 +83,21 @@ export default function VisualFilterOptionListRow({
       visualSize,
       size,
       className,
-      ...props,
     }),
-    [id, optionValue, displayValue, displayCountValue, isChecked, onChange, showCheckbox, visualType, visualValue, visualSize, size, className, props],
+    [
+      id,
+      optionValue,
+      displayValue,
+      displayCountValue,
+      isChecked,
+      onChange,
+      showCheckbox,
+      visualType,
+      visualValue,
+      visualSize,
+      size,
+      className,
+    ],
   );
 
   const handleChange = () => {
@@ -113,12 +128,7 @@ export default function VisualFilterOptionListRow({
                 fill='none'
                 xmlns='http://www.w3.org/2000/svg'
                 className='cio-check'>
-                <path
-                  d='M1 4L3.5 6.5L9 1'
-                  stroke='white'
-                  strokeWidth='1.7'
-                  strokeLinecap='round'
-                />
+                <path d='M1 4L3.5 6.5L9 1' stroke='white' strokeWidth='1.7' strokeLinecap='round' />
               </svg>
             </div>
           )}

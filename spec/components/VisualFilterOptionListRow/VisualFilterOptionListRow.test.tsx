@@ -205,6 +205,22 @@ describe('VisualFilterOptionListRow component', () => {
       fireEvent.click(checkbox);
       expect(handleChange).toHaveBeenCalledWith('purple');
     });
+
+    test('calls onChange when label is clicked', () => {
+      const handleChange = vi.fn();
+      render(
+        <VisualFilterOptionListRow
+          id='test-label'
+          optionValue='blue'
+          displayValue='Blue'
+          visualType='color'
+          visualValue='#0000FF'
+          onChange={handleChange}
+        />,
+      );
+      fireEvent.click(screen.getByText('Blue'));
+      expect(handleChange).toHaveBeenCalledWith('blue');
+    });
   });
 
   describe('showCheckbox prop', () => {

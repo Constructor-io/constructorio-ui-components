@@ -74,9 +74,19 @@ export default function FilterOptionListRow({
       startContent,
       size,
       className,
-      ...props,
     }),
-    [id, optionValue, displayValue, displayCountValue, isChecked, onChange, showCheckbox, startContent, size, className, props],
+    [
+      id,
+      optionValue,
+      displayValue,
+      displayCountValue,
+      isChecked,
+      onChange,
+      showCheckbox,
+      startContent,
+      size,
+      className,
+    ],
   );
 
   const handleChange = () => {
@@ -107,12 +117,7 @@ export default function FilterOptionListRow({
                 fill='none'
                 xmlns='http://www.w3.org/2000/svg'
                 className='cio-check'>
-                <path
-                  d='M1 4L3.5 6.5L9 1'
-                  stroke='white'
-                  strokeWidth='1.7'
-                  strokeLinecap='round'
-                />
+                <path d='M1 4L3.5 6.5L9 1' stroke='white' strokeWidth='1.7' strokeLinecap='round' />
               </svg>
             </div>
           )}

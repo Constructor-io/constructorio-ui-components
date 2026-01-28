@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import { cn, RenderPropsWrapper } from '@/utils';
 import { ComponentOverrideProps, IncludeComponentOverrides } from '@/types';
 import { cva, VariantProps } from 'class-variance-authority';
@@ -31,8 +31,6 @@ export interface ChipProps
   value: string;
   /** Name for accessibility (used in aria-label and alt text) */
   name: string;
-  /** Optional children to render inside the chip */
-  children?: ReactNode;
 }
 
 export type ChipOverrides = ComponentOverrideProps<ChipProps>;
@@ -44,18 +42,20 @@ export default function Chip({
   value,
   name,
   componentOverrides,
-  children,
   ...props
 }: ChipProps) {
   const renderProps = React.useMemo(
-    () => ({ type, value, name, size, className, ...props }),
-    [type, value, name, size, className, props],
+    () => ({ type, value, name, size, className }),
+    [type, value, name, size, className],
   );
 
   // Determine what to render based on type and value
   const renderContent = () => {
     // Empty value fallback - white circle
     if (!value || value.trim() === '') {
+      if (process.env.NODE_ENV === 'development') {
+        console.warn(`Chip: Empty value provided for "${name}". Rendering fallback.`);
+      }
       return (
         <div
           data-slot='chip'
@@ -92,12 +92,19 @@ export default function Chip({
             src={value}
             alt={name}
             className='w-full h-full object-cover'
+            onError={(e) => {
+              e.currentTarget.style.display = 'none';
+              e.currentTarget.parentElement?.classList.add('bg-gray-200');
+            }}
           />
         </div>
       );
     }
 
-    // Fallback
+    // Fallback - should be unreachable with correct TypeScript usage
+    if (process.env.NODE_ENV === 'development') {
+      console.error(`Chip: Invalid type "${type}" provided. Expected 'color' or 'image'.`);
+    }
     return (
       <div
         data-slot='chip'

@@ -143,13 +143,13 @@ describe('FilterOptionListRow component', () => {
       expect(checkboxIndicator).toBeInTheDocument();
     });
 
-    test('hides checkbox indicator when showCheckbox is false', () => {
+    test('hides checkbox indicator when checkboxPosition is none', () => {
       render(
         <FilterOptionListRow
           id='test-1'
           optionValue='red'
           displayValue='Red'
-          showCheckbox={false}
+          checkboxPosition='none'
         />,
       );
       const checkboxIndicator = document.querySelector('.cio-checkbox');

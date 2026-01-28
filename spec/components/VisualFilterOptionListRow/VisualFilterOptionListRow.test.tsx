@@ -192,7 +192,7 @@ describe('VisualFilterOptionListRow component', () => {
       expect(checkboxIndicator).toBeInTheDocument();
     });
 
-    test('hides checkbox indicator when showCheckbox is false', () => {
+    test('hides checkbox indicator when checkboxPosition is none', () => {
       render(
         <VisualFilterOptionListRow
           id='test-1'
@@ -200,7 +200,7 @@ describe('VisualFilterOptionListRow component', () => {
           displayValue='Red'
           visualType='color'
           visualValue='#FF0000'
-          showCheckbox={false}
+          checkboxPosition='none'
         />,
       );
       const checkboxIndicator = document.querySelector('.cio-checkbox');

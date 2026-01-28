@@ -28,8 +28,8 @@ export interface VisualFilterOptionListRowProps
   isChecked?: boolean;
   /** Callback when option selection changes */
   onChange?: (value: string) => void;
-  /** Whether to show the checkbox indicator */
-  showCheckbox?: boolean;
+  /** Position of the checkbox. Can be 'left', 'right', or 'none'. Defaults to 'left' */
+  checkboxPosition?: 'left' | 'right' | 'none';
   /** Type of visual - 'color' for hex colors, 'image' for image URLs */
   visualType: 'color' | 'image';
   /** The visual value - hex color code or image URL */
@@ -47,7 +47,7 @@ export default function VisualFilterOptionListRow({
   displayCountValue,
   isChecked = false,
   onChange,
-  showCheckbox = true,
+  checkboxPosition = 'right',
   visualType,
   visualValue,
   componentOverrides,
@@ -61,7 +61,7 @@ export default function VisualFilterOptionListRow({
       displayCountValue,
       isChecked,
       onChange,
-      showCheckbox,
+      checkboxPosition,
       visualType,
       visualValue,
       className,
@@ -73,7 +73,7 @@ export default function VisualFilterOptionListRow({
       displayCountValue,
       isChecked,
       onChange,
-      showCheckbox,
+      checkboxPosition,
       visualType,
       visualValue,
       className,
@@ -84,6 +84,21 @@ export default function VisualFilterOptionListRow({
     onChange?.(optionValue);
   };
 
+  const checkboxVisible = checkboxPosition !== 'none';
+  const checkboxEl = checkboxVisible && (
+    <div className='cio-checkbox'>
+      <svg
+        width='10'
+        height='8'
+        viewBox='0 0 10 8'
+        fill='none'
+        xmlns='http://www.w3.org/2000/svg'
+        className='cio-check'>
+        <path d='M1 4L3.5 6.5L9 1' stroke='white' strokeWidth='1.7' strokeLinecap='round' />
+      </svg>
+    </div>
+  );
+
   return (
     <RenderPropsWrapper props={renderProps} override={componentOverrides?.reactNode}>
       <li
@@ -91,27 +106,17 @@ export default function VisualFilterOptionListRow({
         className={cn(visualFilterOptionListRowVariants({ className }))}
         {...props}>
         <label htmlFor={id} className='cio-filter-option-label'>
-          <input
-            type='checkbox'
-            id={id}
-            value={optionValue}
-            checked={isChecked}
-            onChange={handleChange}
-            className='cio-filter-option-input'
-          />
-          {showCheckbox && (
-            <div className='cio-checkbox'>
-              <svg
-                width='10'
-                height='8'
-                viewBox='0 0 10 8'
-                fill='none'
-                xmlns='http://www.w3.org/2000/svg'
-                className='cio-check'>
-                <path d='M1 4L3.5 6.5L9 1' stroke='white' strokeWidth='1.7' strokeLinecap='round' />
-              </svg>
-            </div>
+          {checkboxVisible && (
+            <input
+              type='checkbox'
+              id={id}
+              value={optionValue}
+              checked={isChecked}
+              onChange={handleChange}
+              className='cio-filter-option-input'
+            />
           )}
+          {checkboxPosition === 'left' && checkboxEl}
           <div className='cio-filter-multiple-option-display'>
             <Chip
               type={visualType}
@@ -124,6 +129,7 @@ export default function VisualFilterOptionListRow({
               <span className='cio-filter-option-count'>{displayCountValue}</span>
             )}
           </div>
+          {checkboxPosition === 'right' && checkboxEl}
         </label>
       </li>
     </RenderPropsWrapper>

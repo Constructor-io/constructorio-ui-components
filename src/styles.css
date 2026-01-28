@@ -19,6 +19,86 @@
   }
 }
 
+/* Filter Option List Row Styles */
+.cio-filter-multiple-option {
+  cursor: pointer;
+  display: flex;
+  list-style: none;
+}
+
+.cio-filter-multiple-option label,
+.cio-filter-option-label {
+  font-size: 14px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+  flex-grow: 1;
+  padding: 4px;
+}
+
+.cio-filter-multiple-option input,
+.cio-filter-option-input {
+  display: none;
+}
+
+.cio-checkbox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  margin-right: 8px;
+  background-color: #fff;
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  min-height: 20px;
+  border-radius: 4px;
+  transition: 0.25s ease;
+  border: 1px solid #00000033;
+}
+
+.cio-check {
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.cio-filter-multiple-option:has(input:checked) .cio-checkbox {
+  box-shadow: inset 0 0 0 32px #000000;
+}
+
+.cio-filter-multiple-option:has(input:checked) .cio-check {
+  opacity: 1;
+}
+
+.cio-filter-multiple-option:hover {
+  background-color: #f2f2f2;
+  border-radius: 4px;
+}
+
+.cio-filter-multiple-option-display {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+}
+
+.cio-filter-option-name {
+  flex-grow: 1;
+  word-break: break-word;
+}
+
+.cio-filter-option-count {
+  color: #999;
+  margin-left: 8px;
+}
+
+.cio-filter-visual-swatch {
+  margin-right: 8px;
+  flex-shrink: 0;
+}
+
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);

@@ -3,6 +3,9 @@ export { default as Button } from '@/components/button';
 export { default as Badge } from '@/components/badge';
 export { default as ProductCard } from '@/components/product-card';
 export { default as Carousel } from '@/components/carousel';
+export { default as Chip } from '@/components/chip';
+export { default as FilterOptionListRow } from '@/components/filter-option-list-row';
+export { default as VisualFilterOptionListRow } from '@/components/visual-filter-option-list-row';
 export { RenderPropsWrapper } from '@/utils';
 
 // Hooks
@@ -10,4 +13,19 @@ export { RenderPropsWrapper } from '@/utils';
 // Types
 export type { ButtonVariants, ButtonOverrides, ButtonProps } from '@/components/button';
 export type { BadgeVariants, BadgeOverrides, BadgeProps } from '@/components/badge';
+export type {
+  ChipVariants,
+  ChipOverrides,
+  ChipProps,
+} from '@/components/chip';
+export type {
+  FilterOptionListRowVariants,
+  FilterOptionListRowOverrides,
+  FilterOptionListRowProps,
+} from '@/components/filter-option-list-row';
+export type {
+  VisualFilterOptionListRowVariants,
+  VisualFilterOptionListRowOverrides,
+  VisualFilterOptionListRowProps,
+} from '@/components/visual-filter-option-list-row';
 export * from '@/types';

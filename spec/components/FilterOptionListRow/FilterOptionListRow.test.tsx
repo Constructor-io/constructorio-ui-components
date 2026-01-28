@@ -252,6 +252,18 @@ describe('FilterOptionListRow component', () => {
       const listItem = screen.getByRole('listitem');
       expect(listItem.classList.contains('my-custom-class')).toBeTruthy();
     });
+
+    test('has text-base class by default', () => {
+      render(
+        <FilterOptionListRow
+          id='test-1'
+          optionValue='red'
+          displayValue='Red'
+        />,
+      );
+      const listItem = screen.getByRole('listitem');
+      expect(listItem.classList.contains('text-base')).toBeTruthy();
+    });
   });
 
   describe('data attributes', () => {

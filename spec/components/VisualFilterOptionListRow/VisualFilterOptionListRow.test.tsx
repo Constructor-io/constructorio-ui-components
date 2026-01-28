@@ -113,52 +113,6 @@ describe('VisualFilterOptionListRow component', () => {
     });
   });
 
-  describe('visual swatch size', () => {
-    test('renders sm size swatch', () => {
-      render(
-        <VisualFilterOptionListRow
-          id='test-1'
-          optionValue='red'
-          displayValue='Red'
-          visualType='color'
-          visualValue='#FF0000'
-          visualSize='sm'
-        />,
-      );
-      const swatch = document.querySelector('.cio-filter-visual-swatch');
-      expect(swatch?.classList.contains('w-4')).toBeTruthy();
-    });
-
-    test('renders md size swatch by default', () => {
-      render(
-        <VisualFilterOptionListRow
-          id='test-1'
-          optionValue='red'
-          displayValue='Red'
-          visualType='color'
-          visualValue='#FF0000'
-        />,
-      );
-      const swatch = document.querySelector('.cio-filter-visual-swatch');
-      expect(swatch?.classList.contains('w-6')).toBeTruthy();
-    });
-
-    test('renders lg size swatch', () => {
-      render(
-        <VisualFilterOptionListRow
-          id='test-1'
-          optionValue='red'
-          displayValue='Red'
-          visualType='color'
-          visualValue='#FF0000'
-          visualSize='lg'
-        />,
-      );
-      const swatch = document.querySelector('.cio-filter-visual-swatch');
-      expect(swatch?.classList.contains('w-8')).toBeTruthy();
-    });
-  });
-
   describe('checkbox behavior', () => {
     test('checkbox is unchecked by default', () => {
       render(
@@ -314,6 +268,20 @@ describe('VisualFilterOptionListRow component', () => {
       );
       const swatch = document.querySelector('.cio-filter-visual-swatch');
       expect(swatch).toBeInTheDocument();
+    });
+
+    test('has text-base class by default', () => {
+      render(
+        <VisualFilterOptionListRow
+          id='test-1'
+          optionValue='red'
+          displayValue='Red'
+          visualType='color'
+          visualValue='#FF0000'
+        />,
+      );
+      const listItem = screen.getByRole('listitem');
+      expect(listItem.classList.contains('text-base')).toBeTruthy();
     });
   });
 

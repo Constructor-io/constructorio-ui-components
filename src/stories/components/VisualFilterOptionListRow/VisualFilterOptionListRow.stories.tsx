@@ -20,10 +20,6 @@ const meta = {
       control: 'radio',
       options: ['color', 'image'],
     },
-    visualSize: {
-      control: 'radio',
-      options: ['sm', 'md', 'lg'],
-    },
   },
 } satisfies Meta<typeof VisualFilterOptionListRow>;
 
@@ -71,34 +67,6 @@ export const CheckedState: Story = {
     isChecked: true,
   },
   name: 'Checked State',
-};
-
-// --- Visual Size Variants ---
-
-export const SmallSwatch: Story = {
-  args: {
-    id: 'small-swatch',
-    optionValue: 'green',
-    displayValue: 'Green',
-    displayCountValue: '195',
-    visualType: 'color',
-    visualValue: '#22C55E',
-    visualSize: 'sm',
-  },
-  name: 'Visual Size - sm',
-};
-
-export const LargeSwatch: Story = {
-  args: {
-    id: 'large-swatch',
-    optionValue: 'orange',
-    displayValue: 'Orange',
-    displayCountValue: '224',
-    visualType: 'color',
-    visualValue: '#F97316',
-    visualSize: 'lg',
-  },
-  name: 'Visual Size - lg',
 };
 
 // --- Complete Color Filter List (matching the reference image) ---

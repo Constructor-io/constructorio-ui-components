@@ -4,19 +4,7 @@ import { ComponentOverrideProps, IncludeComponentOverrides } from '@/types';
 import { cva, VariantProps } from 'class-variance-authority';
 
 const filterOptionListRowVariants = cva(
-  'cio-components cio-filter-option-list-row cio-filter-multiple-option',
-  {
-    variants: {
-      size: {
-        sm: 'text-sm',
-        md: 'text-base',
-        lg: 'text-lg',
-      },
-    },
-    defaultVariants: {
-      size: 'md',
-    },
-  },
+  'cio-components cio-filter-option-list-row cio-filter-multiple-option text-base',
 );
 
 export type FilterOptionListRowVariants = VariantProps<typeof filterOptionListRowVariants>;
@@ -49,7 +37,6 @@ export type FilterOptionListRowOverrides = ComponentOverrideProps<FilterOptionLi
 
 export default function FilterOptionListRow({
   className,
-  size,
   id,
   optionValue,
   displayValue,
@@ -72,7 +59,6 @@ export default function FilterOptionListRow({
       onChange,
       showCheckbox,
       startContent,
-      size,
       className,
     }),
     [
@@ -84,7 +70,6 @@ export default function FilterOptionListRow({
       onChange,
       showCheckbox,
       startContent,
-      size,
       className,
     ],
   );
@@ -97,7 +82,7 @@ export default function FilterOptionListRow({
     <RenderPropsWrapper props={renderProps} override={componentOverrides?.reactNode}>
       <li
         data-slot='filter-option-list-row'
-        className={cn(filterOptionListRowVariants({ size, className }))}
+        className={cn(filterOptionListRowVariants({ className }))}
         {...props}>
         <label htmlFor={id} className='cio-filter-option-label'>
           <input

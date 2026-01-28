@@ -5,19 +5,7 @@ import { cva, VariantProps } from 'class-variance-authority';
 import Chip from '@/components/chip';
 
 const visualFilterOptionListRowVariants = cva(
-  'cio-components cio-visual-filter-option-list-row cio-filter-multiple-option',
-  {
-    variants: {
-      size: {
-        sm: 'text-sm',
-        md: 'text-base',
-        lg: 'text-lg',
-      },
-    },
-    defaultVariants: {
-      size: 'md',
-    },
-  },
+  'cio-components cio-visual-filter-option-list-row cio-filter-multiple-option text-base',
 );
 
 export type VisualFilterOptionListRowVariants = VariantProps<
@@ -46,8 +34,6 @@ export interface VisualFilterOptionListRowProps
   visualType: 'color' | 'image';
   /** The visual value - hex color code or image URL */
   visualValue: string;
-  /** Size of the visual swatch */
-  visualSize?: 'sm' | 'md' | 'lg';
 }
 
 export type VisualFilterOptionListRowOverrides =
@@ -55,7 +41,6 @@ export type VisualFilterOptionListRowOverrides =
 
 export default function VisualFilterOptionListRow({
   className,
-  size,
   id,
   optionValue,
   displayValue,
@@ -65,7 +50,6 @@ export default function VisualFilterOptionListRow({
   showCheckbox = true,
   visualType,
   visualValue,
-  visualSize = 'md',
   componentOverrides,
   ...props
 }: VisualFilterOptionListRowProps) {
@@ -80,8 +64,6 @@ export default function VisualFilterOptionListRow({
       showCheckbox,
       visualType,
       visualValue,
-      visualSize,
-      size,
       className,
     }),
     [
@@ -94,8 +76,6 @@ export default function VisualFilterOptionListRow({
       showCheckbox,
       visualType,
       visualValue,
-      visualSize,
-      size,
       className,
     ],
   );
@@ -108,7 +88,7 @@ export default function VisualFilterOptionListRow({
     <RenderPropsWrapper props={renderProps} override={componentOverrides?.reactNode}>
       <li
         data-slot='visual-filter-option-list-row'
-        className={cn(visualFilterOptionListRowVariants({ size, className }))}
+        className={cn(visualFilterOptionListRowVariants({ className }))}
         {...props}>
         <label htmlFor={id} className='cio-filter-option-label'>
           <input
@@ -137,7 +117,6 @@ export default function VisualFilterOptionListRow({
               type={visualType}
               value={visualValue}
               name={displayValue}
-              size={visualSize}
               className='cio-filter-visual-swatch'
             />
             <span className='cio-filter-option-name'>{displayValue}</span>

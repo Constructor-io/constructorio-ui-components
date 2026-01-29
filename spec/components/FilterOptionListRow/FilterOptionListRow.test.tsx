@@ -15,6 +15,7 @@ describe('FilterOptionListRow component', () => {
           id='test-1'
           optionValue='red'
           displayValue='Red'
+          onChange={() => {}}
         />,
       );
       expect(screen.getByText('Red')).toBeInTheDocument();
@@ -27,6 +28,7 @@ describe('FilterOptionListRow component', () => {
           optionValue='red'
           displayValue='Red'
           displayCountValue='1572'
+          onChange={() => {}}
         />,
       );
       expect(screen.getByText('1572')).toBeInTheDocument();
@@ -38,6 +40,7 @@ describe('FilterOptionListRow component', () => {
           id='test-1'
           optionValue='red'
           displayValue='Red'
+          onChange={() => {}}
         />,
       );
       const listItem = screen.getByRole('listitem');
@@ -50,6 +53,7 @@ describe('FilterOptionListRow component', () => {
           id='test-checkbox'
           optionValue='blue'
           displayValue='Blue'
+          onChange={() => {}}
         />,
       );
       const checkbox = screen.getByRole('checkbox');
@@ -66,6 +70,7 @@ describe('FilterOptionListRow component', () => {
           id='test-1'
           optionValue='red'
           displayValue='Red'
+          onChange={() => {}}
         />,
       );
       const checkbox = screen.getByRole('checkbox');
@@ -79,6 +84,7 @@ describe('FilterOptionListRow component', () => {
           optionValue='red'
           displayValue='Red'
           isChecked={true}
+          onChange={() => {}}
         />,
       );
       const checkbox = screen.getByRole('checkbox');
@@ -137,6 +143,7 @@ describe('FilterOptionListRow component', () => {
           id='test-1'
           optionValue='red'
           displayValue='Red'
+          onChange={() => {}}
         />,
       );
       const checkboxIndicator = document.querySelector('.cio-checkbox');
@@ -150,6 +157,7 @@ describe('FilterOptionListRow component', () => {
           optionValue='red'
           displayValue='Red'
           checkboxPosition='none'
+          onChange={() => {}}
         />,
       );
       const checkboxIndicator = document.querySelector('.cio-checkbox');
@@ -165,6 +173,7 @@ describe('FilterOptionListRow component', () => {
           optionValue='red'
           displayValue='Red'
           startContent={<span data-testid='start-content'>★</span>}
+          onChange={() => {}}
         />,
       );
       expect(screen.getByTestId('start-content')).toBeInTheDocument();
@@ -177,6 +186,7 @@ describe('FilterOptionListRow component', () => {
           optionValue='red'
           displayValue='Red'
           startContent={<span data-testid='start-content'>★</span>}
+          onChange={() => {}}
         />,
       );
       const display = document.querySelector('.cio-filter-multiple-option-display');
@@ -194,6 +204,7 @@ describe('FilterOptionListRow component', () => {
           componentOverrides={{
             reactNode: <li data-testid='custom-override'>Custom Row</li>,
           }}
+          onChange={() => {}}
         />,
       );
       expect(screen.getByTestId('custom-override')).toBeInTheDocument();
@@ -209,6 +220,7 @@ describe('FilterOptionListRow component', () => {
           componentOverrides={{
             reactNode: <li>Override</li>,
           }}
+          onChange={() => {}}
         />,
       );
       expect(screen.queryByText('Red')).not.toBeInTheDocument();
@@ -222,6 +234,7 @@ describe('FilterOptionListRow component', () => {
           id='test-1'
           optionValue='red'
           displayValue='Red'
+          onChange={() => {}}
         />,
       );
       const listItem = screen.getByRole('listitem');
@@ -234,6 +247,7 @@ describe('FilterOptionListRow component', () => {
           id='test-1'
           optionValue='red'
           displayValue='Red'
+          onChange={() => {}}
         />,
       );
       const listItem = screen.getByRole('listitem');
@@ -247,6 +261,7 @@ describe('FilterOptionListRow component', () => {
           optionValue='red'
           displayValue='Red'
           className='my-custom-class'
+          onChange={() => {}}
         />,
       );
       const listItem = screen.getByRole('listitem');
@@ -259,6 +274,7 @@ describe('FilterOptionListRow component', () => {
           id='test-1'
           optionValue='red'
           displayValue='Red'
+          onChange={() => {}}
         />,
       );
       const listItem = screen.getByRole('listitem');
@@ -273,6 +289,7 @@ describe('FilterOptionListRow component', () => {
           id='test-1'
           optionValue='red'
           displayValue='Red'
+          onChange={() => {}}
         />,
       );
       const listItem = screen.getByRole('listitem');
@@ -287,6 +304,7 @@ describe('FilterOptionListRow component', () => {
           displayValue='Red'
           data-testid='filter-row'
           data-facet='color'
+          onChange={() => {}}
         />,
       );
       const listItem = screen.getByTestId('filter-row');

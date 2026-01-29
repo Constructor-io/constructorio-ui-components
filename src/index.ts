@@ -15,12 +15,10 @@ export type { ButtonVariants, ButtonOverrides, ButtonProps } from '@/components/
 export type { BadgeVariants, BadgeOverrides, BadgeProps } from '@/components/badge';
 export type { ChipVariants, ChipOverrides, ChipProps } from '@/components/chip';
 export type {
-  FilterOptionListRowVariants,
   FilterOptionListRowOverrides,
   FilterOptionListRowProps,
 } from '@/components/filter-option-list-row';
 export type {
-  VisualFilterOptionListRowVariants,
   VisualFilterOptionListRowOverrides,
   VisualFilterOptionListRowProps,
 } from '@/components/visual-filter-option-list-row';

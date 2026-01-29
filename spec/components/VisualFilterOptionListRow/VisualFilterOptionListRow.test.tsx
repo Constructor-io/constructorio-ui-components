@@ -22,6 +22,7 @@ describe('VisualFilterOptionListRow component', () => {
           displayValue='Red'
           visualType='color'
           visualValue='#FF0000'
+          onChange={() => {}}
         />,
       );
       const swatch = document.querySelector('.cio-filter-visual-swatch');
@@ -37,6 +38,7 @@ describe('VisualFilterOptionListRow component', () => {
           displayValue='Black'
           visualType='color'
           visualValue='#000000'
+          onChange={() => {}}
         />,
       );
       const swatch = document.querySelector('.cio-filter-visual-swatch');
@@ -51,6 +53,7 @@ describe('VisualFilterOptionListRow component', () => {
           displayValue='White'
           visualType='color'
           visualValue='#FFFFFF'
+          onChange={() => {}}
         />,
       );
       const swatch = document.querySelector('.cio-filter-visual-swatch');
@@ -67,6 +70,7 @@ describe('VisualFilterOptionListRow component', () => {
           displayValue='Floral'
           visualType='image'
           visualValue='https://example.com/pattern.jpg'
+          onChange={() => {}}
         />,
       );
       const img = screen.getByAltText('Floral');
@@ -87,6 +91,7 @@ describe('VisualFilterOptionListRow component', () => {
           componentOverrides={{
             reactNode: <li data-testid='custom-override'>Custom Visual Row</li>,
           }}
+          onChange={() => {}}
         />,
       );
       expect(screen.getByTestId('custom-override')).toBeInTheDocument();
@@ -103,6 +108,7 @@ describe('VisualFilterOptionListRow component', () => {
           displayValue='Red'
           visualType='color'
           visualValue='#FF0000'
+          onChange={() => {}}
         />,
       );
       const listItem = screen.getByRole('listitem');
@@ -117,6 +123,7 @@ describe('VisualFilterOptionListRow component', () => {
           displayValue='Red'
           visualType='color'
           visualValue='#FF0000'
+          onChange={() => {}}
         />,
       );
       const swatch = document.querySelector('.cio-filter-visual-swatch');
@@ -133,6 +140,7 @@ describe('VisualFilterOptionListRow component', () => {
           displayValue='Red'
           visualType='color'
           visualValue='#FF0000'
+          onChange={() => {}}
         />,
       );
       const listItem = screen.getByRole('listitem');
@@ -149,6 +157,7 @@ describe('VisualFilterOptionListRow component', () => {
           displayValue='Red'
           visualType='color'
           visualValue='#FF0000'
+          onChange={() => {}}
         />,
       );
       const display = document.querySelector('.cio-filter-multiple-option-display');
@@ -167,6 +176,7 @@ describe('VisualFilterOptionListRow component', () => {
           displayValue='Red'
           visualType='color'
           visualValue='#FF0000'
+          onChange={() => {}}
         />,
       );
       const label = document.querySelector('.cio-filter-option-label');

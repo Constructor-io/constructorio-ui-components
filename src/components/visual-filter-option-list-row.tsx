@@ -1,16 +1,8 @@
 import React from 'react';
 import { cn, RenderPropsWrapper } from '@/utils';
 import { ComponentOverrideProps, IncludeComponentOverrides } from '@/types';
-import { cva, VariantProps } from 'class-variance-authority';
 import Chip from '@/components/chip';
 import FilterOptionListRow, { FilterOptionListRowProps } from '@/components/filter-option-list-row';
-
-// Variants defined locally to satisfy react-refresh/only-export-components
-const visualFilterOptionListRowVariants = cva('');
-
-export type VisualFilterOptionListRowVariants = VariantProps<
-  typeof visualFilterOptionListRowVariants
->;
 
 export interface VisualFilterOptionListRowProps
   extends Omit<FilterOptionListRowProps, 'startContent' | 'children' | 'componentOverrides'>,
@@ -33,20 +25,17 @@ export default function VisualFilterOptionListRow({
   componentOverrides,
   ...props
 }: VisualFilterOptionListRowProps) {
-  const renderProps = React.useMemo(
-    () => ({
-      ...props,
-      displayValue,
-      checkboxPosition,
-      visualType,
-      visualValue,
-      className,
-    }),
-    [props, displayValue, checkboxPosition, visualType, visualValue, className],
-  );
-
   return (
-    <RenderPropsWrapper props={renderProps} override={componentOverrides?.reactNode}>
+    <RenderPropsWrapper
+      props={{
+        ...props,
+        displayValue,
+        checkboxPosition,
+        visualType,
+        visualValue,
+        className,
+      }}
+      override={componentOverrides?.reactNode}>
       <FilterOptionListRow
         checkboxPosition={checkboxPosition}
         displayValue={displayValue}

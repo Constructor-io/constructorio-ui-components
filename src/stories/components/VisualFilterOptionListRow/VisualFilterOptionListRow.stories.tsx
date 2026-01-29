@@ -37,7 +37,6 @@ export const Color: Story = {
     visualType: 'color',
     visualValue: '#EF4444',
   },
-  name: 'Color',
 };
 
 // --- Image Example ---
@@ -51,7 +50,6 @@ export const Image: Story = {
     visualType: 'image',
     visualValue: 'https://constructor.com/hubfs/constructor-favicon-2024-1.svg',
   },
-  name: 'Image',
 };
 
 // --- Checked State ---
@@ -66,7 +64,6 @@ export const CheckedState: Story = {
     visualValue: '#A855F7',
     isChecked: true,
   },
-  name: 'Checked State',
 };
 
 // --- Complete Color Filter List (matching the reference image) ---
@@ -150,7 +147,6 @@ export const ColorFilterList: Story = {
       />
     </ul>
   ),
-  name: 'Color Filter List',
   parameters: {
     controls: { disable: true },
   },
@@ -187,7 +183,6 @@ export const MixedVisualTypes: Story = {
       />
     </ul>
   ),
-  name: 'Mixed Visual Types',
   parameters: {
     controls: { disable: true },
   },

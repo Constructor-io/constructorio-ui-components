@@ -72,10 +72,7 @@ export default function FilterOptionListRow({
         className,
       }}
       override={componentOverrides?.reactNode}>
-      <li
-        data-slot='filter-option-list-row'
-        className={cn(baseClasses, className)}
-        {...props}>
+      <li data-slot='filter-option-list-row' className={cn(baseClasses, className)} {...props}>
         <label
           htmlFor={id}
           className='cio-filter-option-label text-sm flex flex-row items-center cursor-pointer grow p-1'>

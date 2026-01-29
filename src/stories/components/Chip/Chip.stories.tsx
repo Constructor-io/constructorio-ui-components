@@ -31,7 +31,6 @@ export const Color: Story = {
     value: '#3B82F6',
     name: 'Blue',
   },
-  name: 'Color',
 };
 
 // --- Image Variant ---
@@ -42,7 +41,6 @@ export const Image: Story = {
     value: 'https://constructor.com/hubfs/constructor-favicon-2024-1.svg',
     name: 'Constructor',
   },
-  name: 'Image',
 };
 
 // --- Size Variants ---
@@ -85,7 +83,6 @@ export const EmptyFallback: Story = {
     value: '',
     name: 'No color specified',
   },
-  name: 'Empty Fallback',
 };
 
 // --- componentOverrides ---
@@ -136,7 +133,6 @@ export const SizeComparison: Story = {
       </div>
     </div>
   ),
-  name: 'Size Comparison',
   parameters: {
     controls: { disable: true },
   },

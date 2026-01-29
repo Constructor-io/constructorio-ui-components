@@ -46,7 +46,6 @@ export const WithoutCount: Story = {
     optionValue: 'green',
     displayValue: 'Green',
   },
-  name: 'Without Count',
 };
 
 export const WithoutCheckbox: Story = {
@@ -68,7 +67,6 @@ export const WithStartContent: Story = {
     displayCountValue: '42',
     startContent: <span style={{ marginRight: 8 }}>⭐</span>,
   },
-  name: 'With Start Content',
 };
 
 // Multiple options list
@@ -116,7 +114,6 @@ export const FilterList: Story = {
       />
     </ul>
   ),
-  name: 'Filter List',
   parameters: {
     controls: { disable: true },
   },

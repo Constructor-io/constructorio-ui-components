@@ -1,17 +1,11 @@
 import React, { ReactNode } from 'react';
 import { cn, RenderPropsWrapper } from '@/utils';
 import { ComponentOverrideProps, IncludeComponentOverrides } from '@/types';
-import { cva, VariantProps } from 'class-variance-authority';
-
-const filterOptionListRowVariants = cva(
-  'cio-components cio-filter-option-list-row cio-filter-multiple-option group cursor-pointer flex list-none text-base hover:bg-neutral-100 hover:rounded',
-);
-
-export type FilterOptionListRowVariants = VariantProps<typeof filterOptionListRowVariants>;
+const baseClasses =
+  'cio-components cio-filter-option-list-row cio-filter-multiple-option group cursor-pointer flex list-none text-base hover:bg-neutral-100 hover:rounded';
 
 export interface FilterOptionListRowProps
   extends Omit<React.ComponentProps<'li'>, 'onChange' | 'children'>,
-    FilterOptionListRowVariants,
     IncludeComponentOverrides<FilterOptionListRowOverrides> {
   /** Unique identifier for the filter option */
   id: string;
@@ -24,7 +18,7 @@ export interface FilterOptionListRowProps
   /** Whether the option is currently selected */
   isChecked?: boolean;
   /** Callback when option selection changes */
-  onChange?: (value: string) => void;
+  onChange: (value: string) => void;
   /** Position of the checkbox. Can be 'left', 'right', or 'none'. Defaults to 'left' */
   checkboxPosition?: 'left' | 'right' | 'none';
   /** Optional content to render before the display value (e.g., color swatch) */
@@ -49,35 +43,6 @@ export default function FilterOptionListRow({
   children,
   ...props
 }: FilterOptionListRowProps) {
-  const renderProps = React.useMemo(
-    () => ({
-      id,
-      optionValue,
-      displayValue,
-      displayCountValue,
-      isChecked,
-      onChange,
-      checkboxPosition,
-      startContent,
-      className,
-    }),
-    [
-      id,
-      optionValue,
-      displayValue,
-      displayCountValue,
-      isChecked,
-      onChange,
-      checkboxPosition,
-      startContent,
-      className,
-    ],
-  );
-
-  const handleChange = () => {
-    onChange?.(optionValue);
-  };
-
   const checkboxVisible = checkboxPosition !== 'none';
   const checkboxEl = checkboxVisible && (
     <div className='cio-checkbox flex justify-center items-center cursor-pointer mx-2 bg-white w-5 h-5 min-w-5 min-h-5 rounded transition-all duration-250 border border-black/20 group-has-[input:checked]:shadow-[inset_0_0_0_32px_#000]'>
@@ -94,10 +59,22 @@ export default function FilterOptionListRow({
   );
 
   return (
-    <RenderPropsWrapper props={renderProps} override={componentOverrides?.reactNode}>
+    <RenderPropsWrapper
+      props={{
+        id,
+        optionValue,
+        displayValue,
+        displayCountValue,
+        isChecked,
+        onChange,
+        checkboxPosition,
+        startContent,
+        className,
+      }}
+      override={componentOverrides?.reactNode}>
       <li
         data-slot='filter-option-list-row'
-        className={cn(filterOptionListRowVariants({ className }))}
+        className={cn(baseClasses, className)}
         {...props}>
         <label
           htmlFor={id}
@@ -108,7 +85,7 @@ export default function FilterOptionListRow({
               id={id}
               value={optionValue}
               checked={isChecked}
-              onChange={handleChange}
+              onChange={() => onChange(optionValue)}
               className='cio-filter-option-input hidden'
             />
           )}

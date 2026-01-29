@@ -49,13 +49,9 @@ export default function Chip({
     [type, value, name, size, className],
   );
 
-  // Determine what to render based on type and value
   const renderContent = () => {
-    // Empty value fallback - white circle
-    if (!value || value.trim() === '') {
-      if (process.env.NODE_ENV === 'development') {
-        console.warn(`Chip: Empty value provided for "${name}". Rendering fallback.`);
-      }
+    // Fallback
+    if (!value || value.trim() === '' || !['color', 'image'].includes(type)) {
       return (
         <div
           data-slot='chip'
@@ -100,20 +96,6 @@ export default function Chip({
         </div>
       );
     }
-
-    // Fallback - should be unreachable with correct TypeScript usage
-    if (process.env.NODE_ENV === 'development') {
-      console.error(`Chip: Invalid type "${type}" provided. Expected 'color' or 'image'.`);
-    }
-    return (
-      <div
-        data-slot='chip'
-        className={cn(chipVariants({ size, className }), 'bg-white')}
-        aria-label={name}
-        role='img'
-        {...props}
-      />
-    );
   };
 
   return (

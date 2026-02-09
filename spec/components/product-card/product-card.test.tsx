@@ -2,6 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 import { describe, test, expect, vi, afterEach } from 'vitest';
 import ProductCard from '@/components/product-card';
+import { CIO_EVENTS } from '@/utils/events';
 
 const mockProductData = {
   product: {
@@ -391,6 +392,104 @@ describe('ProductCard component', () => {
 
       const badgeElement = container.querySelector('.cio-product-card-badge');
       expect(badgeElement).not.toBeInTheDocument();
+    });
+  });
+
+  describe('Pub-Sub Events', () => {
+    afterEach(() => {
+      cleanup();
+    });
+
+    test('dispatches productCard.click event on card click with correct product detail', () => {
+      const listener = vi.fn();
+      window.addEventListener(CIO_EVENTS.productCard.click, listener);
+
+      render(<ProductCard {...mockProductData} data-testid='product-card' />);
+      fireEvent.click(screen.getByTestId('product-card'));
+
+      expect(listener).toHaveBeenCalledTimes(1);
+      const event = listener.mock.calls[0][0] as CustomEvent;
+      expect(event.detail.product).toEqual(mockProductData.product);
+
+      window.removeEventListener(CIO_EVENTS.productCard.click, listener);
+    });
+
+    test('dispatches productCard.click event AND calls onProductClick callback', () => {
+      const listener = vi.fn();
+      const mockOnProductClick = vi.fn();
+      window.addEventListener(CIO_EVENTS.productCard.click, listener);
+
+      render(
+        <ProductCard
+          {...mockProductData}
+          onProductClick={mockOnProductClick}
+          data-testid='product-card'
+        />,
+      );
+      fireEvent.click(screen.getByTestId('product-card'));
+
+      expect(listener).toHaveBeenCalledTimes(1);
+      expect(mockOnProductClick).toHaveBeenCalledTimes(1);
+
+      window.removeEventListener(CIO_EVENTS.productCard.click, listener);
+    });
+
+    test('dispatches productCard.click event even without onProductClick prop', () => {
+      const listener = vi.fn();
+      window.addEventListener(CIO_EVENTS.productCard.click, listener);
+
+      render(<ProductCard product={mockBasicProduct} data-testid='product-card' />);
+      fireEvent.click(screen.getByTestId('product-card'));
+
+      expect(listener).toHaveBeenCalledTimes(1);
+
+      window.removeEventListener(CIO_EVENTS.productCard.click, listener);
+    });
+
+    test('dispatches productCard.conversion event on add-to-cart click and calls onAddToCart', () => {
+      const listener = vi.fn();
+      const mockOnAddToCart = vi.fn();
+      window.addEventListener(CIO_EVENTS.productCard.conversion, listener);
+
+      render(<ProductCard {...mockProductData} onAddToCart={mockOnAddToCart} />);
+      fireEvent.click(screen.getByText('Add to Cart'));
+
+      expect(listener).toHaveBeenCalledTimes(1);
+      const event = listener.mock.calls[0][0] as CustomEvent;
+      expect(event.detail.product).toEqual(mockProductData.product);
+      expect(mockOnAddToCart).toHaveBeenCalledTimes(1);
+
+      window.removeEventListener(CIO_EVENTS.productCard.conversion, listener);
+    });
+
+    test('dispatches productCard.imageEnter on mouseEnter of image section', () => {
+      const listener = vi.fn();
+      window.addEventListener(CIO_EVENTS.productCard.imageEnter, listener);
+
+      const { container } = render(<ProductCard {...mockProductData} />);
+      const imageSection = container.querySelector('.cio-product-card-image-section')!;
+      fireEvent.mouseEnter(imageSection);
+
+      expect(listener).toHaveBeenCalledTimes(1);
+      const event = listener.mock.calls[0][0] as CustomEvent;
+      expect(event.detail.product).toEqual(mockProductData.product);
+
+      window.removeEventListener(CIO_EVENTS.productCard.imageEnter, listener);
+    });
+
+    test('dispatches productCard.imageLeave on mouseLeave of image section', () => {
+      const listener = vi.fn();
+      window.addEventListener(CIO_EVENTS.productCard.imageLeave, listener);
+
+      const { container } = render(<ProductCard {...mockProductData} />);
+      const imageSection = container.querySelector('.cio-product-card-image-section')!;
+      fireEvent.mouseLeave(imageSection);
+
+      expect(listener).toHaveBeenCalledTimes(1);
+      const event = listener.mock.calls[0][0] as CustomEvent;
+      expect(event.detail.product).toEqual(mockProductData.product);
+
+      window.removeEventListener(CIO_EVENTS.productCard.imageLeave, listener);
     });
   });
 });

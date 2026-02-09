@@ -1,5 +1,8 @@
 import { describe, test, expect, vi, afterEach } from 'vitest';
 import { CIO_EVENTS, dispatchCioEvent } from '@/utils/events';
+import type { Product } from '@/types/productCardTypes';
+
+const mockProduct: Product = { id: '1', name: 'Test Product' };
 
 describe('Event utility', () => {
   describe('CIO_EVENTS constants', () => {
@@ -31,7 +34,7 @@ describe('Event utility', () => {
       const listener = vi.fn();
       window.addEventListener(CIO_EVENTS.productCard.click, listener);
 
-      const detail = { product: { id: '1', name: 'Test' } };
+      const detail = { product: mockProduct };
       dispatchCioEvent(CIO_EVENTS.productCard.click, detail);
 
       expect(listener).toHaveBeenCalledTimes(1);
@@ -45,7 +48,7 @@ describe('Event utility', () => {
       const listener = vi.fn();
       window.addEventListener(CIO_EVENTS.productCard.click, listener);
 
-      const detail = { product: { id: '42', name: 'Widget' } };
+      const detail = { product: mockProduct };
       dispatchCioEvent(CIO_EVENTS.productCard.click, detail);
 
       const event = listener.mock.calls[0][0] as CustomEvent;
@@ -54,7 +57,20 @@ describe('Event utility', () => {
       window.removeEventListener(CIO_EVENTS.productCard.click, listener);
     });
 
-    test('dispatches with bubbles and cancelable set to true', () => {
+    test('no-ops without throwing when window is undefined (SSR)', () => {
+      const originalWindow = globalThis.window;
+      // @ts-expect-error -- simulating SSR by removing window
+      delete (globalThis as Record<string, unknown>).window;
+      try {
+        expect(() => {
+          dispatchCioEvent(CIO_EVENTS.productCard.click, { product: mockProduct });
+        }).not.toThrow();
+      } finally {
+        globalThis.window = originalWindow;
+      }
+    });
+
+    test('dispatches with bubbles false and cancelable true', () => {
       const listener = vi.fn();
       window.addEventListener(CIO_EVENTS.carousel.next, listener);
 
@@ -65,7 +81,7 @@ describe('Event utility', () => {
       });
 
       const event = listener.mock.calls[0][0] as CustomEvent;
-      expect(event.bubbles).toBe(true);
+      expect(event.bubbles).toBe(false);
       expect(event.cancelable).toBe(true);
 
       window.removeEventListener(CIO_EVENTS.carousel.next, listener);

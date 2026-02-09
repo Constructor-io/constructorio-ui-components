@@ -317,8 +317,8 @@ function CarouselNavButton({
 
     dispatchCioEvent(eventName, {
       direction,
-      canScrollNext: canScrollNext ?? false,
-      canScrollPrev: canScrollPrev ?? false,
+      canScrollNext,
+      canScrollPrev,
     });
 
     scrollFn?.();

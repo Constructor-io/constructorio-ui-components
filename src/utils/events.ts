@@ -36,8 +36,14 @@ export interface CioEventDetailMap {
 }
 
 /**
- * Dispatches a typed CustomEvent on window for the given CIO event name.
- * No-ops in SSR environments where window is undefined.
+ * Dispatches a typed CustomEvent on `window` for the given CIO event name.
+ *
+ * This is the primary pub-sub mechanism for Constructor.io UI component events.
+ * Consumers subscribe via `window.addEventListener(CIO_EVENTS.*.*, handler)`.
+ * No-ops in SSR environments where `window` is undefined.
+ *
+ * @param eventName - A key from {@link CioEventDetailMap} (use `CIO_EVENTS` constants).
+ * @param detail - The strongly-typed payload for the event.
  */
 export function dispatchCioEvent<K extends keyof CioEventDetailMap>(
   eventName: K,
@@ -46,7 +52,7 @@ export function dispatchCioEvent<K extends keyof CioEventDetailMap>(
   if (typeof window === 'undefined') return;
 
   const event = new CustomEvent(eventName, {
-    bubbles: true,
+    bubbles: false,
     cancelable: true,
     detail,
   });

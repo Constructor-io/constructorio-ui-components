@@ -462,6 +462,22 @@ describe('ProductCard component', () => {
       window.removeEventListener(CIO_EVENTS.productCard.conversion, listener);
     });
 
+    test('clicking add-to-cart does NOT also dispatch productCard.click', () => {
+      const clickListener = vi.fn();
+      const conversionListener = vi.fn();
+      window.addEventListener(CIO_EVENTS.productCard.click, clickListener);
+      window.addEventListener(CIO_EVENTS.productCard.conversion, conversionListener);
+
+      render(<ProductCard {...mockProductData} onAddToCart={vi.fn()} />);
+      fireEvent.click(screen.getByText('Add to Cart'));
+
+      expect(conversionListener).toHaveBeenCalledTimes(1);
+      expect(clickListener).not.toHaveBeenCalled();
+
+      window.removeEventListener(CIO_EVENTS.productCard.click, clickListener);
+      window.removeEventListener(CIO_EVENTS.productCard.conversion, conversionListener);
+    });
+
     test('dispatches productCard.imageEnter on mouseEnter of image section', () => {
       const listener = vi.fn();
       window.addEventListener(CIO_EVENTS.productCard.imageEnter, listener);

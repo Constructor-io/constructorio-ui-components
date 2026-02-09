@@ -241,6 +241,8 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = (props) => {
 
   const handleAddToCartClick = useCallback(
     (e: React.MouseEvent) => {
+      // Prevent product click from firing
+      e.stopPropagation();
       dispatchCioEvent(CIO_EVENTS.productCard.conversion, { product: renderProps.product });
       onAddToCart?.(e);
     },

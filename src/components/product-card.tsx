@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useContext } from 'react';
+import React, { createContext, useCallback, useContext, useRef, forwardRef } from 'react';
 import { cn, RenderPropsWrapper, dispatchCioEvent, CIO_EVENTS } from '@/utils';
 import { Card, CardContentProps, CardFooterProps } from '@/components/card';
 import Button from '@/components/button';
@@ -25,6 +25,7 @@ import {
 interface ProductCardContextValue {
   renderProps: Omit<ProductCardProps, 'children' | 'componentOverrides' | 'className'>;
   componentOverrides?: ProductCardOverrides;
+  rootRef: React.RefObject<HTMLDivElement | null>;
 }
 
 const ProductCardContext = createContext<ProductCardContextValue | null>(null);
@@ -154,19 +155,19 @@ const TagsSection: React.FC<TagsSectionProps> = (props) => {
 };
 
 const ImageSection: React.FC<ImageSectionProps> = (props) => {
-  const { renderProps, componentOverrides } = useProductCardContext();
+  const { renderProps, componentOverrides, rootRef } = useProductCardContext();
   const { imageUrl: contextImageUrl, name } = renderProps.product;
 
   // Use props with fallback to context values
   const imageUrl = props.imageUrl || contextImageUrl;
 
   const handleMouseEnter = useCallback(() => {
-    dispatchCioEvent(CIO_EVENTS.productCard.imageEnter, { product: renderProps.product });
-  }, [renderProps.product]);
+    dispatchCioEvent(CIO_EVENTS.productCard.imageEnter, { product: renderProps.product }, rootRef.current);
+  }, [renderProps.product, rootRef]);
 
   const handleMouseLeave = useCallback(() => {
-    dispatchCioEvent(CIO_EVENTS.productCard.imageLeave, { product: renderProps.product });
-  }, [renderProps.product]);
+    dispatchCioEvent(CIO_EVENTS.productCard.imageLeave, { product: renderProps.product }, rootRef.current);
+  }, [renderProps.product, rootRef]);
 
   return (
     <RenderPropsWrapper props={renderProps} override={componentOverrides?.image?.reactNode}>
@@ -232,7 +233,7 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = (props) => {
 };
 
 const AddToCartButton: React.FC<AddToCartButtonProps> = (props) => {
-  const { renderProps, componentOverrides } = useProductCardContext();
+  const { renderProps, componentOverrides, rootRef } = useProductCardContext();
   const {
     addToCartText = renderProps.addToCartText || 'Add to Cart',
     onAddToCart = renderProps.onAddToCart,
@@ -243,10 +244,10 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = (props) => {
     (e: React.MouseEvent) => {
       // Prevent product click from firing
       e.stopPropagation();
-      dispatchCioEvent(CIO_EVENTS.productCard.conversion, { product: renderProps.product });
+      dispatchCioEvent(CIO_EVENTS.productCard.conversion, { product: renderProps.product }, rootRef.current);
       onAddToCart?.(e);
     },
-    [renderProps.product, onAddToCart],
+    [renderProps.product, onAddToCart, rootRef],
   );
 
   return (
@@ -350,11 +351,29 @@ function getProductCardDataAttributes({
   };
 }
 
-function ProductCard({ componentOverrides, children, className, ...props }: ProductCardProps) {
+const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(function ProductCard(
+  { componentOverrides, children, className, ...props },
+  ref,
+) {
+  const rootRef = useRef<HTMLDivElement>(null);
+
+  const setRootRef = useCallback(
+    (node: HTMLDivElement | null) => {
+      (rootRef as React.MutableRefObject<HTMLDivElement | null>).current = node;
+      if (typeof ref === 'function') {
+        ref(node);
+      } else if (ref) {
+        (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
+      }
+    },
+    [ref],
+  );
+
   const contextValue = React.useMemo(
     () => ({
       renderProps: { ...props, ...getProductCardDataAttributes(props.product) },
       componentOverrides,
+      rootRef,
     }),
     [props, componentOverrides],
   );
@@ -372,7 +391,7 @@ function ProductCard({ componentOverrides, children, className, ...props }: Prod
   } = props;
 
   const handleProductClick = useCallback(() => {
-    dispatchCioEvent(CIO_EVENTS.productCard.click, { product });
+    dispatchCioEvent(CIO_EVENTS.productCard.click, { product }, rootRef.current);
     onProductClick?.();
   }, [product, onProductClick]);
 
@@ -383,6 +402,7 @@ function ProductCard({ componentOverrides, children, className, ...props }: Prod
     <ProductCardContext.Provider value={contextValue}>
       <RenderPropsWrapper props={props} override={renderPropFn || componentOverrides?.reactNode}>
         <Card
+          ref={setRootRef}
           className={cn(
             'cio-product-card min-w-[176px] max-w-[256px] h-full cursor-pointer border-0',
             className,
@@ -417,20 +437,34 @@ function ProductCard({ componentOverrides, children, className, ...props }: Prod
       </RenderPropsWrapper>
     </ProductCardContext.Provider>
   );
-}
+});
 
-// Create compound component with all sub-components attached
-ProductCard.ImageSection = ImageSection;
-ProductCard.Badge = Badge;
-ProductCard.WishlistButton = WishlistButton;
-ProductCard.PriceSection = PriceSection;
-ProductCard.TitleSection = TitleSection;
-ProductCard.DescriptionSection = DescriptionSection;
-ProductCard.RatingSection = RatingSection;
-ProductCard.TagsSection = TagsSection;
-ProductCard.AddToCartButton = AddToCartButton;
-ProductCard.Content = ProductCardContent;
-ProductCard.Footer = ProductCardFooter;
-ProductCard.getProductCardDataAttributes = getProductCardDataAttributes;
+// Attach compound sub-components to the forwardRef'd ProductCard
+const ProductCardNamespace = ProductCard as typeof ProductCard & {
+  ImageSection: typeof ImageSection;
+  Badge: typeof Badge;
+  WishlistButton: typeof WishlistButton;
+  PriceSection: typeof PriceSection;
+  TitleSection: typeof TitleSection;
+  DescriptionSection: typeof DescriptionSection;
+  RatingSection: typeof RatingSection;
+  TagsSection: typeof TagsSection;
+  AddToCartButton: typeof AddToCartButton;
+  Content: typeof ProductCardContent;
+  Footer: typeof ProductCardFooter;
+  getProductCardDataAttributes: typeof getProductCardDataAttributes;
+};
+ProductCardNamespace.ImageSection = ImageSection;
+ProductCardNamespace.Badge = Badge;
+ProductCardNamespace.WishlistButton = WishlistButton;
+ProductCardNamespace.PriceSection = PriceSection;
+ProductCardNamespace.TitleSection = TitleSection;
+ProductCardNamespace.DescriptionSection = DescriptionSection;
+ProductCardNamespace.RatingSection = RatingSection;
+ProductCardNamespace.TagsSection = TagsSection;
+ProductCardNamespace.AddToCartButton = AddToCartButton;
+ProductCardNamespace.Content = ProductCardContent;
+ProductCardNamespace.Footer = ProductCardFooter;
+ProductCardNamespace.getProductCardDataAttributes = getProductCardDataAttributes;
 
-export default ProductCard;
+export default ProductCardNamespace;

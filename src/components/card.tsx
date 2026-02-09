@@ -1,4 +1,4 @@
-import React, { ReactNode, createContext, useContext } from 'react';
+import React, { ReactNode, createContext, useContext, forwardRef } from 'react';
 
 import { cn, RenderPropsWrapper } from '@/utils';
 import { ComponentOverrideProps, IncludeComponentOverrides } from '@/types';
@@ -65,7 +65,10 @@ const useCardContext = (): CardContextType => {
 };
 
 // Helper function to create the Card root
-function Card({ children, componentOverrides, className, ...props }: CardProps) {
+const Card = forwardRef<HTMLDivElement, CardProps>(function Card(
+  { children, componentOverrides, className, ...props },
+  ref,
+) {
   const contextValue: CardContextType = React.useMemo(
     () => ({
       renderProps: props, // Use merged props in context
@@ -78,6 +81,7 @@ function Card({ children, componentOverrides, className, ...props }: CardProps) 
     <CardContext.Provider value={contextValue}>
       <RenderPropsWrapper props={props} override={componentOverrides?.reactNode}>
         <div
+          ref={ref}
           data-slot='card'
           className={cn(
             'cio-components bg-card text-card-foreground flex flex-col gap-2 rounded-2xl border p-2 sm:p-4 shadow-md overflow-hidden',
@@ -89,7 +93,7 @@ function Card({ children, componentOverrides, className, ...props }: CardProps) 
       </RenderPropsWrapper>
     </CardContext.Provider>
   );
-}
+});
 
 function CardHeader({ children, className, ...props }: CardHeaderProps) {
   const { renderProps, componentOverrides } = useCardContext();
@@ -181,12 +185,20 @@ function CardFooter({ children, className, ...props }: CardFooterProps) {
   );
 }
 
-// Attach compound components to Card
-Card.Header = CardHeader;
-Card.Title = CardTitle;
-Card.Description = CardDescription;
-Card.Action = CardAction;
-Card.Content = CardContent;
-Card.Footer = CardFooter;
+// Attach compound sub-components to the forwardRef'd Card
+const CardNamespace = Card as typeof Card & {
+  Header: typeof CardHeader;
+  Title: typeof CardTitle;
+  Description: typeof CardDescription;
+  Action: typeof CardAction;
+  Content: typeof CardContent;
+  Footer: typeof CardFooter;
+};
+CardNamespace.Header = CardHeader;
+CardNamespace.Title = CardTitle;
+CardNamespace.Description = CardDescription;
+CardNamespace.Action = CardAction;
+CardNamespace.Content = CardContent;
+CardNamespace.Footer = CardFooter;
 
-export { Card, CardHeader, CardFooter, CardTitle, CardAction, CardDescription, CardContent };
+export { CardNamespace as Card, CardHeader, CardFooter, CardTitle, CardAction, CardDescription, CardContent };

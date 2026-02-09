@@ -9,7 +9,7 @@ import React, {
 import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
 
-import { cn, RenderPropsWrapper } from '@/utils';
+import { cn, RenderPropsWrapper, dispatchCioEvent, CIO_EVENTS } from '@/utils';
 import Button from '@/components/button';
 import { useCarouselResponsive } from '@/hooks/useCarouselResponsive';
 import { useCarouselTweenOpacity } from '@/hooks/useCarouselTweenOpacity';
@@ -310,7 +310,20 @@ function CarouselNavButton({
 
   const isPrevious = direction === 'previous';
   const canScroll = isPrevious ? canScrollPrev : canScrollNext;
-  const handleClick = isPrevious ? scrollPrev : scrollNext;
+  const scrollFn = isPrevious ? scrollPrev : scrollNext;
+
+  const handleClick = useCallback(() => {
+    const eventName = isPrevious ? CIO_EVENTS.carousel.previous : CIO_EVENTS.carousel.next;
+
+    dispatchCioEvent(eventName, {
+      direction,
+      canScrollNext: canScrollNext ?? false,
+      canScrollPrev: canScrollPrev ?? false,
+    });
+
+    scrollFn?.();
+  }, [isPrevious, direction, canScrollNext, canScrollPrev, scrollFn]);
+
   const override = isPrevious
     ? componentOverrides?.previous?.reactNode
     : componentOverrides?.next?.reactNode;

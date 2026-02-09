@@ -1,5 +1,5 @@
-import React, { createContext, useContext } from 'react';
-import { cn, RenderPropsWrapper } from '@/utils';
+import React, { createContext, useCallback, useContext } from 'react';
+import { cn, RenderPropsWrapper, dispatchCioEvent, CIO_EVENTS } from '@/utils';
 import { Card, CardContentProps, CardFooterProps } from '@/components/card';
 import Button from '@/components/button';
 import BadgeComponent from '@/components/badge';
@@ -160,9 +160,20 @@ const ImageSection: React.FC<ImageSectionProps> = (props) => {
   // Use props with fallback to context values
   const imageUrl = props.imageUrl || contextImageUrl;
 
+  const handleMouseEnter = useCallback(() => {
+    dispatchCioEvent(CIO_EVENTS.productCard.imageEnter, { product: renderProps.product });
+  }, [renderProps.product]);
+
+  const handleMouseLeave = useCallback(() => {
+    dispatchCioEvent(CIO_EVENTS.productCard.imageLeave, { product: renderProps.product });
+  }, [renderProps.product]);
+
   return (
     <RenderPropsWrapper props={renderProps} override={componentOverrides?.image?.reactNode}>
-      <div className={cn('cio-product-card-image-section relative', props.className)}>
+      <div
+        className={cn('cio-product-card-image-section relative', props.className)}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}>
         <img
           src={imageUrl}
           alt={name || 'product image'}
@@ -228,6 +239,14 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = (props) => {
     children,
   } = props;
 
+  const handleAddToCartClick = useCallback(
+    (e: React.MouseEvent) => {
+      dispatchCioEvent(CIO_EVENTS.productCard.conversion, { product: renderProps.product });
+      onAddToCart?.(e);
+    },
+    [renderProps.product, onAddToCart],
+  );
+
   return (
     <RenderPropsWrapper
       props={{ ...renderProps, addToCartText }}
@@ -239,7 +258,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = (props) => {
             props.className,
           )}
           conversionType='add_to_cart'
-          onClick={onAddToCart}>
+          onClick={handleAddToCartClick}>
           {addToCartText}
         </Button>
       )}
@@ -350,6 +369,11 @@ function ProductCard({ componentOverrides, children, className, ...props }: Prod
     ...restProps
   } = props;
 
+  const handleProductClick = useCallback(() => {
+    dispatchCioEvent(CIO_EVENTS.productCard.click, { product });
+    onProductClick?.();
+  }, [product, onProductClick]);
+
   const renderPropFn = typeof children === 'function' && children;
 
   // Default layout when no children provided or render prop function
@@ -361,7 +385,7 @@ function ProductCard({ componentOverrides, children, className, ...props }: Prod
             'cio-product-card min-w-[176px] max-w-[256px] h-full cursor-pointer border-0',
             className,
           )}
-          onClick={onProductClick}
+          onClick={handleProductClick}
           {...getProductCardDataAttributes(product)}
           {...restProps}>
           <RenderPropsWrapper props={props} override={children}>

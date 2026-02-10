@@ -59,7 +59,6 @@ describe('Event utility', () => {
 
     test('no-ops without throwing when window is undefined (SSR)', () => {
       const originalWindow = globalThis.window;
-      // @ts-expect-error -- simulating SSR by removing window
       delete (globalThis as Record<string, unknown>).window;
       try {
         expect(() => {
@@ -70,7 +69,7 @@ describe('Event utility', () => {
       }
     });
 
-    test('dispatches with bubbles false and cancelable true', () => {
+    test('dispatches with bubbles true and cancelable true', () => {
       const listener = vi.fn();
       window.addEventListener(CIO_EVENTS.carousel.next, listener);
 
@@ -81,10 +80,65 @@ describe('Event utility', () => {
       });
 
       const event = listener.mock.calls[0][0] as CustomEvent;
-      expect(event.bubbles).toBe(false);
+      expect(event.bubbles).toBe(true);
       expect(event.cancelable).toBe(true);
 
       window.removeEventListener(CIO_EVENTS.carousel.next, listener);
+    });
+
+    test('dispatches on a specific DOM element when target is provided', () => {
+      const element = document.createElement('div');
+      document.body.appendChild(element);
+      const listener = vi.fn();
+      element.addEventListener(CIO_EVENTS.productCard.click, listener);
+
+      dispatchCioEvent(CIO_EVENTS.productCard.click, { product: mockProduct }, element);
+
+      expect(listener).toHaveBeenCalledTimes(1);
+      const event = listener.mock.calls[0][0] as CustomEvent;
+      expect(event.detail.product).toEqual(mockProduct);
+
+      element.removeEventListener(CIO_EVENTS.productCard.click, listener);
+      document.body.removeChild(element);
+    });
+
+    test('event bubbles from child element to parent listener', () => {
+      const parent = document.createElement('div');
+      const child = document.createElement('span');
+      parent.appendChild(child);
+      document.body.appendChild(parent);
+
+      const parentListener = vi.fn();
+      parent.addEventListener(CIO_EVENTS.productCard.click, parentListener);
+
+      dispatchCioEvent(CIO_EVENTS.productCard.click, { product: mockProduct }, child);
+
+      expect(parentListener).toHaveBeenCalledTimes(1);
+
+      parent.removeEventListener(CIO_EVENTS.productCard.click, parentListener);
+      document.body.removeChild(parent);
+    });
+
+    test('falls back to window when target is null', () => {
+      const listener = vi.fn();
+      window.addEventListener(CIO_EVENTS.productCard.click, listener);
+
+      dispatchCioEvent(CIO_EVENTS.productCard.click, { product: mockProduct }, null);
+
+      expect(listener).toHaveBeenCalledTimes(1);
+
+      window.removeEventListener(CIO_EVENTS.productCard.click, listener);
+    });
+
+    test('falls back to window when target is undefined', () => {
+      const listener = vi.fn();
+      window.addEventListener(CIO_EVENTS.productCard.click, listener);
+
+      dispatchCioEvent(CIO_EVENTS.productCard.click, { product: mockProduct }, undefined);
+
+      expect(listener).toHaveBeenCalledTimes(1);
+
+      window.removeEventListener(CIO_EVENTS.productCard.click, listener);
     });
   });
 });

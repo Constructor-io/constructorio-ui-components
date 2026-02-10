@@ -259,7 +259,9 @@ function CarouselInner<T = Product>(props: CarouselOpts<T>, ref: React.Ref<HTMLD
   );
 }
 
-// forwardRef wrapper that preserves generic support via type assertion
+// forwardRef so consumers can access the root element to listen for scoped custom events
+// (e.g. ref.current.addEventListener(CIO_EVENTS.carousel.next, handler))
+// Type assertion preserves generic support that forwardRef normally erases
 const Carousel = forwardRef(CarouselInner) as <T = Product>(
   props: CarouselOpts<T> & { ref?: React.Ref<HTMLDivElement> },
 ) => React.ReactElement | null;

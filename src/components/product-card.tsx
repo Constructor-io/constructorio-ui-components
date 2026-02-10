@@ -363,6 +363,8 @@ function getProductCardDataAttributes({
   };
 }
 
+// forwardRef so consumers can access the root element to listen for scoped custom events
+// (e.g. ref.current.addEventListener(CIO_EVENTS.productCard.click, handler))
 const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(function ProductCard(
   { componentOverrides, children, className, ...props },
   ref,

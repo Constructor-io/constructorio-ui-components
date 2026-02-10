@@ -64,7 +64,8 @@ const useCardContext = (): CardContextType => {
   return context;
 };
 
-// Helper function to create the Card root
+// forwardRef so parent components (e.g. ProductCard) can attach a ref to the root div
+// for dispatching scoped custom events on this element instead of window
 const Card = forwardRef<HTMLDivElement, CardProps>(function Card(
   { children, componentOverrides, className, ...props },
   ref,

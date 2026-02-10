@@ -56,7 +56,7 @@ export function dispatchCioEvent<K extends keyof CioEventDetailMap>(
   if (typeof window === 'undefined') return;
 
   const event = new CustomEvent(eventName, {
-    bubbles: true,
+    bubbles: true, // lets consumers listen on any ancestor, not just the dispatching element.
     cancelable: true,
     detail,
   });

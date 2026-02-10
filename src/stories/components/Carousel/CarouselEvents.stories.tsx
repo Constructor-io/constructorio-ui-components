@@ -69,9 +69,7 @@ function CarouselEventListeningDemo() {
         }}>
         <div style={{ marginBottom: 8, color: '#cdd6f4', fontWeight: 600 }}>Event Log</div>
         {eventLog.length === 0 ? (
-          <div style={{ color: '#6c7086' }}>
-            Click the carousel arrows to see events...
-          </div>
+          <div style={{ color: '#6c7086' }}>Click the carousel arrows to see events...</div>
         ) : (
           eventLog.map((entry, i) => (
             <div key={i} style={{ opacity: 1 - i * 0.015 }}>

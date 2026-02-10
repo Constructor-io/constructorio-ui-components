@@ -162,11 +162,19 @@ const ImageSection: React.FC<ImageSectionProps> = (props) => {
   const imageUrl = props.imageUrl || contextImageUrl;
 
   const handleMouseEnter = useCallback(() => {
-    dispatchCioEvent(CIO_EVENTS.productCard.imageEnter, { product: renderProps.product }, rootRef.current);
+    dispatchCioEvent(
+      CIO_EVENTS.productCard.imageEnter,
+      { product: renderProps.product },
+      rootRef.current,
+    );
   }, [renderProps.product, rootRef]);
 
   const handleMouseLeave = useCallback(() => {
-    dispatchCioEvent(CIO_EVENTS.productCard.imageLeave, { product: renderProps.product }, rootRef.current);
+    dispatchCioEvent(
+      CIO_EVENTS.productCard.imageLeave,
+      { product: renderProps.product },
+      rootRef.current,
+    );
   }, [renderProps.product, rootRef]);
 
   return (
@@ -244,7 +252,11 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = (props) => {
     (e: React.MouseEvent) => {
       // Prevent product click from firing
       e.stopPropagation();
-      dispatchCioEvent(CIO_EVENTS.productCard.conversion, { product: renderProps.product }, rootRef.current);
+      dispatchCioEvent(
+        CIO_EVENTS.productCard.conversion,
+        { product: renderProps.product },
+        rootRef.current,
+      );
       onAddToCart?.(e);
     },
     [renderProps.product, onAddToCart, rootRef],

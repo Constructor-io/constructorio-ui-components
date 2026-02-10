@@ -200,10 +200,7 @@ function CarouselBase<T = Product>({
   );
 }
 
-function CarouselInner<T = Product>(
-  props: CarouselOpts<T>,
-  ref: React.Ref<HTMLDivElement>,
-) {
+function CarouselInner<T = Product>(props: CarouselOpts<T>, ref: React.Ref<HTMLDivElement>) {
   const { children, items, componentOverrides, ...rest } = props;
   const { autoPlay, slidesToScroll, orientation, loop, responsive } = rest;
 

@@ -201,4 +201,12 @@ CardNamespace.Action = CardAction;
 CardNamespace.Content = CardContent;
 CardNamespace.Footer = CardFooter;
 
-export { CardNamespace as Card, CardHeader, CardFooter, CardTitle, CardAction, CardDescription, CardContent };
+export {
+  CardNamespace as Card,
+  CardHeader,
+  CardFooter,
+  CardTitle,
+  CardAction,
+  CardDescription,
+  CardContent,
+};

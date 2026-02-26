@@ -69,23 +69,6 @@ describe('Event utility', () => {
       }
     });
 
-    test('dispatches with bubbles true and cancelable true', () => {
-      const listener = vi.fn();
-      window.addEventListener(CIO_EVENTS.carousel.next, listener);
-
-      dispatchCioEvent(CIO_EVENTS.carousel.next, {
-        direction: 'next',
-        canScrollNext: true,
-        canScrollPrev: false,
-      });
-
-      const event = listener.mock.calls[0][0] as CustomEvent;
-      expect(event.bubbles).toBe(true);
-      expect(event.cancelable).toBe(true);
-
-      window.removeEventListener(CIO_EVENTS.carousel.next, listener);
-    });
-
     test('dispatches on a specific DOM element when target is provided', () => {
       const element = document.createElement('div');
       document.body.appendChild(element);

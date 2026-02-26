@@ -4,7 +4,7 @@ import type {
   IncludeComponentOverrides,
   RenderPropsChildren,
 } from '@/types';
-import type { ComponentProps, ReactNode, RefObject } from 'react';
+import type { ComponentProps, ReactNode } from 'react';
 import type { UseEmblaCarouselType } from 'embla-carousel-react';
 import type useEmblaCarousel from 'embla-carousel-react';
 import type Button from '@/components/button';
@@ -33,7 +33,6 @@ export type CarouselProps<T = Product> = {
 
 export type CarouselContextValue<T = Product> = {
   carouselRef: ReturnType<typeof useEmblaCarousel>[0];
-  rootRef: RefObject<HTMLDivElement | null>;
   renderProps: CarouselRenderProps<T>;
   componentOverrides?: CarouselOverrides<T>;
 } & CarouselProps<T>;

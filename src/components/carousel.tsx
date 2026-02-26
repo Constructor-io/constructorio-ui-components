@@ -5,7 +5,6 @@ import React, {
   useState,
   useCallback,
   useEffect,
-  useRef,
   forwardRef,
 } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
@@ -86,7 +85,6 @@ function CarouselBase<T = Product>({
     },
     plugins,
   );
-  const rootRef = useRef<HTMLDivElement>(null);
   const { rootProps } = useCarouselResponsive(responsive, orientation);
   useCarouselTweenOpacity(api, orientation);
 
@@ -152,7 +150,6 @@ function CarouselBase<T = Product>({
       },
       componentOverrides: componentOverrides as CarouselOverrides<T> | undefined,
       carouselRef,
-      rootRef,
     };
   }, [
     orientation,
@@ -169,24 +166,10 @@ function CarouselBase<T = Product>({
     carouselRef,
   ]);
 
-  const setRootRef = useCallback(
-    (node: HTMLDivElement | null) => {
-      // Set internal rootRef
-      (rootRef as React.MutableRefObject<HTMLDivElement | null>).current = node;
-      // Forward ref to consumer
-      if (typeof innerRef === 'function') {
-        innerRef(node);
-      } else if (innerRef) {
-        (innerRef as React.MutableRefObject<HTMLDivElement | null>).current = node;
-      }
-    },
-    [innerRef],
-  );
-
   return (
     <CarouselContext.Provider value={contextValue}>
       <div
-        ref={setRootRef}
+        ref={innerRef}
         onKeyDownCapture={handleKeyDown}
         className={cn('relative', className)}
         role='region'
@@ -333,28 +316,31 @@ function CarouselNavButton({
   className,
   ...props
 }: NavButtonProps & { direction: CarouselDirection }) {
-  const { renderProps, componentOverrides, rootRef } = useCarousel();
+  const { renderProps, componentOverrides } = useCarousel();
   const { canScrollPrev, canScrollNext, scrollPrev, scrollNext, orientation } = renderProps;
 
   const isPrevious = direction === 'previous';
   const canScroll = isPrevious ? canScrollPrev : canScrollNext;
   const scrollFn = isPrevious ? scrollPrev : scrollNext;
 
-  const handleClick = useCallback(() => {
-    const eventName = isPrevious ? CIO_EVENTS.carousel.previous : CIO_EVENTS.carousel.next;
+  const handleClick = useCallback(
+    (e: React.MouseEvent) => {
+      const eventName = isPrevious ? CIO_EVENTS.carousel.previous : CIO_EVENTS.carousel.next;
 
-    dispatchCioEvent(
-      eventName,
-      {
-        direction,
-        canScrollNext: canScrollNext ?? false,
-        canScrollPrev: canScrollPrev ?? false,
-      },
-      rootRef.current,
-    );
+      dispatchCioEvent(
+        eventName,
+        {
+          direction,
+          canScrollNext: canScrollNext ?? false,
+          canScrollPrev: canScrollPrev ?? false,
+        },
+        e.currentTarget,
+      );
 
-    scrollFn?.();
-  }, [isPrevious, direction, canScrollNext, canScrollPrev, scrollFn, rootRef]);
+      scrollFn?.();
+    },
+    [isPrevious, direction, canScrollNext, canScrollPrev, scrollFn],
+  );
 
   const override = isPrevious
     ? componentOverrides?.previous?.reactNode

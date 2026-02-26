@@ -312,17 +312,24 @@ function CarouselNavButton({
   const canScroll = isPrevious ? canScrollPrev : canScrollNext;
   const scrollFn = isPrevious ? scrollPrev : scrollNext;
 
-  const handleClick = useCallback(() => {
-    const eventName = isPrevious ? CIO_EVENTS.carousel.previous : CIO_EVENTS.carousel.next;
+  const handleClick = useCallback(
+    (e: React.MouseEvent) => {
+      const eventName = isPrevious ? CIO_EVENTS.carousel.previous : CIO_EVENTS.carousel.next;
 
-    dispatchCioEvent(eventName, {
-      direction,
-      canScrollNext,
-      canScrollPrev,
-    });
+      dispatchCioEvent(
+        eventName,
+        {
+          direction,
+          canScrollNext: canScrollNext ?? false,
+          canScrollPrev: canScrollPrev ?? false,
+        },
+        e.currentTarget,
+      );
 
-    scrollFn?.();
-  }, [isPrevious, direction, canScrollNext, canScrollPrev, scrollFn]);
+      scrollFn?.();
+    },
+    [isPrevious, direction, canScrollNext, canScrollPrev, scrollFn],
+  );
 
   const override = isPrevious
     ? componentOverrides?.previous?.reactNode
@@ -360,7 +367,7 @@ function CarouselNext(props: NavButtonProps) {
   return <CarouselNavButton direction='next' {...props} />;
 }
 
-// Create compound component with all sub-components attached
+// Attach compound components to Carousel
 Carousel.Content = CarouselContent;
 Carousel.Item = CarouselItem;
 Carousel.Previous = CarouselPrevious;

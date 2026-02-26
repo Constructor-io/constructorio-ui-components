@@ -1,0 +1,74 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import * as ProductCardEventsStories from './ProductCardEvents.stories';
+
+<Meta of={ProductCardEventsStories} />
+
+# `ProductCard` - Scoped Event Listening
+
+Listen for user-interaction events on a `ProductCard` instance by wrapping it in a container element, instead of listening on `window`.
+
+## Why scoped events?
+
+When multiple `ProductCard` instances exist on the same page, listening on `window` means **every** listener fires for **every** card. Scoped events solve this: each card dispatches events on its own root DOM element with `bubbles: true`, so a listener attached to any ancestor element only receives events from cards within that subtree.
+
+## Interactive Demo
+
+Click the card, hover the image, or click "Add to Cart" to see events appear in the log panel below.
+
+<Canvas of={ProductCardEventsStories.EventListening} />
+
+## Basic Setup
+
+```tsx
+import { useRef, useEffect } from 'react';
+import ProductCard from '@constructorio/ui-components/product-card';
+import { CIO_EVENTS } from '@constructorio/ui-components';
+
+function MyProductCard({ product }) {
+  const wrapperRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = wrapperRef.current;
+    if (!el) return;
+
+    const handleClick = (e: Event) => {
+      const { product } = (e as CustomEvent).detail;
+      console.log('Card clicked:', product.name);
+    };
+
+    el.addEventListener(CIO_EVENTS.productCard.click, handleClick);
+    return () => el.removeEventListener(CIO_EVENTS.productCard.click, handleClick);
+  }, []);
+
+  return (
+    <div ref={wrapperRef}>
+      <ProductCard product={product} />
+    </div>
+  );
+}
+```
+
+## Available Events
+
+All events carry a `ProductCardEventDetail` payload containing the `product: Product` for the card that fired.
+
+| Event Name                                    | Constant                              | Fires When                |
+| --------------------------------------------- | ------------------------------------- | ------------------------- |
+| `cio.components.productCard.click`            | `CIO_EVENTS.productCard.click`        | Card is clicked           |
+| `cio.components.productCard.conversion`       | `CIO_EVENTS.productCard.conversion`   | Add to Cart is clicked    |
+| `cio.components.productCard.imageEnter`       | `CIO_EVENTS.productCard.imageEnter`   | Mouse enters card image   |
+| `cio.components.productCard.imageLeave`       | `CIO_EVENTS.productCard.imageLeave`   | Mouse leaves card image   |
+
+**Payload type:** `ProductCardEventDetail`
+
+```ts
+interface ProductCardEventDetail {
+  product: Product;
+}
+```
+
+## Notes
+
+- All events are dispatched with `bubbles: true`, so you can listen on any ancestor element instead of the card itself.
+- The `detail` payload always contains the `Product` object for the card that fired the event.
+- Use `CIO_EVENTS` constants instead of raw strings to avoid typos and get autocomplete.

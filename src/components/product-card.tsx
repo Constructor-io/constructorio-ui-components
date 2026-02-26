@@ -160,13 +160,27 @@ const ImageSection: React.FC<ImageSectionProps> = (props) => {
   // Use props with fallback to context values
   const imageUrl = props.imageUrl || contextImageUrl;
 
-  const handleMouseEnter = useCallback(() => {
-    dispatchCioEvent(CIO_EVENTS.productCard.imageEnter, { product: renderProps.product });
-  }, [renderProps.product]);
+  const handleMouseEnter = useCallback(
+    (e: React.MouseEvent) => {
+      dispatchCioEvent(
+        CIO_EVENTS.productCard.imageEnter,
+        { product: renderProps.product },
+        e.currentTarget,
+      );
+    },
+    [renderProps.product],
+  );
 
-  const handleMouseLeave = useCallback(() => {
-    dispatchCioEvent(CIO_EVENTS.productCard.imageLeave, { product: renderProps.product });
-  }, [renderProps.product]);
+  const handleMouseLeave = useCallback(
+    (e: React.MouseEvent) => {
+      dispatchCioEvent(
+        CIO_EVENTS.productCard.imageLeave,
+        { product: renderProps.product },
+        e.currentTarget,
+      );
+    },
+    [renderProps.product],
+  );
 
   return (
     <RenderPropsWrapper props={renderProps} override={componentOverrides?.image?.reactNode}>
@@ -243,7 +257,11 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = (props) => {
     (e: React.MouseEvent) => {
       // Prevent product click from firing
       e.stopPropagation();
-      dispatchCioEvent(CIO_EVENTS.productCard.conversion, { product: renderProps.product });
+      dispatchCioEvent(
+        CIO_EVENTS.productCard.conversion,
+        { product: renderProps.product },
+        e.currentTarget,
+      );
       onAddToCart?.(e);
     },
     [renderProps.product, onAddToCart],
@@ -371,10 +389,13 @@ function ProductCard({ componentOverrides, children, className, ...props }: Prod
     ...restProps
   } = props;
 
-  const handleProductClick = useCallback(() => {
-    dispatchCioEvent(CIO_EVENTS.productCard.click, { product });
-    onProductClick?.();
-  }, [product, onProductClick]);
+  const handleProductClick = useCallback(
+    (e: React.MouseEvent) => {
+      dispatchCioEvent(CIO_EVENTS.productCard.click, { product }, e.currentTarget);
+      onProductClick?.();
+    },
+    [product, onProductClick],
+  );
 
   const renderPropFn = typeof children === 'function' && children;
 
@@ -419,7 +440,7 @@ function ProductCard({ componentOverrides, children, className, ...props }: Prod
   );
 }
 
-// Create compound component with all sub-components attached
+// Attach compound components to ProductCard
 ProductCard.ImageSection = ImageSection;
 ProductCard.Badge = Badge;
 ProductCard.WishlistButton = WishlistButton;

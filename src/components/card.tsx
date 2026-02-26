@@ -64,6 +64,7 @@ const useCardContext = (): CardContextType => {
   return context;
 };
 
+// Helper function to create the Card root
 function Card({ children, componentOverrides, className, ...props }: CardProps) {
   const contextValue: CardContextType = React.useMemo(
     () => ({

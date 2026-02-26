@@ -407,7 +407,9 @@ export const CompoundFullyFeatured: Story = {
     <ProductCard {...args}>
       <ProductCard.ImageSection>
         <ProductCard.WishlistButton
-          onAddToWishlist={(e: React.MouseEvent, product: Product) => console.log('Added to wishlist', e, product)}
+          onAddToWishlist={(e: React.MouseEvent, product: Product) =>
+            console.log('Added to wishlist', e, product)
+          }
         />
         <ProductCard.Badge>New</ProductCard.Badge>
       </ProductCard.ImageSection>
@@ -419,7 +421,9 @@ export const CompoundFullyFeatured: Story = {
       </ProductCard.Content>
       <ProductCard.Footer>
         <ProductCard.AddToCartButton
-          onAddToCart={(e: React.MouseEvent, product: Product) => console.log('Added to cart', e, product)}
+          onAddToCart={(e: React.MouseEvent, product: Product) =>
+            console.log('Added to cart', e, product)
+          }
         />
         <ProductCard.TagsSection />
       </ProductCard.Footer>
@@ -651,7 +655,11 @@ const titleOverride = {
 };
 
 const addToCartButtonOverride = {
-  reactNode: (props: { onAddToCart?: (e: React.MouseEvent, product: Product) => void; addToCartText?: string; product: Product }) => (
+  reactNode: (props: {
+    onAddToCart?: (e: React.MouseEvent, product: Product) => void;
+    addToCartText?: string;
+    product: Product;
+  }) => (
     <button
       className='w-full bg-gradient-to-r from-purple-500
 to-pink-500 text-white py-2 px-4 rounded-lg hover:from-purple-600 hover:to-pink-600 transition-all cursor-pointer border-0'
@@ -1047,7 +1055,9 @@ export const CompoundWithRenderProps: Story = {
             {renderProps.onAddToCart && (
               <button
                 className='w-full mt-3 bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-lg font-medium transition-colors border-0 cursor-pointer'
-                onClick={(e) => renderProps.onAddToCart && renderProps.onAddToCart(e, renderProps.product)}>
+                onClick={(e) =>
+                  renderProps.onAddToCart && renderProps.onAddToCart(e, renderProps.product)
+                }>
                 {renderProps.addToCartText || 'Add to Cart'}
               </button>
             )}
@@ -1200,7 +1210,9 @@ export const RenderPropsExample: Story = {
           {renderProps.onAddToCart && (
             <button
               className='w-full mt-3 bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-lg font-medium transition-colors'
-              onClick={(e) => renderProps.onAddToCart && renderProps.onAddToCart(e, renderProps.product)}>
+              onClick={(e) =>
+                renderProps.onAddToCart && renderProps.onAddToCart(e, renderProps.product)
+              }>
               {renderProps.addToCartText || 'Add to Cart'}
             </button>
           )}

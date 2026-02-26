@@ -45,19 +45,19 @@ function ProductCardEventListeningDemo() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16, maxWidth: 360 }}>
       <div ref={wrapperRef}>
-      <ProductCard
-        product={{
-          id: 'highland-golf-pants',
-          variationId: 'highland-golf-pants--navy',
-          name: 'Highland Golf Pants',
-          imageUrl: DEMO_IMAGE_URL,
-          price: '299',
-          rating: 4.8,
-          reviewsCount: 2713,
-        }}
-        priceCurrency='$'
-        onAddToCart={() => {}}
-      />
+        <ProductCard
+          product={{
+            id: 'highland-golf-pants',
+            variationId: 'highland-golf-pants--navy',
+            name: 'Highland Golf Pants',
+            imageUrl: DEMO_IMAGE_URL,
+            price: '299',
+            rating: 4.8,
+            reviewsCount: 2713,
+          }}
+          priceCurrency='$'
+          onAddToCart={() => {}}
+        />
       </div>
       <div
         style={{

@@ -604,11 +604,11 @@ describe('Carousel component', () => {
     });
 
     test('dispatches carousel.next event on root element when next button is clicked', () => {
-      const ref = React.createRef<HTMLDivElement>();
-      render(<CioCarousel ref={ref} items={mockProducts} />);
+      const { container } = render(<CioCarousel items={mockProducts} />);
 
+      const el = container.querySelector('[data-slot="carousel"]')!;
       const listener = vi.fn();
-      ref.current!.addEventListener(CIO_EVENTS.carousel.next, listener);
+      el.addEventListener(CIO_EVENTS.carousel.next, listener);
 
       const nextButton = screen.getByRole('button', { name: /next/i });
       fireEvent.click(nextButton);
@@ -619,15 +619,15 @@ describe('Carousel component', () => {
       expect(typeof event.detail.canScrollNext).toBe('boolean');
       expect(typeof event.detail.canScrollPrev).toBe('boolean');
 
-      ref.current!.removeEventListener(CIO_EVENTS.carousel.next, listener);
+      el.removeEventListener(CIO_EVENTS.carousel.next, listener);
     });
 
     test('dispatches carousel.previous event on root element when previous button is clicked', () => {
-      const ref = React.createRef<HTMLDivElement>();
-      render(<CioCarousel ref={ref} items={mockProducts} />);
+      const { container } = render(<CioCarousel items={mockProducts} />);
 
+      const el = container.querySelector('[data-slot="carousel"]')!;
       const listener = vi.fn();
-      ref.current!.addEventListener(CIO_EVENTS.carousel.previous, listener);
+      el.addEventListener(CIO_EVENTS.carousel.previous, listener);
 
       const prevButton = screen.getByRole('button', { name: /previous/i });
       fireEvent.click(prevButton);
@@ -638,7 +638,7 @@ describe('Carousel component', () => {
       expect(typeof event.detail.canScrollNext).toBe('boolean');
       expect(typeof event.detail.canScrollPrev).toBe('boolean');
 
-      ref.current!.removeEventListener(CIO_EVENTS.carousel.previous, listener);
+      el.removeEventListener(CIO_EVENTS.carousel.previous, listener);
     });
 
     test('events bubble up so window listeners still work', () => {
@@ -669,20 +669,23 @@ describe('Carousel component', () => {
     });
 
     test('two carousels: events do not cross-pollinate', () => {
-      const ref1 = React.createRef<HTMLDivElement>();
-      const ref2 = React.createRef<HTMLDivElement>();
-
       render(
         <>
-          <CioCarousel ref={ref1} items={mockProducts} data-testid='carousel-1' />
-          <CioCarousel ref={ref2} items={mockProducts} data-testid='carousel-2' />
+          <div data-testid='wrapper-1'>
+            <CioCarousel items={mockProducts} data-testid='carousel-1' />
+          </div>
+          <div data-testid='wrapper-2'>
+            <CioCarousel items={mockProducts} data-testid='carousel-2' />
+          </div>
         </>,
       );
 
+      const wrapper1 = screen.getByTestId('wrapper-1');
+      const wrapper2 = screen.getByTestId('wrapper-2');
       const listener1 = vi.fn();
       const listener2 = vi.fn();
-      ref1.current!.addEventListener(CIO_EVENTS.carousel.next, listener1);
-      ref2.current!.addEventListener(CIO_EVENTS.carousel.next, listener2);
+      wrapper1.addEventListener(CIO_EVENTS.carousel.next, listener1);
+      wrapper2.addEventListener(CIO_EVENTS.carousel.next, listener2);
 
       // Click next on the first carousel only
       const nextButtons = screen.getAllByRole('button', { name: /next/i });
@@ -691,8 +694,8 @@ describe('Carousel component', () => {
       expect(listener1).toHaveBeenCalledTimes(1);
       expect(listener2).not.toHaveBeenCalled();
 
-      ref1.current!.removeEventListener(CIO_EVENTS.carousel.next, listener1);
-      ref2.current!.removeEventListener(CIO_EVENTS.carousel.next, listener2);
+      wrapper1.removeEventListener(CIO_EVENTS.carousel.next, listener1);
+      wrapper2.removeEventListener(CIO_EVENTS.carousel.next, listener2);
     });
   });
 });

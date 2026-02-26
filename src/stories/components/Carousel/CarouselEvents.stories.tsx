@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import CioCarousel from '../../../components/carousel';
 import { Product } from '../../../types/productCardTypes';
@@ -29,11 +29,11 @@ const mockProducts: Product[] = Array.from({ length: 10 }, (_, i) => ({
 }));
 
 function CarouselEventListeningDemo() {
-  const carouselRef = useRef<HTMLDivElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const [eventLog, setEventLog] = useState<string[]>([]);
 
   useEffect(() => {
-    const el = carouselRef.current;
+    const el = wrapperRef.current;
     if (!el) return;
 
     const logEvent = (label: string) => (e: Event) => {
@@ -55,7 +55,9 @@ function CarouselEventListeningDemo() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-      <CioCarousel ref={carouselRef} items={mockProducts} loop={false} />
+      <div ref={wrapperRef}>
+        <CioCarousel items={mockProducts} loop={false} />
+      </div>
       <div
         style={{
           background: '#1e1e2e',

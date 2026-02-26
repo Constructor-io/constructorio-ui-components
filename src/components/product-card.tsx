@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useContext, forwardRef } from 'react';
+import React, { createContext, useCallback, useContext } from 'react';
 import { cn, RenderPropsWrapper, dispatchCioEvent, CIO_EVENTS } from '@/utils';
 import { Card, CardContentProps, CardFooterProps } from '@/components/card';
 import Button from '@/components/button';
@@ -368,12 +368,7 @@ function getProductCardDataAttributes({
   };
 }
 
-// forwardRef so consumers can access the root element to listen for scoped custom events
-// (e.g. ref.current.addEventListener(CIO_EVENTS.productCard.click, handler))
-const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(function ProductCard(
-  { componentOverrides, children, className, ...props },
-  ref,
-) {
+function ProductCard({ componentOverrides, children, className, ...props }: ProductCardProps) {
   const contextValue = React.useMemo(
     () => ({
       renderProps: { ...props, ...getProductCardDataAttributes(props.product) },
@@ -409,7 +404,6 @@ const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(function Produc
     <ProductCardContext.Provider value={contextValue}>
       <RenderPropsWrapper props={props} override={renderPropFn || componentOverrides?.reactNode}>
         <Card
-          ref={ref}
           className={cn(
             'cio-product-card min-w-[176px] max-w-[256px] h-full cursor-pointer border-0',
             className,
@@ -444,34 +438,21 @@ const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(function Produc
       </RenderPropsWrapper>
     </ProductCardContext.Provider>
   );
-});
+}
 
-// Attach compound sub-components to the forwardRef'd ProductCard
-const ProductCardNamespace = ProductCard as typeof ProductCard & {
-  ImageSection: typeof ImageSection;
-  Badge: typeof Badge;
-  WishlistButton: typeof WishlistButton;
-  PriceSection: typeof PriceSection;
-  TitleSection: typeof TitleSection;
-  DescriptionSection: typeof DescriptionSection;
-  RatingSection: typeof RatingSection;
-  TagsSection: typeof TagsSection;
-  AddToCartButton: typeof AddToCartButton;
-  Content: typeof ProductCardContent;
-  Footer: typeof ProductCardFooter;
-  getProductCardDataAttributes: typeof getProductCardDataAttributes;
-};
-ProductCardNamespace.ImageSection = ImageSection;
-ProductCardNamespace.Badge = Badge;
-ProductCardNamespace.WishlistButton = WishlistButton;
-ProductCardNamespace.PriceSection = PriceSection;
-ProductCardNamespace.TitleSection = TitleSection;
-ProductCardNamespace.DescriptionSection = DescriptionSection;
-ProductCardNamespace.RatingSection = RatingSection;
-ProductCardNamespace.TagsSection = TagsSection;
-ProductCardNamespace.AddToCartButton = AddToCartButton;
-ProductCardNamespace.Content = ProductCardContent;
-ProductCardNamespace.Footer = ProductCardFooter;
-ProductCardNamespace.getProductCardDataAttributes = getProductCardDataAttributes;
+const ProductCardNamespace = Object.assign(ProductCard, {
+  ImageSection,
+  Badge,
+  WishlistButton,
+  PriceSection,
+  TitleSection,
+  DescriptionSection,
+  RatingSection,
+  TagsSection,
+  AddToCartButton,
+  Content: ProductCardContent,
+  Footer: ProductCardFooter,
+  getProductCardDataAttributes,
+});
 
 export default ProductCardNamespace;

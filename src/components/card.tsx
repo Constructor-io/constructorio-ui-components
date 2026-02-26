@@ -1,4 +1,4 @@
-import React, { ReactNode, createContext, useContext, forwardRef } from 'react';
+import React, { ReactNode, createContext, useContext } from 'react';
 
 import { cn, RenderPropsWrapper } from '@/utils';
 import { ComponentOverrideProps, IncludeComponentOverrides } from '@/types';
@@ -64,12 +64,7 @@ const useCardContext = (): CardContextType => {
   return context;
 };
 
-// forwardRef so parent components (e.g. ProductCard) can attach a ref to the root div
-// for dispatching scoped custom events on this element instead of window
-const Card = forwardRef<HTMLDivElement, CardProps>(function Card(
-  { children, componentOverrides, className, ...props },
-  ref,
-) {
+function Card({ children, componentOverrides, className, ...props }: CardProps) {
   const contextValue: CardContextType = React.useMemo(
     () => ({
       renderProps: props, // Use merged props in context
@@ -82,7 +77,6 @@ const Card = forwardRef<HTMLDivElement, CardProps>(function Card(
     <CardContext.Provider value={contextValue}>
       <RenderPropsWrapper props={props} override={componentOverrides?.reactNode}>
         <div
-          ref={ref}
           data-slot='card'
           className={cn(
             'cio-components bg-card text-card-foreground flex flex-col gap-2 rounded-2xl border p-2 sm:p-4 shadow-md overflow-hidden',
@@ -94,7 +88,7 @@ const Card = forwardRef<HTMLDivElement, CardProps>(function Card(
       </RenderPropsWrapper>
     </CardContext.Provider>
   );
-});
+}
 
 function CardHeader({ children, className, ...props }: CardHeaderProps) {
   const { renderProps, componentOverrides } = useCardContext();
@@ -186,21 +180,14 @@ function CardFooter({ children, className, ...props }: CardFooterProps) {
   );
 }
 
-// Attach compound sub-components to the forwardRef'd Card
-const CardNamespace = Card as typeof Card & {
-  Header: typeof CardHeader;
-  Title: typeof CardTitle;
-  Description: typeof CardDescription;
-  Action: typeof CardAction;
-  Content: typeof CardContent;
-  Footer: typeof CardFooter;
-};
-CardNamespace.Header = CardHeader;
-CardNamespace.Title = CardTitle;
-CardNamespace.Description = CardDescription;
-CardNamespace.Action = CardAction;
-CardNamespace.Content = CardContent;
-CardNamespace.Footer = CardFooter;
+const CardNamespace = Object.assign(Card, {
+  Header: CardHeader,
+  Title: CardTitle,
+  Description: CardDescription,
+  Action: CardAction,
+  Content: CardContent,
+  Footer: CardFooter,
+});
 
 export {
   CardNamespace as Card,

@@ -5,13 +5,11 @@ import * as CarouselEventsStories from './CarouselEvents.stories';
 
 # `Carousel` - Scoped Event Listening
 
-Listen for navigation events directly on a `Carousel` instance using a `ref`, instead of on `window`.
+Listen for navigation events on a `Carousel` instance by wrapping it in a container element, instead of listening on `window`.
 
 ## Why scoped events?
 
-When multiple `Carousel` instances exist on the same page, listening on `window` means **every** listener fires for **every** carousel. Scoped events solve this: each carousel dispatches events on its own root DOM element, so a listener attached via `ref` only receives events from that specific carousel.
-
-Events are dispatched with `bubbles: true`, so you can also listen on any ancestor element if you prefer a single handler for a group of carousels.
+When multiple `Carousel` instances exist on the same page, listening on `window` means **every** listener fires for **every** carousel. Scoped events solve this: each carousel dispatches events on its own root DOM element with `bubbles: true`, so a listener attached to any ancestor element only receives events from carousels within that subtree.
 
 ## Interactive Demo
 
@@ -27,10 +25,10 @@ import CioCarousel from '@constructorio/ui-components/carousel';
 import { CIO_EVENTS } from '@constructorio/ui-components';
 
 function MyCarousel({ products }) {
-  const carouselRef = useRef<HTMLDivElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const el = carouselRef.current;
+    const el = wrapperRef.current;
     if (!el) return;
 
     const handleNav = (e: Event) => {
@@ -47,7 +45,11 @@ function MyCarousel({ products }) {
     };
   }, []);
 
-  return <CioCarousel ref={carouselRef} items={products} />;
+  return (
+    <div ref={wrapperRef}>
+      <CioCarousel items={products} />
+    </div>
+  );
 }
 ```
 

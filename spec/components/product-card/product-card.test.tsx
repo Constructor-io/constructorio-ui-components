@@ -401,42 +401,41 @@ describe('ProductCard component', () => {
     });
 
     test('dispatches productCard.click event on root element with correct product detail', () => {
-      const ref = React.createRef<HTMLDivElement>();
-      render(<ProductCard ref={ref} {...mockProductData} data-testid='product-card' />);
+      render(<ProductCard {...mockProductData} data-testid='product-card' />);
 
+      const el = screen.getByTestId('product-card');
       const listener = vi.fn();
-      ref.current!.addEventListener(CIO_EVENTS.productCard.click, listener);
+      el.addEventListener(CIO_EVENTS.productCard.click, listener);
 
-      fireEvent.click(screen.getByTestId('product-card'));
+      fireEvent.click(el);
 
       expect(listener).toHaveBeenCalledTimes(1);
       const event = listener.mock.calls[0][0] as CustomEvent;
       expect(event.detail.product).toEqual(mockProductData.product);
 
-      ref.current!.removeEventListener(CIO_EVENTS.productCard.click, listener);
+      el.removeEventListener(CIO_EVENTS.productCard.click, listener);
     });
 
     test('dispatches productCard.click event AND calls onProductClick callback', () => {
-      const ref = React.createRef<HTMLDivElement>();
       const mockOnProductClick = vi.fn();
       render(
         <ProductCard
-          ref={ref}
           {...mockProductData}
           onProductClick={mockOnProductClick}
           data-testid='product-card'
         />,
       );
 
+      const el = screen.getByTestId('product-card');
       const listener = vi.fn();
-      ref.current!.addEventListener(CIO_EVENTS.productCard.click, listener);
+      el.addEventListener(CIO_EVENTS.productCard.click, listener);
 
-      fireEvent.click(screen.getByTestId('product-card'));
+      fireEvent.click(el);
 
       expect(listener).toHaveBeenCalledTimes(1);
       expect(mockOnProductClick).toHaveBeenCalledTimes(1);
 
-      ref.current!.removeEventListener(CIO_EVENTS.productCard.click, listener);
+      el.removeEventListener(CIO_EVENTS.productCard.click, listener);
     });
 
     test('events bubble up so window listeners still work', () => {
@@ -452,26 +451,26 @@ describe('ProductCard component', () => {
     });
 
     test('dispatches productCard.click event even without onProductClick prop', () => {
-      const ref = React.createRef<HTMLDivElement>();
-      render(<ProductCard ref={ref} product={mockBasicProduct} data-testid='product-card' />);
+      render(<ProductCard product={mockBasicProduct} data-testid='product-card' />);
 
+      const el = screen.getByTestId('product-card');
       const listener = vi.fn();
-      ref.current!.addEventListener(CIO_EVENTS.productCard.click, listener);
+      el.addEventListener(CIO_EVENTS.productCard.click, listener);
 
-      fireEvent.click(screen.getByTestId('product-card'));
+      fireEvent.click(el);
 
       expect(listener).toHaveBeenCalledTimes(1);
 
-      ref.current!.removeEventListener(CIO_EVENTS.productCard.click, listener);
+      el.removeEventListener(CIO_EVENTS.productCard.click, listener);
     });
 
     test('dispatches productCard.conversion event on root element on add-to-cart click', () => {
-      const ref = React.createRef<HTMLDivElement>();
       const mockOnAddToCart = vi.fn();
-      render(<ProductCard ref={ref} {...mockProductData} onAddToCart={mockOnAddToCart} />);
+      render(<ProductCard {...mockProductData} onAddToCart={mockOnAddToCart} data-testid='product-card' />);
 
+      const el = screen.getByTestId('product-card');
       const listener = vi.fn();
-      ref.current!.addEventListener(CIO_EVENTS.productCard.conversion, listener);
+      el.addEventListener(CIO_EVENTS.productCard.conversion, listener);
 
       fireEvent.click(screen.getByText('Add to Cart'));
 
@@ -480,78 +479,81 @@ describe('ProductCard component', () => {
       expect(event.detail.product).toEqual(mockProductData.product);
       expect(mockOnAddToCart).toHaveBeenCalledTimes(1);
 
-      ref.current!.removeEventListener(CIO_EVENTS.productCard.conversion, listener);
+      el.removeEventListener(CIO_EVENTS.productCard.conversion, listener);
     });
 
     test('clicking add-to-cart does NOT also dispatch productCard.click', () => {
-      const ref = React.createRef<HTMLDivElement>();
-      render(<ProductCard ref={ref} {...mockProductData} onAddToCart={vi.fn()} />);
+      render(<ProductCard {...mockProductData} onAddToCart={vi.fn()} data-testid='product-card' />);
 
+      const el = screen.getByTestId('product-card');
       const clickListener = vi.fn();
       const conversionListener = vi.fn();
-      ref.current!.addEventListener(CIO_EVENTS.productCard.click, clickListener);
-      ref.current!.addEventListener(CIO_EVENTS.productCard.conversion, conversionListener);
+      el.addEventListener(CIO_EVENTS.productCard.click, clickListener);
+      el.addEventListener(CIO_EVENTS.productCard.conversion, conversionListener);
 
       fireEvent.click(screen.getByText('Add to Cart'));
 
       expect(conversionListener).toHaveBeenCalledTimes(1);
       expect(clickListener).not.toHaveBeenCalled();
 
-      ref.current!.removeEventListener(CIO_EVENTS.productCard.click, clickListener);
-      ref.current!.removeEventListener(CIO_EVENTS.productCard.conversion, conversionListener);
+      el.removeEventListener(CIO_EVENTS.productCard.click, clickListener);
+      el.removeEventListener(CIO_EVENTS.productCard.conversion, conversionListener);
     });
 
     test('dispatches productCard.imageEnter on root element on mouseEnter of image section', () => {
-      const ref = React.createRef<HTMLDivElement>();
-      render(<ProductCard ref={ref} {...mockProductData} />);
+      render(<ProductCard {...mockProductData} data-testid='product-card' />);
 
+      const el = screen.getByTestId('product-card');
       const listener = vi.fn();
-      ref.current!.addEventListener(CIO_EVENTS.productCard.imageEnter, listener);
+      el.addEventListener(CIO_EVENTS.productCard.imageEnter, listener);
 
-      const imageSection = ref.current!.querySelector('.cio-product-card-image-section')!;
+      const imageSection = el.querySelector('.cio-product-card-image-section')!;
       fireEvent.mouseEnter(imageSection);
 
       expect(listener).toHaveBeenCalledTimes(1);
       const event = listener.mock.calls[0][0] as CustomEvent;
       expect(event.detail.product).toEqual(mockProductData.product);
 
-      ref.current!.removeEventListener(CIO_EVENTS.productCard.imageEnter, listener);
+      el.removeEventListener(CIO_EVENTS.productCard.imageEnter, listener);
     });
 
     test('dispatches productCard.imageLeave on root element on mouseLeave of image section', () => {
-      const ref = React.createRef<HTMLDivElement>();
-      render(<ProductCard ref={ref} {...mockProductData} />);
+      render(<ProductCard {...mockProductData} data-testid='product-card' />);
 
+      const el = screen.getByTestId('product-card');
       const listener = vi.fn();
-      ref.current!.addEventListener(CIO_EVENTS.productCard.imageLeave, listener);
+      el.addEventListener(CIO_EVENTS.productCard.imageLeave, listener);
 
-      const imageSection = ref.current!.querySelector('.cio-product-card-image-section')!;
+      const imageSection = el.querySelector('.cio-product-card-image-section')!;
       fireEvent.mouseLeave(imageSection);
 
       expect(listener).toHaveBeenCalledTimes(1);
       const event = listener.mock.calls[0][0] as CustomEvent;
       expect(event.detail.product).toEqual(mockProductData.product);
 
-      ref.current!.removeEventListener(CIO_EVENTS.productCard.imageLeave, listener);
+      el.removeEventListener(CIO_EVENTS.productCard.imageLeave, listener);
     });
 
     test('two product cards: events do not cross-pollinate', () => {
-      const ref1 = React.createRef<HTMLDivElement>();
-      const ref2 = React.createRef<HTMLDivElement>();
-
       const product2 = { ...mockProductData, product: { ...mockProductData.product, id: 'product-2', name: 'Product 2' } };
 
       render(
         <>
-          <ProductCard ref={ref1} {...mockProductData} data-testid='card-1' />
-          <ProductCard ref={ref2} {...product2} data-testid='card-2' />
+          <div data-testid='wrapper-1'>
+            <ProductCard {...mockProductData} data-testid='card-1' />
+          </div>
+          <div data-testid='wrapper-2'>
+            <ProductCard {...product2} data-testid='card-2' />
+          </div>
         </>,
       );
 
+      const wrapper1 = screen.getByTestId('wrapper-1');
+      const wrapper2 = screen.getByTestId('wrapper-2');
       const listener1 = vi.fn();
       const listener2 = vi.fn();
-      ref1.current!.addEventListener(CIO_EVENTS.productCard.click, listener1);
-      ref2.current!.addEventListener(CIO_EVENTS.productCard.click, listener2);
+      wrapper1.addEventListener(CIO_EVENTS.productCard.click, listener1);
+      wrapper2.addEventListener(CIO_EVENTS.productCard.click, listener2);
 
       // Click only the first card
       fireEvent.click(screen.getByTestId('card-1'));
@@ -559,8 +561,8 @@ describe('ProductCard component', () => {
       expect(listener1).toHaveBeenCalledTimes(1);
       expect(listener2).not.toHaveBeenCalled();
 
-      ref1.current!.removeEventListener(CIO_EVENTS.productCard.click, listener1);
-      ref2.current!.removeEventListener(CIO_EVENTS.productCard.click, listener2);
+      wrapper1.removeEventListener(CIO_EVENTS.productCard.click, listener1);
+      wrapper2.removeEventListener(CIO_EVENTS.productCard.click, listener2);
     });
   });
 });

@@ -5,7 +5,6 @@ import React, {
   useState,
   useCallback,
   useEffect,
-  forwardRef,
 } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
@@ -62,9 +61,8 @@ function CarouselBase<T = Product>({
   children,
   componentOverrides,
   plugins,
-  innerRef,
   ...props
-}: ComponentProps<'div'> & CarouselProps<T> & { innerRef?: React.Ref<HTMLDivElement> }) {
+}: ComponentProps<'div'> & CarouselProps<T>) {
   const {
     orientation = 'horizontal',
     autoPlay,
@@ -169,7 +167,6 @@ function CarouselBase<T = Product>({
   return (
     <CarouselContext.Provider value={contextValue}>
       <div
-        ref={innerRef}
         onKeyDownCapture={handleKeyDown}
         className={cn('relative', className)}
         role='region'
@@ -183,7 +180,7 @@ function CarouselBase<T = Product>({
   );
 }
 
-function CarouselInner<T = Product>(props: CarouselOpts<T>, ref: React.Ref<HTMLDivElement>) {
+function Carousel<T = Product>(props: CarouselOpts<T>) {
   const { children, items, componentOverrides, ...rest } = props;
   const { autoPlay, slidesToScroll, orientation, loop, responsive } = rest;
 
@@ -200,7 +197,6 @@ function CarouselInner<T = Product>(props: CarouselOpts<T>, ref: React.Ref<HTMLD
 
   return (
     <CarouselBase
-      innerRef={ref}
       className={cn(
         'cio-components w-full h-full flex items-center gap-2',
         orientation === 'vertical' ? 'flex-col' : 'flex-row',
@@ -241,13 +237,6 @@ function CarouselInner<T = Product>(props: CarouselOpts<T>, ref: React.Ref<HTMLD
     </CarouselBase>
   );
 }
-
-// forwardRef so consumers can access the root element to listen for scoped custom events
-// (e.g. ref.current.addEventListener(CIO_EVENTS.carousel.next, handler))
-// Type assertion preserves generic support that forwardRef normally erases
-const Carousel = forwardRef(CarouselInner) as <T = Product>(
-  props: CarouselOpts<T> & { ref?: React.Ref<HTMLDivElement> },
-) => React.ReactElement | null;
 
 function CarouselContent({ className, children, ...props }: ComponentProps<'div'>) {
   const { carouselRef, renderProps, componentOverrides } = useCarousel();
@@ -378,16 +367,11 @@ function CarouselNext(props: NavButtonProps) {
   return <CarouselNavButton direction='next' {...props} />;
 }
 
-// Attach compound sub-components to the forwardRef'd Carousel
-const CarouselNamespace = Carousel as typeof Carousel & {
-  Content: typeof CarouselContent;
-  Item: typeof CarouselItem;
-  Previous: typeof CarouselPrevious;
-  Next: typeof CarouselNext;
-};
-CarouselNamespace.Content = CarouselContent;
-CarouselNamespace.Item = CarouselItem;
-CarouselNamespace.Previous = CarouselPrevious;
-CarouselNamespace.Next = CarouselNext;
+const CarouselNamespace = Object.assign(Carousel, {
+  Content: CarouselContent,
+  Item: CarouselItem,
+  Previous: CarouselPrevious,
+  Next: CarouselNext,
+});
 
 export default CarouselNamespace;

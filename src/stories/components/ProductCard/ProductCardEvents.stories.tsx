@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import ProductCard from '../../../components/product-card';
 import { CIO_EVENTS } from '../../../utils/events';
@@ -16,11 +16,11 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 function ProductCardEventListeningDemo() {
-  const cardRef = useRef<HTMLDivElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const [eventLog, setEventLog] = useState<string[]>([]);
 
   useEffect(() => {
-    const el = cardRef.current;
+    const el = wrapperRef.current;
     if (!el) return;
 
     const logEvent = (label: string) => (e: Event) => {
@@ -44,8 +44,8 @@ function ProductCardEventListeningDemo() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16, maxWidth: 360 }}>
+      <div ref={wrapperRef}>
       <ProductCard
-        ref={cardRef}
         product={{
           id: 'highland-golf-pants',
           variationId: 'highland-golf-pants--navy',
@@ -58,6 +58,7 @@ function ProductCardEventListeningDemo() {
         priceCurrency='$'
         onAddToCart={() => {}}
       />
+      </div>
       <div
         style={{
           background: '#1e1e2e',

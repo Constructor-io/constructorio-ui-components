@@ -5,13 +5,11 @@ import * as ProductCardEventsStories from './ProductCardEvents.stories';
 
 # `ProductCard` - Scoped Event Listening
 
-Listen for user-interaction events directly on a `ProductCard` instance using a `ref`, instead of on `window`.
+Listen for user-interaction events on a `ProductCard` instance by wrapping it in a container element, instead of listening on `window`.
 
 ## Why scoped events?
 
-When multiple `ProductCard` instances exist on the same page, listening on `window` means **every** listener fires for **every** card. Scoped events solve this: each card dispatches events on its own root DOM element, so a listener attached via `ref` only receives events from that specific card.
-
-Events are dispatched with `bubbles: true`, so you can also listen on any ancestor element if you prefer a single handler for a group of cards.
+When multiple `ProductCard` instances exist on the same page, listening on `window` means **every** listener fires for **every** card. Scoped events solve this: each card dispatches events on its own root DOM element with `bubbles: true`, so a listener attached to any ancestor element only receives events from cards within that subtree.
 
 ## Interactive Demo
 
@@ -27,10 +25,10 @@ import ProductCard from '@constructorio/ui-components/product-card';
 import { CIO_EVENTS } from '@constructorio/ui-components';
 
 function MyProductCard({ product }) {
-  const cardRef = useRef<HTMLDivElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const el = cardRef.current;
+    const el = wrapperRef.current;
     if (!el) return;
 
     const handleClick = (e: Event) => {
@@ -42,7 +40,11 @@ function MyProductCard({ product }) {
     return () => el.removeEventListener(CIO_EVENTS.productCard.click, handleClick);
   }, []);
 
-  return <ProductCard ref={cardRef} product={product} />;
+  return (
+    <div ref={wrapperRef}>
+      <ProductCard product={product} />
+    </div>
+  );
 }
 ```
 

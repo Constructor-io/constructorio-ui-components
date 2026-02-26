@@ -101,7 +101,7 @@ const addToCartButtonOverride = {
   reactNode: (props) => (
     <button
       className='w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white py-2 px-4 rounded-lg hover:from-purple-600 hover:to-pink-600 transition-all cursor-pointer'
-      onClick={(e) => props.onAddToCart && props.onAddToCart(e)}
+      onClick={(e) => props.onAddToCart && props.onAddToCart(e, props.product)}
     >
       🛒 Buy Now!
     </button>
@@ -144,7 +144,7 @@ const wishlistButtonOverride = {
   reactNode: (props) => (
     <button
       className='absolute top-2 right-2 bg-red-500 text-white p-2 rounded-full hover:bg-red-600 transition-colors cursor-pointer'
-      onClick={props.onAddToWishlist}
+      onClick={(e) => props.onAddToWishlist?.(e, props.product)}
     >
       💖
     </button>

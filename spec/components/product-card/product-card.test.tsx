@@ -82,7 +82,7 @@ describe('ProductCard component', () => {
       render(<ProductCard {...mockProductData} onAddToCart={mockOnAddToCart} />);
       fireEvent.click(screen.getByText('Add to Cart'));
       expect(mockOnAddToCart).toHaveBeenCalledTimes(1);
-      expect(mockOnAddToCart).toHaveBeenCalledWith(expect.any(Object));
+      expect(mockOnAddToCart).toHaveBeenCalledWith(expect.any(Object), mockProductData.product);
     });
 
     test('calls onAddToWishlist when wishlist button is clicked', () => {
@@ -90,7 +90,7 @@ describe('ProductCard component', () => {
       render(<ProductCard {...mockProductData} onAddToWishlist={mockOnAddToWishlist} />);
       fireEvent.click(screen.getByRole('button', { name: /add to wishlist/i }));
       expect(mockOnAddToWishlist).toHaveBeenCalledTimes(1);
-      expect(mockOnAddToWishlist).toHaveBeenCalledWith(expect.any(Object));
+      expect(mockOnAddToWishlist).toHaveBeenCalledWith(expect.any(Object), mockProductData.product);
     });
 
     test('calls onProductClick when product card is clicked', () => {
@@ -104,6 +104,7 @@ describe('ProductCard component', () => {
       );
       fireEvent.click(screen.getByTestId('product-card'));
       expect(mockOnProductClick).toHaveBeenCalledTimes(1);
+      expect(mockOnProductClick).toHaveBeenCalledWith(mockProductData.product);
     });
 
     test('does not render add to cart button when onAddToCart is not provided', () => {
@@ -434,6 +435,7 @@ describe('ProductCard component', () => {
 
       expect(listener).toHaveBeenCalledTimes(1);
       expect(mockOnProductClick).toHaveBeenCalledTimes(1);
+      expect(mockOnProductClick).toHaveBeenCalledWith(mockProductData.product);
 
       el.removeEventListener(CIO_EVENTS.productCard.click, listener);
     });
@@ -478,6 +480,7 @@ describe('ProductCard component', () => {
       const event = listener.mock.calls[0][0] as CustomEvent;
       expect(event.detail.product).toEqual(mockProductData.product);
       expect(mockOnAddToCart).toHaveBeenCalledTimes(1);
+      expect(mockOnAddToCart).toHaveBeenCalledWith(expect.any(Object), mockProductData.product);
 
       el.removeEventListener(CIO_EVENTS.productCard.conversion, listener);
     });

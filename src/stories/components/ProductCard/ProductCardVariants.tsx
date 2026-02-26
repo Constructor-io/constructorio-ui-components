@@ -49,12 +49,12 @@ export const CompleteCustomOverrideCard: React.FC<ProductCardProps> = (props) =>
 
       <div className='flex gap-2 pt-2'>
         <button
-          onClick={props.onAddToCart}
+          onClick={(e) => props.onAddToCart?.(e, props.product)}
           className='flex-1 bg-purple-600 hover:bg-purple-700 text-white py-2 px-4 rounded-xl font-medium transition-colors cursor-pointer border-0'>
           Add to Cart
         </button>
         <button
-          onClick={props.onAddToWishlist}
+          onClick={(e) => props.onAddToWishlist?.(e, props.product)}
           className='bg-gray-100 hover:bg-gray-200 p-2 rounded-xl transition-colors cursor-pointer border-0'>
           ❤️
         </button>
@@ -91,7 +91,7 @@ export const CompactListStyleCard: React.FC<ProductCardProps> = (props) => (
       </div>
     </div>
     <button
-      onClick={props.onAddToCart}
+      onClick={(e) => props.onAddToCart?.(e, props.product)}
       className='bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors ml-4 cursor-pointer border-0'>
       Add to Cart
     </button>

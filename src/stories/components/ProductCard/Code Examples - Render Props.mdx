@@ -36,7 +36,7 @@ function CustomOverrideExample() {
             <p className="custom-price">
               {props.priceCurrency}{props.product.price}
             </p>
-            <button onClick={(e) => props.onAddToCart && props.onAddToCart(e)}>
+            <button onClick={(e) => props.onAddToCart && props.onAddToCart(e, props.product)}>
               Custom Add to Cart
             </button>
           </div>
@@ -90,7 +90,7 @@ function CompactListStyleCard(props) {
         </div>
       </div>
       <button
-        onClick={props.onAddToCart}
+        onClick={(e) => props.onAddToCart?.(e, props.product)}
         className='bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors ml-4 cursor-pointer'>
         Add to Cart
       </button>

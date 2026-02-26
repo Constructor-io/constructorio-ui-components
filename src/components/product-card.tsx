@@ -58,7 +58,7 @@ const WishlistButton: React.FC<WishlistButtonProps> = (props) => {
           size='icon'
           variant='secondary'
           conversionType='add_to_wishlist'
-          onClick={onAddToWishlist}
+          onClick={(e) => onAddToWishlist?.(e, renderProps.product)}
           aria-label={isInWishlist ? 'Remove from wishlist' : 'Add to wishlist'}>
           <img
             src={isInWishlist ? HeartFilled : Heart}
@@ -260,7 +260,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = (props) => {
         { product: renderProps.product },
         e.currentTarget,
       );
-      onAddToCart?.(e);
+      onAddToCart?.(e, renderProps.product);
     },
     [renderProps.product, onAddToCart],
   );
@@ -400,7 +400,7 @@ function ProductCard({ componentOverrides, children, className, ...props }: Prod
       }
 
       dispatchCioEvent(CIO_EVENTS.productCard.click, { product }, e.currentTarget);
-      onProductClick?.();
+      onProductClick?.(product);
     },
     [product, onProductClick],
   );

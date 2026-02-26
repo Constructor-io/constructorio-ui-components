@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import ProductCard from '../../../components/product-card';
 import { CompleteCustomOverrideCard, CompactListStyleCard } from './ProductCardVariants';
-import { ProductCardProps } from '../../../types/productCardTypes';
+import { Product, ProductCardProps } from '../../../types/productCardTypes';
 import { DEMO_IMAGE_URL } from '../../constants';
 
 const meta = {
@@ -114,7 +114,7 @@ export const WithAddToCart: Story = {
       imageUrl: DEMO_IMAGE_URL,
       price: '299',
     },
-    onAddToCart: (e) => console.log('Added to cart', e),
+    onAddToCart: (e, product) => console.log('Added to cart', e, product),
   },
   argTypes: {
     onAddToCart: { action: 'add to cart clicked' },
@@ -131,7 +131,7 @@ export const WithWishlist: Story = {
       imageUrl: DEMO_IMAGE_URL,
       price: '299',
     },
-    onAddToWishlist: (e) => console.log('Added to wishlist', e),
+    onAddToWishlist: (e, product) => console.log('Added to wishlist', e, product),
   },
   argTypes: {
     onAddToWishlist: { action: 'add to wishlist clicked' },
@@ -162,7 +162,7 @@ export const CustomAddToCartText: Story = {
       imageUrl: DEMO_IMAGE_URL,
       price: '299',
     },
-    onAddToCart: (e) => console.log('Added to cart', e),
+    onAddToCart: (e, product) => console.log('Added to cart', e, product),
     addToCartText: 'Buy Now',
   },
   argTypes: {
@@ -184,8 +184,8 @@ export const CustomCurrency: Story = {
       reviewsCount: 89,
     },
     priceCurrency: '€',
-    onAddToCart: (e) => console.log('Added to cart', e),
-    onAddToWishlist: (e) => console.log('Added to wishlist', e),
+    onAddToCart: (e, product) => console.log('Added to cart', e, product),
+    onAddToWishlist: (e, product) => console.log('Added to wishlist', e, product),
   },
   argTypes: {
     onAddToCart: { action: 'add to cart clicked' },
@@ -211,8 +211,8 @@ export const FullyFeatured: Story = {
       badge: 'New',
     },
     priceCurrency: '$',
-    onAddToCart: (e) => console.log('Added to cart', e),
-    onAddToWishlist: (e) => console.log('Added to wishlist', e),
+    onAddToCart: (e, product) => console.log('Added to cart', e, product),
+    onAddToWishlist: (e, product) => console.log('Added to wishlist', e, product),
     onProductClick: () => console.log('Product clicked'),
     addToCartText: 'Add to Cart',
   },
@@ -238,8 +238,8 @@ export const InWishlist: Story = {
     },
     priceCurrency: '$',
     isInWishlist: true,
-    onAddToWishlist: (e) => console.log('Removed from wishlist', e),
-    onAddToCart: (e) => console.log('Added to cart', e),
+    onAddToWishlist: (e, product) => console.log('Removed from wishlist', e, product),
+    onAddToCart: (e, product) => console.log('Added to cart', e, product),
   },
   argTypes: {
     onAddToCart: { action: 'add to cart clicked' },
@@ -278,8 +278,8 @@ export const CustomBadge: Story = {
       reviewsCount: 2713,
     },
     priceCurrency: '$',
-    onAddToCart: (e) => console.log('Added to cart', e),
-    onAddToWishlist: (e) => console.log('Added to wishlist', e),
+    onAddToCart: (e, product) => console.log('Added to cart', e, product),
+    onAddToWishlist: (e, product) => console.log('Added to wishlist', e, product),
     componentOverrides: {
       image: {
         badge: {
@@ -316,8 +316,8 @@ export const CustomBadgeCompound: Story = {
       reviewsCount: 2713,
     },
     priceCurrency: '$',
-    onAddToCart: (e) => console.log('Added to cart', e),
-    onAddToWishlist: (e) => console.log('Added to wishlist', e),
+    onAddToCart: (e, product) => console.log('Added to cart', e, product),
+    onAddToWishlist: (e, product) => console.log('Added to wishlist', e, product),
   },
   render: (args) => (
     <ProductCard {...args}>
@@ -359,8 +359,8 @@ export const CompoundBasic: Story = {
       price: '299',
     },
     priceCurrency: '$',
-    onAddToCart: (e) => console.log('Added to cart', e),
-    onAddToWishlist: (e) => console.log('Added to wishlist', e),
+    onAddToCart: (e, product) => console.log('Added to cart', e, product),
+    onAddToWishlist: (e, product) => console.log('Added to wishlist', e, product),
   },
   render: (args) => (
     <ProductCard {...args}>
@@ -407,7 +407,7 @@ export const CompoundFullyFeatured: Story = {
     <ProductCard {...args}>
       <ProductCard.ImageSection>
         <ProductCard.WishlistButton
-          onAddToWishlist={(e: React.MouseEvent) => console.log('Added to wishlist', e)}
+          onAddToWishlist={(e: React.MouseEvent, product: Product) => console.log('Added to wishlist', e, product)}
         />
         <ProductCard.Badge>New</ProductCard.Badge>
       </ProductCard.ImageSection>
@@ -419,7 +419,7 @@ export const CompoundFullyFeatured: Story = {
       </ProductCard.Content>
       <ProductCard.Footer>
         <ProductCard.AddToCartButton
-          onAddToCart={(e: React.MouseEvent) => console.log('Added to cart', e)}
+          onAddToCart={(e: React.MouseEvent, product: Product) => console.log('Added to cart', e, product)}
         />
         <ProductCard.TagsSection />
       </ProductCard.Footer>
@@ -450,8 +450,8 @@ export const CompoundCustomLayout: Story = {
       tags: ['Premium', 'Fast Shipping'],
     },
     priceCurrency: '$',
-    onAddToCart: (e) => console.log('Added to cart', e),
-    onAddToWishlist: (e) => console.log('Added to wishlist', e),
+    onAddToCart: (e, product) => console.log('Added to cart', e, product),
+    onAddToWishlist: (e, product) => console.log('Added to wishlist', e, product),
   },
   render: (args) => (
     <ProductCard {...args}>
@@ -494,7 +494,7 @@ export const CompoundGridLayout: Story = {
       description: 'Premium golf pants designed for comfort and performance on the course',
     },
     priceCurrency: '$',
-    onAddToCart: (e) => console.log('Added to cart', e),
+    onAddToCart: (e, product) => console.log('Added to cart', e, product),
     className: 'overflow-hidden max-w-md',
   },
   render: (args) => (
@@ -530,7 +530,7 @@ export const CompoundMinimal: Story = {
       price: '199',
     },
     priceCurrency: '$',
-    onAddToCart: (e) => console.log('Added to cart', e),
+    onAddToCart: (e, product) => console.log('Added to cart', e, product),
   },
   render: (args) => (
     <ProductCard {...args}>
@@ -570,8 +570,8 @@ export const CompleteCustomOverride: Story = {
       tags: ['Premium', 'Limited Edition'],
     },
     priceCurrency: '$',
-    onAddToCart: (e) => console.log('Added to cart', e),
-    onAddToWishlist: (e) => console.log('Added to wishlist', e),
+    onAddToCart: (e, product) => console.log('Added to cart', e, product),
+    onAddToWishlist: (e, product) => console.log('Added to wishlist', e, product),
     children: (props: ProductCardProps) => <CompleteCustomOverrideCard {...props} />,
   },
   argTypes: {
@@ -594,7 +594,7 @@ export const CompactListStyle: Story = {
       reviewsCount: 156,
     },
     priceCurrency: '$',
-    onAddToCart: (e) => console.log('Added to cart', e),
+    onAddToCart: (e, product) => console.log('Added to cart', e, product),
     children: (props: ProductCardProps) => <CompactListStyleCard {...props} />,
   },
   argTypes: {
@@ -651,11 +651,11 @@ const titleOverride = {
 };
 
 const addToCartButtonOverride = {
-  reactNode: (props: { onAddToCart?: (e: React.MouseEvent) => void; addToCartText?: string }) => (
+  reactNode: (props: { onAddToCart?: (e: React.MouseEvent, product: Product) => void; addToCartText?: string; product: Product }) => (
     <button
       className='w-full bg-gradient-to-r from-purple-500
 to-pink-500 text-white py-2 px-4 rounded-lg hover:from-purple-600 hover:to-pink-600 transition-all cursor-pointer border-0'
-      onClick={(e) => props.onAddToCart && props.onAddToCart(e)}>
+      onClick={(e) => props.onAddToCart && props.onAddToCart(e, props.product)}>
       🛒 {props.addToCartText || 'Add to Cart'}
     </button>
   ),
@@ -666,7 +666,7 @@ const wishlistButtonOverride = {
     <button
       className='absolute top-2 right-2 bg-white
 text-white px-1 rounded-md hover:bg-red-200 transition-colors cursor-pointer border-0'
-      onClick={(e) => props.onAddToWishlist && props.onAddToWishlist(e)}>
+      onClick={(e) => props.onAddToWishlist && props.onAddToWishlist(e, props.product)}>
       ❤️
     </button>
   ),
@@ -681,7 +681,7 @@ const footerOverride = {
           <button
             className='flex-1 bg-blue-600 hover:
 bg-blue-700 text-white py-2 px-4 rounded-lg font-medium transition-colors cursor-pointer border-0'
-            onClick={(e) => props.onAddToCart && props.onAddToCart(e)}>
+            onClick={(e) => props.onAddToCart && props.onAddToCart(e, props.product)}>
             🛒 Quick Buy
           </button>
           <button
@@ -727,7 +727,7 @@ export const CustomPriceSection: Story = {
       description: 'Premium golf pants designed for comfort and performance on the course',
     },
     priceCurrency: '$',
-    onAddToCart: (e) => console.log('Added to cart', e),
+    onAddToCart: (e, product) => console.log('Added to cart', e, product),
     componentOverrides: {
       content: {
         price: priceOverride,
@@ -753,7 +753,7 @@ export const CustomTitleSection: Story = {
       description: 'Premium golf pants designed for comfort and performance on the course',
     },
     priceCurrency: '$',
-    onAddToCart: (e) => console.log('Added to cart', e),
+    onAddToCart: (e, product) => console.log('Added to cart', e, product),
     componentOverrides: {
       content: {
         title: titleOverride,
@@ -779,7 +779,7 @@ export const CustomAddToCartButton: Story = {
       description: 'Premium golf pants designed for comfort and performance on the course',
     },
     priceCurrency: '$',
-    onAddToCart: (e) => console.log('Added to cart', e),
+    onAddToCart: (e, product) => console.log('Added to cart', e, product),
     componentOverrides: {
       footer: {
         addToCartButton: addToCartButtonOverride,
@@ -805,8 +805,8 @@ export const CustomWishlistButton: Story = {
       description: 'Premium golf pants designed for comfort and performance on the course',
     },
     priceCurrency: '$',
-    onAddToCart: (e) => console.log('Added to cart', e),
-    onAddToWishlist: (e) => console.log('Added to wishlist', e),
+    onAddToCart: (e, product) => console.log('Added to cart', e, product),
+    onAddToWishlist: (e, product) => console.log('Added to wishlist', e, product),
     componentOverrides: {
       image: {
         wishlistButton: wishlistButtonOverride,
@@ -834,8 +834,8 @@ export const CustomFooterSection: Story = {
       tags: ['Premium Quality', 'Fast Delivery', 'Eco-Friendly'],
     },
     priceCurrency: '$',
-    onAddToCart: (e) => console.log('Added to cart', e),
-    onAddToWishlist: (e) => console.log('Added to wishlist', e),
+    onAddToCart: (e, product) => console.log('Added to cart', e, product),
+    onAddToWishlist: (e, product) => console.log('Added to wishlist', e, product),
     componentOverrides: {
       footer: footerOverride,
     },
@@ -861,8 +861,8 @@ export const MultipleCustomizations: Story = {
       tags: ['All Custom', 'Premium', 'Limited Edition'],
     },
     priceCurrency: '$',
-    onAddToCart: (e) => console.log('Added to cart', e),
-    onAddToWishlist: (e) => console.log('Added to wishlist', e),
+    onAddToCart: (e, product) => console.log('Added to cart', e, product),
+    onAddToWishlist: (e, product) => console.log('Added to wishlist', e, product),
     componentOverrides: {
       content: {
         price: priceOverride,
@@ -900,17 +900,17 @@ export const CompoundWithDirectPropsOverride: Story = {
       salePrice: '399',
     },
     priceCurrency: '$',
-    onAddToCart: (e) => console.log('Added to cart', e),
-    onAddToWishlist: (e) => console.log('Added to wishlist', e),
+    onAddToCart: (e, product) => console.log('Added to cart', e, product),
+    onAddToWishlist: (e, product) => console.log('Added to wishlist', e, product),
   },
   render: (args) => (
     <ProductCard {...args}>
       <ProductCard.ImageSection>
         {/* Override wishlist handler for this specific button */}
         <ProductCard.WishlistButton
-          onAddToWishlist={(e: React.MouseEvent) => {
+          onAddToWishlist={(e: React.MouseEvent, product: Product) => {
             e.stopPropagation();
-            console.log('Custom wishlist handler - adding to favorites!', e);
+            console.log('Custom wishlist handler - adding to favorites!', e, product);
           }}
           isInWishlist={true}
         />
@@ -938,9 +938,9 @@ export const CompoundWithDirectPropsOverride: Story = {
         {/* Override button text and handler */}
         <ProductCard.AddToCartButton
           addToCartText='Buy Now - Limited Offer!'
-          onAddToCart={(e: React.MouseEvent) => {
+          onAddToCart={(e: React.MouseEvent, product: Product) => {
             e.stopPropagation();
-            console.log('Special promotional purchase!', e);
+            console.log('Special promotional purchase!', e, product);
           }}
         />
       </ProductCard.Footer>
@@ -975,8 +975,8 @@ export const CompoundWithRenderProps: Story = {
       tags: ['Premium', 'Custom Layout'],
     },
     priceCurrency: '$',
-    onAddToCart: (e) => console.log('Added to cart', e),
-    onAddToWishlist: (e) => console.log('Added to wishlist', e),
+    onAddToCart: (e, product) => console.log('Added to cart', e, product),
+    onAddToWishlist: (e, product) => console.log('Added to wishlist', e, product),
   },
   render: (args) => (
     <ProductCard {...args}>
@@ -1047,7 +1047,7 @@ export const CompoundWithRenderProps: Story = {
             {renderProps.onAddToCart && (
               <button
                 className='w-full mt-3 bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-lg font-medium transition-colors border-0 cursor-pointer'
-                onClick={(e) => renderProps.onAddToCart && renderProps.onAddToCart(e)}>
+                onClick={(e) => renderProps.onAddToCart && renderProps.onAddToCart(e, renderProps.product)}>
                 {renderProps.addToCartText || 'Add to Cart'}
               </button>
             )}
@@ -1097,19 +1097,20 @@ export const ComponentOverrideExample: Story = {
       tags: ['Same day delivery', 'Free assembly'],
     },
     priceCurrency: '$',
-    onAddToCart: (e) => console.log('Added to cart', e),
-    onAddToWishlist: (e) => console.log('Added to wishlist', e),
+    onAddToCart: (e, product) => console.log('Added to cart', e, product),
+    onAddToWishlist: (e, product) => console.log('Added to wishlist', e, product),
     addToCartText: 'Add to Cart',
     componentOverrides: {
       footer: {
         addToCartButton: {
           reactNode: (props: {
-            onAddToCart?: (e: React.MouseEvent) => void;
+            onAddToCart?: (e: React.MouseEvent, product: Product) => void;
             addToCartText?: string;
+            product: Product;
           }) => (
             <button
               className='w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white py-2 px-4 rounded-lg font-medium transition-all duration-200 transform hover:scale-105'
-              onClick={(e) => props.onAddToCart && props.onAddToCart(e)}>
+              onClick={(e) => props.onAddToCart && props.onAddToCart(e, props.product)}>
               🛒 {props.addToCartText || 'Add to Cart'}
             </button>
           ),
@@ -1139,8 +1140,8 @@ export const DataAttributesExample: Story = {
       reviewsCount: 2713,
     },
     priceCurrency: '$',
-    onAddToCart: (e) => console.log('Added to cart', e),
-    onAddToWishlist: (e) => console.log('Added to wishlist', e),
+    onAddToCart: (e, product) => console.log('Added to cart', e, product),
+    onAddToWishlist: (e, product) => console.log('Added to wishlist', e, product),
     addToCartText: 'Add to Cart',
     // @ts-expect-error: Data Attribute
     'data-cnstrc-item-id': 'product-123',
@@ -1199,7 +1200,7 @@ export const RenderPropsExample: Story = {
           {renderProps.onAddToCart && (
             <button
               className='w-full mt-3 bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-lg font-medium transition-colors'
-              onClick={(e) => renderProps.onAddToCart && renderProps.onAddToCart(e)}>
+              onClick={(e) => renderProps.onAddToCart && renderProps.onAddToCart(e, renderProps.product)}>
               {renderProps.addToCartText || 'Add to Cart'}
             </button>
           )}
@@ -1220,8 +1221,8 @@ export const RenderPropsExample: Story = {
       reviewsCount: 2713,
     },
     priceCurrency: '$',
-    onAddToCart: (e) => console.log('Added to cart', e),
-    onAddToWishlist: (e) => console.log('Added to wishlist', e),
+    onAddToCart: (e, product) => console.log('Added to cart', e, product),
+    onAddToWishlist: (e, product) => console.log('Added to wishlist', e, product),
     addToCartText: 'Add to Cart',
   },
   argTypes: {

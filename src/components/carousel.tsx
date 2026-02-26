@@ -367,11 +367,10 @@ function CarouselNext(props: NavButtonProps) {
   return <CarouselNavButton direction='next' {...props} />;
 }
 
-const CarouselNamespace = Object.assign(Carousel, {
-  Content: CarouselContent,
-  Item: CarouselItem,
-  Previous: CarouselPrevious,
-  Next: CarouselNext,
-});
+// Attach compound components to Carousel
+Carousel.Content = CarouselContent;
+Carousel.Item = CarouselItem;
+Carousel.Previous = CarouselPrevious;
+Carousel.Next = CarouselNext;
 
-export default CarouselNamespace;
+export default Carousel;

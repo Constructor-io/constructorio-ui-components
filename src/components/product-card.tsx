@@ -440,19 +440,18 @@ function ProductCard({ componentOverrides, children, className, ...props }: Prod
   );
 }
 
-const ProductCardNamespace = Object.assign(ProductCard, {
-  ImageSection,
-  Badge,
-  WishlistButton,
-  PriceSection,
-  TitleSection,
-  DescriptionSection,
-  RatingSection,
-  TagsSection,
-  AddToCartButton,
-  Content: ProductCardContent,
-  Footer: ProductCardFooter,
-  getProductCardDataAttributes,
-});
+// Attach compound components to ProductCard
+ProductCard.ImageSection = ImageSection;
+ProductCard.Badge = Badge;
+ProductCard.WishlistButton = WishlistButton;
+ProductCard.PriceSection = PriceSection;
+ProductCard.TitleSection = TitleSection;
+ProductCard.DescriptionSection = DescriptionSection;
+ProductCard.RatingSection = RatingSection;
+ProductCard.TagsSection = TagsSection;
+ProductCard.AddToCartButton = AddToCartButton;
+ProductCard.Content = ProductCardContent;
+ProductCard.Footer = ProductCardFooter;
+ProductCard.getProductCardDataAttributes = getProductCardDataAttributes;
 
-export default ProductCardNamespace;
+export default ProductCard;

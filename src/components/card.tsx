@@ -180,21 +180,12 @@ function CardFooter({ children, className, ...props }: CardFooterProps) {
   );
 }
 
-const CardNamespace = Object.assign(Card, {
-  Header: CardHeader,
-  Title: CardTitle,
-  Description: CardDescription,
-  Action: CardAction,
-  Content: CardContent,
-  Footer: CardFooter,
-});
+// Attach compound components to Card
+Card.Header = CardHeader;
+Card.Title = CardTitle;
+Card.Description = CardDescription;
+Card.Action = CardAction;
+Card.Content = CardContent;
+Card.Footer = CardFooter;
 
-export {
-  CardNamespace as Card,
-  CardHeader,
-  CardFooter,
-  CardTitle,
-  CardAction,
-  CardDescription,
-  CardContent,
-};
+export { Card, CardHeader, CardFooter, CardTitle, CardAction, CardDescription, CardContent };

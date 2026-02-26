@@ -500,6 +500,40 @@ describe('ProductCard component', () => {
       el.removeEventListener(CIO_EVENTS.productCard.conversion, conversionListener);
     });
 
+    test('clicking add-to-cart does NOT call onProductClick callback', () => {
+      const mockOnProductClick = vi.fn();
+      render(
+        <ProductCard {...mockProductData} onAddToCart={vi.fn()} onProductClick={mockOnProductClick} />,
+      );
+      fireEvent.click(screen.getByText('Add to Cart'));
+      expect(mockOnProductClick).not.toHaveBeenCalled();
+    });
+
+    test('clicking wishlist button does NOT call onProductClick callback', () => {
+      const mockOnProductClick = vi.fn();
+      render(
+        <ProductCard
+          {...mockProductData}
+          onAddToWishlist={vi.fn()}
+          onProductClick={mockOnProductClick}
+        />,
+      );
+      fireEvent.click(screen.getByRole('button', { name: /add to wishlist/i }));
+      expect(mockOnProductClick).not.toHaveBeenCalled();
+    });
+
+    test('clicking wishlist button does NOT dispatch productCard.click event', () => {
+      const clickListener = vi.fn();
+      window.addEventListener(CIO_EVENTS.productCard.click, clickListener);
+
+      render(<ProductCard {...mockProductData} onAddToWishlist={vi.fn()} />);
+      fireEvent.click(screen.getByRole('button', { name: /add to wishlist/i }));
+
+      expect(clickListener).not.toHaveBeenCalled();
+
+      window.removeEventListener(CIO_EVENTS.productCard.click, clickListener);
+    });
+
     test('dispatches productCard.imageEnter on root element on mouseEnter of image section', () => {
       render(<ProductCard {...mockProductData} data-testid='product-card' />);
 

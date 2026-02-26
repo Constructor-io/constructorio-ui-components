@@ -255,8 +255,6 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = (props) => {
 
   const handleAddToCartClick = useCallback(
     (e: React.MouseEvent) => {
-      // Prevent product click from firing
-      e.stopPropagation();
       dispatchCioEvent(
         CIO_EVENTS.productCard.conversion,
         { product: renderProps.product },
@@ -391,6 +389,16 @@ function ProductCard({ componentOverrides, children, className, ...props }: Prod
 
   const handleProductClick = useCallback(
     (e: React.MouseEvent) => {
+      const target = e.target as HTMLElement;
+
+      // Do not fire if a children button is clicked
+      if (
+        target.closest('.cio-product-card-add-to-cart-btn') ||
+        target.closest('.cio-product-card-wishlist-btn')
+      ) {
+        return;
+      }
+
       dispatchCioEvent(CIO_EVENTS.productCard.click, { product }, e.currentTarget);
       onProductClick?.();
     },

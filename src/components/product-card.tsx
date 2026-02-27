@@ -1,5 +1,5 @@
-import React, { createContext, useContext } from 'react';
-import { cn, RenderPropsWrapper } from '@/utils';
+import React, { createContext, useCallback, useContext } from 'react';
+import { cn, RenderPropsWrapper, dispatchCioEvent, CIO_EVENTS } from '@/utils';
 import { Card, CardContentProps, CardFooterProps } from '@/components/card';
 import Button from '@/components/button';
 import BadgeComponent from '@/components/badge';
@@ -45,6 +45,18 @@ const WishlistButton: React.FC<WishlistButtonProps> = (props) => {
     children,
   } = props;
 
+  const handleWishlistClick = useCallback(
+    (e: React.MouseEvent) => {
+      dispatchCioEvent(
+        CIO_EVENTS.productCard.wishlist,
+        { product: renderProps.product },
+        e.currentTarget,
+      );
+      onAddToWishlist?.(e, renderProps.product);
+    },
+    [renderProps.product, onAddToWishlist],
+  );
+
   return (
     <RenderPropsWrapper
       props={{ ...renderProps, isInWishlist }}
@@ -58,7 +70,7 @@ const WishlistButton: React.FC<WishlistButtonProps> = (props) => {
           size='icon'
           variant='secondary'
           conversionType='add_to_wishlist'
-          onClick={onAddToWishlist}
+          onClick={handleWishlistClick}
           aria-label={isInWishlist ? 'Remove from wishlist' : 'Add to wishlist'}>
           <img
             src={isInWishlist ? HeartFilled : Heart}
@@ -160,9 +172,34 @@ const ImageSection: React.FC<ImageSectionProps> = (props) => {
   // Use props with fallback to context values
   const imageUrl = props.imageUrl || contextImageUrl;
 
+  const handleMouseEnter = useCallback(
+    (e: React.MouseEvent) => {
+      dispatchCioEvent(
+        CIO_EVENTS.productCard.imageEnter,
+        { product: renderProps.product },
+        e.currentTarget,
+      );
+    },
+    [renderProps.product],
+  );
+
+  const handleMouseLeave = useCallback(
+    (e: React.MouseEvent) => {
+      dispatchCioEvent(
+        CIO_EVENTS.productCard.imageLeave,
+        { product: renderProps.product },
+        e.currentTarget,
+      );
+    },
+    [renderProps.product],
+  );
+
   return (
     <RenderPropsWrapper props={renderProps} override={componentOverrides?.image?.reactNode}>
-      <div className={cn('cio-product-card-image-section relative', props.className)}>
+      <div
+        className={cn('cio-product-card-image-section relative', props.className)}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}>
         <img
           src={imageUrl}
           alt={name || 'product image'}
@@ -228,6 +265,18 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = (props) => {
     children,
   } = props;
 
+  const handleAddToCartClick = useCallback(
+    (e: React.MouseEvent) => {
+      dispatchCioEvent(
+        CIO_EVENTS.productCard.conversion,
+        { product: renderProps.product },
+        e.currentTarget,
+      );
+      onAddToCart?.(e, renderProps.product);
+    },
+    [renderProps.product, onAddToCart],
+  );
+
   return (
     <RenderPropsWrapper
       props={{ ...renderProps, addToCartText }}
@@ -239,7 +288,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = (props) => {
             props.className,
           )}
           conversionType='add_to_cart'
-          onClick={onAddToCart}>
+          onClick={handleAddToCartClick}>
           {addToCartText}
         </Button>
       )}
@@ -350,6 +399,21 @@ function ProductCard({ componentOverrides, children, className, ...props }: Prod
     ...restProps
   } = props;
 
+  const handleProductClick = useCallback(
+    (e: React.MouseEvent) => {
+      const target = e.target as HTMLElement;
+
+      // Do not fire if a conversion button (AddToCart / Wishlist) is clicked
+      if (target.closest('[data-cnstrc-btn]')) {
+        return;
+      }
+
+      dispatchCioEvent(CIO_EVENTS.productCard.click, { product }, e.currentTarget);
+      onProductClick?.(product);
+    },
+    [product, onProductClick],
+  );
+
   const renderPropFn = typeof children === 'function' && children;
 
   // Default layout when no children provided or render prop function
@@ -361,7 +425,7 @@ function ProductCard({ componentOverrides, children, className, ...props }: Prod
             'cio-product-card min-w-[176px] max-w-[256px] h-full cursor-pointer border-0',
             className,
           )}
-          onClick={onProductClick}
+          onClick={handleProductClick}
           {...getProductCardDataAttributes(product)}
           {...restProps}>
           <RenderPropsWrapper props={props} override={children}>
@@ -393,7 +457,7 @@ function ProductCard({ componentOverrides, children, className, ...props }: Prod
   );
 }
 
-// Create compound component with all sub-components attached
+// Attach compound components to ProductCard
 ProductCard.ImageSection = ImageSection;
 ProductCard.Badge = Badge;
 ProductCard.WishlistButton = WishlistButton;

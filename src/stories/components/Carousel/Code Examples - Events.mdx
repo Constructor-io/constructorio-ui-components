@@ -1,0 +1,76 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import * as CarouselEventsStories from './CarouselEvents.stories';
+
+<Meta of={CarouselEventsStories} />
+
+# `Carousel` - Scoped Event Listening
+
+Listen for navigation events on a `Carousel` instance by wrapping it in a container element, instead of listening on `window`.
+
+## Why scoped events?
+
+When multiple `Carousel` instances exist on the same page, listening on `window` means **every** listener fires for **every** carousel. Scoped events solve this: each carousel dispatches events on its own root DOM element with `bubbles: true`, so a listener attached to any ancestor element only receives events from carousels within that subtree.
+
+## Interactive Demo
+
+Click the previous/next arrows to see navigation events appear in the log panel below.
+
+<Canvas of={CarouselEventsStories.EventListening} />
+
+## Basic Setup
+
+```tsx
+import { useRef, useEffect } from 'react';
+import CioCarousel from '@constructorio/ui-components/carousel';
+import { CIO_EVENTS } from '@constructorio/ui-components';
+
+function MyCarousel({ products }) {
+  const wrapperRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = wrapperRef.current;
+    if (!el) return;
+
+    const handleNav = (e: Event) => {
+      const { direction } = (e as CustomEvent).detail;
+      console.log(`Scrolled ${direction}`);
+    };
+
+    el.addEventListener(CIO_EVENTS.carousel.next, handleNav);
+    el.addEventListener(CIO_EVENTS.carousel.previous, handleNav);
+
+    return () => {
+      el.removeEventListener(CIO_EVENTS.carousel.next, handleNav);
+      el.removeEventListener(CIO_EVENTS.carousel.previous, handleNav);
+    };
+  }, []);
+
+  return (
+    <div ref={wrapperRef}>
+      <CioCarousel items={products} />
+    </div>
+  );
+}
+```
+
+## Available Events
+
+Both events carry a `CarouselNavEventDetail` payload with the scroll direction.
+
+| Event Name                            | Constant                          | Fires When             |
+| ------------------------------------- | --------------------------------- | ---------------------- |
+| `cio.components.carousel.next`        | `CIO_EVENTS.carousel.next`       | Next button clicked    |
+| `cio.components.carousel.previous`    | `CIO_EVENTS.carousel.previous`   | Previous button clicked|
+
+**Payload type:** `CarouselNavEventDetail`
+
+```ts
+interface CarouselNavEventDetail {
+  direction: 'next' | 'previous';
+}
+```
+
+## Notes
+
+- All events are dispatched with `bubbles: true`, so you can listen on any ancestor element instead of the carousel itself.
+- Use `CIO_EVENTS` constants instead of raw strings to avoid typos and get autocomplete.

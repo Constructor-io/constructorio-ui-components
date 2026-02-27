@@ -2,6 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 import { describe, test, expect, vi, afterEach } from 'vitest';
 import ProductCard from '@/components/product-card';
+import { CIO_EVENTS } from '@/utils/events';
 
 const mockProductData = {
   product: {
@@ -81,7 +82,7 @@ describe('ProductCard component', () => {
       render(<ProductCard {...mockProductData} onAddToCart={mockOnAddToCart} />);
       fireEvent.click(screen.getByText('Add to Cart'));
       expect(mockOnAddToCart).toHaveBeenCalledTimes(1);
-      expect(mockOnAddToCart).toHaveBeenCalledWith(expect.any(Object));
+      expect(mockOnAddToCart).toHaveBeenCalledWith(expect.any(Object), mockProductData.product);
     });
 
     test('calls onAddToWishlist when wishlist button is clicked', () => {
@@ -89,7 +90,7 @@ describe('ProductCard component', () => {
       render(<ProductCard {...mockProductData} onAddToWishlist={mockOnAddToWishlist} />);
       fireEvent.click(screen.getByRole('button', { name: /add to wishlist/i }));
       expect(mockOnAddToWishlist).toHaveBeenCalledTimes(1);
-      expect(mockOnAddToWishlist).toHaveBeenCalledWith(expect.any(Object));
+      expect(mockOnAddToWishlist).toHaveBeenCalledWith(expect.any(Object), mockProductData.product);
     });
 
     test('calls onProductClick when product card is clicked', () => {
@@ -103,6 +104,7 @@ describe('ProductCard component', () => {
       );
       fireEvent.click(screen.getByTestId('product-card'));
       expect(mockOnProductClick).toHaveBeenCalledTimes(1);
+      expect(mockOnProductClick).toHaveBeenCalledWith(mockProductData.product);
     });
 
     test('does not render add to cart button when onAddToCart is not provided', () => {
@@ -391,6 +393,232 @@ describe('ProductCard component', () => {
 
       const badgeElement = container.querySelector('.cio-product-card-badge');
       expect(badgeElement).not.toBeInTheDocument();
+    });
+  });
+
+  describe('Pub-Sub Events', () => {
+    afterEach(() => {
+      cleanup();
+    });
+
+    test('dispatches productCard.click event on root element with correct product detail', () => {
+      render(<ProductCard {...mockProductData} data-testid='product-card' />);
+
+      const el = screen.getByTestId('product-card');
+      const listener = vi.fn();
+      el.addEventListener(CIO_EVENTS.productCard.click, listener);
+
+      fireEvent.click(el);
+
+      expect(listener).toHaveBeenCalledTimes(1);
+      const event = listener.mock.calls[0][0] as CustomEvent;
+      expect(event.detail.product).toEqual(mockProductData.product);
+
+      el.removeEventListener(CIO_EVENTS.productCard.click, listener);
+    });
+
+    test('dispatches productCard.click event AND calls onProductClick callback', () => {
+      const mockOnProductClick = vi.fn();
+      render(
+        <ProductCard
+          {...mockProductData}
+          onProductClick={mockOnProductClick}
+          data-testid='product-card'
+        />,
+      );
+
+      const el = screen.getByTestId('product-card');
+      const listener = vi.fn();
+      el.addEventListener(CIO_EVENTS.productCard.click, listener);
+
+      fireEvent.click(el);
+
+      expect(listener).toHaveBeenCalledTimes(1);
+      expect(mockOnProductClick).toHaveBeenCalledTimes(1);
+      expect(mockOnProductClick).toHaveBeenCalledWith(mockProductData.product);
+
+      el.removeEventListener(CIO_EVENTS.productCard.click, listener);
+    });
+
+    test('events bubble up so window listeners still work', () => {
+      const listener = vi.fn();
+      window.addEventListener(CIO_EVENTS.productCard.click, listener);
+
+      render(<ProductCard {...mockProductData} data-testid='product-card' />);
+      fireEvent.click(screen.getByTestId('product-card'));
+
+      expect(listener).toHaveBeenCalledTimes(1);
+
+      window.removeEventListener(CIO_EVENTS.productCard.click, listener);
+    });
+
+    test('dispatches productCard.click event even without onProductClick prop', () => {
+      render(<ProductCard product={mockBasicProduct} data-testid='product-card' />);
+
+      const el = screen.getByTestId('product-card');
+      const listener = vi.fn();
+      el.addEventListener(CIO_EVENTS.productCard.click, listener);
+
+      fireEvent.click(el);
+
+      expect(listener).toHaveBeenCalledTimes(1);
+
+      el.removeEventListener(CIO_EVENTS.productCard.click, listener);
+    });
+
+    test('dispatches productCard.conversion event on root element on add-to-cart click', () => {
+      const mockOnAddToCart = vi.fn();
+      render(<ProductCard {...mockProductData} onAddToCart={mockOnAddToCart} data-testid='product-card' />);
+
+      const el = screen.getByTestId('product-card');
+      const listener = vi.fn();
+      el.addEventListener(CIO_EVENTS.productCard.conversion, listener);
+
+      fireEvent.click(screen.getByText('Add to Cart'));
+
+      expect(listener).toHaveBeenCalledTimes(1);
+      const event = listener.mock.calls[0][0] as CustomEvent;
+      expect(event.detail.product).toEqual(mockProductData.product);
+      expect(mockOnAddToCart).toHaveBeenCalledTimes(1);
+      expect(mockOnAddToCart).toHaveBeenCalledWith(expect.any(Object), mockProductData.product);
+
+      el.removeEventListener(CIO_EVENTS.productCard.conversion, listener);
+    });
+
+    test('clicking add-to-cart does NOT also dispatch productCard.click', () => {
+      render(<ProductCard {...mockProductData} onAddToCart={vi.fn()} data-testid='product-card' />);
+
+      const el = screen.getByTestId('product-card');
+      const clickListener = vi.fn();
+      const conversionListener = vi.fn();
+      el.addEventListener(CIO_EVENTS.productCard.click, clickListener);
+      el.addEventListener(CIO_EVENTS.productCard.conversion, conversionListener);
+
+      fireEvent.click(screen.getByText('Add to Cart'));
+
+      expect(conversionListener).toHaveBeenCalledTimes(1);
+      expect(clickListener).not.toHaveBeenCalled();
+
+      el.removeEventListener(CIO_EVENTS.productCard.click, clickListener);
+      el.removeEventListener(CIO_EVENTS.productCard.conversion, conversionListener);
+    });
+
+    test('clicking add-to-cart does NOT call onProductClick callback', () => {
+      const mockOnProductClick = vi.fn();
+      render(
+        <ProductCard {...mockProductData} onAddToCart={vi.fn()} onProductClick={mockOnProductClick} />,
+      );
+      fireEvent.click(screen.getByText('Add to Cart'));
+      expect(mockOnProductClick).not.toHaveBeenCalled();
+    });
+
+    test('dispatches productCard.wishlist event on root element on wishlist click', () => {
+      const mockOnAddToWishlist = vi.fn();
+      render(<ProductCard {...mockProductData} onAddToWishlist={mockOnAddToWishlist} data-testid='product-card' />);
+
+      const el = screen.getByTestId('product-card');
+      const listener = vi.fn();
+      el.addEventListener(CIO_EVENTS.productCard.wishlist, listener);
+
+      fireEvent.click(screen.getByRole('button', { name: /add to wishlist/i }));
+
+      expect(listener).toHaveBeenCalledTimes(1);
+      const event = listener.mock.calls[0][0] as CustomEvent;
+      expect(event.detail.product).toEqual(mockProductData.product);
+      expect(mockOnAddToWishlist).toHaveBeenCalledTimes(1);
+      expect(mockOnAddToWishlist).toHaveBeenCalledWith(expect.any(Object), mockProductData.product);
+
+      el.removeEventListener(CIO_EVENTS.productCard.wishlist, listener);
+    });
+
+    test('clicking wishlist button does NOT call onProductClick callback', () => {
+      const mockOnProductClick = vi.fn();
+      render(
+        <ProductCard
+          {...mockProductData}
+          onAddToWishlist={vi.fn()}
+          onProductClick={mockOnProductClick}
+        />,
+      );
+      fireEvent.click(screen.getByRole('button', { name: /add to wishlist/i }));
+      expect(mockOnProductClick).not.toHaveBeenCalled();
+    });
+
+    test('clicking wishlist button does NOT dispatch productCard.click event', () => {
+      const clickListener = vi.fn();
+      window.addEventListener(CIO_EVENTS.productCard.click, clickListener);
+
+      render(<ProductCard {...mockProductData} onAddToWishlist={vi.fn()} />);
+      fireEvent.click(screen.getByRole('button', { name: /add to wishlist/i }));
+
+      expect(clickListener).not.toHaveBeenCalled();
+
+      window.removeEventListener(CIO_EVENTS.productCard.click, clickListener);
+    });
+
+    test('dispatches productCard.imageEnter on root element on mouseEnter of image section', () => {
+      render(<ProductCard {...mockProductData} data-testid='product-card' />);
+
+      const el = screen.getByTestId('product-card');
+      const listener = vi.fn();
+      el.addEventListener(CIO_EVENTS.productCard.imageEnter, listener);
+
+      const imageSection = el.querySelector('.cio-product-card-image-section')!;
+      fireEvent.mouseEnter(imageSection);
+
+      expect(listener).toHaveBeenCalledTimes(1);
+      const event = listener.mock.calls[0][0] as CustomEvent;
+      expect(event.detail.product).toEqual(mockProductData.product);
+
+      el.removeEventListener(CIO_EVENTS.productCard.imageEnter, listener);
+    });
+
+    test('dispatches productCard.imageLeave on root element on mouseLeave of image section', () => {
+      render(<ProductCard {...mockProductData} data-testid='product-card' />);
+
+      const el = screen.getByTestId('product-card');
+      const listener = vi.fn();
+      el.addEventListener(CIO_EVENTS.productCard.imageLeave, listener);
+
+      const imageSection = el.querySelector('.cio-product-card-image-section')!;
+      fireEvent.mouseLeave(imageSection);
+
+      expect(listener).toHaveBeenCalledTimes(1);
+      const event = listener.mock.calls[0][0] as CustomEvent;
+      expect(event.detail.product).toEqual(mockProductData.product);
+
+      el.removeEventListener(CIO_EVENTS.productCard.imageLeave, listener);
+    });
+
+    test('two product cards: events do not cross-pollinate', () => {
+      const product2 = { ...mockProductData, product: { ...mockProductData.product, id: 'product-2', name: 'Product 2' } };
+
+      render(
+        <>
+          <div data-testid='wrapper-1'>
+            <ProductCard {...mockProductData} data-testid='card-1' />
+          </div>
+          <div data-testid='wrapper-2'>
+            <ProductCard {...product2} data-testid='card-2' />
+          </div>
+        </>,
+      );
+
+      const wrapper1 = screen.getByTestId('wrapper-1');
+      const wrapper2 = screen.getByTestId('wrapper-2');
+      const listener1 = vi.fn();
+      const listener2 = vi.fn();
+      wrapper1.addEventListener(CIO_EVENTS.productCard.click, listener1);
+      wrapper2.addEventListener(CIO_EVENTS.productCard.click, listener2);
+
+      // Click only the first card
+      fireEvent.click(screen.getByTestId('card-1'));
+
+      expect(listener1).toHaveBeenCalledTimes(1);
+      expect(listener2).not.toHaveBeenCalled();
+
+      wrapper1.removeEventListener(CIO_EVENTS.productCard.click, listener1);
+      wrapper2.removeEventListener(CIO_EVENTS.productCard.click, listener2);
     });
   });
 });

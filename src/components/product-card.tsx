@@ -391,11 +391,8 @@ function ProductCard({ componentOverrides, children, className, ...props }: Prod
     (e: React.MouseEvent) => {
       const target = e.target as HTMLElement;
 
-      // Do not fire if a children button is clicked
-      if (
-        target.closest('.cio-product-card-add-to-cart-btn') ||
-        target.closest('.cio-product-card-wishlist-btn')
-      ) {
+      // Do not fire if a conversion button (AddToCart / Wishlist) is clicked
+      if (target.closest('[data-cnstrc-btn]')) {
         return;
       }
 

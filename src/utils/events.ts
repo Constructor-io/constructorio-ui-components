@@ -22,8 +22,6 @@ export interface ProductCardEventDetail {
 
 export interface CarouselNavEventDetail {
   direction: 'next' | 'previous';
-  canScrollNext: boolean;
-  canScrollPrev: boolean;
 }
 
 export interface CioEventDetailMap {

@@ -320,15 +320,13 @@ function CarouselNavButton({
         eventName,
         {
           direction,
-          canScrollNext: canScrollNext ?? false,
-          canScrollPrev: canScrollPrev ?? false,
         },
         e.currentTarget,
       );
 
       scrollFn?.();
     },
-    [isPrevious, direction, canScrollNext, canScrollPrev, scrollFn],
+    [isPrevious, direction, scrollFn],
   );
 
   const override = isPrevious

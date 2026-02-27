@@ -39,7 +39,7 @@ function CarouselEventListeningDemo() {
     const logEvent = (label: string) => (e: Event) => {
       const detail = (e as CustomEvent).detail;
       setEventLog((prev) => [
-        `[${new Date().toLocaleTimeString()}] ${label} — direction: ${detail?.direction}, canScrollNext: ${detail?.canScrollNext}, canScrollPrev: ${detail?.canScrollPrev}`,
+        `[${new Date().toLocaleTimeString()}] ${label} — direction: ${detail?.direction}`,
         ...prev.slice(0, 49),
       ]);
     };

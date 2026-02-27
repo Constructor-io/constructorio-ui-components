@@ -32,8 +32,8 @@ function MyCarousel({ products }) {
     if (!el) return;
 
     const handleNav = (e: Event) => {
-      const { direction, canScrollNext, canScrollPrev } = (e as CustomEvent).detail;
-      console.log(`Scrolled ${direction}`, { canScrollNext, canScrollPrev });
+      const { direction } = (e as CustomEvent).detail;
+      console.log(`Scrolled ${direction}`);
     };
 
     el.addEventListener(CIO_EVENTS.carousel.next, handleNav);
@@ -55,7 +55,7 @@ function MyCarousel({ products }) {
 
 ## Available Events
 
-Both events carry a `CarouselNavEventDetail` payload with the scroll direction and current scroll state.
+Both events carry a `CarouselNavEventDetail` payload with the scroll direction.
 
 | Event Name                            | Constant                          | Fires When             |
 | ------------------------------------- | --------------------------------- | ---------------------- |
@@ -67,13 +67,10 @@ Both events carry a `CarouselNavEventDetail` payload with the scroll direction a
 ```ts
 interface CarouselNavEventDetail {
   direction: 'next' | 'previous';
-  canScrollNext: boolean;
-  canScrollPrev: boolean;
 }
 ```
 
 ## Notes
 
 - All events are dispatched with `bubbles: true`, so you can listen on any ancestor element instead of the carousel itself.
-- The `detail` payload includes the current scroll state (`canScrollNext`, `canScrollPrev`) so you can update UI accordingly.
 - Use `CIO_EVENTS` constants instead of raw strings to avoid typos and get autocomplete.

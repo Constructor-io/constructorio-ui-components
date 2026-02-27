@@ -616,8 +616,6 @@ describe('Carousel component', () => {
       expect(listener).toHaveBeenCalledTimes(1);
       const event = listener.mock.calls[0][0] as CustomEvent;
       expect(event.detail.direction).toBe('next');
-      expect(typeof event.detail.canScrollNext).toBe('boolean');
-      expect(typeof event.detail.canScrollPrev).toBe('boolean');
 
       el.removeEventListener(CIO_EVENTS.carousel.next, listener);
     });
@@ -635,8 +633,6 @@ describe('Carousel component', () => {
       expect(listener).toHaveBeenCalledTimes(1);
       const event = listener.mock.calls[0][0] as CustomEvent;
       expect(event.detail.direction).toBe('previous');
-      expect(typeof event.detail.canScrollNext).toBe('boolean');
-      expect(typeof event.detail.canScrollPrev).toBe('boolean');
 
       el.removeEventListener(CIO_EVENTS.carousel.previous, listener);
     });

@@ -45,6 +45,18 @@ const WishlistButton: React.FC<WishlistButtonProps> = (props) => {
     children,
   } = props;
 
+  const handleWishlistClick = useCallback(
+    (e: React.MouseEvent) => {
+      dispatchCioEvent(
+        CIO_EVENTS.productCard.wishlist,
+        { product: renderProps.product },
+        e.currentTarget,
+      );
+      onAddToWishlist?.(e, renderProps.product);
+    },
+    [renderProps.product, onAddToWishlist],
+  );
+
   return (
     <RenderPropsWrapper
       props={{ ...renderProps, isInWishlist }}
@@ -58,7 +70,7 @@ const WishlistButton: React.FC<WishlistButtonProps> = (props) => {
           size='icon'
           variant='secondary'
           conversionType='add_to_wishlist'
-          onClick={(e) => onAddToWishlist?.(e, renderProps.product)}
+          onClick={handleWishlistClick}
           aria-label={isInWishlist ? 'Remove from wishlist' : 'Add to wishlist'}>
           <img
             src={isInWishlist ? HeartFilled : Heart}

@@ -9,6 +9,7 @@ export const CIO_EVENTS = Object.freeze({
     conversion: 'cio.components.productCard.conversion' as const,
     imageEnter: 'cio.components.productCard.imageEnter' as const,
     imageLeave: 'cio.components.productCard.imageLeave' as const,
+    wishlist: 'cio.components.productCard.wishlist' as const,
   }),
   carousel: Object.freeze({
     next: 'cio.components.carousel.next' as const,
@@ -29,6 +30,7 @@ export interface CioEventDetailMap {
   [CIO_EVENTS.productCard.conversion]: ProductCardEventDetail;
   [CIO_EVENTS.productCard.imageEnter]: ProductCardEventDetail;
   [CIO_EVENTS.productCard.imageLeave]: ProductCardEventDetail;
+  [CIO_EVENTS.productCard.wishlist]: ProductCardEventDetail;
   [CIO_EVENTS.carousel.next]: CarouselNavEventDetail;
   [CIO_EVENTS.carousel.previous]: CarouselNavEventDetail;
 }

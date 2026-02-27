@@ -512,6 +512,25 @@ describe('ProductCard component', () => {
       expect(mockOnProductClick).not.toHaveBeenCalled();
     });
 
+    test('dispatches productCard.wishlist event on root element on wishlist click', () => {
+      const mockOnAddToWishlist = vi.fn();
+      render(<ProductCard {...mockProductData} onAddToWishlist={mockOnAddToWishlist} data-testid='product-card' />);
+
+      const el = screen.getByTestId('product-card');
+      const listener = vi.fn();
+      el.addEventListener(CIO_EVENTS.productCard.wishlist, listener);
+
+      fireEvent.click(screen.getByRole('button', { name: /add to wishlist/i }));
+
+      expect(listener).toHaveBeenCalledTimes(1);
+      const event = listener.mock.calls[0][0] as CustomEvent;
+      expect(event.detail.product).toEqual(mockProductData.product);
+      expect(mockOnAddToWishlist).toHaveBeenCalledTimes(1);
+      expect(mockOnAddToWishlist).toHaveBeenCalledWith(expect.any(Object), mockProductData.product);
+
+      el.removeEventListener(CIO_EVENTS.productCard.wishlist, listener);
+    });
+
     test('clicking wishlist button does NOT call onProductClick callback', () => {
       const mockOnProductClick = vi.fn();
       render(

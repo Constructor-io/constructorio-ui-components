@@ -6,11 +6,16 @@ export { default as Carousel } from '@/components/carousel';
 export { default as Chip } from '@/components/chip';
 export { default as FilterOptionListRow } from '@/components/filter-option-list-row';
 export { default as VisualFilterOptionListRow } from '@/components/visual-filter-option-list-row';
-export { RenderPropsWrapper } from '@/utils';
+export { RenderPropsWrapper, CIO_EVENTS, dispatchCioEvent } from '@/utils';
 
 // Hooks
 
 // Types
+export type {
+  ProductCardEventDetail,
+  CarouselNavEventDetail,
+  CioEventDetailMap,
+} from '@/utils/events';
 export type { ButtonVariants, ButtonOverrides, ButtonProps } from '@/components/button';
 export type { BadgeVariants, BadgeOverrides, BadgeProps } from '@/components/badge';
 export type { ChipVariants, ChipOverrides, ChipProps } from '@/components/chip';

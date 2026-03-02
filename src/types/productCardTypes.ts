@@ -22,9 +22,9 @@ export interface ProductCardProps extends Omit<React.ComponentProps<'div'>, 'chi
   priceCurrency?: string;
   addToCartText?: string;
   isInWishlist?: boolean;
-  onAddToCart?: (e: React.MouseEvent) => void;
-  onAddToWishlist?: (e: React.MouseEvent) => void;
-  onProductClick?: () => void;
+  onAddToCart?: (e: React.MouseEvent, product: Product) => void;
+  onAddToWishlist?: (e: React.MouseEvent, product: Product) => void;
+  onProductClick?: (product: Product) => void;
   children?: RenderPropsChildren<ProductCardProps>;
   componentOverrides?: ProductCardOverrides;
 }
@@ -48,7 +48,7 @@ export type ProductCardOverrides = ComponentOverrideProps<ProductCardProps> & {
 
 // Section component interfaces
 export interface WishlistButtonProps extends IncludeRenderProps<ProductCardProps> {
-  onAddToWishlist?: (e: React.MouseEvent) => void;
+  onAddToWishlist?: (e: React.MouseEvent, product: Product) => void;
   isInWishlist?: boolean;
   className?: string;
 }
@@ -89,7 +89,7 @@ export interface DescriptionSectionProps extends IncludeRenderProps<ProductCardP
 }
 
 export interface AddToCartButtonProps extends IncludeRenderProps<ProductCardProps> {
-  onAddToCart?: (e: React.MouseEvent) => void;
+  onAddToCart?: (e: React.MouseEvent, product: Product) => void;
   addToCartText?: string;
   className?: string;
 }

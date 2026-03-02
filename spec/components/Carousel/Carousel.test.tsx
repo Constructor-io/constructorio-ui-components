@@ -4,6 +4,7 @@ import { describe, test, expect, vi, afterEach, beforeEach } from 'vitest';
 import CioCarousel from '@/components/carousel';
 import { Product } from '@/types/productCardTypes';
 import { CarouselRenderProps } from '@/types/carouselTypes';
+import { CIO_EVENTS } from '@/utils/events';
 
 const mockProducts: Product[] = [
   {
@@ -594,6 +595,103 @@ describe('Carousel component', () => {
 
       const carousel = container.querySelector('[data-slot="carousel"]');
       expect(carousel).toBeInTheDocument();
+    });
+  });
+
+  describe('Pub-Sub Events', () => {
+    afterEach(() => {
+      cleanup();
+    });
+
+    test('dispatches carousel.next event on root element when next button is clicked', () => {
+      const { container } = render(<CioCarousel items={mockProducts} />);
+
+      const el = container.querySelector('[data-slot="carousel"]')!;
+      const listener = vi.fn();
+      el.addEventListener(CIO_EVENTS.carousel.next, listener);
+
+      const nextButton = screen.getByRole('button', { name: /next/i });
+      fireEvent.click(nextButton);
+
+      expect(listener).toHaveBeenCalledTimes(1);
+      const event = listener.mock.calls[0][0] as CustomEvent;
+      expect(event.detail.direction).toBe('next');
+
+      el.removeEventListener(CIO_EVENTS.carousel.next, listener);
+    });
+
+    test('dispatches carousel.previous event on root element when previous button is clicked', () => {
+      const { container } = render(<CioCarousel items={mockProducts} />);
+
+      const el = container.querySelector('[data-slot="carousel"]')!;
+      const listener = vi.fn();
+      el.addEventListener(CIO_EVENTS.carousel.previous, listener);
+
+      const prevButton = screen.getByRole('button', { name: /previous/i });
+      fireEvent.click(prevButton);
+
+      expect(listener).toHaveBeenCalledTimes(1);
+      const event = listener.mock.calls[0][0] as CustomEvent;
+      expect(event.detail.direction).toBe('previous');
+
+      el.removeEventListener(CIO_EVENTS.carousel.previous, listener);
+    });
+
+    test('events bubble up so window listeners still work', () => {
+      const listener = vi.fn();
+      window.addEventListener(CIO_EVENTS.carousel.next, listener);
+
+      render(<CioCarousel items={mockProducts} />);
+      const nextButton = screen.getByRole('button', { name: /next/i });
+      fireEvent.click(nextButton);
+
+      expect(listener).toHaveBeenCalledTimes(1);
+
+      window.removeEventListener(CIO_EVENTS.carousel.next, listener);
+    });
+
+    test('carousel navigation still works alongside event dispatch', () => {
+      render(<CioCarousel items={mockProducts} />);
+
+      // Buttons should still be present and clickable without errors
+      const nextButton = screen.getByRole('button', { name: /next/i });
+      const prevButton = screen.getByRole('button', { name: /previous/i });
+
+      expect(() => fireEvent.click(nextButton)).not.toThrow();
+      expect(() => fireEvent.click(prevButton)).not.toThrow();
+
+      // Products should still be rendered
+      expect(screen.getByText('Product 1')).toBeInTheDocument();
+    });
+
+    test('two carousels: events do not cross-pollinate', () => {
+      render(
+        <>
+          <div data-testid='wrapper-1'>
+            <CioCarousel items={mockProducts} data-testid='carousel-1' />
+          </div>
+          <div data-testid='wrapper-2'>
+            <CioCarousel items={mockProducts} data-testid='carousel-2' />
+          </div>
+        </>,
+      );
+
+      const wrapper1 = screen.getByTestId('wrapper-1');
+      const wrapper2 = screen.getByTestId('wrapper-2');
+      const listener1 = vi.fn();
+      const listener2 = vi.fn();
+      wrapper1.addEventListener(CIO_EVENTS.carousel.next, listener1);
+      wrapper2.addEventListener(CIO_EVENTS.carousel.next, listener2);
+
+      // Click next on the first carousel only
+      const nextButtons = screen.getAllByRole('button', { name: /next/i });
+      fireEvent.click(nextButtons[0]);
+
+      expect(listener1).toHaveBeenCalledTimes(1);
+      expect(listener2).not.toHaveBeenCalled();
+
+      wrapper1.removeEventListener(CIO_EVENTS.carousel.next, listener1);
+      wrapper2.removeEventListener(CIO_EVENTS.carousel.next, listener2);
     });
   });
 });

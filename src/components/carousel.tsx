@@ -9,7 +9,7 @@ import React, {
 import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
 
-import { cn, RenderPropsWrapper } from '@/utils';
+import { cn, RenderPropsWrapper, dispatchCioEvent, CIO_EVENTS } from '@/utils';
 import Button from '@/components/button';
 import { useCarouselResponsive } from '@/hooks/useCarouselResponsive';
 import { useCarouselTweenOpacity } from '@/hooks/useCarouselTweenOpacity';
@@ -128,6 +128,7 @@ function CarouselBase<T = Product>({
     api.on('select', onSelect);
 
     return () => {
+      api?.off('reInit', onSelect);
       api?.off('select', onSelect);
     };
   }, [api, onSelect]);
@@ -310,7 +311,25 @@ function CarouselNavButton({
 
   const isPrevious = direction === 'previous';
   const canScroll = isPrevious ? canScrollPrev : canScrollNext;
-  const handleClick = isPrevious ? scrollPrev : scrollNext;
+  const scrollFn = isPrevious ? scrollPrev : scrollNext;
+
+  const handleClick = useCallback(
+    (e: React.MouseEvent) => {
+      const eventName = isPrevious ? CIO_EVENTS.carousel.previous : CIO_EVENTS.carousel.next;
+
+      dispatchCioEvent(
+        eventName,
+        {
+          direction,
+        },
+        e.currentTarget,
+      );
+
+      scrollFn?.();
+    },
+    [isPrevious, direction, scrollFn],
+  );
+
   const override = isPrevious
     ? componentOverrides?.previous?.reactNode
     : componentOverrides?.next?.reactNode;
@@ -347,7 +366,7 @@ function CarouselNext(props: NavButtonProps) {
   return <CarouselNavButton direction='next' {...props} />;
 }
 
-// Create compound component with all sub-components attached
+// Attach compound components to Carousel
 Carousel.Content = CarouselContent;
 Carousel.Item = CarouselItem;
 Carousel.Previous = CarouselPrevious;

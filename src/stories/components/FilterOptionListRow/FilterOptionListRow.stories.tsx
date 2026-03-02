@@ -8,6 +8,15 @@ const meta = {
     layout: 'centered',
   },
   tags: ['autodocs'],
+  args: {
+    onChange: () => {},
+  },
+  argTypes: {
+    checkboxPosition: {
+      control: 'radio',
+      options: ['left', 'right', 'none'],
+    },
+  },
   decorators: [
     (Story) => (
       <ul style={{ listStyle: 'none', padding: 0, margin: 0, minWidth: 300 }}>
@@ -54,7 +63,7 @@ export const WithoutCheckbox: Story = {
     optionValue: 'purple',
     displayValue: 'Purple',
     displayCountValue: '291',
-    showCheckbox: false,
+    checkboxPosition: 'none',
   },
   name: 'Without Checkbox Indicator',
 };

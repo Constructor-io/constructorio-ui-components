@@ -76,16 +76,14 @@ export default function FilterOptionListRow({
         <label
           htmlFor={id}
           className='cio-filter-option-label text-sm flex flex-row items-center cursor-pointer grow p-1'>
-          {checkboxVisible && (
-            <input
-              type='checkbox'
-              id={id}
-              value={optionValue}
-              checked={isChecked}
-              onChange={() => onChange(optionValue)}
-              className='cio-filter-option-input hidden'
-            />
-          )}
+          <input
+            type='checkbox'
+            id={id}
+            value={optionValue}
+            checked={isChecked}
+            onChange={() => onChange(optionValue)}
+            className='cio-filter-option-input hidden'
+          />
           {checkboxPosition === 'left' && checkboxEl}
           <div className='cio-filter-multiple-option-display flex flex-row justify-between w-full items-center'>
             {startContent}

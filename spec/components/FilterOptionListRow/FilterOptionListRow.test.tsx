@@ -163,6 +163,21 @@ describe('FilterOptionListRow component', () => {
       const checkboxIndicator = document.querySelector('.cio-checkbox');
       expect(checkboxIndicator).not.toBeInTheDocument();
     });
+
+    test('calls onChange when checkboxPosition is none and label is clicked', () => {
+      const handleChange = vi.fn();
+      render(
+        <FilterOptionListRow
+          id='test-none'
+          optionValue='red'
+          displayValue='Red'
+          checkboxPosition='none'
+          onChange={handleChange}
+        />,
+      );
+      fireEvent.click(screen.getByText('Red'));
+      expect(handleChange).toHaveBeenCalledWith('red');
+    });
   });
 
   describe('startContent prop', () => {

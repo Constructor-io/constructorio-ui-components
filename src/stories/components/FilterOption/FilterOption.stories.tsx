@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import FilterOptionListRow from '../../../components/filter-option-list-row';
+import FilterOption from '../../../components/filter-option';
 
 const meta = {
-  title: 'Components/FilterOptionListRow',
-  component: FilterOptionListRow,
+  title: 'Components/FilterOption',
+  component: FilterOption,
   parameters: {
     layout: 'centered',
   },
@@ -24,7 +24,7 @@ const meta = {
       </ul>
     ),
   ],
-} satisfies Meta<typeof FilterOptionListRow>;
+} satisfies Meta<typeof FilterOption>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -80,46 +80,63 @@ export const WithStartContent: Story = {
 
 // Multiple options list
 export const FilterList: Story = {
+  args: {
+    id: 'filter-list',
+    optionValue: 'white',
+    displayValue: 'White',
+  },
   render: () => (
     <ul style={{ listStyle: 'none', padding: 0, margin: 0, minWidth: 300 }}>
-      <FilterOptionListRow
+      <FilterOption
         id='white'
         optionValue='white'
         displayValue='White'
         displayCountValue='1572'
+        onChange={() => {}}
       />
-      <FilterOptionListRow
+      <FilterOption
         id='black'
         optionValue='black'
         displayValue='Black'
         displayCountValue='685'
+        onChange={() => {}}
       />
-      <FilterOptionListRow id='red' optionValue='red' displayValue='Red' displayCountValue='646' />
-      <FilterOptionListRow
+      <FilterOption
+        id='red'
+        optionValue='red'
+        displayValue='Red'
+        displayCountValue='646'
+        onChange={() => {}}
+      />
+      <FilterOption
         id='blue'
         optionValue='blue'
         displayValue='Blue'
         displayCountValue='394'
+        onChange={() => {}}
       />
-      <FilterOptionListRow
+      <FilterOption
         id='purple'
         optionValue='purple'
         displayValue='Purple'
         displayCountValue='291'
         isChecked={true}
+        onChange={() => {}}
       />
-      <FilterOptionListRow
+      <FilterOption
         id='orange'
         optionValue='orange'
         displayValue='Orange'
         displayCountValue='224'
+        onChange={() => {}}
       />
-      <FilterOptionListRow
+      <FilterOption
         id='pink'
         optionValue='pink'
         displayValue='Pink'
         displayCountValue='215'
         isChecked={true}
+        onChange={() => {}}
       />
     </ul>
   ),
@@ -130,10 +147,10 @@ export const FilterList: Story = {
 
 // componentOverrides example
 const componentOverrides = {
-  filterOptionListRow: {
+  filterOption: {
     reactNode: (
       <li style={{ padding: '8px 12px', background: '#f0f0f0', borderRadius: 4 }}>
-        Custom rendered row
+        Custom rendered option
       </li>
     ),
   },
@@ -145,7 +162,7 @@ export const ComponentOverrideExample: Story = {
     optionValue: 'custom',
     displayValue: 'This will be overridden',
     // @ts-expect-error: Composed types
-    componentOverrides: componentOverrides.filterOptionListRow,
+    componentOverrides: componentOverrides.filterOption,
   },
   name: 'componentOverride Example',
   tags: ['!autodocs', '!dev'],

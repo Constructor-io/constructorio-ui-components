@@ -2,21 +2,21 @@ import React from 'react';
 import { cn, RenderPropsWrapper } from '@/utils';
 import { ComponentOverrideProps, IncludeComponentOverrides } from '@/types';
 import Chip from '@/components/chip';
-import FilterOptionListRow, { FilterOptionListRowProps } from '@/components/filter-option-list-row';
+import FilterOption, { FilterOptionProps } from '@/components/filter-option';
 
-export interface VisualFilterOptionListRowProps
-  extends Omit<FilterOptionListRowProps, 'startContent' | 'children' | 'componentOverrides'>,
-    IncludeComponentOverrides<VisualFilterOptionListRowOverrides> {
+export interface VisualFilterOptionProps
+  extends Omit<FilterOptionProps, 'startContent' | 'children' | 'componentOverrides'>,
+    IncludeComponentOverrides<VisualFilterOptionOverrides> {
   /** Type of visual - 'color' for hex colors, 'image' for image URLs */
   visualType: 'color' | 'image';
   /** The visual value - hex color code or image URL */
   visualValue: string;
 }
 
-export type VisualFilterOptionListRowOverrides =
-  ComponentOverrideProps<VisualFilterOptionListRowProps>;
+export type VisualFilterOptionOverrides =
+  ComponentOverrideProps<VisualFilterOptionProps>;
 
-export default function VisualFilterOptionListRow({
+export default function VisualFilterOption({
   className,
   checkboxPosition = 'right',
   visualType,
@@ -24,7 +24,7 @@ export default function VisualFilterOptionListRow({
   displayValue,
   componentOverrides,
   ...props
-}: VisualFilterOptionListRowProps) {
+}: VisualFilterOptionProps) {
   const renderProps = React.useMemo(
     () => ({
       ...props,
@@ -39,11 +39,11 @@ export default function VisualFilterOptionListRow({
 
   return (
     <RenderPropsWrapper props={renderProps} override={componentOverrides?.reactNode}>
-      <FilterOptionListRow
+      <FilterOption
         checkboxPosition={checkboxPosition}
         displayValue={displayValue}
-        className={cn('cio-visual-filter-option-list-row', className)}
-        data-slot='visual-filter-option-list-row'
+        className={cn('cio-visual-filter-option', className)}
+        data-slot='visual-filter-option'
         startContent={
           <Chip
             type={visualType}

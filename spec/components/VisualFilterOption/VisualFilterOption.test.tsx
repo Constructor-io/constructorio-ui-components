@@ -1,14 +1,14 @@
 import React from 'react';
 import { render, screen, cleanup } from '@testing-library/react';
 import { describe, test, expect, afterEach } from 'vitest';
-import VisualFilterOptionListRow from '@/components/visual-filter-option-list-row';
+import VisualFilterOption from '@/components/visual-filter-option';
 
 /**
- * Tests unique to VisualFilterOptionListRow.
+ * Tests unique to VisualFilterOption.
  * Common functionality (checkbox behavior, basic rendering, onChange, etc.)
- * is tested in FilterOptionListRow.test.tsx since this component wraps it.
+ * is tested in FilterOption.test.tsx since this component wraps it.
  */
-describe('VisualFilterOptionListRow component', () => {
+describe('VisualFilterOption component', () => {
   afterEach(() => {
     cleanup();
   });
@@ -16,7 +16,7 @@ describe('VisualFilterOptionListRow component', () => {
   describe('visual swatch - color type', () => {
     test('renders color swatch with hex value', () => {
       render(
-        <VisualFilterOptionListRow
+        <VisualFilterOption
           id='test-1'
           optionValue='red'
           displayValue='Red'
@@ -32,7 +32,7 @@ describe('VisualFilterOptionListRow component', () => {
 
     test('renders black color swatch', () => {
       render(
-        <VisualFilterOptionListRow
+        <VisualFilterOption
           id='test-1'
           optionValue='black'
           displayValue='Black'
@@ -47,7 +47,7 @@ describe('VisualFilterOptionListRow component', () => {
 
     test('renders white color swatch', () => {
       render(
-        <VisualFilterOptionListRow
+        <VisualFilterOption
           id='test-1'
           optionValue='white'
           displayValue='White'
@@ -64,7 +64,7 @@ describe('VisualFilterOptionListRow component', () => {
   describe('visual swatch - image type', () => {
     test('renders image swatch with src', () => {
       render(
-        <VisualFilterOptionListRow
+        <VisualFilterOption
           id='test-1'
           optionValue='floral'
           displayValue='Floral'
@@ -82,27 +82,27 @@ describe('VisualFilterOptionListRow component', () => {
   describe('componentOverrides', () => {
     test('renders componentOverride.reactNode when passed', () => {
       render(
-        <VisualFilterOptionListRow
+        <VisualFilterOption
           id='test-1'
           optionValue='red'
           displayValue='Red'
           visualType='color'
           visualValue='#FF0000'
           componentOverrides={{
-            reactNode: <li data-testid='custom-override'>Custom Visual Row</li>,
+            reactNode: <li data-testid='custom-override'>Custom Visual Option</li>,
           }}
           onChange={() => {}}
         />,
       );
       expect(screen.getByTestId('custom-override')).toBeInTheDocument();
-      expect(screen.getByText('Custom Visual Row')).toBeInTheDocument();
+      expect(screen.getByText('Custom Visual Option')).toBeInTheDocument();
     });
   });
 
   describe('CSS classes', () => {
-    test('has cio-visual-filter-option-list-row class', () => {
+    test('has cio-visual-filter-option class', () => {
       render(
-        <VisualFilterOptionListRow
+        <VisualFilterOption
           id='test-1'
           optionValue='red'
           displayValue='Red'
@@ -112,12 +112,12 @@ describe('VisualFilterOptionListRow component', () => {
         />,
       );
       const listItem = screen.getByRole('listitem');
-      expect(listItem.classList.contains('cio-visual-filter-option-list-row')).toBeTruthy();
+      expect(listItem.classList.contains('cio-visual-filter-option')).toBeTruthy();
     });
 
     test('swatch has cio-filter-visual-swatch class', () => {
       render(
-        <VisualFilterOptionListRow
+        <VisualFilterOption
           id='test-1'
           optionValue='red'
           displayValue='Red'
@@ -134,7 +134,7 @@ describe('VisualFilterOptionListRow component', () => {
   describe('data attributes', () => {
     test('has data-slot attribute with visual-filter value', () => {
       render(
-        <VisualFilterOptionListRow
+        <VisualFilterOption
           id='test-1'
           optionValue='red'
           displayValue='Red'
@@ -144,14 +144,14 @@ describe('VisualFilterOptionListRow component', () => {
         />,
       );
       const listItem = screen.getByRole('listitem');
-      expect(listItem).toHaveAttribute('data-slot', 'visual-filter-option-list-row');
+      expect(listItem).toHaveAttribute('data-slot', 'visual-filter-option');
     });
   });
 
   describe('layout structure', () => {
     test('swatch appears before option name in DOM order', () => {
       render(
-        <VisualFilterOptionListRow
+        <VisualFilterOption
           id='test-1'
           optionValue='red'
           displayValue='Red'
@@ -170,7 +170,7 @@ describe('VisualFilterOptionListRow component', () => {
   describe('checkbox default position', () => {
     test('checkbox defaults to right position', () => {
       render(
-        <VisualFilterOptionListRow
+        <VisualFilterOption
           id='test-1'
           optionValue='red'
           displayValue='Red'

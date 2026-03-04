@@ -1,29 +1,22 @@
 import React from 'react';
 import { render, screen, cleanup, fireEvent } from '@testing-library/react';
 import { describe, test, expect, afterEach, vi } from 'vitest';
-import FilterOptionListRow from '@/components/filter-option-list-row';
+import FilterOption from '@/components/filter-option';
 
-describe('FilterOptionListRow component', () => {
+describe('FilterOption component', () => {
   afterEach(() => {
     cleanup();
   });
 
   describe('basic rendering', () => {
     test('renders with display value', () => {
-      render(
-        <FilterOptionListRow
-          id='test-1'
-          optionValue='red'
-          displayValue='Red'
-          onChange={() => {}}
-        />,
-      );
+      render(<FilterOption id='test-1' optionValue='red' displayValue='Red' onChange={() => {}} />);
       expect(screen.getByText('Red')).toBeInTheDocument();
     });
 
     test('renders with display count', () => {
       render(
-        <FilterOptionListRow
+        <FilterOption
           id='test-1'
           optionValue='red'
           displayValue='Red'
@@ -35,21 +28,14 @@ describe('FilterOptionListRow component', () => {
     });
 
     test('renders as list item', () => {
-      render(
-        <FilterOptionListRow
-          id='test-1'
-          optionValue='red'
-          displayValue='Red'
-          onChange={() => {}}
-        />,
-      );
+      render(<FilterOption id='test-1' optionValue='red' displayValue='Red' onChange={() => {}} />);
       const listItem = screen.getByRole('listitem');
       expect(listItem).toBeInTheDocument();
     });
 
     test('renders checkbox input', () => {
       render(
-        <FilterOptionListRow
+        <FilterOption
           id='test-checkbox'
           optionValue='blue'
           displayValue='Blue'
@@ -65,21 +51,14 @@ describe('FilterOptionListRow component', () => {
 
   describe('checkbox behavior', () => {
     test('checkbox is unchecked by default', () => {
-      render(
-        <FilterOptionListRow
-          id='test-1'
-          optionValue='red'
-          displayValue='Red'
-          onChange={() => {}}
-        />,
-      );
+      render(<FilterOption id='test-1' optionValue='red' displayValue='Red' onChange={() => {}} />);
       const checkbox = screen.getByRole('checkbox');
       expect(checkbox).not.toBeChecked();
     });
 
     test('checkbox is checked when isChecked is true', () => {
       render(
-        <FilterOptionListRow
+        <FilterOption
           id='test-1'
           optionValue='red'
           displayValue='Red'
@@ -94,12 +73,7 @@ describe('FilterOptionListRow component', () => {
     test('calls onChange when checkbox is clicked', () => {
       const handleChange = vi.fn();
       render(
-        <FilterOptionListRow
-          id='test-1'
-          optionValue='red'
-          displayValue='Red'
-          onChange={handleChange}
-        />,
+        <FilterOption id='test-1' optionValue='red' displayValue='Red' onChange={handleChange} />,
       );
       const checkbox = screen.getByRole('checkbox');
       fireEvent.click(checkbox);
@@ -109,7 +83,7 @@ describe('FilterOptionListRow component', () => {
     test('calls onChange with correct value', () => {
       const handleChange = vi.fn();
       render(
-        <FilterOptionListRow
+        <FilterOption
           id='test-1'
           optionValue='my-custom-value'
           displayValue='Custom'
@@ -124,7 +98,7 @@ describe('FilterOptionListRow component', () => {
     test('calls onChange when label is clicked', () => {
       const handleChange = vi.fn();
       render(
-        <FilterOptionListRow
+        <FilterOption
           id='test-label'
           optionValue='blue'
           displayValue='Blue'
@@ -138,21 +112,14 @@ describe('FilterOptionListRow component', () => {
 
   describe('showCheckbox prop', () => {
     test('shows checkbox indicator by default', () => {
-      render(
-        <FilterOptionListRow
-          id='test-1'
-          optionValue='red'
-          displayValue='Red'
-          onChange={() => {}}
-        />,
-      );
+      render(<FilterOption id='test-1' optionValue='red' displayValue='Red' onChange={() => {}} />);
       const checkboxIndicator = document.querySelector('.cio-checkbox');
       expect(checkboxIndicator).toBeInTheDocument();
     });
 
     test('hides checkbox indicator when checkboxPosition is none', () => {
       render(
-        <FilterOptionListRow
+        <FilterOption
           id='test-1'
           optionValue='red'
           displayValue='Red'
@@ -167,7 +134,7 @@ describe('FilterOptionListRow component', () => {
     test('calls onChange when checkboxPosition is none and label is clicked', () => {
       const handleChange = vi.fn();
       render(
-        <FilterOptionListRow
+        <FilterOption
           id='test-none'
           optionValue='red'
           displayValue='Red'
@@ -183,7 +150,7 @@ describe('FilterOptionListRow component', () => {
   describe('startContent prop', () => {
     test('renders startContent before display value', () => {
       render(
-        <FilterOptionListRow
+        <FilterOption
           id='test-1'
           optionValue='red'
           displayValue='Red'
@@ -196,7 +163,7 @@ describe('FilterOptionListRow component', () => {
 
     test('startContent appears in correct position', () => {
       render(
-        <FilterOptionListRow
+        <FilterOption
           id='test-1'
           optionValue='red'
           displayValue='Red'
@@ -212,23 +179,23 @@ describe('FilterOptionListRow component', () => {
   describe('componentOverrides', () => {
     test('renders componentOverride.reactNode when passed', () => {
       render(
-        <FilterOptionListRow
+        <FilterOption
           id='test-1'
           optionValue='red'
           displayValue='Red'
           componentOverrides={{
-            reactNode: <li data-testid='custom-override'>Custom Row</li>,
+            reactNode: <li data-testid='custom-override'>Custom Option</li>,
           }}
           onChange={() => {}}
         />,
       );
       expect(screen.getByTestId('custom-override')).toBeInTheDocument();
-      expect(screen.getByText('Custom Row')).toBeInTheDocument();
+      expect(screen.getByText('Custom Option')).toBeInTheDocument();
     });
 
     test('does not render default content when override provided', () => {
       render(
-        <FilterOptionListRow
+        <FilterOption
           id='test-1'
           optionValue='red'
           displayValue='Red'
@@ -243,35 +210,21 @@ describe('FilterOptionListRow component', () => {
   });
 
   describe('CSS classes', () => {
-    test('has cio-filter-option-list-row class', () => {
-      render(
-        <FilterOptionListRow
-          id='test-1'
-          optionValue='red'
-          displayValue='Red'
-          onChange={() => {}}
-        />,
-      );
+    test('has cio-filter-option class', () => {
+      render(<FilterOption id='test-1' optionValue='red' displayValue='Red' onChange={() => {}} />);
       const listItem = screen.getByRole('listitem');
-      expect(listItem.classList.contains('cio-filter-option-list-row')).toBeTruthy();
+      expect(listItem.classList.contains('cio-filter-option')).toBeTruthy();
     });
 
     test('has cio-filter-multiple-option class', () => {
-      render(
-        <FilterOptionListRow
-          id='test-1'
-          optionValue='red'
-          displayValue='Red'
-          onChange={() => {}}
-        />,
-      );
+      render(<FilterOption id='test-1' optionValue='red' displayValue='Red' onChange={() => {}} />);
       const listItem = screen.getByRole('listitem');
       expect(listItem.classList.contains('cio-filter-multiple-option')).toBeTruthy();
     });
 
     test('merges custom className', () => {
       render(
-        <FilterOptionListRow
+        <FilterOption
           id='test-1'
           optionValue='red'
           displayValue='Red'
@@ -284,14 +237,7 @@ describe('FilterOptionListRow component', () => {
     });
 
     test('has text-base class by default', () => {
-      render(
-        <FilterOptionListRow
-          id='test-1'
-          optionValue='red'
-          displayValue='Red'
-          onChange={() => {}}
-        />,
-      );
+      render(<FilterOption id='test-1' optionValue='red' displayValue='Red' onChange={() => {}} />);
       const listItem = screen.getByRole('listitem');
       expect(listItem.classList.contains('text-base')).toBeTruthy();
     });
@@ -299,30 +245,23 @@ describe('FilterOptionListRow component', () => {
 
   describe('data attributes', () => {
     test('has data-slot attribute', () => {
-      render(
-        <FilterOptionListRow
-          id='test-1'
-          optionValue='red'
-          displayValue='Red'
-          onChange={() => {}}
-        />,
-      );
+      render(<FilterOption id='test-1' optionValue='red' displayValue='Red' onChange={() => {}} />);
       const listItem = screen.getByRole('listitem');
-      expect(listItem).toHaveAttribute('data-slot', 'filter-option-list-row');
+      expect(listItem).toHaveAttribute('data-slot', 'filter-option');
     });
 
     test('spreads data-* attributes correctly', () => {
       render(
-        <FilterOptionListRow
+        <FilterOption
           id='test-1'
           optionValue='red'
           displayValue='Red'
-          data-testid='filter-row'
+          data-testid='filter-option'
           data-facet='color'
           onChange={() => {}}
         />,
       );
-      const listItem = screen.getByTestId('filter-row');
+      const listItem = screen.getByTestId('filter-option');
       expect(listItem.dataset.facet).toBe('color');
     });
   });

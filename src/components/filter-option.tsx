@@ -2,11 +2,11 @@ import React, { ReactNode } from 'react';
 import { cn, RenderPropsWrapper } from '@/utils';
 import { ComponentOverrideProps, IncludeComponentOverrides } from '@/types';
 const baseClasses =
-  'cio-components cio-filter-option-list-row cio-filter-multiple-option group cursor-pointer flex list-none text-base hover:bg-neutral-100 hover:rounded';
+  'cio-components cio-filter-option cio-filter-multiple-option group cursor-pointer flex list-none text-base hover:bg-neutral-100 hover:rounded';
 
-export interface FilterOptionListRowProps
+export interface FilterOptionProps
   extends Omit<React.ComponentProps<'li'>, 'onChange' | 'children'>,
-    IncludeComponentOverrides<FilterOptionListRowOverrides> {
+    IncludeComponentOverrides<FilterOptionOverrides> {
   /** Unique identifier for the filter option */
   id: string;
   /** Value to be used when the option is selected */
@@ -27,9 +27,9 @@ export interface FilterOptionListRowProps
   children?: ReactNode;
 }
 
-export type FilterOptionListRowOverrides = ComponentOverrideProps<FilterOptionListRowProps>;
+export type FilterOptionOverrides = ComponentOverrideProps<FilterOptionProps>;
 
-export default function FilterOptionListRow({
+export default function FilterOption({
   className,
   id,
   optionValue,
@@ -42,7 +42,7 @@ export default function FilterOptionListRow({
   componentOverrides,
   children,
   ...props
-}: FilterOptionListRowProps) {
+}: FilterOptionProps) {
   const renderProps = React.useMemo(
     () => ({
       ...props,
@@ -87,7 +87,7 @@ export default function FilterOptionListRow({
 
   return (
     <RenderPropsWrapper props={renderProps} override={componentOverrides?.reactNode}>
-      <li data-slot='filter-option-list-row' className={cn(baseClasses, className)} {...props}>
+      <li data-slot='filter-option' className={cn(baseClasses, className)} {...props}>
         <label
           htmlFor={id}
           className='cio-filter-option-label text-sm flex flex-row items-center cursor-pointer grow p-1'>

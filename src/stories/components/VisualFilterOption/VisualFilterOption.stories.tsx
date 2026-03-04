@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import VisualFilterOptionListRow from '../../../components/visual-filter-option-list-row';
+import VisualFilterOption from '../../../components/visual-filter-option';
 
 const meta = {
-  title: 'Components/VisualFilterOptionListRow',
-  component: VisualFilterOptionListRow,
+  title: 'Components/VisualFilterOption',
+  component: VisualFilterOption,
   parameters: {
     layout: 'centered',
   },
@@ -21,7 +21,7 @@ const meta = {
       options: ['color', 'image'],
     },
   },
-} satisfies Meta<typeof VisualFilterOptionListRow>;
+} satisfies Meta<typeof VisualFilterOption>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -69,9 +69,16 @@ export const CheckedState: Story = {
 // --- Complete Color Filter List (matching the reference image) ---
 
 export const ColorFilterList: Story = {
+  args: {
+    id: 'color-list',
+    optionValue: 'white',
+    displayValue: 'White',
+    visualType: 'color',
+    visualValue: '#FFFFFF',
+  },
   render: () => (
     <ul style={{ listStyle: 'none', padding: 0, margin: 0, minWidth: 300 }}>
-      <VisualFilterOptionListRow
+      <VisualFilterOption
         id='white'
         optionValue='white'
         displayValue='White'
@@ -79,7 +86,7 @@ export const ColorFilterList: Story = {
         visualType='color'
         visualValue='#FFFFFF'
       />
-      <VisualFilterOptionListRow
+      <VisualFilterOption
         id='black'
         optionValue='black'
         displayValue='Black'
@@ -87,7 +94,7 @@ export const ColorFilterList: Story = {
         visualType='color'
         visualValue='#000000'
       />
-      <VisualFilterOptionListRow
+      <VisualFilterOption
         id='red'
         optionValue='red'
         displayValue='Red'
@@ -95,7 +102,7 @@ export const ColorFilterList: Story = {
         visualType='color'
         visualValue='#EF4444'
       />
-      <VisualFilterOptionListRow
+      <VisualFilterOption
         id='blue'
         optionValue='blue'
         displayValue='Blue'
@@ -103,7 +110,7 @@ export const ColorFilterList: Story = {
         visualType='color'
         visualValue='#3B82F6'
       />
-      <VisualFilterOptionListRow
+      <VisualFilterOption
         id='purple'
         optionValue='purple'
         displayValue='Purple'
@@ -112,7 +119,7 @@ export const ColorFilterList: Story = {
         visualValue='#A855F7'
         isChecked={true}
       />
-      <VisualFilterOptionListRow
+      <VisualFilterOption
         id='orange'
         optionValue='orange'
         displayValue='Orange'
@@ -120,7 +127,7 @@ export const ColorFilterList: Story = {
         visualType='color'
         visualValue='#F97316'
       />
-      <VisualFilterOptionListRow
+      <VisualFilterOption
         id='pink'
         optionValue='pink'
         displayValue='Pink'
@@ -129,7 +136,7 @@ export const ColorFilterList: Story = {
         visualValue='#EC4899'
         isChecked={true}
       />
-      <VisualFilterOptionListRow
+      <VisualFilterOption
         id='yellow'
         optionValue='yellow'
         displayValue='Yellow'
@@ -137,7 +144,7 @@ export const ColorFilterList: Story = {
         visualType='color'
         visualValue='#EAB308'
       />
-      <VisualFilterOptionListRow
+      <VisualFilterOption
         id='green'
         optionValue='green'
         displayValue='Green'
@@ -155,9 +162,16 @@ export const ColorFilterList: Story = {
 // --- Mixed Visual Types ---
 
 export const MixedVisualTypes: Story = {
+  args: {
+    id: 'mixed-list',
+    optionValue: 'solid-red',
+    displayValue: 'Solid Red',
+    visualType: 'color',
+    visualValue: '#EF4444',
+  },
   render: () => (
     <ul style={{ listStyle: 'none', padding: 0, margin: 0, minWidth: 300 }}>
-      <VisualFilterOptionListRow
+      <VisualFilterOption
         id='solid-red'
         optionValue='solid-red'
         displayValue='Solid Red'
@@ -165,7 +179,7 @@ export const MixedVisualTypes: Story = {
         visualType='color'
         visualValue='#EF4444'
       />
-      <VisualFilterOptionListRow
+      <VisualFilterOption
         id='solid-blue'
         optionValue='solid-blue'
         displayValue='Solid Blue'
@@ -173,7 +187,7 @@ export const MixedVisualTypes: Story = {
         visualType='color'
         visualValue='#3B82F6'
       />
-      <VisualFilterOptionListRow
+      <VisualFilterOption
         id='constructor'
         optionValue='constructor'
         displayValue='Constructor'
@@ -191,10 +205,10 @@ export const MixedVisualTypes: Story = {
 // --- componentOverrides ---
 
 const componentOverrides = {
-  visualFilterOptionListRow: {
+  visualFilterOption: {
     reactNode: (
       <li style={{ padding: '8px 12px', background: '#f0f0f0', borderRadius: 4 }}>
-        Custom rendered visual row
+        Custom rendered visual option
       </li>
     ),
   },
@@ -207,8 +221,7 @@ export const ComponentOverrideExample: Story = {
     displayValue: 'This will be overridden',
     visualType: 'color',
     visualValue: '#FF0000',
-    // @ts-expect-error: Composed types
-    componentOverrides: componentOverrides.visualFilterOptionListRow,
+    componentOverrides: componentOverrides.visualFilterOption,
   },
   name: 'componentOverride Example',
   tags: ['!autodocs', '!dev'],

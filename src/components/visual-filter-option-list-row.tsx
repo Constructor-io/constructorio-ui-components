@@ -25,17 +25,20 @@ export default function VisualFilterOptionListRow({
   componentOverrides,
   ...props
 }: VisualFilterOptionListRowProps) {
+  const renderProps = React.useMemo(
+    () => ({
+      ...props,
+      displayValue,
+      checkboxPosition,
+      visualType,
+      visualValue,
+      className,
+    }),
+    [props, displayValue, checkboxPosition, visualType, visualValue, className],
+  );
+
   return (
-    <RenderPropsWrapper
-      props={{
-        ...props,
-        displayValue,
-        checkboxPosition,
-        visualType,
-        visualValue,
-        className,
-      }}
-      override={componentOverrides?.reactNode}>
+    <RenderPropsWrapper props={renderProps} override={componentOverrides?.reactNode}>
       <FilterOptionListRow
         checkboxPosition={checkboxPosition}
         displayValue={displayValue}

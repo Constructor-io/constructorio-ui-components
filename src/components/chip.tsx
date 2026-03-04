@@ -45,8 +45,8 @@ export default function Chip({
   ...props
 }: ChipProps) {
   const renderProps = React.useMemo(
-    () => ({ type, value, name, size, className }),
-    [type, value, name, size, className],
+    () => ({ ...props, type, value, name, size, className }),
+    [props, type, value, name, size, className],
   );
 
   const renderContent = () => {

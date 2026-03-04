@@ -43,6 +43,33 @@ export default function FilterOptionListRow({
   children,
   ...props
 }: FilterOptionListRowProps) {
+  const renderProps = React.useMemo(
+    () => ({
+      ...props,
+      id,
+      optionValue,
+      displayValue,
+      displayCountValue,
+      isChecked,
+      onChange,
+      checkboxPosition,
+      startContent,
+      className,
+    }),
+    [
+      props,
+      id,
+      optionValue,
+      displayValue,
+      displayCountValue,
+      isChecked,
+      onChange,
+      checkboxPosition,
+      startContent,
+      className,
+    ],
+  );
+
   const checkboxVisible = checkboxPosition !== 'none';
   const checkboxEl = checkboxVisible && (
     <div className='cio-checkbox flex justify-center items-center cursor-pointer mx-2 bg-white w-5 h-5 min-w-5 min-h-5 rounded transition-all duration-250 border border-black/20 group-has-[input:checked]:shadow-[inset_0_0_0_32px_#000]'>
@@ -59,19 +86,7 @@ export default function FilterOptionListRow({
   );
 
   return (
-    <RenderPropsWrapper
-      props={{
-        id,
-        optionValue,
-        displayValue,
-        displayCountValue,
-        isChecked,
-        onChange,
-        checkboxPosition,
-        startContent,
-        className,
-      }}
-      override={componentOverrides?.reactNode}>
+    <RenderPropsWrapper props={renderProps} override={componentOverrides?.reactNode}>
       <li data-slot='filter-option-list-row' className={cn(baseClasses, className)} {...props}>
         <label
           htmlFor={id}

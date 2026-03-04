@@ -19,10 +19,7 @@ export type {
 export type { ButtonVariants, ButtonOverrides, ButtonProps } from '@/components/button';
 export type { BadgeVariants, BadgeOverrides, BadgeProps } from '@/components/badge';
 export type { ChipVariants, ChipOverrides, ChipProps } from '@/components/chip';
-export type {
-  FilterOptionOverrides,
-  FilterOptionProps,
-} from '@/components/filter-option';
+export type { FilterOptionOverrides, FilterOptionProps } from '@/components/filter-option';
 export type {
   VisualFilterOptionOverrides,
   VisualFilterOptionProps,

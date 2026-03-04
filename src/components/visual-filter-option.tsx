@@ -13,8 +13,7 @@ export interface VisualFilterOptionProps
   visualValue: string;
 }
 
-export type VisualFilterOptionOverrides =
-  ComponentOverrideProps<VisualFilterOptionProps>;
+export type VisualFilterOptionOverrides = ComponentOverrideProps<VisualFilterOptionProps>;
 
 export default function VisualFilterOption({
   className,

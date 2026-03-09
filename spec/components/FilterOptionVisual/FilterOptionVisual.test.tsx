@@ -1,14 +1,14 @@
 import React from 'react';
 import { render, screen, cleanup } from '@testing-library/react';
 import { describe, test, expect, afterEach } from 'vitest';
-import VisualFilterOption from '@/components/visual-filter-option';
+import FilterOptionVisual from '@/components/filter-option--visual';
 
 /**
- * Tests unique to VisualFilterOption.
+ * Tests unique to FilterOptionVisual.
  * Common functionality (checkbox behavior, basic rendering, onChange, etc.)
  * is tested in FilterOption.test.tsx since this component wraps it.
  */
-describe('VisualFilterOption component', () => {
+describe('FilterOptionVisual component', () => {
   afterEach(() => {
     cleanup();
   });
@@ -16,7 +16,7 @@ describe('VisualFilterOption component', () => {
   describe('visual swatch - color type', () => {
     test('renders color swatch with hex value', () => {
       render(
-        <VisualFilterOption
+        <FilterOptionVisual
           id='test-1'
           optionValue='red'
           displayValue='Red'
@@ -32,7 +32,7 @@ describe('VisualFilterOption component', () => {
 
     test('renders black color swatch', () => {
       render(
-        <VisualFilterOption
+        <FilterOptionVisual
           id='test-1'
           optionValue='black'
           displayValue='Black'
@@ -47,7 +47,7 @@ describe('VisualFilterOption component', () => {
 
     test('renders white color swatch', () => {
       render(
-        <VisualFilterOption
+        <FilterOptionVisual
           id='test-1'
           optionValue='white'
           displayValue='White'
@@ -64,7 +64,7 @@ describe('VisualFilterOption component', () => {
   describe('visual swatch - image type', () => {
     test('renders image swatch with src', () => {
       render(
-        <VisualFilterOption
+        <FilterOptionVisual
           id='test-1'
           optionValue='floral'
           displayValue='Floral'
@@ -82,7 +82,7 @@ describe('VisualFilterOption component', () => {
   describe('componentOverrides', () => {
     test('renders componentOverride.reactNode when passed', () => {
       render(
-        <VisualFilterOption
+        <FilterOptionVisual
           id='test-1'
           optionValue='red'
           displayValue='Red'
@@ -102,7 +102,7 @@ describe('VisualFilterOption component', () => {
   describe('CSS classes', () => {
     test('has cio-visual-filter-option class', () => {
       render(
-        <VisualFilterOption
+        <FilterOptionVisual
           id='test-1'
           optionValue='red'
           displayValue='Red'
@@ -117,7 +117,7 @@ describe('VisualFilterOption component', () => {
 
     test('swatch has cio-filter-visual-swatch class', () => {
       render(
-        <VisualFilterOption
+        <FilterOptionVisual
           id='test-1'
           optionValue='red'
           displayValue='Red'
@@ -134,7 +134,7 @@ describe('VisualFilterOption component', () => {
   describe('data attributes', () => {
     test('has data-slot attribute with visual-filter value', () => {
       render(
-        <VisualFilterOption
+        <FilterOptionVisual
           id='test-1'
           optionValue='red'
           displayValue='Red'
@@ -151,7 +151,7 @@ describe('VisualFilterOption component', () => {
   describe('layout structure', () => {
     test('swatch appears before option name in DOM order', () => {
       render(
-        <VisualFilterOption
+        <FilterOptionVisual
           id='test-1'
           optionValue='red'
           displayValue='Red'
@@ -170,7 +170,7 @@ describe('VisualFilterOption component', () => {
   describe('checkbox default position', () => {
     test('checkbox defaults to right position', () => {
       render(
-        <VisualFilterOption
+        <FilterOptionVisual
           id='test-1'
           optionValue='red'
           displayValue='Red'

@@ -1,6 +1,23 @@
 import { BadgeProps } from '@/components/badge';
 import { ComponentOverrideProps, IncludeRenderProps, RenderPropsChildren } from '@/types';
 
+export interface SwatchItem {
+  url?: string;
+  name?: string;
+  imageUrl?: string;
+  price?: string | number;
+  salePrice?: string | number;
+  swatchPreview: string;
+  variationId?: string;
+  rolloverImage?: string;
+}
+
+export interface ProductSwatchObject {
+  swatchList: SwatchItem[];
+  selectedSwatch: SwatchItem | undefined;
+  selectSwatch: (swatch: SwatchItem) => void;
+}
+
 export interface Product {
   id: string;
   name: string;
@@ -15,6 +32,7 @@ export interface Product {
   slCampaignId?: string;
   slCampaignOwner?: string;
   badge?: string;
+  swatchList?: SwatchItem[];
 }
 
 export interface ProductCardProps extends Omit<React.ComponentProps<'div'>, 'children'> {
@@ -25,6 +43,7 @@ export interface ProductCardProps extends Omit<React.ComponentProps<'div'>, 'chi
   onAddToCart?: (e: React.MouseEvent, product: Product) => void;
   onAddToWishlist?: (e: React.MouseEvent, product: Product) => void;
   onProductClick?: (product: Product) => void;
+  onSwatchClick?: (e: React.MouseEvent, swatch: SwatchItem) => void;
   children?: RenderPropsChildren<ProductCardProps>;
   componentOverrides?: ProductCardOverrides;
 }
@@ -39,6 +58,7 @@ export type ProductCardOverrides = ComponentOverrideProps<ProductCardProps> & {
     description?: ComponentOverrideProps<ProductCardProps>;
     rating?: ComponentOverrideProps<ProductCardProps>;
     price?: ComponentOverrideProps<ProductCardProps>;
+    swatch?: ComponentOverrideProps<ProductCardProps>;
   };
   footer?: ComponentOverrideProps<ProductCardProps> & {
     addToCartButton?: ComponentOverrideProps<ProductCardProps>;
@@ -91,6 +111,10 @@ export interface DescriptionSectionProps extends IncludeRenderProps<ProductCardP
 export interface AddToCartButtonProps extends IncludeRenderProps<ProductCardProps> {
   onAddToCart?: (e: React.MouseEvent, product: Product) => void;
   addToCartText?: string;
+  className?: string;
+}
+
+export interface SwatchSectionProps extends IncludeRenderProps<ProductCardProps> {
   className?: string;
 }
 

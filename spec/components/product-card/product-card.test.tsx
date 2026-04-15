@@ -470,7 +470,13 @@ describe('ProductCard component', () => {
 
     test('dispatches productCard.conversion event on root element on add-to-cart click', () => {
       const mockOnAddToCart = vi.fn();
-      render(<ProductCard {...mockProductData} onAddToCart={mockOnAddToCart} data-testid='product-card' />);
+      render(
+        <ProductCard
+          {...mockProductData}
+          onAddToCart={mockOnAddToCart}
+          data-testid='product-card'
+        />,
+      );
 
       const el = screen.getByTestId('product-card');
       const listener = vi.fn();
@@ -508,7 +514,11 @@ describe('ProductCard component', () => {
     test('clicking add-to-cart does NOT call onProductClick callback', () => {
       const mockOnProductClick = vi.fn();
       render(
-        <ProductCard {...mockProductData} onAddToCart={vi.fn()} onProductClick={mockOnProductClick} />,
+        <ProductCard
+          {...mockProductData}
+          onAddToCart={vi.fn()}
+          onProductClick={mockOnProductClick}
+        />,
       );
       fireEvent.click(screen.getByText('Add to Cart'));
       expect(mockOnProductClick).not.toHaveBeenCalled();
@@ -516,7 +526,13 @@ describe('ProductCard component', () => {
 
     test('dispatches productCard.wishlist event on root element on wishlist click', () => {
       const mockOnAddToWishlist = vi.fn();
-      render(<ProductCard {...mockProductData} onAddToWishlist={mockOnAddToWishlist} data-testid='product-card' />);
+      render(
+        <ProductCard
+          {...mockProductData}
+          onAddToWishlist={mockOnAddToWishlist}
+          data-testid='product-card'
+        />,
+      );
 
       const el = screen.getByTestId('product-card');
       const listener = vi.fn();
@@ -593,7 +609,10 @@ describe('ProductCard component', () => {
     });
 
     test('two product cards: events do not cross-pollinate', () => {
-      const product2 = { ...mockProductData, product: { ...mockProductData.product, id: 'product-2', name: 'Product 2' } };
+      const product2 = {
+        ...mockProductData,
+        product: { ...mockProductData.product, id: 'product-2', name: 'Product 2' },
+      };
 
       render(
         <>
@@ -621,6 +640,181 @@ describe('ProductCard component', () => {
 
       wrapper1.removeEventListener(CIO_EVENTS.productCard.click, listener1);
       wrapper2.removeEventListener(CIO_EVENTS.productCard.click, listener2);
+    });
+  });
+
+  describe('Swatch Section', () => {
+    const mockProductWithSwatches = {
+      id: 'swatch-product',
+      name: 'Swatch Product',
+      imageUrl: 'https://example.com/default.jpg',
+      price: '100',
+      variationId: 'var-1',
+      swatchList: [
+        {
+          variationId: 'var-1',
+          name: 'Red Variant',
+          imageUrl: 'https://example.com/red.jpg',
+          price: '100',
+          swatchPreview: '#FF0000',
+        },
+        {
+          variationId: 'var-2',
+          name: 'Blue Variant',
+          imageUrl: 'https://example.com/blue.jpg',
+          price: '120',
+          salePrice: '95',
+          swatchPreview: '#0000FF',
+        },
+      ],
+    };
+
+    test('does not render swatch section when product has no swatchList', () => {
+      render(<ProductCard product={mockBasicProduct} />);
+
+      expect(document.querySelector('.cio-product-card-swatch-section')).not.toBeInTheDocument();
+    });
+
+    test('renders swatch buttons for each swatch item', () => {
+      render(<ProductCard product={mockProductWithSwatches} />);
+
+      expect(screen.getByTestId('cio-swatch-var-1')).toBeInTheDocument();
+      expect(screen.getByTestId('cio-swatch-var-2')).toBeInTheDocument();
+    });
+
+    test('clicking a swatch updates displayed image', () => {
+      render(<ProductCard product={mockProductWithSwatches} />);
+
+      // Initially shows Red Variant (selected via variationId match)
+      const img = screen.getByAltText('Red Variant') as HTMLImageElement;
+      expect(img.src).toContain('red.jpg');
+
+      fireEvent.click(screen.getByTestId('cio-swatch-var-2'));
+
+      const updatedImg = screen.getByAltText('Blue Variant') as HTMLImageElement;
+      expect(updatedImg.src).toContain('blue.jpg');
+    });
+
+    test('clicking a swatch updates displayed name', () => {
+      render(<ProductCard product={mockProductWithSwatches} />);
+
+      expect(screen.getByText('Red Variant')).toBeInTheDocument();
+
+      fireEvent.click(screen.getByTestId('cio-swatch-var-2'));
+
+      expect(screen.getByText('Blue Variant')).toBeInTheDocument();
+    });
+
+    test('clicking a swatch updates displayed price', () => {
+      render(<ProductCard product={mockProductWithSwatches} />);
+
+      expect(screen.getByText(/100/)).toBeInTheDocument();
+
+      fireEvent.click(screen.getByTestId('cio-swatch-var-2'));
+
+      expect(screen.getByText(/95/)).toBeInTheDocument();
+    });
+
+    test('clicking a swatch calls onSwatchClick callback', () => {
+      const onSwatchClick = vi.fn();
+      render(<ProductCard product={mockProductWithSwatches} onSwatchClick={onSwatchClick} />);
+
+      fireEvent.click(screen.getByTestId('cio-swatch-var-2'));
+
+      expect(onSwatchClick).toHaveBeenCalledTimes(1);
+      expect(onSwatchClick.mock.calls[0][1].variationId).toBe('var-2');
+    });
+
+    test('clicking swatch does not dispatch productCard.click', () => {
+      const { container } = render(<ProductCard product={mockProductWithSwatches} />);
+
+      const clickListener = vi.fn();
+      container.addEventListener(CIO_EVENTS.productCard.click, clickListener);
+
+      fireEvent.click(screen.getByTestId('cio-swatch-var-2'));
+
+      expect(clickListener).not.toHaveBeenCalled();
+
+      container.removeEventListener(CIO_EVENTS.productCard.click, clickListener);
+    });
+
+    test('selected swatch has aria-pressed true', () => {
+      render(<ProductCard product={mockProductWithSwatches} />);
+
+      // var-1 is initially selected because it matches product.variationId
+      expect(screen.getByTestId('cio-swatch-var-1')).toHaveAttribute('aria-pressed', 'true');
+      expect(screen.getByTestId('cio-swatch-var-2')).toHaveAttribute('aria-pressed', 'false');
+
+      fireEvent.click(screen.getByTestId('cio-swatch-var-2'));
+
+      expect(screen.getByTestId('cio-swatch-var-2')).toHaveAttribute('aria-pressed', 'true');
+    });
+
+    test('hex color swatch renders with background color', () => {
+      render(<ProductCard product={mockProductWithSwatches} />);
+
+      const swatch = screen.getByTestId('cio-swatch-var-1');
+      expect(swatch.style.background).toContain('rgb(255, 0, 0)');
+    });
+
+    test('image swatch renders with background url', () => {
+      const productWithImageSwatch = {
+        ...mockProductWithSwatches,
+        swatchList: [
+          {
+            variationId: 'img-var',
+            name: 'Image Variant',
+            imageUrl: 'https://example.com/img.jpg',
+            price: '100',
+            swatchPreview: 'https://example.com/swatch.jpg',
+          },
+        ],
+      };
+
+      render(<ProductCard product={productWithImageSwatch} />);
+
+      const swatch = screen.getByTestId('cio-swatch-img-var');
+      expect(swatch.style.background).toContain('example.com/swatch.jpg');
+    });
+
+    test('data attributes update with selected variation', () => {
+      const { container } = render(<ProductCard product={mockProductWithSwatches} />);
+
+      const card = container.querySelector('.cio-product-card') as HTMLElement;
+      expect(card.getAttribute('data-cnstrc-item-variation-id')).toBe('var-1');
+
+      fireEvent.click(screen.getByTestId('cio-swatch-var-2'));
+
+      expect(card.getAttribute('data-cnstrc-item-variation-id')).toBe('var-2');
+    });
+
+    test('component override for swatch section works', () => {
+      render(
+        <ProductCard
+          product={mockProductWithSwatches}
+          componentOverrides={{
+            content: {
+              swatch: {
+                reactNode: <div data-testid='custom-swatch'>Custom Swatch</div>,
+              },
+            },
+          }}
+        />,
+      );
+
+      expect(screen.getByTestId('custom-swatch')).toBeInTheDocument();
+      expect(screen.queryByTestId('cio-swatch-var-1')).not.toBeInTheDocument();
+    });
+
+    test('each swatch has data-cnstrc-item-variation-id attribute', () => {
+      render(<ProductCard product={mockProductWithSwatches} />);
+
+      expect(
+        screen.getByTestId('cio-swatch-var-1').getAttribute('data-cnstrc-item-variation-id'),
+      ).toBe('var-1');
+      expect(
+        screen.getByTestId('cio-swatch-var-2').getAttribute('data-cnstrc-item-variation-id'),
+      ).toBe('var-2');
     });
   });
 });

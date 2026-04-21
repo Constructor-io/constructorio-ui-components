@@ -47,7 +47,7 @@
     "storybook-docs-dev": "storybook dev --docs -p 6007",
     "serve-built-storybook": "npx http-server docs",
     "compile": "rm -rf lib && tsc -p tsconfig-mjs.json && tsc -p tsconfig-cjs.json && npm run copy-svgs && npm run remove-aliases && npm run copy-styles",
-    "remove-aliases": "tsc-alias -p tsconfig-mjs.json && tsc-alias -p tsconfig-cjs.json",
+    "remove-aliases": "tsc-alias -p tsconfig-mjs.json --resolve-full-paths && tsc-alias -p tsconfig-cjs.json --resolve-full-paths",
     "check-license": "license-checker --production --onlyAllow 'Apache-2.0;BSD-3-Clause;MIT;0BSD;BSD-2-Clause;ISC;BlueOak-1.0.0' --excludePackages 'picocolors@1.0.0;graceful-fs@4.2.11;lightningcss@1.30.1;lightningcss-darwin-arm64@1.30.1;lightningcss-linux-x64-gnu@1.30.1;lightningcss-linux-x64-musl@1.30.1'",
     "storybook": "storybook dev -p 6006"
   },

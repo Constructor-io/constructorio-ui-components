@@ -73,7 +73,10 @@ const WishlistButton: React.FC<WishlistButtonProps> = (props) => {
           onClick={handleWishlistClick}
           aria-label={isInWishlist ? 'Remove from wishlist' : 'Add to wishlist'}>
           {isInWishlist ? (
-            <HeartFilledIcon className='w-3 h-3 sm:w-[8px] sm:h-[8px]' aria-label='Remove from wishlist' />
+            <HeartFilledIcon
+              className='w-3 h-3 sm:w-[8px] sm:h-[8px]'
+              aria-label='Remove from wishlist'
+            />
           ) : (
             <HeartIcon className='w-3 h-3 sm:w-[8px] sm:h-[8px]' aria-label='Add to wishlist' />
           )}

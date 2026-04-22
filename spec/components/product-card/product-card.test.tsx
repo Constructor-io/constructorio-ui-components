@@ -326,20 +326,22 @@ describe('ProductCard component', () => {
       render(<ProductCard {...mockProductData} isInWishlist={false} onAddToWishlist={vi.fn()} />);
 
       const wishlistButton = screen.getByRole('button', { name: /add to wishlist/i });
-      const heartImage = wishlistButton.querySelector('img');
-      expect(heartImage?.alt).toBe('Add to wishlist');
-      // Check that the image src contains SVG data for empty heart (stroke but no fill)
-      expect(heartImage?.src).toMatch(/fill='none'/);
+      const heartSvg = wishlistButton.querySelector('svg');
+      expect(heartSvg).toBeInTheDocument();
+      expect(heartSvg?.getAttribute('aria-label')).toBe('Add to wishlist');
+      // Empty heart: path has no fill (stroke only)
+      expect(heartSvg?.querySelector('path')?.getAttribute('fill')).toBe('none');
     });
 
     test('shows filled heart when in wishlist', () => {
       render(<ProductCard {...mockProductData} isInWishlist={true} onAddToWishlist={vi.fn()} />);
 
       const wishlistButton = screen.getByRole('button', { name: /remove from wishlist/i });
-      const heartImage = wishlistButton.querySelector('img');
-      expect(heartImage?.alt).toBe('Remove from wishlist');
-      // Check that the image src contains SVG data for filled heart (has fill color)
-      expect(heartImage?.src).toMatch(/fill='%230F172A'/);
+      const heartSvg = wishlistButton.querySelector('svg');
+      expect(heartSvg).toBeInTheDocument();
+      expect(heartSvg?.getAttribute('aria-label')).toBe('Remove from wishlist');
+      // Filled heart: path has fill color
+      expect(heartSvg?.querySelector('path')?.getAttribute('fill')).toBe('#0F172A');
     });
   });
 

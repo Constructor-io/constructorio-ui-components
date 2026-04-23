@@ -3,8 +3,8 @@ import { cn, RenderPropsWrapper, dispatchCioEvent, CIO_EVENTS } from '@/utils';
 import { Card, CardContentProps, CardFooterProps } from '@/components/card';
 import Button from '@/components/button';
 import BadgeComponent from '@/components/badge';
-import Heart from '@/assets/svgs/heart.svg';
-import HeartFilled from '@/assets/svgs/heart-filled.svg';
+import HeartIcon from '@/assets/icons/HeartIcon';
+import HeartFilledIcon from '@/assets/icons/HeartFilledIcon';
 
 import {
   AddToCartButtonProps,
@@ -72,11 +72,14 @@ const WishlistButton: React.FC<WishlistButtonProps> = (props) => {
           conversionType='add_to_wishlist'
           onClick={handleWishlistClick}
           aria-label={isInWishlist ? 'Remove from wishlist' : 'Add to wishlist'}>
-          <img
-            src={isInWishlist ? HeartFilled : Heart}
-            className='w-3 h-3 sm:w-[8px] sm:h-[8px]'
-            alt={isInWishlist ? 'Remove from wishlist' : 'Add to wishlist'}
-          />
+          {isInWishlist ? (
+            <HeartFilledIcon
+              className='w-3 h-3 sm:w-[8px] sm:h-[8px]'
+              aria-label='Remove from wishlist'
+            />
+          ) : (
+            <HeartIcon className='w-3 h-3 sm:w-[8px] sm:h-[8px]' aria-label='Add to wishlist' />
+          )}
         </Button>
       )}
     </RenderPropsWrapper>

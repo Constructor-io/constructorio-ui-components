@@ -1,3 +1,4 @@
+import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import ProductCard from '../../../components/product-card';
 import { CompleteCustomOverrideCard, CompactListStyleCard } from './ProductCardVariants';
@@ -1244,4 +1245,115 @@ export const RenderPropsExample: Story = {
   // '!autodocs' removes this story from being rendered as part of the <Stories /> component in the auto-generated docs.
   // '!dev' prevents a story from being listed in the sidebar.
   tags: ['!autodocs', '!dev'],
+};
+
+// Card with color swatches
+export const WithSwatches: Story = {
+  args: {
+    product: {
+      id: 'jersey-riviera-shirt',
+      variationId: 'var-red',
+      name: 'Jersey Riviera Shirt',
+      imageUrl: DEMO_IMAGE_URL,
+      description: 'Premium golf pants designed for comfort and performance on the course',
+      price: '90',
+      swatchList: [
+        {
+          variationId: 'var-red',
+          name: 'Jersey Riviera Shirt (Red)',
+          imageUrl: DEMO_IMAGE_URL,
+          price: '90',
+          swatchPreview: '#e04062',
+        },
+        {
+          variationId: 'var-green',
+          name: 'Jersey Riviera Shirt (Green)',
+          imageUrl: DEMO_IMAGE_URL,
+          price: '99',
+          salePrice: '75',
+          swatchPreview: '#a3c43b',
+        },
+        {
+          variationId: 'var-blue',
+          name: 'Jersey Riviera Shirt (Blue)',
+          imageUrl: DEMO_IMAGE_URL,
+          price: '95',
+          swatchPreview: '#3b82f6',
+        },
+        {
+          variationId: 'var-black',
+          name: 'Jersey Riviera Shirt (Black)',
+          imageUrl: DEMO_IMAGE_URL,
+          price: '90',
+          swatchPreview: '#1a1a1a',
+        },
+      ],
+    },
+    onAddToCart: (e, product) => console.log('Added to cart', e, product),
+    addToCartText: 'Buy Now',
+    priceCurrency: '$',
+  },
+};
+
+// Card with image-based swatches
+export const WithImageSwatches: Story = {
+  args: {
+    product: {
+      id: 'patterned-shirt',
+      variationId: 'var-pattern-1',
+      name: 'Patterned Shirt',
+      imageUrl: DEMO_IMAGE_URL,
+      price: '120',
+      swatchList: [
+        {
+          variationId: 'var-pattern-1',
+          name: 'Patterned Shirt (Floral)',
+          imageUrl: DEMO_IMAGE_URL,
+          price: '120',
+          swatchPreview: DEMO_IMAGE_URL,
+        },
+        {
+          variationId: 'var-pattern-2',
+          name: 'Patterned Shirt (Striped)',
+          imageUrl: DEMO_IMAGE_URL,
+          price: '120',
+          swatchPreview: DEMO_IMAGE_URL,
+        },
+      ],
+    },
+    priceCurrency: '$',
+  },
+};
+
+// Card with swatches and interaction callbacks
+export const WithSwatchInteraction: Story = {
+  args: {
+    product: {
+      id: 'interactive-swatch-product',
+      variationId: 'var-1',
+      name: 'Interactive Swatch Product',
+      imageUrl: DEMO_IMAGE_URL,
+      price: '100',
+      swatchList: [
+        {
+          variationId: 'var-1',
+          name: 'Variant Red',
+          imageUrl: DEMO_IMAGE_URL,
+          price: '100',
+          swatchPreview: '#e04062',
+        },
+        {
+          variationId: 'var-2',
+          name: 'Variant Blue',
+          imageUrl: DEMO_IMAGE_URL,
+          price: '110',
+          salePrice: '85',
+          swatchPreview: '#3b82f6',
+        },
+      ],
+    },
+    priceCurrency: '$',
+    onSwatchClick: (_, swatch) => console.log('Swatch clicked:', swatch),
+    onAddToCart: (_, product) => console.log('Added to cart:', product),
+  },
 };

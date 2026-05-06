@@ -1,6 +1,5 @@
 import React, { ReactNode } from 'react';
-import { Slot } from '@radix-ui/react-slot';
-import { cn, RenderPropsWrapper } from '@/utils';
+import { cn, RenderPropsWrapper, Slot } from '@/utils';
 import { ComponentOverrideProps, IncludeComponentOverrides } from '@/types';
 import { cva, VariantProps } from 'class-variance-authority';
 

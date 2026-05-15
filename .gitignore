@@ -29,3 +29,9 @@ storybook-static
 
 # Dist
 lib/
+
+# react-compat fixture artifacts
+test/react-compat/*/node_modules/
+test/react-compat/*/dist/
+constructor-io-constructorio-ui-components-*.tgz
+constructorio-ui-components.tgz

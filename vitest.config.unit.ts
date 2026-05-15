@@ -8,7 +8,7 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: ['./spec/setupTests.ts'],
     include: ['**/*.test.{js,jsx,ts,tsx}'],
-    exclude: ['**/*.storybook.test.{js,jsx,ts,tsx}', 'node_modules/**'],
+    exclude: ['**/*.storybook.test.{js,jsx,ts,tsx}', 'node_modules/**', 'test/react-compat/**'],
     typecheck: {
       tsconfig: './tsconfig.json',
     },

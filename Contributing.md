@@ -27,6 +27,6 @@
 
 ## React 16/17 compatibility
 
-This library declares `peerDependencies.react: ">=16.12.0"` and is smoke-tested against React 16, 17, 18, and 19 by the matrix workflow at `.github/workflows/react-compat.yml`. Each cell builds a tiny consumer fixture and runs a jsdom render of the library's public components.
+This library declares `peerDependencies.react: ">=16.12.0"` and is verified against React 16, 17, 18, and 19 by the matrix workflow at `.github/workflows/react-compat.yml`. Each cell builds a fixture in webpack 5 ESM-output mode (`experiments.outputModule: true`), which uses strict bare-specifier resolution — the same condition that surfaces the original CDX-458 failure.
 
-When adding a runtime dependency, prefer packages whose ESM output does not import `react/jsx-runtime` directly. React 16 and 17 lack an `exports` map, so consumers using strict-ESM bundler configurations cannot resolve that specifier. The matrix catches consumer-runtime breakage; for build-resolver edge cases (e.g. Next.js with strict ESM), test against the customer's actual build setup.
+When adding a runtime dependency, check that its published ESM build does not import `react/jsx-runtime` directly. React 16 and 17 ship `jsx-runtime.js` but have no `package.json` `exports` map, so strict-ESM bundlers reject the bare specifier and consumer builds break. The React 16 and 17 matrix cells will fail with `Module not found: ... react/jsx-runtime doesn't exist` if this gets reintroduced. The fastest way to test a candidate dep locally is `npm run build` inside `test/react-compat/16/` after installing it.

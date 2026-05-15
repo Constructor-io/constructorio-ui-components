@@ -32,6 +32,26 @@ describe('Badge component', () => {
     expect(renderedBadge.classList.contains('cio-badge')).toBeTruthy();
   });
 
+  test('renders the child without any wrapping <span>', () => {
+    const { container } = render(
+      <Badge asChild variant='outline'>
+        <a href='/x'>linked badge</a>
+      </Badge>,
+    );
+    expect(container.querySelector('span')).toBeNull();
+    expect(container.querySelector('a')).not.toBeNull();
+  });
+
+  test('sets data-slot="badge" on the rendered child', () => {
+    render(
+      <Badge asChild>
+        <a href='/x'>linked badge</a>
+      </Badge>,
+    );
+    const a = screen.getByText('linked badge');
+    expect(a.getAttribute('data-slot')).toBe('badge');
+  });
+
   test('renders componentOverride if passed', () => {
     render(
       <Badge

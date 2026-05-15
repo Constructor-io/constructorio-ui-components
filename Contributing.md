@@ -24,3 +24,9 @@
       - YourNewComponent.css - Additional CSS styles, if any (Note: Use Tailwind whenever possible!)
       - ... any other component-specific files
 ```
+
+## React 16/17 compatibility
+
+This library declares `peerDependencies.react: ">=16.12.0"` and is smoke-tested against React 16, 17, 18, and 19 by the matrix workflow at `.github/workflows/react-compat.yml`. Each cell builds a tiny consumer fixture and runs a jsdom render of the library's public components.
+
+When adding a runtime dependency, prefer packages whose ESM output does not import `react/jsx-runtime` directly. React 16 and 17 lack an `exports` map, so consumers using strict-ESM bundler configurations cannot resolve that specifier. The matrix catches consumer-runtime breakage; for build-resolver edge cases (e.g. Next.js with strict ESM), test against the customer's actual build setup.

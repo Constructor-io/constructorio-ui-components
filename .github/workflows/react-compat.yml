@@ -1,0 +1,39 @@
+name: React compat matrix
+on:
+  pull_request:
+    branches:
+      - "**"
+concurrency:
+  group: react-compat-${{ github.head_ref }}
+  cancel-in-progress: true
+jobs:
+  compat:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        react-major: ["16", "17", "18", "19"]
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22.18.0"
+      - name: Install library deps
+        run: npm ci
+      - name: Build library
+        run: npm run compile
+      - name: Pack library
+        run: npm pack --pack-destination .
+      - name: Rename tarball to stable filename
+        run: mv constructor-io-constructorio-ui-components-*.tgz constructorio-ui-components.tgz
+      - name: Install fixture deps
+        working-directory: test/react-compat/${{ matrix.react-major }}
+        run: npm install --no-audit --no-fund
+      - name: Webpack build
+        working-directory: test/react-compat/${{ matrix.react-major }}
+        run: npm run build
+      - name: Run fixture tests
+        working-directory: test/react-compat/${{ matrix.react-major }}
+        run: npm test

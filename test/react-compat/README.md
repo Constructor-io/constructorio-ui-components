@@ -4,7 +4,7 @@ Each subdirectory is a tiny consumer of `@constructor-io/constructorio-ui-compon
 
 The CI workflow `.github/workflows/react-compat.yml` runs all four fixtures on every PR. A failing cell in any major fails the workflow.
 
-If any future runtime dependency reintroduces a published ESM `import 'react/jsx-runtime'` (or any other bare specifier that React 16/17 doesn't expose via `exports`), the React 16 and 17 cells will fail with `Module not found: ... react/jsx-runtime doesn't exist`.
+If any future runtime dependency reintroduces a published ESM `import 'react/jsx-runtime'` (or any other bare specifier that React 16/17 doesn't expose via `exports`), the React 16 and 17 cells will fail with `Module not found: Error: Can't resolve 'react/jsx-runtime'`.
 
 The fixture's `webpack.base.cjs` pins `resolve.modules` to the fixture's own `node_modules` so webpack cannot fall through to the library's hoisted React install and mask the failure.
 

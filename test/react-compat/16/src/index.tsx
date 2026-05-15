@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { Button, Badge } from '@constructor-io/constructorio-ui-components';
+import { Button, Badge, Carousel } from '@constructor-io/constructorio-ui-components';
 
 const App = () => (
   <div>
@@ -10,6 +10,7 @@ const App = () => (
     <Badge asChild variant='outline'>
       <a href='/y'>linked badge</a>
     </Badge>
+    <Carousel items={[]} />
   </div>
 );
 

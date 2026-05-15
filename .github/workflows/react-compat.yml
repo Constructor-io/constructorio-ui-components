@@ -25,12 +25,21 @@ jobs:
       - name: Build library
         run: npm run compile
       - name: Pack library
-        run: npm pack --pack-destination .
-      - name: Rename tarball to stable filename
-        run: mv constructor-io-constructorio-ui-components-*.tgz constructorio-ui-components.tgz
+        shell: bash
+        run: |
+          npm pack --pack-destination .
+          tarballs=(constructor-io-constructorio-ui-components-*.tgz)
+          if [ ${#tarballs[@]} -ne 1 ]; then
+            echo "Expected exactly 1 tarball, found ${#tarballs[@]}: ${tarballs[*]}" >&2
+            exit 1
+          fi
+          mv "${tarballs[0]}" constructorio-ui-components.tgz
       - name: Install fixture deps
         working-directory: test/react-compat/${{ matrix.react-major }}
         run: npm install --no-audit --no-fund
+      - name: Typecheck fixture
+        working-directory: test/react-compat/${{ matrix.react-major }}
+        run: npm run typecheck
       - name: Webpack build
         working-directory: test/react-compat/${{ matrix.react-major }}
         run: npm run build

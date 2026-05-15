@@ -33,6 +33,5 @@ lib/
 # react-compat fixture artifacts
 test/react-compat/*/node_modules/
 test/react-compat/*/dist/
-test/react-compat/*/package-lock.json
 constructor-io-constructorio-ui-components-*.tgz
 constructorio-ui-components.tgz

@@ -4,7 +4,8 @@
   "version": "0.0.0",
   "scripts": {
     "build": "webpack --mode=production --bail",
-    "test": "vitest run"
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "react": "16.14.0",
@@ -12,7 +13,6 @@
   },
   "devDependencies": {
     "@constructor-io/constructorio-ui-components": "file:../../../constructorio-ui-components.tgz",
-    "@testing-library/jest-dom": "5.17.0",
     "@testing-library/react": "12.1.5",
     "@types/react": "16.14.60",
     "@types/react-dom": "16.9.24",

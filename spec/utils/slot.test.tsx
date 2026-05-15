@@ -103,6 +103,21 @@ describe('Slot', () => {
     expect(order).toEqual(['child', 'slot']);
   });
 
+  // 7b. Slot handler is skipped when child handler calls preventDefault
+  test('slot handler is skipped when child handler calls preventDefault', () => {
+    const slotClick = vi.fn();
+    const { container } = render(
+      <Slot onClick={slotClick}>
+        <button onClick={(e) => e.preventDefault()} type='button'>
+          click me
+        </button>
+      </Slot>,
+    );
+    const button = container.firstChild as HTMLButtonElement;
+    fireEvent.click(button);
+    expect(slotClick).not.toHaveBeenCalled();
+  });
+
   // 8. Slot's handler fires when child has no handler of the same name
   test("slot's handler fires when child has no handler for that event", () => {
     const slotClick = vi.fn();

@@ -8,7 +8,7 @@ function setRef<T>(ref: React.Ref<T> | undefined | null, value: T | null) {
   }
 }
 
-function composeRefs<T>(...refs: (React.Ref<T> | undefined | null)[]) {
+function composeRefs<T>(...refs: (React.Ref<T> | undefined | null)[]): React.RefCallback<T> {
   return (node: T | null) => {
     refs.forEach((ref) => setRef(ref, node));
   };
@@ -26,7 +26,10 @@ function mergeProps(slotProps: Record<string, unknown>, childProps: Record<strin
       if (typeof slotPropValue === 'function' && typeof childPropValue === 'function') {
         overrideProps[propName] = (...args: unknown[]) => {
           const result = (childPropValue as (...a: unknown[]) => unknown)(...args);
-          (slotPropValue as (...a: unknown[]) => unknown)(...args);
+          const event = args[0] as { defaultPrevented?: boolean } | undefined;
+          if (!event?.defaultPrevented) {
+            (slotPropValue as (...a: unknown[]) => unknown)(...args);
+          }
           return result;
         };
       } else if (typeof slotPropValue === 'function') {
@@ -69,7 +72,7 @@ const Slot = React.forwardRef<HTMLElement, SlotProps>((props, forwardedRef) => {
   if (React.isValidElement(children)) {
     const childRef = getElementRef(children);
     const mergedProps = mergeProps(slotProps, children.props as Record<string, unknown>);
-    mergedProps.ref = forwardedRef ? composeRefs(forwardedRef, childRef) : childRef;
+    mergedProps.ref = composeRefs(forwardedRef, childRef);
 
     return React.cloneElement(children, mergedProps);
   }

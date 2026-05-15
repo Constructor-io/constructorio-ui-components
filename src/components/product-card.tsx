@@ -376,7 +376,14 @@ const ProductCardFooter: React.FC<CardFooterProps> = ({ children, ...props }) =>
 
 const SwatchSection: React.FC<SwatchSectionProps> = (props) => {
   const { renderProps, componentOverrides, swatch } = useProductCardContext();
-  const { swatchList, selectedSwatch, selectSwatch } = swatch;
+  const {
+    swatchList,
+    selectedSwatch,
+    selectSwatch,
+    visibleSwatches,
+    hiddenSwatches,
+    hasMoreSwatches,
+  } = swatch;
 
   const handleSwatchClick = useCallback(
     (e: React.MouseEvent, clickedSwatch: SwatchItem) => {
@@ -386,10 +393,31 @@ const SwatchSection: React.FC<SwatchSectionProps> = (props) => {
     [renderProps, selectSwatch],
   );
 
-  const handleContainerClick = useCallback((e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
+  const defaultSetUrl = useCallback((url: string) => {
+    window.location.assign(url);
   }, []);
+
+  const handleShowMoreClick = useCallback(
+    (e: React.MouseEvent) => {
+      if (renderProps.onShowMoreSwatches) {
+        renderProps.onShowMoreSwatches(e, selectedSwatch, hiddenSwatches, defaultSetUrl);
+      } else {
+        const url = selectedSwatch?.url;
+        if (url) {
+          defaultSetUrl(url);
+        }
+      }
+    },
+    [renderProps, selectedSwatch, hiddenSwatches, defaultSetUrl],
+  );
+
+  const showMoreLabel = useMemo(() => {
+    const labelProp = props.showMoreSwatchesLabel ?? renderProps.showMoreSwatchesLabel;
+    if (typeof labelProp === 'function') {
+      return labelProp(hiddenSwatches.length);
+    }
+    return labelProp ?? 'View more >';
+  }, [props.showMoreSwatchesLabel, renderProps.showMoreSwatchesLabel, hiddenSwatches.length]);
 
   if (!swatchList.length) return null;
 
@@ -401,9 +429,8 @@ const SwatchSection: React.FC<SwatchSectionProps> = (props) => {
         className={cn(
           'cio-product-card-swatch-section flex flex-wrap gap-2.5 py-2 cursor-default',
           props.className,
-        )}
-        onClick={handleContainerClick}>
-        {swatchList.map((swatchItem) => {
+        )}>
+        {visibleSwatches.map((swatchItem) => {
           const isSelected = selectedSwatch?.variationId === swatchItem.variationId;
           const bgValue = isHexColor(swatchItem.swatchPreview)
             ? swatchItem.swatchPreview
@@ -426,6 +453,16 @@ const SwatchSection: React.FC<SwatchSectionProps> = (props) => {
             />
           );
         })}
+        {hasMoreSwatches && (
+          <button
+            type='button'
+            data-testid='cio-swatch-show-more'
+            className='cio-swatch-show-more bg-transparent border-0 p-0 text-xs underline cursor-pointer text-[var(--cio-swatch-more-color,#333)] hover:text-[var(--cio-swatch-more-hover-color,#000)]'
+            onClick={handleShowMoreClick}
+            aria-label={showMoreLabel}>
+            {showMoreLabel}
+          </button>
+        )}
       </div>
     </RenderPropsWrapper>
   );
@@ -451,7 +488,7 @@ function getProductCardDataAttributes({
 }
 
 function ProductCard({ componentOverrides, children, className, ...props }: ProductCardProps) {
-  const swatch = useProductSwatch(props.product);
+  const swatch = useProductSwatch(props.product, props.maxSwatches);
   const displayProduct = useMemo(
     () => getDisplayProduct(props.product, swatch.selectedSwatch),
     [props.product, swatch.selectedSwatch],
@@ -476,9 +513,12 @@ function ProductCard({ componentOverrides, children, className, ...props }: Prod
     priceCurrency,
     onAddToCart,
     onProductClick,
+    onShowMoreSwatches,
     addToCartText,
     isInWishlist,
     onAddToWishlist,
+    maxSwatches,
+    showMoreSwatchesLabel,
     ...restProps
   } = props;
 

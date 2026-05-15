@@ -16,6 +16,9 @@ export interface ProductSwatchObject {
   swatchList: SwatchItem[];
   selectedSwatch: SwatchItem | undefined;
   selectSwatch: (swatch: SwatchItem) => void;
+  visibleSwatches: SwatchItem[];
+  hiddenSwatches: SwatchItem[];
+  hasMoreSwatches: boolean;
 }
 
 export interface Product {
@@ -44,6 +47,14 @@ export interface ProductCardProps extends Omit<React.ComponentProps<'div'>, 'chi
   onAddToWishlist?: (e: React.MouseEvent, product: Product) => void;
   onProductClick?: (product: Product) => void;
   onSwatchClick?: (e: React.MouseEvent, swatch: SwatchItem) => void;
+  onShowMoreSwatches?: (
+    event: React.MouseEvent,
+    selectedSwatch: SwatchItem | undefined,
+    hiddenSwatches: SwatchItem[],
+    setUrl: (url: string) => void,
+  ) => void;
+  maxSwatches?: number;
+  showMoreSwatchesLabel?: string | ((hiddenCount: number) => string);
   children?: RenderPropsChildren<ProductCardProps>;
   componentOverrides?: ProductCardOverrides;
 }
@@ -115,6 +126,8 @@ export interface AddToCartButtonProps extends IncludeRenderProps<ProductCardProp
 }
 
 export interface SwatchSectionProps extends IncludeRenderProps<ProductCardProps> {
+  maxSwatches?: number;
+  showMoreSwatchesLabel?: string | ((hiddenCount: number) => string);
   className?: string;
 }
 

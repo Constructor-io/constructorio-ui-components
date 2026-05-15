@@ -1325,35 +1325,119 @@ export const WithImageSwatches: Story = {
   },
 };
 
-// Card with swatches and interaction callbacks
-export const WithSwatchInteraction: Story = {
+// Card with swatches and default view more button
+export const WithSwatchesDefaultViewMore: Story = {
   args: {
     product: {
-      id: 'interactive-swatch-product',
-      variationId: 'var-1',
-      name: 'Interactive Swatch Product',
+      id: 'jersey-riviera-shirt',
+      variationId: 'var-red',
+      name: 'Jersey Riviera Shirt',
       imageUrl: DEMO_IMAGE_URL,
-      price: '100',
+      description: 'Premium golf pants designed for comfort and performance on the course',
+      price: '90',
       swatchList: [
         {
-          variationId: 'var-1',
-          name: 'Variant Red',
+          variationId: 'var-red',
+          name: 'Jersey Riviera Shirt (Red)',
           imageUrl: DEMO_IMAGE_URL,
-          price: '100',
+          url: DEMO_IMAGE_URL,
+          price: '90',
           swatchPreview: '#e04062',
         },
         {
-          variationId: 'var-2',
-          name: 'Variant Blue',
+          variationId: 'var-green',
+          name: 'Jersey Riviera Shirt (Green)',
           imageUrl: DEMO_IMAGE_URL,
-          price: '110',
-          salePrice: '85',
+          url: DEMO_IMAGE_URL,
+          price: '99',
+          salePrice: '75',
+          swatchPreview: '#a3c43b',
+        },
+        {
+          variationId: 'var-blue',
+          name: 'Jersey Riviera Shirt (Blue)',
+          imageUrl: DEMO_IMAGE_URL,
+          url: DEMO_IMAGE_URL,
+          price: '95',
           swatchPreview: '#3b82f6',
+        },
+        {
+          variationId: 'var-black',
+          name: 'Jersey Riviera Shirt (Black)',
+          imageUrl: DEMO_IMAGE_URL,
+          url: DEMO_IMAGE_URL,
+          price: '90',
+          swatchPreview: '#1a1a1a',
+        },
+        {
+          variationId: 'var-white',
+          name: 'Jersey Riviera Shirt (White)',
+          imageUrl: DEMO_IMAGE_URL,
+          url: DEMO_IMAGE_URL,
+          price: '90',
+          swatchPreview: '#f5f5f5',
         },
       ],
     },
+    maxSwatches: 3,
+    showMoreSwatchesLabel: (count: number) => `View +${count} more`,
     priceCurrency: '$',
-    onSwatchClick: (_, swatch) => console.log('Swatch clicked:', swatch),
-    onAddToCart: (_, product) => console.log('Added to cart:', product),
   },
 };
+
+// Card with swatches and view more button
+export const WithSwatchesViewMore: Story = {
+  args: {
+    product: {
+      id: 'jersey-riviera-shirt',
+      variationId: 'var-red',
+      name: 'Jersey Riviera Shirt',
+      imageUrl: DEMO_IMAGE_URL,
+      description: 'Premium golf pants designed for comfort and performance on the course',
+      price: '90',
+      swatchList: [
+        {
+          variationId: 'var-red',
+          name: 'Jersey Riviera Shirt (Red)',
+          imageUrl: DEMO_IMAGE_URL,
+          price: '90',
+          swatchPreview: '#e04062',
+        },
+        {
+          variationId: 'var-green',
+          name: 'Jersey Riviera Shirt (Green)',
+          imageUrl: DEMO_IMAGE_URL,
+          price: '99',
+          salePrice: '75',
+          swatchPreview: '#a3c43b',
+        },
+        {
+          variationId: 'var-blue',
+          name: 'Jersey Riviera Shirt (Blue)',
+          imageUrl: DEMO_IMAGE_URL,
+          price: '95',
+          swatchPreview: '#3b82f6',
+        },
+        {
+          variationId: 'var-black',
+          name: 'Jersey Riviera Shirt (Black)',
+          imageUrl: DEMO_IMAGE_URL,
+          price: '90',
+          swatchPreview: '#1a1a1a',
+        },
+        {
+          variationId: 'var-white',
+          name: 'Jersey Riviera Shirt (White)',
+          imageUrl: DEMO_IMAGE_URL,
+          price: '90',
+          swatchPreview: '#f5f5f5',
+        },
+      ],
+    },
+    maxSwatches: 3,
+    showMoreSwatchesLabel: (count: number) => `View +${count} more`,
+    onShowMoreSwatches: console.log,
+    priceCurrency: '$',
+  },
+};
+

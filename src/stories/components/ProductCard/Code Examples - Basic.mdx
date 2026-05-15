@@ -145,6 +145,91 @@ function TagsExample() {
 }
 ```
 
+## Product Card with Swatches
+
+<Canvas of={ProductCardStories.WithSwatches} />
+
+```tsx
+import ProductCard from '@/components/product-card';
+
+function SwatchesExample() {
+  return (
+    <ProductCard
+      product={{
+        id: "jersey-riviera-shirt",
+        variationId: "var-red",
+        name: "Jersey Riviera Shirt",
+        imageUrl: "https://example.com/shirt.jpg",
+        price: "90",
+        swatchList: [
+          {
+            variationId: 'var-red',
+            name: 'Jersey Riviera Shirt (Red)',
+            imageUrl: 'https://example.com/red.jpg',
+            price: '90',
+            swatchPreview: '#e04062',
+          },
+          {
+            variationId: 'var-green',
+            name: 'Jersey Riviera Shirt (Green)',
+            imageUrl: 'https://example.com/green.jpg',
+            price: '99',
+            salePrice: '75',
+            swatchPreview: '#a3c43b',
+          },
+          {
+            variationId: 'var-blue',
+            name: 'Jersey Riviera Shirt (Blue)',
+            imageUrl: 'https://example.com/blue.jpg',
+            price: '95',
+            swatchPreview: '#3b82f6',
+          },
+        ],
+      }}
+      priceCurrency="$"
+    />
+  );
+}
+```
+
+## Product Card with Swatches and View More
+
+Use `maxSwatches` to limit the number of visible swatches. A "View more" button appears automatically when there are hidden swatches. Customize the label with `showMoreSwatchesLabel`.
+
+<Canvas of={ProductCardStories.WithSwatchesViewMore} />
+
+```tsx
+import ProductCard from '@/components/product-card';
+
+function SwatchesViewMoreExample() {
+  return (
+    <ProductCard
+      product={{
+        id: "jersey-riviera-shirt",
+        variationId: "var-red",
+        name: "Jersey Riviera Shirt",
+        imageUrl: "https://example.com/shirt.jpg",
+        price: "90",
+        swatchList: [
+          { variationId: 'var-red', name: 'Red', imageUrl: 'https://example.com/red.jpg', price: '90', swatchPreview: '#e04062' },
+          { variationId: 'var-green', name: 'Green', imageUrl: 'https://example.com/green.jpg', price: '99', swatchPreview: '#a3c43b' },
+          { variationId: 'var-blue', name: 'Blue', imageUrl: 'https://example.com/blue.jpg', price: '95', swatchPreview: '#3b82f6' },
+          { variationId: 'var-black', name: 'Black', imageUrl: 'https://example.com/black.jpg', price: '90', swatchPreview: '#1a1a1a' },
+          { variationId: 'var-white', name: 'White', imageUrl: 'https://example.com/white.jpg', price: '90', swatchPreview: '#f5f5f5' },
+        ],
+      }}
+      maxSwatches={3}
+      showMoreSwatchesLabel={(count) => `View +${count} more`}
+      onShowMoreSwatches={(event, selectedSwatch, hiddenSwatches, setUrl) => {
+        console.log('Show more clicked', selectedSwatch, hiddenSwatches);
+        // Navigate to the product page, or open a modal, etc.
+      }}
+      priceCurrency="$"
+    />
+  );
+}
+```
+
 ## Product Card with Badge
 
 <Canvas of={ProductCardStories.WithBadge} />

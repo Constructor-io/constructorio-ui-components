@@ -121,4 +121,48 @@ describe('useProductSwatch', () => {
 
     expect(result.current.selectedSwatch).toBeUndefined();
   });
+
+  describe('maxSwatches', () => {
+    test('visibleSwatches equals swatchList when maxSwatches is undefined', () => {
+      const { result } = renderHook(() => useProductSwatch(productWithSwatches));
+
+      expect(result.current.visibleSwatches).toEqual(result.current.swatchList);
+      expect(result.current.hiddenSwatches).toEqual([]);
+      expect(result.current.hasMoreSwatches).toBe(false);
+    });
+
+    test('splits swatches when maxSwatches is less than total', () => {
+      const { result } = renderHook(() => useProductSwatch(productWithSwatches, 1));
+
+      expect(result.current.visibleSwatches).toHaveLength(1);
+      expect(result.current.visibleSwatches[0].variationId).toBe('var-1');
+      expect(result.current.hiddenSwatches).toHaveLength(1);
+      expect(result.current.hiddenSwatches[0].variationId).toBe('var-2');
+      expect(result.current.hasMoreSwatches).toBe(true);
+    });
+
+    test('all swatches visible when maxSwatches equals total', () => {
+      const { result } = renderHook(() => useProductSwatch(productWithSwatches, 2));
+
+      expect(result.current.visibleSwatches).toHaveLength(2);
+      expect(result.current.hiddenSwatches).toHaveLength(0);
+      expect(result.current.hasMoreSwatches).toBe(false);
+    });
+
+    test('all swatches visible when maxSwatches exceeds total', () => {
+      const { result } = renderHook(() => useProductSwatch(productWithSwatches, 10));
+
+      expect(result.current.visibleSwatches).toHaveLength(2);
+      expect(result.current.hiddenSwatches).toHaveLength(0);
+      expect(result.current.hasMoreSwatches).toBe(false);
+    });
+
+    test('no swatches visible when maxSwatches is 0', () => {
+      const { result } = renderHook(() => useProductSwatch(productWithSwatches, 0));
+
+      expect(result.current.visibleSwatches).toHaveLength(0);
+      expect(result.current.hiddenSwatches).toHaveLength(2);
+      expect(result.current.hasMoreSwatches).toBe(true);
+    });
+  });
 });

@@ -149,6 +149,71 @@ function CustomCurrencyExample() {
 }
 ```
 
+## Product Card with Swatch Interaction
+
+```tsx
+import ProductCard from '@/components/product-card';
+
+function SwatchInteractionExample() {
+  return (
+    <ProductCard
+      product={{
+        id: 'interactive-swatch-product',
+        variationId: 'var-1',
+        name: 'Interactive Swatch Product',
+        imageUrl: 'https://example.com/product.jpg',
+        price: '100',
+        swatchList: [
+          { variationId: 'var-1', name: 'Red', imageUrl: 'https://example.com/red.jpg', price: '100', swatchPreview: '#e04062' },
+          { variationId: 'var-2', name: 'Blue', imageUrl: 'https://example.com/blue.jpg', price: '110', salePrice: '85', swatchPreview: '#3b82f6' },
+        ],
+      }}
+      priceCurrency="$"
+      onSwatchClick={(e, swatch) => console.log('Swatch clicked:', swatch)}
+    />
+  );
+}
+```
+
+## Product Card with View More Swatches Callback
+
+When `maxSwatches` limits visible swatches, the "View more" button calls `onShowMoreSwatches` with the selected swatch, hidden swatches, and a `setUrl` helper. If no callback is provided, clicking "View more" navigates to the selected swatch's URL by default.
+
+<Canvas of={ProductCardStories.WithSwatchesViewMore} />
+
+```tsx
+import ProductCard from '@/components/product-card';
+
+function ViewMoreSwatchesExample() {
+  return (
+    <ProductCard
+      product={{
+        id: 'shirt',
+        variationId: 'var-red',
+        name: 'Shirt',
+        imageUrl: 'https://example.com/shirt.jpg',
+        price: '90',
+        swatchList: [
+          { variationId: 'var-red', name: 'Red', imageUrl: 'https://example.com/red.jpg', price: '90', swatchPreview: '#e04062', url: '/products/shirt?color=red' },
+          { variationId: 'var-green', name: 'Green', imageUrl: 'https://example.com/green.jpg', price: '99', swatchPreview: '#a3c43b', url: '/products/shirt?color=green' },
+          { variationId: 'var-blue', name: 'Blue', imageUrl: 'https://example.com/blue.jpg', price: '95', swatchPreview: '#3b82f6', url: '/products/shirt?color=blue' },
+          { variationId: 'var-black', name: 'Black', imageUrl: 'https://example.com/black.jpg', price: '90', swatchPreview: '#1a1a1a', url: '/products/shirt?color=black' },
+        ],
+      }}
+      maxSwatches={2}
+      showMoreSwatchesLabel={(count) => `+${count} more`}
+      onShowMoreSwatches={(event, selectedSwatch, hiddenSwatches, setUrl) => {
+        // Custom behavior: navigate to PDP
+        if (selectedSwatch?.url) {
+          setUrl(selectedSwatch.url);
+        }
+      }}
+      priceCurrency="$"
+    />
+  );
+}
+```
+
 ## Product Card Already in Wishlist
 
 <Canvas of={ProductCardStories.InWishlist} />

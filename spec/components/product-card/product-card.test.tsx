@@ -816,5 +816,167 @@ describe('ProductCard component', () => {
         screen.getByTestId('cio-swatch-var-2').getAttribute('data-cnstrc-item-variation-id'),
       ).toBe('var-2');
     });
+
+    describe('View More Swatches', () => {
+      const mockProductWithManySwatches = {
+        ...mockProductWithSwatches,
+        swatchList: [
+          ...mockProductWithSwatches.swatchList,
+          {
+            variationId: 'var-3',
+            name: 'Green Variant',
+            imageUrl: 'https://example.com/green.jpg',
+            price: '110',
+            swatchPreview: '#00FF00',
+          },
+          {
+            variationId: 'var-4',
+            name: 'Yellow Variant',
+            imageUrl: 'https://example.com/yellow.jpg',
+            price: '105',
+            swatchPreview: '#FFFF00',
+          },
+        ],
+      };
+
+      test('does not render show more button when maxSwatches is not set', () => {
+        render(<ProductCard product={mockProductWithManySwatches} />);
+
+        expect(screen.queryByTestId('cio-swatch-show-more')).not.toBeInTheDocument();
+        expect(screen.getByTestId('cio-swatch-var-1')).toBeInTheDocument();
+        expect(screen.getByTestId('cio-swatch-var-2')).toBeInTheDocument();
+        expect(screen.getByTestId('cio-swatch-var-3')).toBeInTheDocument();
+        expect(screen.getByTestId('cio-swatch-var-4')).toBeInTheDocument();
+      });
+
+      test('renders only maxSwatches swatch buttons when set', () => {
+        render(<ProductCard product={mockProductWithManySwatches} maxSwatches={2} />);
+
+        expect(screen.getByTestId('cio-swatch-var-1')).toBeInTheDocument();
+        expect(screen.getByTestId('cio-swatch-var-2')).toBeInTheDocument();
+        expect(screen.queryByTestId('cio-swatch-var-3')).not.toBeInTheDocument();
+        expect(screen.queryByTestId('cio-swatch-var-4')).not.toBeInTheDocument();
+      });
+
+      test('renders show more button with default label', () => {
+        render(<ProductCard product={mockProductWithManySwatches} maxSwatches={2} />);
+
+        const showMoreBtn = screen.getByTestId('cio-swatch-show-more');
+        expect(showMoreBtn).toBeInTheDocument();
+        expect(showMoreBtn).toHaveTextContent('View more >');
+      });
+
+      test('renders show more button with custom string label', () => {
+        render(
+          <ProductCard
+            product={mockProductWithManySwatches}
+            maxSwatches={2}
+            showMoreSwatchesLabel='See all colors'
+          />,
+        );
+
+        expect(screen.getByTestId('cio-swatch-show-more')).toHaveTextContent('See all colors');
+      });
+
+      test('renders show more button with custom function label', () => {
+        render(
+          <ProductCard
+            product={mockProductWithManySwatches}
+            maxSwatches={2}
+            showMoreSwatchesLabel={(count) => `+${count} more`}
+          />,
+        );
+
+        expect(screen.getByTestId('cio-swatch-show-more')).toHaveTextContent('+2 more');
+      });
+
+      test('calls onShowMoreSwatches callback on button click', () => {
+        const onShowMoreSwatches = vi.fn();
+        render(
+          <ProductCard
+            product={mockProductWithManySwatches}
+            maxSwatches={2}
+            onShowMoreSwatches={onShowMoreSwatches}
+          />,
+        );
+
+        fireEvent.click(screen.getByTestId('cio-swatch-show-more'));
+
+        expect(onShowMoreSwatches).toHaveBeenCalledTimes(1);
+        expect(onShowMoreSwatches).toHaveBeenCalledWith(
+          expect.any(Object),
+          expect.objectContaining({ variationId: 'var-1' }),
+          expect.arrayContaining([
+            expect.objectContaining({ variationId: 'var-3' }),
+            expect.objectContaining({ variationId: 'var-4' }),
+          ]),
+          expect.any(Function),
+        );
+      });
+
+      test('clicking show more does not trigger onProductClick', () => {
+        const onProductClick = vi.fn();
+        render(
+          <ProductCard
+            product={mockProductWithManySwatches}
+            maxSwatches={2}
+            onProductClick={onProductClick}
+            onShowMoreSwatches={vi.fn()}
+          />,
+        );
+
+        fireEvent.click(screen.getByTestId('cio-swatch-show-more'));
+
+        expect(onProductClick).not.toHaveBeenCalled();
+      });
+
+      test('navigates to selected swatch url by default when no callback provided', () => {
+        const originalLocation = window.location;
+        const assignMock = vi.fn();
+        Object.defineProperty(window, 'location', {
+          value: { ...originalLocation, assign: assignMock },
+          writable: true,
+        });
+
+        const productWithUrls = {
+          ...mockProductWithManySwatches,
+          swatchList: mockProductWithManySwatches.swatchList.map((s) => ({
+            ...s,
+            url: `https://example.com/${s.variationId}`,
+          })),
+        };
+
+        render(<ProductCard product={productWithUrls} maxSwatches={2} />);
+
+        fireEvent.click(screen.getByTestId('cio-swatch-show-more'));
+
+        expect(assignMock).toHaveBeenCalledWith('https://example.com/var-1');
+        Object.defineProperty(window, 'location', { value: originalLocation, writable: true });
+      });
+
+      test('does not navigate when selected swatch has no url and no callback provided', () => {
+        const originalLocation = window.location;
+        const assignMock = vi.fn();
+        Object.defineProperty(window, 'location', {
+          value: { ...originalLocation, assign: assignMock },
+          writable: true,
+        });
+
+        render(<ProductCard product={mockProductWithManySwatches} maxSwatches={2} />);
+
+        fireEvent.click(screen.getByTestId('cio-swatch-show-more'));
+
+        expect(assignMock).not.toHaveBeenCalled();
+        Object.defineProperty(window, 'location', { value: originalLocation, writable: true });
+      });
+
+      test('does not render show more button when maxSwatches equals total swatches', () => {
+        render(<ProductCard product={mockProductWithManySwatches} maxSwatches={4} />);
+
+        expect(screen.queryByTestId('cio-swatch-show-more')).not.toBeInTheDocument();
+        expect(screen.getByTestId('cio-swatch-var-1')).toBeInTheDocument();
+        expect(screen.getByTestId('cio-swatch-var-4')).toBeInTheDocument();
+      });
+    });
   });
 });

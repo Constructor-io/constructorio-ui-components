@@ -21,7 +21,7 @@ function buildSwatchList(product: Product): SwatchItem[] {
   }, []);
 }
 
-export function useProductSwatch(product: Product): ProductSwatchObject {
+export function useProductSwatch(product: Product, maxSwatches?: number): ProductSwatchObject {
   const swatchList = useMemo(() => buildSwatchList(product), [product]);
 
   const [selectedSwatch, setSelectedSwatch] = useState<SwatchItem | undefined>(() =>
@@ -32,5 +32,23 @@ export function useProductSwatch(product: Product): ProductSwatchObject {
     setSelectedSwatch(swatch);
   }, []);
 
-  return { swatchList, selectedSwatch, selectSwatch };
+  const { visibleSwatches, hiddenSwatches, hasMoreSwatches } = useMemo(() => {
+    if (maxSwatches === undefined) {
+      return { visibleSwatches: swatchList, hiddenSwatches: [], hasMoreSwatches: false };
+    }
+
+    const visible = swatchList.slice(0, maxSwatches);
+    const hidden = swatchList.slice(maxSwatches);
+
+    return { visibleSwatches: visible, hiddenSwatches: hidden, hasMoreSwatches: hidden.length > 0 };
+  }, [swatchList, maxSwatches]);
+
+  return {
+    swatchList,
+    selectedSwatch,
+    selectSwatch,
+    visibleSwatches,
+    hiddenSwatches,
+    hasMoreSwatches,
+  };
 }

@@ -36,7 +36,7 @@ jobs:
           mv "${tarballs[0]}" constructorio-ui-components.tgz
       - name: Install fixture deps
         working-directory: test/react-compat/${{ matrix.react-major }}
-        run: npm install --no-audit --no-fund
+        run: npm ci --no-audit --no-fund
       - name: Typecheck fixture
         working-directory: test/react-compat/${{ matrix.react-major }}
         run: npm run typecheck

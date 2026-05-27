@@ -289,7 +289,7 @@ function CarouselItem<T = Product>({
         aria-roledescription='slide'
         data-slot='carousel-item'
         className={cn(
-          'cio:shrink-0 cio:grow-0 cio:basis-full cio:flex cio:items-stretch cio:justify-center cio:items-center',
+          'cio:shrink-0 cio:grow-0 cio:basis-full cio:flex cio:justify-center cio:items-center',
           className,
         )}
         {...props}>
@@ -339,7 +339,7 @@ function CarouselNavButton({
       <Button
         data-slot={isPrevious ? 'carousel-previous' : 'carousel-next'}
         className={cn(
-          'cio:rounded-md cio:bg-white cio:border-1 cio:border-gray-200 cio:flex cio:justify-center cio:items-center cio:shadow-none',
+          'cio:rounded-md cio:bg-white cio:border cio:border-gray-200 cio:flex cio:justify-center cio:items-center cio:shadow-none',
           canScroll ? '' : 'cio:invisible',
           className,
         )}

@@ -4,13 +4,13 @@ import { ComponentOverrideProps, IncludeComponentOverrides } from '@/types';
 import { cva, VariantProps } from 'class-variance-authority';
 
 const chipVariants = cva(
-  'cio-components cio-chip inline-flex items-center justify-center rounded-full overflow-hidden border border-gray-200 flex-shrink-0',
+  'cio-components cio-chip cio:inline-flex cio:items-center cio:justify-center cio:rounded-full cio:overflow-hidden cio:border cio:border-gray-200 cio:flex-shrink-0',
   {
     variants: {
       size: {
-        sm: 'w-4 h-4',
-        md: 'w-6 h-6',
-        lg: 'w-8 h-8',
+        sm: 'cio:w-4 cio:h-4',
+        md: 'cio:w-6 cio:h-6',
+        lg: 'cio:w-8 cio:h-8',
       },
     },
     defaultVariants: {
@@ -55,7 +55,7 @@ export default function Chip({
       return (
         <div
           data-slot='chip'
-          className={cn(chipVariants({ size, className }), 'bg-white')}
+          className={cn(chipVariants({ size, className }), 'cio:bg-white')}
           aria-label={name}
           role='img'
           {...props}
@@ -87,10 +87,10 @@ export default function Chip({
           <img
             src={value}
             alt={name}
-            className='w-full h-full object-cover'
+            className='cio:w-full cio:h-full cio:object-cover'
             onError={(e) => {
               e.currentTarget.style.display = 'none';
-              e.currentTarget.parentElement?.classList.add('bg-gray-200');
+              e.currentTarget.parentElement?.classList.add('cio:bg-gray-200');
             }}
           />
         </div>

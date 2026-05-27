@@ -284,10 +284,12 @@ export const CustomBadge: Story = {
       image: {
         badge: {
           reactNode: () => (
-            <div className='absolute top-2 sm:top-4 left-2 sm:left-[22px] bg-gradient-to-r from-orange-500 to-red-500 text-white px-3 py-1 rounded-full shadow-lg'>
-              <div className='flex items-center gap-1'>
-                <span className='text-lg'>🔥</span>
-                <span className='text-xs font-bold uppercase tracking-wide'>Hot Deal</span>
+            <div className='cio:absolute cio:top-2 cio:sm:top-4 cio:left-2 cio:sm:left-[22px] cio:bg-gradient-to-r cio:from-orange-500 cio:to-red-500 cio:text-white cio:px-3 cio:py-1 cio:rounded-full cio:shadow-lg'>
+              <div className='cio:flex cio:items-center cio:gap-1'>
+                <span className='cio:text-lg'>🔥</span>
+                <span className='cio:text-xs cio:font-bold cio:uppercase cio:tracking-wide'>
+                  Hot Deal
+                </span>
               </div>
             </div>
           ),
@@ -503,9 +505,9 @@ export const CompoundGridLayout: Story = {
   },
   render: (args) => (
     <ProductCard {...args}>
-      <div className='grid grid-cols-2 gap-4 p-4'>
+      <div className='cio:grid cio:grid-cols-2 cio:gap-4 cio:p-4'>
         <ProductCard.ImageSection />
-        <div className='space-y-2'>
+        <div className='cio:space-y-2'>
           <ProductCard.PriceSection />
           <ProductCard.TitleSection />
           <ProductCard.RatingSection />
@@ -609,32 +611,32 @@ export const CompactListStyle: Story = {
 // Example customization overrides for different sections
 const priceOverride = {
   reactNode: (renderProps: ProductCardProps) => (
-    <div className='bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200 rounded-lg p-4 my-2'>
-      <div className='flex items-center justify-between'>
-        <div className='flex flex-col'>
-          <span className='text-xs text-emerald-600 font-medium uppercase tracking-wide'>
+    <div className='cio:bg-gradient-to-r cio:from-emerald-50 cio:to-teal-50 cio:border cio:border-emerald-200 cio:rounded-lg cio:p-4 cio:my-2'>
+      <div className='cio:flex cio:items-center cio:justify-between'>
+        <div className='cio:flex cio:flex-col'>
+          <span className='cio:text-xs cio:text-emerald-600 cio:font-medium cio:uppercase cio:tracking-wide'>
             Special Offer
           </span>
-          <div className='flex items-baseline gap-2 mt-1'>
-            <span className='text-2xl font-bold text-emerald-800'>
+          <div className='cio:flex cio:items-baseline cio:gap-2 cio:mt-1'>
+            <span className='cio:text-2xl cio:font-bold cio:text-emerald-800'>
               {renderProps.priceCurrency}
               {renderProps.product.salePrice || renderProps.product.price}
             </span>
             {renderProps.product.salePrice && (
-              <span className='text-sm text-gray-500 line-through'>
+              <span className='cio:text-sm cio:text-gray-500 cio:line-through'>
                 {renderProps.priceCurrency}
                 {renderProps.product.price}
               </span>
             )}
           </div>
           {renderProps.product.salePrice && (
-            <span className='text-xs text-emerald-600 font-medium mt-1'>
+            <span className='cio:text-xs cio:text-emerald-600 cio:font-medium cio:mt-1'>
               Save {renderProps.priceCurrency}
               {Number(renderProps.product.price) - Number(renderProps.product.salePrice)}
             </span>
           )}
         </div>
-        <div className='bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full text-xs font-bold'>
+        <div className='cio:bg-emerald-100 cio:text-emerald-800 cio:px-3 cio:py-1 cio:rounded-full cio:text-xs cio:font-bold'>
           {renderProps.product.salePrice
             ? `${Math.round(
                 ((Number(renderProps.product.price) - Number(renderProps.product.salePrice)) /
@@ -650,7 +652,9 @@ const priceOverride = {
 
 const titleOverride = {
   reactNode: (props: ProductCardProps) => (
-    <h3 className='text-xl font-bold text-purple-600 underline'>{props.product.name}</h3>
+    <h3 className='cio:text-xl cio:font-bold cio:text-purple-600 cio:underline'>
+      {props.product.name}
+    </h3>
   ),
 };
 
@@ -661,8 +665,7 @@ const addToCartButtonOverride = {
     product: Product;
   }) => (
     <button
-      className='w-full bg-gradient-to-r from-purple-500
-to-pink-500 text-white py-2 px-4 rounded-lg hover:from-purple-600 hover:to-pink-600 transition-all cursor-pointer border-0'
+      className='cio:w-full cio:bg-gradient-to-r cio:from-purple-500 cio:to-pink-500 cio:text-white cio:py-2 cio:px-4 cio:rounded-lg cio:hover:from-purple-600 cio:hover:to-pink-600 cio:transition-all cio:cursor-pointer cio:border-0'
       onClick={(e) => props.onAddToCart && props.onAddToCart(e, props.product)}>
       🛒 {props.addToCartText || 'Add to Cart'}
     </button>
@@ -672,8 +675,7 @@ to-pink-500 text-white py-2 px-4 rounded-lg hover:from-purple-600 hover:to-pink-
 const wishlistButtonOverride = {
   reactNode: (props: ProductCardProps) => (
     <button
-      className='absolute top-2 right-2 bg-white
-text-white px-1 rounded-md hover:bg-red-200 transition-colors cursor-pointer border-0'
+      className='cio:absolute cio:top-2 cio:right-2 cio:bg-white cio:text-white cio:px-1 cio:rounded-md cio:hover:bg-red-200 cio:transition-colors cio:cursor-pointer cio:border-0'
       onClick={(e) => props.onAddToWishlist && props.onAddToWishlist(e, props.product)}>
       ❤️
     </button>
@@ -682,35 +684,33 @@ text-white px-1 rounded-md hover:bg-red-200 transition-colors cursor-pointer bor
 
 const footerOverride = {
   reactNode: (props: ProductCardProps) => (
-    <div className='bg-gradient-to-r from-blue-50 to-indigo-50 p-4 rounded-lg border border-blue-200'>
-      <div className='flex flex-col gap-3'>
+    <div className='cio:bg-gradient-to-r cio:from-blue-50 cio:to-indigo-50 cio:p-4 cio:rounded-lg cio:border cio:border-blue-200'>
+      <div className='cio:flex cio:flex-col cio:gap-3'>
         {/* Custom action buttons */}
-        <div className='flex flex-col gap-2'>
+        <div className='cio:flex cio:flex-col cio:gap-2'>
           <button
-            className='flex-1 bg-blue-600 hover:
-bg-blue-700 text-white py-2 px-4 rounded-lg font-medium transition-colors cursor-pointer border-0'
+            className='cio:flex-1 cio:bg-blue-600 cio:hover:bg-blue-700 cio:text-white cio:py-2 cio:px-4 cio:rounded-lg cio:font-medium cio:transition-colors cio:cursor-pointer cio:border-0'
             onClick={(e) => props.onAddToCart && props.onAddToCart(e, props.product)}>
             🛒 Quick Buy
           </button>
           <button
-            className='flex-1 bg-white hover:bg-gray-50 text-
-blue-600 border border-blue-600 py-2 px-4 rounded-lg font-medium transition-colors cursor-pointer border-0'
+            className='cio:flex-1 cio:bg-white cio:hover:bg-gray-50 cio:text-blue-600 cio:border cio:border-blue-600 cio:py-2 cio:px-4 cio:rounded-lg cio:font-medium cio:transition-colors cio:cursor-pointer'
             onClick={() => console.log('Compare clicked')}>
             ⚖️ Compare
           </button>
         </div>
         {/* Custom info section */}
-        <div className='flex flex-col gap-2 items-center justify-between text-sm text-gray-600'>
-          <span className='flex items-center gap-1'>🚚 Free shipping</span>
-          <span className='flex items-center gap-1'>🔄 30-day returns</span>
+        <div className='cio:flex cio:flex-col cio:gap-2 cio:items-center cio:justify-between cio:text-sm cio:text-gray-600'>
+          <span className='cio:flex cio:items-center cio:gap-1'>🚚 Free shipping</span>
+          <span className='cio:flex cio:items-center cio:gap-1'>🔄 30-day returns</span>
         </div>
         {/* Custom tags display */}
         {props.product.tags && props.product.tags.length > 0 && (
-          <div className='flex flex-wrap gap-1 justify-center'>
+          <div className='cio:flex cio:flex-wrap cio:gap-1 cio:justify-center'>
             {props.product.tags.map((tag, index) => (
               <span
                 key={index}
-                className='bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full'>
+                className='cio:bg-blue-100 cio:text-blue-800 cio:text-xs cio:px-2 cio:py-1 cio:rounded-full'>
                 {tag}
               </span>
             ))}
@@ -997,29 +997,31 @@ export const CompoundWithRenderProps: Story = {
       <ProductCard.Content>
         {(renderProps: ProductCardProps) => (
           <>
-            <div className='flex items-baseline gap-2'>
-              <span className='text-lg font-bold'>
+            <div className='cio:flex cio:items-baseline cio:gap-2'>
+              <span className='cio:text-lg cio:font-bold'>
                 {renderProps.priceCurrency}
                 {renderProps.product.salePrice || renderProps.product.price}
               </span>
               {renderProps.product.salePrice && (
-                <span className='text-sm text-gray-400 line-through'>
+                <span className='cio:text-sm cio:text-gray-400 cio:line-through'>
                   {renderProps.priceCurrency}
                   {renderProps.product.price}
                 </span>
               )}
             </div>
 
-            <p className='text-base font-medium'>{renderProps.product.name}</p>
+            <p className='cio:text-base cio:font-medium'>{renderProps.product.name}</p>
 
-            <div className='bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 rounded-lg p-3 my-2'>
-              <div className='flex items-center gap-2 mb-2'>
-                <span className='text-blue-600 font-semibold text-sm'>🎯 Smart Recommendation</span>
+            <div className='cio:bg-gradient-to-r cio:from-blue-50 cio:to-purple-50 cio:border cio:border-blue-200 cio:rounded-lg cio:p-3 cio:my-2'>
+              <div className='cio:flex cio:items-center cio:gap-2 cio:mb-2'>
+                <span className='cio:text-blue-600 cio:font-semibold cio:text-sm'>
+                  🎯 Smart Recommendation
+                </span>
               </div>
-              <p className='text-gray-700 text-sm'>
+              <p className='cio:text-gray-700 cio:text-sm'>
                 Based on your preferences, this {renderProps.product.name} is perfect for you!
                 {renderProps.product.salePrice && (
-                  <span className='text-green-600 font-medium'>
+                  <span className='cio:text-green-600 cio:font-medium'>
                     {' '}
                     Save $
                     {Number(renderProps.product.price) - Number(renderProps.product.salePrice)}{' '}
@@ -1027,18 +1029,18 @@ export const CompoundWithRenderProps: Story = {
                   </span>
                 )}
               </p>
-              <div className='flex items-center gap-2 mt-2 justify-center'>
-                <span className='bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full text-center'>
+              <div className='cio:flex cio:items-center cio:gap-2 cio:mt-2 cio:justify-center'>
+                <span className='cio:bg-blue-100 cio:text-blue-800 cio:text-xs cio:px-2 cio:py-1 cio:rounded-full cio:text-center'>
                   ⭐ {renderProps.product.rating} rating
                 </span>
-                <span className='bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded-full text-center'>
+                <span className='cio:bg-purple-100 cio:text-purple-800 cio:text-xs cio:px-2 cio:py-1 cio:rounded-full cio:text-center'>
                   💬 {renderProps.product.reviewsCount} reviews
                 </span>
               </div>
             </div>
 
             {renderProps.product.description && (
-              <p className='text-sm text-gray-500'>{renderProps.product.description}</p>
+              <p className='cio:text-sm cio:text-gray-500'>{renderProps.product.description}</p>
             )}
           </>
         )}
@@ -1047,14 +1049,16 @@ export const CompoundWithRenderProps: Story = {
       {/* Footer section with pure render props - all children are inside a render prop function */}
       <ProductCard.Footer>
         {(renderProps: ProductCardProps) => (
-          <div className='space-y-2'>
-            <div className='flex gap-2 text-xs text-gray-600'>
-              <span className='flex items-center gap-1'>🚚 Free shipping on orders over $500</span>
+          <div className='cio:space-y-2'>
+            <div className='cio:flex cio:gap-2 cio:text-xs cio:text-gray-600'>
+              <span className='cio:flex cio:items-center cio:gap-1'>
+                🚚 Free shipping on orders over $500
+              </span>
             </div>
 
             {renderProps.onAddToCart && (
               <button
-                className='w-full mt-3 bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-lg font-medium transition-colors border-0 cursor-pointer'
+                className='cio:w-full cio:mt-3 cio:bg-indigo-600 cio:hover:bg-indigo-700 cio:text-white cio:py-2 cio:px-4 cio:rounded-lg cio:font-medium cio:transition-colors cio:border-0 cio:cursor-pointer'
                 onClick={(e) =>
                   renderProps.onAddToCart && renderProps.onAddToCart(e, renderProps.product)
                 }>
@@ -1063,15 +1067,15 @@ export const CompoundWithRenderProps: Story = {
             )}
 
             <button
-              className='w-full bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 px-4 rounded-lg text-sm font-medium transition-colors border-0 cursor-pointer'
+              className='cio:w-full cio:bg-gray-100 cio:hover:bg-gray-200 cio:text-gray-700 cio:py-2 cio:px-4 cio:rounded-lg cio:text-sm cio:font-medium cio:transition-colors cio:border-0 cio:cursor-pointer'
               onClick={() => console.log(`Quick view for ${renderProps.product.name}`)}>
               👁️ Quick View
             </button>
 
             {renderProps.product.tags && renderProps.product.tags.length > 0 && (
-              <div className='flex flex-col gap-1 items-center'>
+              <div className='cio:flex cio:flex-col cio:gap-1 cio:items-center'>
                 {renderProps.product.tags.map((tag) => (
-                  <span key={tag} className='text-xs text-gray-500'>
+                  <span key={tag} className='cio:text-xs cio:text-gray-500'>
                     {tag}
                   </span>
                 ))}
@@ -1119,7 +1123,7 @@ export const ComponentOverrideExample: Story = {
             product: Product;
           }) => (
             <button
-              className='w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white py-2 px-4 rounded-lg font-medium transition-all duration-200 transform hover:scale-105'
+              className='cio:w-full cio:bg-gradient-to-r cio:from-purple-500 cio:to-pink-500 cio:hover:from-purple-600 cio:hover:to-pink-600 cio:text-white cio:py-2 cio:px-4 cio:rounded-lg cio:font-medium cio:transition-all cio:duration-200 cio:transform cio:hover:scale-105'
               onClick={(e) => props.onAddToCart && props.onAddToCart(e, props.product)}>
               🛒 {props.addToCartText || 'Add to Cart'}
             </button>
@@ -1171,45 +1175,49 @@ export const RenderPropsExample: Story = {
   render: (args) => (
     <ProductCard {...args}>
       {(renderProps: ProductCardProps) => (
-        <div className='p-4 bg-gradient-to-br from-blue-50 to-indigo-100 rounded-lg'>
-          <div className='flex items-center gap-3 mb-3'>
+        <div className='cio:p-4 cio:bg-gradient-to-br cio:from-blue-50 cio:to-indigo-100 cio:rounded-lg'>
+          <div className='cio:flex cio:items-center cio:gap-3 cio:mb-3'>
             {renderProps.product.imageUrl && (
               <img
                 src={renderProps.product.imageUrl}
                 alt={renderProps.product.name}
-                className='w-16 h-16 object-cover rounded-lg'
+                className='cio:w-16 cio:h-16 cio:object-cover cio:rounded-lg'
               />
             )}
             <div>
-              <h3 className='font-bold text-lg text-gray-800'>{renderProps.product.name}</h3>
-              <p className='text-sm text-gray-600'>{renderProps.product.description}</p>
+              <h3 className='cio:font-bold cio:text-lg cio:text-gray-800'>
+                {renderProps.product.name}
+              </h3>
+              <p className='cio:text-sm cio:text-gray-600'>{renderProps.product.description}</p>
             </div>
           </div>
 
-          <div className='flex items-center justify-between'>
-            <div className='flex items-center gap-2'>
-              <span className='text-xl font-bold text-green-600'>
+          <div className='cio:flex cio:items-center cio:justify-between'>
+            <div className='cio:flex cio:items-center cio:gap-2'>
+              <span className='cio:text-xl cio:font-bold cio:text-green-600'>
                 {renderProps.priceCurrency}
                 {renderProps.product.salePrice || renderProps.product.price}
               </span>
               {renderProps.product.salePrice && (
-                <span className='text-sm text-gray-400 line-through'>
+                <span className='cio:text-sm cio:text-gray-400 cio:line-through'>
                   {renderProps.priceCurrency}
                   {renderProps.product.price}
                 </span>
               )}
             </div>
 
-            <div className='flex items-center gap-2'>
-              <span className='text-yellow-500'>⭐</span>
-              <span className='text-sm font-medium'>{renderProps.product.rating}</span>
-              <span className='text-sm text-gray-500'>({renderProps.product.reviewsCount})</span>
+            <div className='cio:flex cio:items-center cio:gap-2'>
+              <span className='cio:text-yellow-500'>⭐</span>
+              <span className='cio:text-sm cio:font-medium'>{renderProps.product.rating}</span>
+              <span className='cio:text-sm cio:text-gray-500'>
+                ({renderProps.product.reviewsCount})
+              </span>
             </div>
           </div>
 
           {renderProps.onAddToCart && (
             <button
-              className='w-full mt-3 bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-lg font-medium transition-colors'
+              className='cio:w-full cio:mt-3 cio:bg-indigo-600 cio:hover:bg-indigo-700 cio:text-white cio:py-2 cio:px-4 cio:rounded-lg cio:font-medium cio:transition-colors'
               onClick={(e) =>
                 renderProps.onAddToCart && renderProps.onAddToCart(e, renderProps.product)
               }>

@@ -80,7 +80,7 @@ function Card({ children, componentOverrides, className, ...props }: CardProps) 
         <div
           data-slot='card'
           className={cn(
-            'cio-components bg-card text-card-foreground flex flex-col gap-2 rounded-2xl border p-2 sm:p-4 shadow-md overflow-hidden',
+            'cio-components cio:bg-card cio:text-card-foreground cio:flex cio:flex-col cio:gap-2 cio:rounded-2xl cio:border cio:p-2 cio:sm:p-4 cio:shadow-md cio:overflow-hidden',
             className,
           )}
           {...props}>
@@ -99,7 +99,7 @@ function CardHeader({ children, className, ...props }: CardHeaderProps) {
       <div
         data-slot='card-header'
         className={cn(
-          '@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6',
+          'cio:@container/card-header cio:grid cio:auto-rows-min cio:grid-rows-[auto_auto] cio:items-start cio:gap-2 has-data-[slot=card-action]:cio:grid-cols-[1fr_auto] [.border-b]:cio:pb-6',
           className,
         )}
         {...props}>
@@ -116,7 +116,7 @@ function CardTitle({ children, className, ...props }: CardTitleProps) {
     <RenderPropsWrapper props={renderProps} override={componentOverrides?.reactNode}>
       <div
         data-slot='card-title'
-        className={cn('leading-none font-semibold', className)}
+        className={cn('cio:leading-none cio:font-semibold', className)}
         {...props}>
         {children}
       </div>
@@ -131,7 +131,7 @@ function CardDescription({ children, className, ...props }: CardDescriptionProps
     <RenderPropsWrapper props={renderProps} override={componentOverrides?.reactNode}>
       <div
         data-slot='card-description'
-        className={cn('text-muted-foreground text-sm', className)}
+        className={cn('cio:text-muted-foreground cio:text-sm', className)}
         {...props}>
         {children}
       </div>
@@ -146,7 +146,10 @@ function CardAction({ children, className, ...props }: CardActionProps) {
     <RenderPropsWrapper props={renderProps} override={componentOverrides?.reactNode}>
       <div
         data-slot='card-action'
-        className={cn('col-start-2 row-span-2 row-start-1 self-start justify-self-end', className)}
+        className={cn(
+          'cio:col-start-2 cio:row-span-2 cio:row-start-1 cio:self-start cio:justify-self-end',
+          className,
+        )}
         {...props}>
         {children}
       </div>
@@ -159,7 +162,10 @@ function CardContent({ children, className, ...props }: CardContentProps) {
 
   return (
     <RenderPropsWrapper props={renderProps} override={componentOverrides?.reactNode}>
-      <div data-slot='card-content' className={cn('flex flex-col gap-1', className)} {...props}>
+      <div
+        data-slot='card-content'
+        className={cn('cio:flex cio:flex-col cio:gap-1', className)}
+        {...props}>
         {children}
       </div>
     </RenderPropsWrapper>
@@ -173,7 +179,8 @@ function CardFooter({ children, className, ...props }: CardFooterProps) {
     <RenderPropsWrapper props={renderProps} override={componentOverrides?.reactNode}>
       <div
         data-slot='card-footer'
-        className={cn('flex items-center [.border-t]:pt-6', className)}
+        // eslint-disable-next-line no-useless-escape
+        className={cn('cio:flex cio:items-center [.cio\:border-t]:cio:pt-6', className)}
         {...props}>
         {children}
       </div>

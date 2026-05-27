@@ -236,10 +236,10 @@ describe('FilterOption component', () => {
       expect(listItem.classList.contains('my-custom-class')).toBeTruthy();
     });
 
-    test('has text-base class by default', () => {
+    test('has cio:text-base class by default', () => {
       render(<FilterOption id='test-1' optionValue='red' displayValue='Red' onChange={() => {}} />);
       const listItem = screen.getByRole('listitem');
-      expect(listItem.classList.contains('text-base')).toBeTruthy();
+      expect(listItem.classList.contains('cio:text-base')).toBeTruthy();
     });
   });
 

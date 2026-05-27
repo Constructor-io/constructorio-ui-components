@@ -354,7 +354,7 @@ describe('ProductCard component', () => {
 
       expect(salePrice).toBeInTheDocument();
       expect(originalPrice).toBeInTheDocument();
-      expect(originalPrice).toHaveClass('line-through');
+      expect(originalPrice).toHaveClass('cio:line-through');
     });
 
     test('shows only regular price when no sale price', () => {

@@ -169,7 +169,7 @@ function CarouselBase<T = Product>({
     <CarouselContext.Provider value={contextValue}>
       <div
         onKeyDownCapture={handleKeyDown}
-        className={cn('relative', className)}
+        className={cn('cio:relative', className)}
         role='region'
         aria-roledescription='carousel'
         data-slot='carousel'
@@ -199,8 +199,8 @@ function Carousel<T = Product>(props: CarouselOpts<T>) {
   return (
     <CarouselBase
       className={cn(
-        'cio-components w-full h-full flex items-center gap-2',
-        orientation === 'vertical' ? 'flex-col' : 'flex-row',
+        'cio-components cio:w-full cio:h-full cio:flex cio:items-center cio:gap-2',
+        orientation === 'vertical' ? 'cio:flex-col' : 'cio:flex-row',
       )}
       opts={{
         slidesToScroll: slidesToScroll || defaultCarouselConfig.slidesToScroll,
@@ -225,7 +225,7 @@ function Carousel<T = Product>(props: CarouselOpts<T>) {
                 <CarouselItem key={index} item={product} index={index}>
                   <ProductCard
                     product={product}
-                    className='w-full h-full'
+                    className='cio:w-full cio:h-full'
                     componentOverrides={componentOverrides?.item?.productCard}
                   />
                 </CarouselItem>
@@ -248,7 +248,7 @@ function CarouselContent({ className, children, ...props }: ComponentProps<'div'
   return (
     <div
       ref={carouselRef}
-      className={cn('overflow-hidden w-full relative p-3', className)}
+      className={cn('cio:overflow-hidden cio:w-full cio:relative cio:p-3', className)}
       data-slot='carousel-content'>
       <RenderPropsWrapper
         props={renderProps}
@@ -256,8 +256,8 @@ function CarouselContent({ className, children, ...props }: ComponentProps<'div'
         <div
           data-slot='carousel-track'
           className={cn(
-            'flex items-stretch',
-            orientation === 'vertical' ? 'flex-col h-[400px]' : 'flex-row',
+            'cio:flex cio:items-stretch',
+            orientation === 'vertical' ? 'cio:flex-col cio:h-[400px]' : 'cio:flex-row',
           )}
           {...props}>
           {children}
@@ -289,7 +289,7 @@ function CarouselItem<T = Product>({
         aria-roledescription='slide'
         data-slot='carousel-item'
         className={cn(
-          'shrink-0 grow-0 basis-full flex items-stretch justify-center items-center',
+          'cio:shrink-0 cio:grow-0 cio:basis-full cio:flex cio:items-stretch cio:justify-center cio:items-center',
           className,
         )}
         {...props}>
@@ -339,8 +339,8 @@ function CarouselNavButton({
       <Button
         data-slot={isPrevious ? 'carousel-previous' : 'carousel-next'}
         className={cn(
-          'rounded-md bg-white border-1 border-gray-200 flex justify-center items-center shadow-none',
-          canScroll ? '' : 'invisible',
+          'cio:rounded-md cio:bg-white cio:border-1 cio:border-gray-200 cio:flex cio:justify-center cio:items-center cio:shadow-none',
+          canScroll ? '' : 'cio:invisible',
           className,
         )}
         size='icon'
@@ -348,11 +348,11 @@ function CarouselNavButton({
         onClick={handleClick}
         {...props}>
         {isPrevious ? (
-          <ArrowLeftIcon className={orientation === 'vertical' ? 'rotate-90' : ''} />
+          <ArrowLeftIcon className={orientation === 'vertical' ? 'cio:rotate-90' : ''} />
         ) : (
-          <ArrowRightIcon className={orientation === 'vertical' ? 'rotate-90' : ''} />
+          <ArrowRightIcon className={orientation === 'vertical' ? 'cio:rotate-90' : ''} />
         )}
-        <span className='sr-only'>{isPrevious ? 'Previous slide' : 'Next slide'}</span>
+        <span className='cio:sr-only'>{isPrevious ? 'Previous slide' : 'Next slide'}</span>
       </Button>
     </RenderPropsWrapper>
   );

@@ -64,7 +64,7 @@ const WishlistButton: React.FC<WishlistButtonProps> = (props) => {
       {onAddToWishlist && (
         <Button
           className={cn(
-            'cio-product-card-wishlist-btn absolute top-2 sm:top-4 right-2 sm:right-[22px] bg-white size-6 sm:size-[18px] border-0',
+            'cio-product-card-wishlist-btn cio:absolute cio:top-2 cio:sm:top-4 cio:right-2 cio:sm:right-[22px] cio:bg-white cio:size-6 cio:sm:size-[18px] cio:border-0',
             props.className,
           )}
           size='icon'
@@ -74,11 +74,14 @@ const WishlistButton: React.FC<WishlistButtonProps> = (props) => {
           aria-label={isInWishlist ? 'Remove from wishlist' : 'Add to wishlist'}>
           {isInWishlist ? (
             <HeartFilledIcon
-              className='w-3 h-3 sm:w-[8px] sm:h-[8px]'
+              className='cio:w-3 cio:h-3 cio:sm:w-[8px] cio:sm:h-[8px]'
               aria-label='Remove from wishlist'
             />
           ) : (
-            <HeartIcon className='w-3 h-3 sm:w-[8px] sm:h-[8px]' aria-label='Add to wishlist' />
+            <HeartIcon
+              className='cio:w-3 cio:h-3 cio:sm:w-[8px] cio:sm:h-[8px]'
+              aria-label='Add to wishlist'
+            />
           )}
         </Button>
       )}
@@ -98,14 +101,14 @@ const PriceSection: React.FC<PriceSectionProps> = (props) => {
       {price && (
         <div
           className={cn(
-            'cio-product-card-price-section flex items-baseline gap-2',
+            'cio-product-card-price-section cio:flex cio:items-baseline cio:gap-2',
             props.className,
           )}>
-          <span className='text-lg font-bold'>
+          <span className='cio:text-lg cio:font-bold'>
             {priceCurrency}&nbsp;{salePrice || price}
           </span>
           {salePrice && (
-            <span className='text-sm text-gray-400 line-through'>
+            <span className='cio:text-sm cio:text-gray-400 cio:line-through'>
               {priceCurrency}&nbsp;{price}
             </span>
           )}
@@ -130,7 +133,7 @@ const RatingSection: React.FC<RatingSectionProps> = (props) => {
       {(rating !== undefined && rating !== null) || reviewsCount ? (
         <div
           className={cn(
-            'cio-product-card-ratings-section flex justify-between gap-1 text-sm text-gray-500 py-2',
+            'cio-product-card-ratings-section cio:flex cio:justify-between cio:gap-1 cio:text-sm cio:text-gray-500 cio:py-2',
             props.className,
           )}>
           {rating !== undefined && rating !== null && <span>⭐ {rating}</span>}
@@ -154,12 +157,12 @@ const TagsSection: React.FC<TagsSectionProps> = (props) => {
       override={props.children || componentOverrides?.footer?.tags?.reactNode}>
       <div
         className={cn(
-          'cio-product-card-tags-section flex flex-col gap-1 items-center',
+          'cio-product-card-tags-section cio:flex cio:flex-col cio:gap-1 cio:items-center',
           props.className,
         )}>
         {tags &&
           tags.map((tag) => (
-            <span key={tag} className='text-xs text-gray-500'>
+            <span key={tag} className='cio:text-xs cio:text-gray-500'>
               {tag}
             </span>
           ))}
@@ -200,13 +203,13 @@ const ImageSection: React.FC<ImageSectionProps> = (props) => {
   return (
     <RenderPropsWrapper props={renderProps} override={componentOverrides?.image?.reactNode}>
       <div
-        className={cn('cio-product-card-image-section relative', props.className)}
+        className={cn('cio-product-card-image-section cio:relative', props.className)}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}>
         <img
           src={imageUrl}
           alt={name || 'product image'}
-          className='cio-product-card-image object-cover w-full min-h-[224px] rounded-2xl'
+          className='cio-product-card-image cio:object-cover cio:w-full cio:min-h-[224px] cio:rounded-2xl'
         />
         {props.children}
       </div>
@@ -227,7 +230,7 @@ const TitleSection: React.FC<TitleSectionProps> = (props) => {
       override={props.children || componentOverrides?.content?.title?.reactNode}>
       <p
         className={cn(
-          'cio-product-card-title-section text-base font-medium line-clamp-2',
+          'cio-product-card-title-section cio:text-base cio:font-medium cio:line-clamp-2',
           props.className,
         )}>
         {name}
@@ -250,7 +253,7 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = (props) => {
       {description && (
         <p
           className={cn(
-            'cio-product-card-description text-sm text-gray-500 line-clamp-3',
+            'cio-product-card-description cio:text-sm cio:text-gray-500 cio:line-clamp-3',
             props.className,
           )}>
           {description}
@@ -287,7 +290,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = (props) => {
       {onAddToCart && (
         <Button
           className={cn(
-            'cio-product-card-add-to-cart-btn w-full bg-black hover:bg-gray-800 text-white text-sm border-0',
+            'cio-product-card-add-to-cart-btn cio:w-full cio:bg-black cio:hover:bg-gray-800 cio:text-white cio:text-sm cio:border-0',
             props.className,
           )}
           conversionType='add_to_cart'
@@ -317,7 +320,7 @@ const Badge: React.FC<ProductBadgeProps> = ({ children, ...props }) => {
         <BadgeComponent
           variant='outline'
           className={cn(
-            'cio-product-card-badge absolute top-2 sm:top-4 left-2 sm:left-[22px] border-0',
+            'cio-product-card-badge cio:absolute cio:top-2 cio:sm:top-4 cio:left-2 cio:sm:left-[22px] cio:border-0',
             props.className,
           )}
           {...props}>
@@ -337,7 +340,10 @@ const ProductCardContent: React.FC<CardContentProps> = ({ children, ...props }) 
       props={renderProps}
       override={renderPropFn || componentOverrides?.content?.reactNode}>
       <Card.Content
-        className={cn('cio-product-card-content flex flex-col gap-1 flex-1', props.className)}
+        className={cn(
+          'cio-product-card-content cio:flex cio:flex-col cio:gap-1 cio:flex-1',
+          props.className,
+        )}
         {...props}>
         {children}
       </Card.Content>
@@ -354,7 +360,10 @@ const ProductCardFooter: React.FC<CardFooterProps> = ({ children, ...props }) =>
       props={renderProps}
       override={renderPropFn || componentOverrides?.footer?.reactNode}>
       <Card.Footer
-        className={cn('cio-product-card-footer flex flex-col gap-2 mt-auto', props.className)}
+        className={cn(
+          'cio-product-card-footer cio:flex cio:flex-col cio:gap-2 cio:mt-auto',
+          props.className,
+        )}
         {...props}>
         {children}
       </Card.Footer>
@@ -425,7 +434,7 @@ function ProductCard({ componentOverrides, children, className, ...props }: Prod
       <RenderPropsWrapper props={props} override={renderPropFn || componentOverrides?.reactNode}>
         <Card
           className={cn(
-            'cio-product-card min-w-[176px] max-w-[256px] h-full cursor-pointer border-0',
+            'cio-product-card cio:min-w-[176px] cio:max-w-[256px] cio:h-full cio:cursor-pointer cio:border-0',
             className,
           )}
           onClick={handleProductClick}

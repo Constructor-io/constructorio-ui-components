@@ -6,6 +6,33 @@ import { Product } from '@/types/productCardTypes';
 import { CarouselRenderProps } from '@/types/carouselTypes';
 import { CIO_EVENTS } from '@/utils/events';
 
+// Embla doesn't initialize in jsdom (it relies on real layout), so we stub
+// useEmblaCarousel to return a controllable API. Tests that care about the
+// canScroll* state mutate `emblaState` before render; otherwise the default
+// (both true) keeps existing tests behaving as if scrolling is possible.
+const emblaState = vi.hoisted(() => ({
+  canScrollPrev: true,
+  canScrollNext: true,
+}));
+
+vi.mock('embla-carousel-react', () => {
+  const useEmblaCarousel = () => {
+    const ref = (_node: HTMLElement | null) => {};
+    const api = {
+      canScrollPrev: () => emblaState.canScrollPrev,
+      canScrollNext: () => emblaState.canScrollNext,
+      scrollPrev: vi.fn(),
+      scrollNext: vi.fn(),
+      on: vi.fn(),
+      off: vi.fn(),
+      rootNode: () => null,
+      slideNodes: () => [] as HTMLElement[],
+    };
+    return [ref, api];
+  };
+  return { default: useEmblaCarousel };
+});
+
 const mockProducts: Product[] = [
   {
     id: 'product-1',
@@ -59,6 +86,9 @@ const mockArticles: Article[] = [
 
 describe('Carousel component', () => {
   beforeEach(() => {
+    emblaState.canScrollPrev = true;
+    emblaState.canScrollNext = true;
+
     // Mock IntersectionObserver - Required by Embla Carousel for detecting when carousel
     // items enter/exit the viewport. Used for lazy loading and visibility tracking.
     // Not available in jsdom test environment.
@@ -581,13 +611,24 @@ describe('Carousel component', () => {
       expect(mockScrollPrev).toHaveBeenCalled();
     });
 
-    test('previous nav button has cio:invisible class when canScrollPrev is false', () => {
-      const { container } = render(
-        <CioCarousel items={[mockProducts[0]]} loop={false} />,
-      );
+    test('previous nav button gets cio:invisible when canScrollPrev is false', () => {
+      emblaState.canScrollPrev = false;
+      emblaState.canScrollNext = true;
+
+      const { container } = render(<CioCarousel items={mockProducts} />);
 
       const prevButton = container.querySelector('[data-slot="carousel-previous"]');
       expect(prevButton).toHaveClass('cio:invisible');
+    });
+
+    test('previous nav button does not have cio:invisible when canScrollPrev is true', () => {
+      emblaState.canScrollPrev = true;
+      emblaState.canScrollNext = true;
+
+      const { container } = render(<CioCarousel items={mockProducts} />);
+
+      const prevButton = container.querySelector('[data-slot="carousel-previous"]');
+      expect(prevButton).not.toHaveClass('cio:invisible');
     });
   });
 

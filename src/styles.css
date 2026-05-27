@@ -5,11 +5,12 @@
 /* We don't import preflight.css */
 @import 'tailwindcss/theme.css' layer(theme) prefix(cio);
 @import 'tailwindcss/utilities.css' layer(utilities) prefix(cio);
-@import 'tw-animate-css';
 
-/* Safelist classes that are added at runtime (e.g., classList.add in onError handlers)
-   so Tailwind's static scanner still emits them. */
+/* Safelist for classes applied programmatically at runtime, since Tailwind's
+   static scanner only emits classes it can detect in source files. */
 @source inline("cio:bg-gray-200");
+
+@import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
 

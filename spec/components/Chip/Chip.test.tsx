@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, cleanup } from '@testing-library/react';
+import { render, screen, cleanup, fireEvent } from '@testing-library/react';
 import { describe, test, expect, afterEach } from 'vitest';
 import Chip from '@/components/chip';
 
@@ -43,6 +43,17 @@ describe('Chip component', () => {
       const container = screen.getByTestId('chip');
       expect(container).toHaveAttribute('data-slot', 'chip');
       expect(container.querySelector('img')).toBeInTheDocument();
+    });
+
+    test('adds cio:bg-gray-200 to chip container when image fails to load', () => {
+      const { container } = render(
+        <Chip type='image' value='https://example.com/missing.jpg' name='broken' />,
+      );
+      const img = screen.getByAltText('broken') as HTMLImageElement;
+      fireEvent.error(img);
+      const chipContainer = container.querySelector('[data-slot="chip"]');
+      expect(chipContainer).toHaveClass('cio:bg-gray-200');
+      expect(img.style.display).toBe('none');
     });
   });
 

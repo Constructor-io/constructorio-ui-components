@@ -90,6 +90,8 @@ export default function Chip({
             className='cio:w-full cio:h-full cio:object-cover'
             onError={(e) => {
               e.currentTarget.style.display = 'none';
+              // Class is added to the safelist in src/styles.css via @source inline(...)
+              // because Tailwind's static scanner can't detect classes added at runtime.
               e.currentTarget.parentElement?.classList.add('cio:bg-gray-200');
             }}
           />

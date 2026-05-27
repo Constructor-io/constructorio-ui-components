@@ -100,7 +100,7 @@ function CardHeader({ children, className, ...props }: CardHeaderProps) {
         data-slot='card-header'
         className={cn(
           // eslint-disable-next-line no-useless-escape
-          'cio:@container/card-header cio:grid cio:auto-rows-min cio:grid-rows-[auto_auto] cio:items-start cio:gap-2 cio:has-[data-slot=card-action]:grid-cols-[1fr_auto] cio:[.cio\:border-b]:pb-6',
+          'cio:@container/card-header cio:grid cio:auto-rows-min cio:grid-rows-[auto_auto] cio:items-start cio:gap-2 cio:has-data-[slot=card-action]:grid-cols-[1fr_auto] cio:[.cio\:border-b]:pb-6',
           className,
         )}
         {...props}>

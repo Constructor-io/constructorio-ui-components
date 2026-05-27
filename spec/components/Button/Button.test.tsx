@@ -45,6 +45,37 @@ describe('Button component', () => {
     expect(renderedButton.classList.contains('cio-button')).toBeTruthy();
   });
 
+  test('renders the child without any wrapping <button>', () => {
+    const { container } = render(
+      <Button asChild>
+        <a href='/x'>linked button</a>
+      </Button>,
+    );
+    expect(container.querySelector('button')).toBeNull();
+    expect(container.querySelector('a')).not.toBeNull();
+  });
+
+  test('sets data-slot="button" on the rendered child', () => {
+    render(
+      <Button asChild>
+        <a href='/x'>linked button</a>
+      </Button>,
+    );
+    const a = screen.getByText('linked button');
+    expect(a.getAttribute('data-slot')).toBe('button');
+  });
+
+  test('composes onClick from Button and the child (child first, then Button)', () => {
+    const order: string[] = [];
+    render(
+      <Button asChild onClick={() => order.push('button')}>
+        <a href='/x' onClick={() => order.push('child')}>linked button</a>
+      </Button>,
+    );
+    fireEvent.click(screen.getByText('linked button'));
+    expect(order).toEqual(['child', 'button']);
+  });
+
   test('renders componentOverride if passed', () => {
     render(
       <Button

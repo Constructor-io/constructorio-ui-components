@@ -7,6 +7,10 @@
 @import 'tailwindcss/utilities.css' layer(utilities) prefix(cio);
 @import 'tw-animate-css';
 
+/* Safelist classes that are added at runtime (e.g., classList.add in onError handlers)
+   so Tailwind's static scanner still emits them. */
+@source inline("cio:bg-gray-200");
+
 @custom-variant dark (&:is(.dark *));
 
 .cio-components {

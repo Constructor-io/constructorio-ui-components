@@ -580,6 +580,15 @@ describe('Carousel component', () => {
       fireEvent.click(prevButton);
       expect(mockScrollPrev).toHaveBeenCalled();
     });
+
+    test('previous nav button has cio:invisible class when canScrollPrev is false', () => {
+      const { container } = render(
+        <CioCarousel items={[mockProducts[0]]} loop={false} />,
+      );
+
+      const prevButton = container.querySelector('[data-slot="carousel-previous"]');
+      expect(prevButton).toHaveClass('cio:invisible');
+    });
   });
 
   describe('Empty State', () => {

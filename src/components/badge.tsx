@@ -5,7 +5,7 @@ import { ComponentOverrideProps, IncludeComponentOverrides } from '@/types';
 import { cva, VariantProps } from 'class-variance-authority';
 
 const badgeVariants = cva(
-  "cio-components cio-badge cio:inline-flex cio:items-center cio:gap-1.5 cio:whitespace-nowrap cio:font-medium cio:transition-all cio:[&_svg]:pointer-events-none cio:[&_svg:not([class*='size-'])]:size-3 cio:shrink-0 cio:[&_svg]:shrink-0 cio:outline-none cio:focus-visible:border-ring cio:focus-visible:ring-ring/50 cio:focus-visible:ring-[3px] cio:aria-invalid:ring-destructive/20 cio:dark:aria-invalid:ring-destructive/40 cio:aria-invalid:border-destructive cio:overflow-hidden cio:tracking-tighter",
+  "cio-components cio-badge cio:inline-flex cio:items-center cio:gap-1.5 cio:whitespace-nowrap cio:font-medium cio:transition-all cio:[&_svg]:pointer-events-none cio:[&_svg:not([class*='cio:size-'])]:size-3 cio:shrink-0 cio:[&_svg]:shrink-0 cio:outline-none cio:focus-visible:border-ring cio:focus-visible:ring-ring/50 cio:focus-visible:ring-[3px] cio:aria-invalid:ring-destructive/20 cio:dark:aria-invalid:ring-destructive/40 cio:aria-invalid:border-destructive cio:overflow-hidden cio:tracking-tighter",
   {
     variants: {
       variant: {

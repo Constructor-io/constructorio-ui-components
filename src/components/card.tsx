@@ -99,6 +99,8 @@ function CardHeader({ children, className, ...props }: CardHeaderProps) {
       <div
         data-slot='card-header'
         className={cn(
+          // The `\:` escape is required so the bracketed selector matches the literal class
+          // `.cio:border-b`; without it, `:border-b` would be parsed as a pseudo-class.
           // eslint-disable-next-line no-useless-escape
           'cio:@container/card-header cio:grid cio:auto-rows-min cio:grid-rows-[auto_auto] cio:items-start cio:gap-2 cio:has-data-[slot=card-action]:grid-cols-[1fr_auto] cio:[.cio\:border-b]:pb-6',
           className,
@@ -180,6 +182,8 @@ function CardFooter({ children, className, ...props }: CardFooterProps) {
     <RenderPropsWrapper props={renderProps} override={componentOverrides?.reactNode}>
       <div
         data-slot='card-footer'
+        // The `\:` escape is required so the bracketed selector matches the literal class
+        // `.cio:border-t`; without it, `:border-t` would be parsed as a pseudo-class.
         // eslint-disable-next-line no-useless-escape
         className={cn('cio:flex cio:items-center cio:[.cio\:border-t]:pt-6', className)}
         {...props}>

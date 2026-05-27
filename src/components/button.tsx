@@ -5,7 +5,7 @@ import { ComponentOverrideProps, IncludeComponentOverrides } from '@/types';
 import { cva, VariantProps } from 'class-variance-authority';
 
 const buttonVariants = cva(
-  "cio-components cio-button cio:cursor-pointer cio:inline-flex cio:items-center cio:justify-center cio:gap-2 cio:whitespace-nowrap cio:rounded-sm cio:text-sm cio:font-medium cio:transition-all cio:disabled:pointer-events-none cio:disabled:opacity-50 cio:[&_svg]:pointer-events-none cio:[&_svg:not([class*='size-'])]:size-4 cio:shrink-0 cio:[&_svg]:shrink-0 cio:outline-none cio:focus-visible:border-ring cio:focus-visible:ring-ring/50 cio:focus-visible:ring-[3px] cio:aria-invalid:ring-destructive/20 cio:dark:aria-invalid:ring-destructive/40 cio:aria-invalid:border-destructive",
+  "cio-components cio-button cio:cursor-pointer cio:inline-flex cio:items-center cio:justify-center cio:gap-2 cio:whitespace-nowrap cio:rounded-sm cio:text-sm cio:font-medium cio:transition-all cio:disabled:pointer-events-none cio:disabled:opacity-50 cio:[&_svg]:pointer-events-none cio:[&_svg:not([class*='cio:size-'])]:size-4 cio:shrink-0 cio:[&_svg]:shrink-0 cio:outline-none cio:focus-visible:border-ring cio:focus-visible:ring-ring/50 cio:focus-visible:ring-[3px] cio:aria-invalid:ring-destructive/20 cio:dark:aria-invalid:ring-destructive/40 cio:aria-invalid:border-destructive",
   {
     variants: {
       variant: {

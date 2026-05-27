@@ -129,6 +129,22 @@ describe('FilterOptionVisual component', () => {
       const swatch = document.querySelector('.cio-filter-visual-swatch');
       expect(swatch).toBeInTheDocument();
     });
+
+    test('swatch has cio:mr-2 and cio:shrink-0 spacing classes', () => {
+      render(
+        <FilterOptionVisual
+          id='test-1'
+          optionValue='red'
+          displayValue='Red'
+          visualType='color'
+          visualValue='#FF0000'
+          onChange={() => {}}
+        />,
+      );
+      const swatch = document.querySelector('.cio-filter-visual-swatch');
+      expect(swatch).toHaveClass('cio:mr-2');
+      expect(swatch).toHaveClass('cio:shrink-0');
+    });
   });
 
   describe('data attributes', () => {

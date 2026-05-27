@@ -125,6 +125,18 @@ function App() {
 
 This library uses Tailwind CSS v4 with a `cio:` prefix to avoid conflicts with your application's Tailwind classes. All utility classes and CSS variables are namespaced to ensure styles don't leak or collide.
 
+### Class Categories
+
+The codebase uses two distinct class namespaces. They look similar but serve different purposes:
+
+- **`cio-*` (no colon)** — plain CSS hooks / BEM identifiers attached to component roots and key sub-elements (e.g., `cio-components`, `cio-badge`, `cio-product-card-image`, `cio-filter-visual-swatch`). These are stable selectors used for styling overrides and tests; they are **not** Tailwind utilities and are **never** prefixed with `cio:`.
+- **`cio:*` (with colon)** — Tailwind v4 utility classes scoped by the `prefix(cio)` import directive (e.g., `cio:flex`, `cio:hover:bg-primary/90`). The conventions in the rest of this section apply to these.
+
+```tsx
+// Both kinds appear together on the same element:
+<div className="cio-badge cio:inline-flex cio:items-center cio:gap-1.5">
+```
+
 ### Class Naming Convention
 
 When adding or customizing Tailwind classes in this library, always use the `cio:` prefix:

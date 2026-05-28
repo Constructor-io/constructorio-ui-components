@@ -12,7 +12,7 @@
 /* `cio:border-b` and `cio:border-t` are part of the public API: consumers can
    add them to CardHeader/CardFooter to opt into a divider. The card-padding
    rules below depend on these utilities existing. */
-@source inline("cio:border-{b,t}");
+@source inline("cio:border-b cio:border-t");
 
 @import 'tw-animate-css';
 

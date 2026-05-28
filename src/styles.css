@@ -9,6 +9,10 @@
 /* Safelist for classes applied programmatically at runtime, since Tailwind's
    static scanner only emits classes it can detect in source files. */
 @source inline("cio:bg-gray-200");
+/* `cio:border-b` and `cio:border-t` are part of the public API: consumers can
+   add them to CardHeader/CardFooter to opt into a divider. The card-padding
+   rules below depend on these utilities existing. */
+@source inline("cio:border-{b,t}");
 
 @import 'tw-animate-css';
 
@@ -22,6 +26,18 @@
   & h3 {
     margin: 0;
   }
+}
+
+/* Card header/footer get extra padding when the consumer adds a divider border.
+   Written as plain CSS rather than a Tailwind arbitrary variant
+   (e.g. `cio:[.cio\:border-b]:pb-6`) because v4 emits a CSS rule whose inner
+   selector contains a literal backslash, so it never matches the runtime
+   `cio:border-b` class. */
+[data-slot='card-header'].cio\:border-b {
+  padding-bottom: calc(var(--cio-spacing) * 6);
+}
+[data-slot='card-footer'].cio\:border-t {
+  padding-top: calc(var(--cio-spacing) * 6);
 }
 
 @theme inline {

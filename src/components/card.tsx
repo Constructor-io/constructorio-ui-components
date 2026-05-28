@@ -99,8 +99,7 @@ function CardHeader({ children, className, ...props }: CardHeaderProps) {
       <div
         data-slot='card-header'
         className={cn(
-          // eslint-disable-next-line no-useless-escape -- \: escapes the colon to match literal .cio:border-b
-          'cio:@container/card-header cio:grid cio:auto-rows-min cio:grid-rows-[auto_auto] cio:items-start cio:gap-2 cio:has-data-[slot=card-action]:grid-cols-[1fr_auto] cio:[.cio\:border-b]:pb-6',
+          'cio:@container/card-header cio:grid cio:auto-rows-min cio:grid-rows-[auto_auto] cio:items-start cio:gap-2 cio:has-data-[slot=card-action]:grid-cols-[1fr_auto]',
           className,
         )}
         {...props}>
@@ -180,8 +179,7 @@ function CardFooter({ children, className, ...props }: CardFooterProps) {
     <RenderPropsWrapper props={renderProps} override={componentOverrides?.reactNode}>
       <div
         data-slot='card-footer'
-        // eslint-disable-next-line no-useless-escape -- \: escapes the colon to match literal .cio:border-t
-        className={cn('cio:flex cio:items-center cio:[.cio\:border-t]:pt-6', className)}
+        className={cn('cio:flex cio:items-center', className)}
         {...props}>
         {children}
       </div>

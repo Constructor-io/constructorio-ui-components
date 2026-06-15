@@ -4,32 +4,33 @@ import { ComponentOverrideProps, IncludeComponentOverrides } from '@/types';
 import { cva, VariantProps } from 'class-variance-authority';
 
 const badgeVariants = cva(
-  "cio-components cio-badge inline-flex items-center gap-1.5 whitespace-nowrap font-medium transition-all [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-3 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive overflow-hidden tracking-tighter",
+  "cio-components cio-badge cio:inline-flex cio:items-center cio:gap-1.5 cio:whitespace-nowrap cio:font-medium cio:transition-all cio:[&_svg]:pointer-events-none cio:[&_svg:not([class*='cio:size-'])]:size-3 cio:shrink-0 cio:[&_svg]:shrink-0 cio:outline-none cio:focus-visible:border-ring cio:focus-visible:ring-ring/50 cio:focus-visible:ring-[3px] cio:aria-invalid:ring-destructive/20 cio:dark:aria-invalid:ring-destructive/40 cio:aria-invalid:border-destructive cio:overflow-hidden cio:tracking-tighter",
   {
     variants: {
       variant: {
         default:
-          'border-transparent bg-primary text-primary-foreground shadow-xs hover:bg-primary/90',
-        secondary: 'border-transparent bg-secondary shadow-xs hover:bg-secondary/90',
+          'cio:border-transparent cio:bg-primary cio:text-primary-foreground cio:shadow-xs cio:hover:bg-primary/90',
+        secondary:
+          'cio:border-transparent cio:bg-secondary cio:shadow-xs cio:hover:bg-secondary/90',
         outline:
-          'border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50',
+          'cio:border cio:bg-background cio:shadow-xs cio:hover:bg-accent cio:hover:text-accent-foreground cio:dark:bg-input/30 cio:dark:border-input cio:dark:hover:bg-input/50',
         destructive:
-          'border-transparent bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60',
+          'cio:border-transparent cio:bg-destructive cio:text-white cio:shadow-xs cio:hover:bg-destructive/90 cio:focus-visible:ring-destructive/20 cio:dark:focus-visible:ring-destructive/40 cio:dark:bg-destructive/60',
       },
       size: {
-        sm: 'h-4 px-1 text-xs leading-3',
-        md: 'h-5 py-1 px-2 text-[13px] leading-4',
-        lg: 'h-6 py-1 px-2 text-sm leading-4',
+        sm: 'cio:h-4 cio:px-1 cio:text-xs cio:leading-3',
+        md: 'cio:h-5 cio:py-1 cio:px-2 cio:text-[13px] cio:leading-4',
+        lg: 'cio:h-6 cio:py-1 cio:px-2 cio:text-sm cio:leading-4',
       },
       shape: {
-        beveled: 'rounded-sm',
-        rounded: 'rounded-full',
-        text: 'bg-transparent',
-        sharp: 'rounded-none',
+        beveled: 'cio:rounded-sm',
+        rounded: 'cio:rounded-full',
+        text: 'cio:bg-transparent',
+        sharp: 'cio:rounded-none',
       },
       state: {
         default: '',
-        disabled: 'text-[#0A0F2940] bg-secondary pointer-events-none',
+        disabled: 'cio:text-[#0A0F2940] cio:bg-secondary cio:pointer-events-none',
       },
       isNumber: {
         true: '',
@@ -40,17 +41,17 @@ const badgeVariants = cva(
       {
         isNumber: true,
         size: 'sm',
-        class: 'px-0 min-w-4 justify-center',
+        class: 'cio:px-0 cio:min-w-4 cio:justify-center',
       },
       {
         isNumber: true,
         size: 'md',
-        class: 'p-0.5 min-w-5 justify-center',
+        class: 'cio:p-0.5 cio:min-w-5 cio:justify-center',
       },
       {
         isNumber: true,
         size: 'lg',
-        class: 'p-0.5 min-w-6 justify-center',
+        class: 'cio:p-0.5 cio:min-w-6 cio:justify-center',
       },
     ],
     defaultVariants: {

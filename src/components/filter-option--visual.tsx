@@ -30,7 +30,7 @@ export default function FilterOptionVisual({
           type={visualType}
           value={visualValue}
           name={displayValue}
-          className='cio-filter-visual-swatch mr-2 shrink-0'
+          className='cio-filter-visual-swatch cio:mr-2 cio:shrink-0'
         />
       }
       {...props}

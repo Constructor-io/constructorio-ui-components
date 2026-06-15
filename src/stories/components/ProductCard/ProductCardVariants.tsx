@@ -3,59 +3,61 @@ import { ProductCardProps } from '../../../types/productCardTypes';
 
 // Complete custom override component
 export const CompleteCustomOverrideCard: React.FC<ProductCardProps> = (props) => (
-  <div className='bg-gradient-to-br from-purple-50 to-blue-50 p-6 rounded-3xl shadow-xl max-w-sm'>
-    <div className='relative mb-4'>
+  <div className='cio:bg-gradient-to-br cio:from-purple-50 cio:to-blue-50 cio:p-6 cio:rounded-3xl cio:shadow-xl cio:max-w-sm'>
+    <div className='cio:relative cio:mb-4'>
       <img
         src={props.product.imageUrl}
         alt={props.product.name}
-        className='w-full object-cover rounded-2xl'
+        className='cio:w-full cio:object-cover cio:rounded-2xl'
       />
-      <div className='absolute top-3 right-3 bg-red-500 text-white px-2 py-1 rounded-full text-xs font-bold'>
+      <div className='cio:absolute cio:top-3 cio:right-3 cio:bg-red-500 cio:text-white cio:px-2 cio:py-1 cio:rounded-full cio:text-xs cio:font-bold'>
         SALE
       </div>
     </div>
 
-    <div className='space-y-3'>
-      <h3 className='text-xl font-bold text-gray-800 m-0'>{props.product.name}</h3>
+    <div className='cio:space-y-3'>
+      <h3 className='cio:text-xl cio:font-bold cio:text-gray-800 cio:m-0'>{props.product.name}</h3>
 
-      <div className='flex items-center justify-between'>
-        <div className='flex items-baseline gap-2'>
-          <span className='text-2xl font-bold text-purple-600'>
+      <div className='cio:flex cio:items-center cio:justify-between'>
+        <div className='cio:flex cio:items-baseline cio:gap-2'>
+          <span className='cio:text-2xl cio:font-bold cio:text-purple-600'>
             {props.priceCurrency}
             {props.product.salePrice}
           </span>
-          <span className='text-sm text-gray-400 line-through'>
+          <span className='cio:text-sm cio:text-gray-400 cio:line-through'>
             {props.priceCurrency}
             {props.product.price}
           </span>
         </div>
 
-        <div className='flex items-center gap-1 text-yellow-500'>
+        <div className='cio:flex cio:items-center cio:gap-1 cio:text-yellow-500'>
           <span>⭐</span>
-          <span className='text-sm font-medium'>{props.product.rating}</span>
-          <span className='text-xs text-gray-500'>({props.product.reviewsCount})</span>
+          <span className='cio:text-sm cio:font-medium'>{props.product.rating}</span>
+          <span className='cio:text-xs cio:text-gray-500'>({props.product.reviewsCount})</span>
         </div>
       </div>
 
-      <p className='text-gray-600 text-sm m-0'>{props.product.description}</p>
+      <p className='cio:text-gray-600 cio:text-sm cio:m-0'>{props.product.description}</p>
 
-      <div className='flex gap-2 flex-wrap'>
+      <div className='cio:flex cio:gap-2 cio:flex-wrap'>
         {props.product.tags?.map((tag) => (
-          <span key={tag} className='bg-purple-100 text-purple-700 px-2 py-1 rounded-full text-xs'>
+          <span
+            key={tag}
+            className='cio:bg-purple-100 cio:text-purple-700 cio:px-2 cio:py-1 cio:rounded-full cio:text-xs'>
             {tag}
           </span>
         ))}
       </div>
 
-      <div className='flex gap-2 pt-2'>
+      <div className='cio:flex cio:gap-2 cio:pt-2'>
         <button
           onClick={(e) => props.onAddToCart?.(e, props.product)}
-          className='flex-1 bg-purple-600 hover:bg-purple-700 text-white py-2 px-4 rounded-xl font-medium transition-colors cursor-pointer border-0'>
+          className='cio:flex-1 cio:bg-purple-600 cio:hover:bg-purple-700 cio:text-white cio:py-2 cio:px-4 cio:rounded-xl cio:font-medium cio:transition-colors cio:cursor-pointer cio:border-0'>
           Add to Cart
         </button>
         <button
           onClick={(e) => props.onAddToWishlist?.(e, props.product)}
-          className='bg-gray-100 hover:bg-gray-200 p-2 rounded-xl transition-colors cursor-pointer border-0'>
+          className='cio:bg-gray-100 cio:hover:bg-gray-200 cio:p-2 cio:rounded-xl cio:transition-colors cio:cursor-pointer cio:border-0'>
           ❤️
         </button>
       </div>
@@ -65,34 +67,34 @@ export const CompleteCustomOverrideCard: React.FC<ProductCardProps> = (props) =>
 
 // Compact list style component
 export const CompactListStyleCard: React.FC<ProductCardProps> = (props) => (
-  <div className='flex items-center bg-white border border-gray-200 rounded-lg p-3 max-w-lg hover:bg-gray-50 transition-colors'>
+  <div className='cio:flex cio:items-center cio:bg-white cio:border cio:border-gray-200 cio:rounded-lg cio:p-3 cio:max-w-lg cio:hover:bg-gray-50 cio:transition-colors'>
     <img
       src={props.product.imageUrl}
       alt={props.product.name}
-      className='w-16 object-cover rounded-lg mr-4'
+      className='cio:w-16 cio:object-cover cio:rounded-lg cio:mr-4'
     />
-    <div className='flex-1'>
-      <h3 className='font-semibold text-gray-800 m-0'>{props.product.name}</h3>
-      <div className='flex items-center gap-2 mt-1'>
-        <div className='flex items-baseline gap-1'>
-          <span className='font-bold text-red-600'>
+    <div className='cio:flex-1'>
+      <h3 className='cio:font-semibold cio:text-gray-800 cio:m-0'>{props.product.name}</h3>
+      <div className='cio:flex cio:items-center cio:gap-2 cio:mt-1'>
+        <div className='cio:flex cio:items-baseline cio:gap-1'>
+          <span className='cio:font-bold cio:text-red-600'>
             {props.priceCurrency}
             {props.product.salePrice}
           </span>
-          <span className='text-sm text-gray-400 line-through'>
+          <span className='cio:text-sm cio:text-gray-400 cio:line-through'>
             {props.priceCurrency}
             {props.product.price}
           </span>
         </div>
-        <div className='flex items-center gap-1 text-xs'>
-          <span className='text-yellow-500'>⭐</span>
+        <div className='cio:flex cio:items-center cio:gap-1 cio:text-xs'>
+          <span className='cio:text-yellow-500'>⭐</span>
           <span>{props.product.rating}</span>
         </div>
       </div>
     </div>
     <button
       onClick={(e) => props.onAddToCart?.(e, props.product)}
-      className='bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors ml-4 cursor-pointer border-0'>
+      className='cio:bg-blue-500 cio:hover:bg-blue-600 cio:text-white cio:px-4 cio:py-2 cio:rounded-lg cio:text-sm cio:font-medium cio:transition-colors cio:ml-4 cio:cursor-pointer cio:border-0'>
       Add to Cart
     </button>
   </div>

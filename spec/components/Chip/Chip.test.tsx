@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, cleanup } from '@testing-library/react';
+import { render, screen, cleanup, fireEvent } from '@testing-library/react';
 import { describe, test, expect, afterEach } from 'vitest';
 import Chip from '@/components/chip';
 
@@ -44,6 +44,17 @@ describe('Chip component', () => {
       expect(container).toHaveAttribute('data-slot', 'chip');
       expect(container.querySelector('img')).toBeInTheDocument();
     });
+
+    test('adds cio:bg-gray-200 to chip container when image fails to load', () => {
+      const { container } = render(
+        <Chip type='image' value='https://example.com/missing.jpg' name='broken' />,
+      );
+      const img = screen.getByAltText('broken') as HTMLImageElement;
+      fireEvent.error(img);
+      const chipContainer = container.querySelector('[data-slot="chip"]');
+      expect(chipContainer).toHaveClass('cio:bg-gray-200');
+      expect(img.style.display).toBe('none');
+    });
   });
 
   describe('empty value fallback', () => {
@@ -51,19 +62,19 @@ describe('Chip component', () => {
       render(<Chip type='color' value='' name='Empty' />);
       const element = screen.getByRole('img', { name: 'Empty' });
       expect(element).toBeInTheDocument();
-      expect(element.classList.contains('bg-white')).toBeTruthy();
+      expect(element.classList.contains('cio:bg-white')).toBeTruthy();
     });
 
     test('renders white fallback when value is whitespace', () => {
       render(<Chip type='color' value='   ' name='Whitespace' />);
       const element = screen.getByRole('img', { name: 'Whitespace' });
-      expect(element.classList.contains('bg-white')).toBeTruthy();
+      expect(element.classList.contains('cio:bg-white')).toBeTruthy();
     });
 
     test('renders white fallback for image type with empty value', () => {
       render(<Chip type='image' value='' name='Empty Image' />);
       const element = screen.getByRole('img', { name: 'Empty Image' });
-      expect(element.classList.contains('bg-white')).toBeTruthy();
+      expect(element.classList.contains('cio:bg-white')).toBeTruthy();
     });
   });
 
@@ -71,22 +82,22 @@ describe('Chip component', () => {
     test('applies sm size class', () => {
       render(<Chip type='color' value='#000' name='Small' size='sm' />);
       const element = screen.getByRole('img', { name: 'Small' });
-      expect(element.classList.contains('w-4')).toBeTruthy();
-      expect(element.classList.contains('h-4')).toBeTruthy();
+      expect(element.classList.contains('cio:w-4')).toBeTruthy();
+      expect(element.classList.contains('cio:h-4')).toBeTruthy();
     });
 
     test('applies md size class (default)', () => {
       render(<Chip type='color' value='#000' name='Medium' />);
       const element = screen.getByRole('img', { name: 'Medium' });
-      expect(element.classList.contains('w-6')).toBeTruthy();
-      expect(element.classList.contains('h-6')).toBeTruthy();
+      expect(element.classList.contains('cio:w-6')).toBeTruthy();
+      expect(element.classList.contains('cio:h-6')).toBeTruthy();
     });
 
     test('applies lg size class', () => {
       render(<Chip type='color' value='#000' name='Large' size='lg' />);
       const element = screen.getByRole('img', { name: 'Large' });
-      expect(element.classList.contains('w-8')).toBeTruthy();
-      expect(element.classList.contains('h-8')).toBeTruthy();
+      expect(element.classList.contains('cio:w-8')).toBeTruthy();
+      expect(element.classList.contains('cio:h-8')).toBeTruthy();
     });
   });
 

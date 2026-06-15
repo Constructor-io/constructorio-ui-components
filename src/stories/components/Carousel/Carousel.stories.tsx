@@ -51,20 +51,20 @@ export const Vertical: Story = {
     componentOverrides: {
       item: {
         reactNode: ({ item }: { item: Product }) => (
-          <div className='w-[240px] bg-white border rounded-xl p-4 shadow-sm flex flex-col gap-3 self-center'>
-            <div className='flex items-center gap-3'>
+          <div className='cio:w-[240px] cio:bg-white cio:border cio:rounded-xl cio:p-4 cio:shadow-sm cio:flex cio:flex-col cio:gap-3 cio:self-center'>
+            <div className='cio:flex cio:items-center cio:gap-3'>
               <img
                 src={item.imageUrl}
                 alt={item.name}
-                className='w-14 h-14 rounded-full object-cover'
+                className='cio:w-14 cio:h-14 cio:rounded-full cio:object-cover'
               />
-              <div className='flex-1'>
-                <p className='text-sm font-semibold'>{item.name}</p>
-                <p className='text-xs text-gray-500 line-clamp-2'>{item.description}</p>
+              <div className='cio:flex-1'>
+                <p className='cio:text-sm cio:font-semibold'>{item.name}</p>
+                <p className='cio:text-xs cio:text-gray-500 cio:line-clamp-2'>{item.description}</p>
               </div>
             </div>
-            <div className='flex items-center justify-between text-xs text-gray-600'>
-              <span className='font-medium'>${item.price}</span>
+            <div className='cio:flex cio:items-center cio:justify-between cio:text-xs cio:text-gray-600'>
+              <span className='cio:font-medium'>${item.price}</span>
               <span>Rating: {item.rating}★</span>
             </div>
           </div>
@@ -86,34 +86,36 @@ export const CompleteCustomOverride: Story = {
       items={args.items as Product[]}
       componentOverrides={{
         reactNode: (props: CarouselRenderProps<Product>) => (
-          <div className='flex flex-col gap-4 w-full overflow-hidden p-4 bg-slate-50 rounded-xl border border-slate-200'>
-            <div className='flex items-center justify-between'>
+          <div className='cio:flex cio:flex-col cio:gap-4 cio:w-full cio:overflow-hidden cio:p-4 cio:bg-slate-50 cio:rounded-xl cio:border cio:border-slate-200'>
+            <div className='cio:flex cio:items-center cio:justify-between'>
               <div>
-                <h2 className='text-lg font-semibold'>Curated products</h2>
-                <p className='text-xs text-gray-500 mt-1'>
+                <h2 className='cio:text-lg cio:font-semibold'>Curated products</h2>
+                <p className='cio:text-xs cio:text-gray-500 cio:mt-1'>
                   Orientation: {props.orientation} · Items: {props.items?.length ?? 0}
                 </p>
               </div>
-              <span className='text-[11px] uppercase tracking-wide text-slate-500'>
+              <span className='cio:text-[11px] cio:uppercase cio:tracking-wide cio:text-slate-500'>
                 Custom root layout
               </span>
             </div>
 
-            <div className='flex items-center gap-3'>
+            <div className='cio:flex cio:items-center cio:gap-3'>
               <CioCarousel.Previous />
               <CioCarousel.Content>
                 {props.items?.map((product: Product) => (
                   <CioCarousel.Item key={product.id}>
-                    <div className='w-[220px] bg-white border rounded-xl p-4 shadow-sm flex flex-col items-center gap-3'>
+                    <div className='cio:w-[220px] cio:bg-white cio:border cio:rounded-xl cio:p-4 cio:shadow-sm cio:flex cio:flex-col cio:items-center cio:gap-3'>
                       <img
                         src={product.imageUrl}
                         alt={product.name}
-                        className='w-24 h-24 rounded-full object-cover'
+                        className='cio:w-24 cio:h-24 cio:rounded-full cio:object-cover'
                       />
-                      <div className='text-center space-y-1'>
-                        <p className='text-sm font-semibold'>{product.name}</p>
-                        <p className='text-xs text-gray-500 line-clamp-2'>{product.description}</p>
-                        <p className='text-sm font-medium'>${product.price}</p>
+                      <div className='cio:text-center cio:space-y-1'>
+                        <p className='cio:text-sm cio:font-semibold'>{product.name}</p>
+                        <p className='cio:text-xs cio:text-gray-500 cio:line-clamp-2'>
+                          {product.description}
+                        </p>
+                        <p className='cio:text-sm cio:font-medium'>${product.price}</p>
                       </div>
                     </div>
                   </CioCarousel.Item>
@@ -136,37 +138,37 @@ export const CompoundWithRenderProps: Story = {
   render: (args: Story['args']) => (
     <CioCarousel items={args.items as Product[]}>
       {(props: CarouselRenderProps<Product>) => (
-        <div className='flex flex-col gap-4 w-full overflow-hidden p-4'>
+        <div className='cio:flex cio:flex-col cio:gap-4 cio:w-full cio:overflow-hidden cio:p-4'>
           {/* Header driven by render props */}
-          <div className='flex items-center justify-between'>
-            <div className='space-y-1'>
-              <h2 className='text-lg font-semibold'>Trending now</h2>
-              <p className='text-xs text-gray-500'>
+          <div className='cio:flex cio:items-center cio:justify-between'>
+            <div className='cio:space-y-1'>
+              <h2 className='cio:text-lg cio:font-semibold'>Trending now</h2>
+              <p className='cio:text-xs cio:text-gray-500'>
                 {props.items?.length ?? 0} items ·{' '}
                 {props.orientation === 'vertical' ? 'Vertical' : 'Horizontal'} scroll
               </p>
             </div>
-            <div className='flex items-center gap-2 text-xs text-gray-500'>
+            <div className='cio:flex cio:items-center cio:gap-2 cio:text-xs cio:text-gray-500'>
               <span>Slides to scroll: {props.slidesToScroll}</span>
               <span>Loop: {props.loop ? 'On' : 'Off'}</span>
             </div>
           </div>
 
           {/* Compound components for navigation + content */}
-          <div className='flex gap-4 w-full items-center overflow-hidden'>
+          <div className='cio:flex cio:gap-4 cio:w-full cio:items-center cio:overflow-hidden'>
             <CioCarousel.Previous />
             <CioCarousel.Content>
               {props.items?.map((product: Product) => (
                 <CioCarousel.Item key={product.id}>
-                  <div className='w-[220px] bg-white border rounded-xl p-4 shadow-sm flex flex-col items-center gap-2'>
+                  <div className='cio:w-[220px] cio:bg-white cio:border cio:rounded-xl cio:p-4 cio:shadow-sm cio:flex cio:flex-col cio:items-center cio:gap-2'>
                     <img
                       src={product.imageUrl}
                       alt={product.name}
-                      className='w-24 h-24 rounded-full object-cover'
+                      className='cio:w-24 cio:h-24 cio:rounded-full cio:object-cover'
                     />
-                    <div className='text-center'>
-                      <p className='text-sm font-medium'>{product.name}</p>
-                      <p className='text-xs text-gray-500'>${product.price}</p>
+                    <div className='cio:text-center'>
+                      <p className='cio:text-sm cio:font-medium'>{product.name}</p>
+                      <p className='cio:text-xs cio:text-gray-500'>${product.price}</p>
                     </div>
                   </div>
                 </CioCarousel.Item>
@@ -237,34 +239,38 @@ export const WithNonProductItems: Story = {
   render: (args: Story['args']) => (
     <CioCarousel<Article> items={args.items as Article[]}>
       {(props: CarouselRenderProps<Article>) => (
-        <div className='flex flex-col gap-4 w-full p-4 bg-white rounded-xl border border-slate-200 overflow-hidden'>
-          <div className='flex items-center justify-between'>
+        <div className='cio:flex cio:flex-col cio:gap-4 cio:w-full cio:p-4 cio:bg-white cio:rounded-xl cio:border cio:border-slate-200 cio:overflow-hidden'>
+          <div className='cio:flex cio:items-center cio:justify-between'>
             <div>
-              <h2 className='text-lg font-semibold'>Featured articles</h2>
-              <p className='text-xs text-gray-500 mt-1'>
+              <h2 className='cio:text-lg cio:font-semibold'>Featured articles</h2>
+              <p className='cio:text-xs cio:text-gray-500 cio:mt-1'>
                 {props.items?.length ?? 0} articles ·
-                <span className='ml-1'>
+                <span className='cio:ml-1'>
                   {props.orientation === 'vertical' ? 'Vertical scroll' : 'Horizontal scroll'}
                 </span>
               </p>
             </div>
-            <div className='flex flex-col items-end text-xs text-gray-500'>
+            <div className='cio:flex cio:flex-col cio:items-end cio:text-xs cio:text-gray-500'>
               <span>Slides to scroll: {props.slidesToScroll}</span>
               <span>Loop: {props.loop ? 'On' : 'Off'}</span>
             </div>
           </div>
 
-          <div className='flex items-center gap-3'>
+          <div className='cio:flex cio:items-center cio:gap-3'>
             <CioCarousel.Previous />
             <CioCarousel.Content>
               {props.items?.map((article: Article) => (
                 <CioCarousel.Item key={article.id} item={article}>
-                  <article className='w-[260px] bg-slate-50 border rounded-xl p-4 shadow-sm flex flex-col gap-2'>
-                    <span className='text-[11px] uppercase tracking-wide text-slate-500'>
+                  <article className='cio:w-[260px] cio:bg-slate-50 cio:border cio:rounded-xl cio:p-4 cio:shadow-sm cio:flex cio:flex-col cio:gap-2'>
+                    <span className='cio:text-[11px] cio:uppercase cio:tracking-wide cio:text-slate-500'>
                       {article.category}
                     </span>
-                    <h3 className='text-sm font-semibold line-clamp-2'>{article.title}</h3>
-                    <p className='text-xs text-gray-600 line-clamp-3'>{article.summary}</p>
+                    <h3 className='cio:text-sm cio:font-semibold cio:line-clamp-2'>
+                      {article.title}
+                    </h3>
+                    <p className='cio:text-xs cio:text-gray-600 cio:line-clamp-3'>
+                      {article.summary}
+                    </p>
                   </article>
                 </CioCarousel.Item>
               ))}
@@ -288,19 +294,23 @@ export const MultipleCustomizations: Story = {
       componentOverrides={{
         content: {
           reactNode: (props: CarouselRenderProps<Product>) => (
-            <div className='flex items-center gap-2'>
+            <div className='cio:flex cio:items-center cio:gap-2'>
               {props.items?.map((product: Product) => (
                 <CioCarousel.Item key={product.id}>
-                  <div className='w-[220px] h-full bg-slate-950/90 border border-slate-700 rounded-xl p-4 shadow-lg flex flex-col items-center gap-3 text-white'>
+                  <div className='cio:w-[220px] cio:h-full cio:bg-slate-950/90 cio:border cio:border-slate-700 cio:rounded-xl cio:p-4 cio:shadow-lg cio:flex cio:flex-col cio:items-center cio:gap-3 cio:text-white'>
                     <img
                       src={product.imageUrl}
                       alt={product.name}
-                      className='w-24 h-24 rounded-full object-cover border-2 border-slate-500'
+                      className='cio:w-24 cio:h-24 cio:rounded-full cio:object-cover cio:border-2 cio:border-slate-500'
                     />
-                    <div className='text-center space-y-1'>
-                      <p className='text-sm font-semibold'>{product.name}</p>
-                      <p className='text-xs text-slate-300 line-clamp-2'>{product.description}</p>
-                      <p className='text-sm font-medium text-emerald-300'>${product.price}</p>
+                    <div className='cio:text-center cio:space-y-1'>
+                      <p className='cio:text-sm cio:font-semibold'>{product.name}</p>
+                      <p className='cio:text-xs cio:text-slate-300 cio:line-clamp-2'>
+                        {product.description}
+                      </p>
+                      <p className='cio:text-sm cio:font-medium cio:text-emerald-300'>
+                        ${product.price}
+                      </p>
                     </div>
                   </div>
                 </CioCarousel.Item>
@@ -312,7 +322,7 @@ export const MultipleCustomizations: Story = {
           reactNode: ({ scrollPrev, canScrollPrev }: CarouselRenderProps<Product>) => (
             <button
               type='button'
-              className='rounded-full bg-slate-900 text-white px-3 py-2 text-xs flex items-center gap-1 disabled:opacity-40 cursor-pointer'
+              className='cio:rounded-full cio:bg-slate-900 cio:text-white cio:px-3 cio:py-2 cio:text-xs cio:flex cio:items-center cio:gap-1 cio:disabled:opacity-40 cio:cursor-pointer'
               aria-label='Previous slide'
               onClick={scrollPrev}
               disabled={!canScrollPrev}>
@@ -324,7 +334,7 @@ export const MultipleCustomizations: Story = {
           reactNode: ({ scrollNext, canScrollNext }: CarouselRenderProps<Product>) => (
             <button
               type='button'
-              className='rounded-full bg-slate-900 text-white px-3 py-2 text-xs flex items-center gap-1 disabled:opacity-40 cursor-pointer'
+              className='cio:rounded-full cio:bg-slate-900 cio:text-white cio:px-3 cio:py-2 cio:text-xs cio:flex cio:items-center cio:gap-1 cio:disabled:opacity-40 cio:cursor-pointer'
               aria-label='Next slide'
               onClick={scrollNext}
               disabled={!canScrollNext}>
@@ -344,28 +354,28 @@ export const WithRenderProps: Story = {
   render: (args: Story['args']) => (
     <CioCarousel items={args.items as Product[]}>
       {(props: CarouselRenderProps<Product>) => (
-        <div className='flex flex-col gap-4 w-full'>
-          <div className='flex items-center justify-between px-4'>
-            <h2 className='text-lg font-semibold'>Recommended products</h2>
-            <span className='text-sm text-gray-500'>
+        <div className='cio:flex cio:flex-col cio:gap-4 cio:w-full'>
+          <div className='cio:flex cio:items-center cio:justify-between cio:px-4'>
+            <h2 className='cio:text-lg cio:font-semibold'>Recommended products</h2>
+            <span className='cio:text-sm cio:text-gray-500'>
               {props.items?.length ?? 0} items · Orientation: {props.orientation}
             </span>
           </div>
 
-          <div className='flex gap-4 w-full items-center'>
+          <div className='cio:flex cio:gap-4 cio:w-full cio:items-center'>
             <CioCarousel.Previous />
             <CioCarousel.Content>
               {props.items?.map((product: Product) => (
                 <CioCarousel.Item key={product.id}>
-                  <div className='w-full bg-white border rounded-xl p-4 shadow-sm flex flex-col items-center gap-2'>
+                  <div className='cio:w-full cio:bg-white cio:border cio:rounded-xl cio:p-4 cio:shadow-sm cio:flex cio:flex-col cio:items-center cio:gap-2'>
                     <img
                       src={product.imageUrl}
                       alt={product.name}
-                      className='w-24 h-24 rounded-full object-cover'
+                      className='cio:w-24 cio:h-24 cio:rounded-full cio:object-cover'
                     />
-                    <div className='text-center'>
-                      <p className='text-sm font-medium'>{product.name}</p>
-                      <p className='text-xs text-gray-500'>${product.price}</p>
+                    <div className='cio:text-center'>
+                      <p className='cio:text-sm cio:font-medium'>{product.name}</p>
+                      <p className='cio:text-xs cio:text-gray-500'>${product.price}</p>
                     </div>
                   </div>
                 </CioCarousel.Item>
@@ -386,16 +396,18 @@ export const WithCompoundComponents: Story = {
       <CioCarousel.Content>
         {mockProducts.map((product: Product) => (
           <CioCarousel.Item key={product.id}>
-            <div className='w-[220px] bg-white border rounded-xl p-4 shadow-sm flex flex-col items-center gap-3'>
+            <div className='cio:w-[220px] cio:bg-white cio:border cio:rounded-xl cio:p-4 cio:shadow-sm cio:flex cio:flex-col cio:items-center cio:gap-3'>
               <img
                 src={product.imageUrl}
                 alt={product.name}
-                className='w-24 h-24 rounded-full object-cover'
+                className='cio:w-24 cio:h-24 cio:rounded-full cio:object-cover'
               />
-              <div className='text-center space-y-1'>
-                <p className='text-sm font-semibold'>{product.name}</p>
-                <p className='text-xs text-gray-500 line-clamp-2'>{product.description}</p>
-                <p className='text-sm font-medium'>${product.price}</p>
+              <div className='cio:text-center cio:space-y-1'>
+                <p className='cio:text-sm cio:font-semibold'>{product.name}</p>
+                <p className='cio:text-xs cio:text-gray-500 cio:line-clamp-2'>
+                  {product.description}
+                </p>
+                <p className='cio:text-sm cio:font-medium'>${product.price}</p>
               </div>
             </div>
           </CioCarousel.Item>
@@ -418,7 +430,7 @@ export const WithCustomScrollButtons: Story = {
           reactNode: ({ orientation, scrollPrev, canScrollPrev }: CarouselRenderProps<Product>) => (
             <button
               type='button'
-              className='rounded-full bg-black text-white px-3 py-2 text-xs flex items-center gap-1 cursor-pointer'
+              className='cio:rounded-full cio:bg-black cio:text-white cio:px-3 cio:py-2 cio:text-xs cio:flex cio:items-center cio:gap-1 cio:cursor-pointer'
               aria-label='Previous slide'
               disabled={!canScrollPrev}
               onClick={scrollPrev}>
@@ -430,7 +442,7 @@ export const WithCustomScrollButtons: Story = {
           reactNode: ({ orientation, scrollNext, canScrollNext }: CarouselRenderProps<Product>) => (
             <button
               type='button'
-              className='rounded-full bg-black text-white px-3 py-2 text-xs flex items-center gap-1 cursor-pointer'
+              className='cio:rounded-full cio:bg-black cio:text-white cio:px-3 cio:py-2 cio:text-xs cio:flex cio:items-center cio:gap-1 cio:cursor-pointer'
               aria-label='Next slide'
               data-slot='carousel-next'
               disabled={!canScrollNext}
@@ -454,14 +466,14 @@ export const WithCustomItem: Story = {
       componentOverrides={{
         item: {
           reactNode: ({ item }: { item: Product }) => (
-            <div className='w-full bg-gradient-to-br from-blue-500 to-purple-600 text-white rounded-xl border p-6 shadow-lg flex flex-col items-center justify-center gap-2'>
+            <div className='cio:w-full cio:bg-gradient-to-br cio:from-blue-500 cio:to-purple-600 cio:text-white cio:rounded-xl cio:border cio:p-6 cio:shadow-lg cio:flex cio:flex-col cio:items-center cio:justify-center cio:gap-2'>
               <img
                 src={item.imageUrl}
                 alt={item.name}
-                className='w-24 h-24 rounded-full object-cover border-4 border-white'
+                className='cio:w-24 cio:h-24 cio:rounded-full cio:object-cover cio:border-4 cio:border-white'
               />
-              <h3 className='text-xl font-bold'>{item.name}</h3>
-              <p className='text-sm opacity-90'>${item.price}</p>
+              <h3 className='cio:text-xl cio:font-bold'>{item.name}</h3>
+              <p className='cio:text-sm cio:opacity-90'>${item.price}</p>
             </div>
           ),
         },
@@ -478,27 +490,27 @@ export const WithCustomSlidesToScroll: Story = {
   render: (args: Story['args']) => (
     <CioCarousel items={args.items as Product[]} slidesToScroll={2}>
       {(props: CarouselRenderProps<Product>) => (
-        <div className='flex flex-col gap-3 w-full'>
-          <div className='flex items-center justify-between px-4 text-xs text-gray-500'>
+        <div className='cio:flex cio:flex-col cio:gap-3 cio:w-full'>
+          <div className='cio:flex cio:items-center cio:justify-between cio:px-4 cio:text-xs cio:text-gray-500'>
             <span>
               Items: {props.items?.length ?? 0} · Slides to scroll: {props.slidesToScroll}
             </span>
             <span>Loop: {props.loop ? 'On' : 'Off'}</span>
           </div>
-          <div className='flex gap-3 items-center px-4'>
+          <div className='cio:flex cio:gap-3 cio:items-center cio:px-4'>
             <CioCarousel.Previous />
             <CioCarousel.Content>
               {props.items?.map((product: Product) => (
                 <CioCarousel.Item key={product.id}>
-                  <div className='w-[220px] bg-white border rounded-xl p-4 shadow-sm flex flex-col items-center gap-2'>
+                  <div className='cio:w-[220px] cio:bg-white cio:border cio:rounded-xl cio:p-4 cio:shadow-sm cio:flex cio:flex-col cio:items-center cio:gap-2'>
                     <img
                       src={product.imageUrl}
                       alt={product.name}
-                      className='w-24 h-24 rounded-full object-cover'
+                      className='cio:w-24 cio:h-24 cio:rounded-full cio:object-cover'
                     />
-                    <div className='text-center'>
-                      <p className='text-sm font-medium'>{product.name}</p>
-                      <p className='text-xs text-gray-500'>${product.price}</p>
+                    <div className='cio:text-center'>
+                      <p className='cio:text-sm cio:font-medium'>{product.name}</p>
+                      <p className='cio:text-xs cio:text-gray-500'>${product.price}</p>
                     </div>
                   </div>
                 </CioCarousel.Item>
@@ -527,28 +539,30 @@ export const WithCustomResponsiveConfig: Story = {
         1200: { gap: 20, slidesToShow: 4 },
       }}>
       {(props: CarouselRenderProps<Product>) => (
-        <div className='flex flex-col gap-4 w-full p-4 overflow-hidden'>
-          <div className='flex items-center justify-between text-xs text-gray-500'>
+        <div className='cio:flex cio:flex-col cio:gap-4 cio:w-full cio:p-4 cio:overflow-hidden'>
+          <div className='cio:flex cio:items-center cio:justify-between cio:text-xs cio:text-gray-500'>
             <span>
               Breakpoints: 0/640/960/1200 · Orientation:{' '}
               {props.orientation === 'vertical' ? 'Vertical' : 'Horizontal'}
             </span>
             <span>Autoplay: {props.autoPlay ? 'On' : 'Off'}</span>
           </div>
-          <div className='flex gap-3 items-center'>
+          <div className='cio:flex cio:gap-3 cio:items-center'>
             <CioCarousel.Previous />
             <CioCarousel.Content>
               {props.items?.map((product: Product) => (
                 <CioCarousel.Item key={product.id}>
-                  <div className='w-[220px] bg-white border rounded-xl p-4 shadow-sm flex flex-col items-center gap-3'>
+                  <div className='cio:w-[220px] cio:bg-white cio:border cio:rounded-xl cio:p-4 cio:shadow-sm cio:flex cio:flex-col cio:items-center cio:gap-3'>
                     <img
                       src={product.imageUrl}
                       alt={product.name}
-                      className='w-24 h-24 rounded-full object-cover'
+                      className='cio:w-24 cio:h-24 cio:rounded-full cio:object-cover'
                     />
-                    <div className='text-center space-y-1'>
-                      <p className='text-sm font-semibold'>{product.name}</p>
-                      <p className='text-xs text-gray-500 line-clamp-2'>{product.description}</p>
+                    <div className='cio:text-center cio:space-y-1'>
+                      <p className='cio:text-sm cio:font-semibold'>{product.name}</p>
+                      <p className='cio:text-xs cio:text-gray-500 cio:line-clamp-2'>
+                        {product.description}
+                      </p>
                     </div>
                   </div>
                 </CioCarousel.Item>
@@ -569,42 +583,44 @@ export const RenderPropsShowcase: Story = {
   render: (args: Story['args']) => (
     <CioCarousel items={args.items as Product[]}>
       {(props: CarouselRenderProps<Product>) => (
-        <div className='flex flex-col gap-4 w-full p-4 bg-slate-50 rounded-xl border border-slate-200 overflow-hidden'>
-          <div className='flex items-center justify-between'>
+        <div className='cio:flex cio:flex-col cio:gap-4 cio:w-full cio:p-4 cio:bg-slate-50 cio:rounded-xl cio:border cio:border-slate-200 cio:overflow-hidden'>
+          <div className='cio:flex cio:items-center cio:justify-between'>
             <div>
-              <h2 className='text-lg font-semibold'>Personalized picks</h2>
-              <p className='text-xs text-gray-500 mt-1'>
+              <h2 className='cio:text-lg cio:font-semibold'>Personalized picks</h2>
+              <p className='cio:text-xs cio:text-gray-500 cio:mt-1'>
                 {props.items?.length ?? 0} items ·
-                <span className='ml-1'>
+                <span className='cio:ml-1'>
                   {props.orientation === 'vertical' ? 'Vertical scroll' : 'Horizontal scroll'}
                 </span>
               </p>
             </div>
-            <div className='flex flex-col items-end text-xs text-gray-500'>
+            <div className='cio:flex cio:flex-col cio:items-end cio:text-xs cio:text-gray-500'>
               <span>Slides to scroll: {props.slidesToScroll}</span>
               <span>Loop: {props.loop ? 'On' : 'Off'}</span>
             </div>
           </div>
 
-          <div className='flex items-center gap-3'>
+          <div className='cio:flex cio:items-center cio:gap-3'>
             <CioCarousel.Previous />
             <CioCarousel.Content>
               {props.items?.map((product: Product) => (
                 <CioCarousel.Item key={product.id}>
-                  <div className='w-[240px] bg-white border rounded-xl p-4 shadow-sm flex flex-col gap-3'>
-                    <div className='flex items-center gap-3'>
+                  <div className='cio:w-[240px] cio:bg-white cio:border cio:rounded-xl cio:p-4 cio:shadow-sm cio:flex cio:flex-col cio:gap-3'>
+                    <div className='cio:flex cio:items-center cio:gap-3'>
                       <img
                         src={product.imageUrl}
                         alt={product.name}
-                        className='w-14 h-14 rounded-full object-cover'
+                        className='cio:w-14 cio:h-14 cio:rounded-full cio:object-cover'
                       />
-                      <div className='flex-1'>
-                        <p className='text-sm font-semibold'>{product.name}</p>
-                        <p className='text-xs text-gray-500 line-clamp-2'>{product.description}</p>
+                      <div className='cio:flex-1'>
+                        <p className='cio:text-sm cio:font-semibold'>{product.name}</p>
+                        <p className='cio:text-xs cio:text-gray-500 cio:line-clamp-2'>
+                          {product.description}
+                        </p>
                       </div>
                     </div>
-                    <div className='flex items-center justify-between text-xs text-gray-600'>
-                      <span className='font-medium'>${product.price}</span>
+                    <div className='cio:flex cio:items-center cio:justify-between cio:text-xs cio:text-gray-600'>
+                      <span className='cio:font-medium'>${product.price}</span>
                       <span>Rating: {product.rating}★</span>
                     </div>
                   </div>
@@ -625,10 +641,10 @@ export const CompoundCustomLayout: Story = {
   },
   render: (args: Story['args']) => (
     <CioCarousel autoPlay={false} loop>
-      <div className='flex flex-col gap-4 w-full p-4 bg-slate-50 rounded-xl overflow-hidden'>
-        <div className='flex items-center justify-between'>
-          <h2 className='text-lg font-semibold'>Featured Products</h2>
-          <div className='flex gap-2'>
+      <div className='cio:flex cio:flex-col cio:gap-4 cio:w-full cio:p-4 cio:bg-slate-50 cio:rounded-xl cio:overflow-hidden'>
+        <div className='cio:flex cio:items-center cio:justify-between'>
+          <h2 className='cio:text-lg cio:font-semibold'>Featured Products</h2>
+          <div className='cio:flex cio:gap-2'>
             <CioCarousel.Previous />
             <CioCarousel.Next />
           </div>
@@ -637,14 +653,14 @@ export const CompoundCustomLayout: Story = {
         <CioCarousel.Content>
           {(args.items as Product[]).map((product: Product) => (
             <CioCarousel.Item key={product.id}>
-              <div className='w-[200px] bg-white border rounded-xl p-3 shadow-sm'>
+              <div className='cio:w-[200px] cio:bg-white cio:border cio:rounded-xl cio:p-3 cio:shadow-sm'>
                 <img
                   src={product.imageUrl}
                   alt={product.name}
-                  className='w-full h-32 object-cover rounded-lg mb-2'
+                  className='cio:w-full cio:h-32 cio:object-cover cio:rounded-lg cio:mb-2'
                 />
-                <h3 className='text-sm font-semibold'>{product.name}</h3>
-                <p className='text-xs text-gray-500'>${product.price}</p>
+                <h3 className='cio:text-sm cio:font-semibold'>{product.name}</h3>
+                <p className='cio:text-xs cio:text-gray-500'>${product.price}</p>
               </div>
             </CioCarousel.Item>
           ))}
@@ -660,20 +676,20 @@ export const CompoundVerticalLayout: Story = {
   },
   render: (args: Story['args']) => (
     <CioCarousel orientation='vertical' autoPlay={false} loop>
-      <div className='flex flex-col gap-3 h-[400px] items-center'>
+      <div className='cio:flex cio:flex-col cio:gap-3 cio:h-[400px] cio:items-center'>
         <CioCarousel.Previous />
         <CioCarousel.Content>
           {(args.items as Product[]).map((product: Product) => (
             <CioCarousel.Item key={product.id}>
-              <div className='w-[240px] bg-white border rounded-xl p-4 shadow-sm flex items-center gap-3'>
+              <div className='cio:w-[240px] cio:bg-white cio:border cio:rounded-xl cio:p-4 cio:shadow-sm cio:flex cio:items-center cio:gap-3'>
                 <img
                   src={product.imageUrl}
                   alt={product.name}
-                  className='w-16 h-16 rounded-full object-cover'
+                  className='cio:w-16 cio:h-16 cio:rounded-full cio:object-cover'
                 />
-                <div className='flex-1'>
-                  <p className='text-sm font-semibold'>{product.name}</p>
-                  <p className='text-xs text-gray-500'>${product.price}</p>
+                <div className='cio:flex-1'>
+                  <p className='cio:text-sm cio:font-semibold'>{product.name}</p>
+                  <p className='cio:text-xs cio:text-gray-500'>${product.price}</p>
                 </div>
               </div>
             </CioCarousel.Item>
@@ -695,19 +711,21 @@ export const CustomContentSection: Story = {
       componentOverrides={{
         content: {
           reactNode: (props: CarouselRenderProps<Product>) => (
-            <div className='flex items-center gap-2 bg-slate-100 p-4 rounded-lg'>
+            <div className='cio:flex cio:items-center cio:gap-2 cio:bg-slate-100 cio:p-4 cio:rounded-lg'>
               {props.items?.map((product: Product) => (
                 <CioCarousel.Item key={product.id}>
-                  <div className='w-[220px] bg-white border rounded-xl p-4 shadow-sm flex flex-col items-center gap-3'>
+                  <div className='cio:w-[220px] cio:bg-white cio:border cio:rounded-xl cio:p-4 cio:shadow-sm cio:flex cio:flex-col cio:items-center cio:gap-3'>
                     <img
                       src={product.imageUrl}
                       alt={product.name}
-                      className='w-24 h-24 rounded-full object-cover'
+                      className='cio:w-24 cio:h-24 cio:rounded-full cio:object-cover'
                     />
-                    <div className='text-center space-y-1'>
-                      <p className='text-sm font-semibold'>{product.name}</p>
-                      <p className='text-xs text-gray-500 line-clamp-2'>{product.description}</p>
-                      <p className='text-sm font-medium'>${product.price}</p>
+                    <div className='cio:text-center cio:space-y-1'>
+                      <p className='cio:text-sm cio:font-semibold'>{product.name}</p>
+                      <p className='cio:text-xs cio:text-gray-500 cio:line-clamp-2'>
+                        {product.description}
+                      </p>
+                      <p className='cio:text-sm cio:font-medium'>${product.price}</p>
                     </div>
                   </div>
                 </CioCarousel.Item>

@@ -121,6 +121,89 @@ function App() {
 }
 ```
 
+## Tailwind CSS Prefix
+
+This library uses Tailwind CSS v4 with a `cio:` prefix to avoid conflicts with your application's Tailwind classes. All utility classes and CSS variables are namespaced to ensure styles don't leak or collide.
+
+### Class Categories
+
+The codebase uses two distinct class namespaces. They look similar but serve different purposes:
+
+- **`cio-*` (no colon)** — plain CSS hooks / BEM identifiers attached to component roots and key sub-elements (e.g., `cio-components`, `cio-badge`, `cio-product-card-image`, `cio-filter-visual-swatch`). These are stable selectors used for styling overrides and tests; they are **not** Tailwind utilities and are **never** prefixed with `cio:`.
+- **`cio:*` (with colon)** — Tailwind v4 utility classes scoped by the `prefix(cio)` import directive (e.g., `cio:flex`, `cio:hover:bg-primary/90`). The conventions in the rest of this section apply to these.
+
+```tsx
+// Both kinds appear together on the same element:
+<div className="cio-badge cio:inline-flex cio:items-center cio:gap-1.5">
+```
+
+### Class Naming Convention
+
+When adding or customizing Tailwind classes in this library, always use the `cio:` prefix:
+
+```tsx
+// Correct
+<div className="cio:flex cio:items-center cio:gap-2">
+
+// Incorrect - will not work
+<div className="flex items-center gap-2">
+```
+
+### Variants and Modifiers
+
+The prefix must come **before** any variants (hover, focus, responsive, etc.):
+
+```tsx
+// Correct - prefix first, then variant, then utility
+<button className="cio:bg-primary cio:hover:bg-primary/90 cio:disabled:opacity-50">
+
+// Incorrect - variant before prefix
+<button className="hover:cio:bg-primary/90 disabled:cio:opacity-50">
+```
+
+### Responsive Breakpoints
+
+```tsx
+// Correct
+<div className="cio:p-2 cio:sm:p-4 cio:lg:p-6">
+
+// Incorrect
+<div className="cio:p-2 sm:cio:p-4 lg:cio:p-6">
+```
+
+### Arbitrary Values and Selectors
+
+```tsx
+// Correct
+<div className="cio:w-[200px] cio:[&_svg]:size-4">
+
+// Incorrect
+<div className="[&_svg]:cio:size-4">
+```
+
+### CSS Variables
+
+CSS variables are prefixed with `--cio-`:
+
+```css
+:root {
+  --cio-primary: oklch(0.1969 0.0101 276.49);
+  --cio-background: oklch(1 0 0);
+  --cio-radius: 0.625rem;
+}
+```
+
+### Customizing Theme
+
+You can override the default theme by setting the CSS variables in your application:
+
+```css
+:root {
+  --cio-primary: #your-brand-color;
+  --cio-radius: 0.5rem;
+}
+```
+
 ## Local Development
 
 ### Development Scripts

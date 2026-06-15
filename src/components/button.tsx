@@ -4,30 +4,31 @@ import { ComponentOverrideProps, IncludeComponentOverrides } from '@/types';
 import { cva, VariantProps } from 'class-variance-authority';
 
 const buttonVariants = cva(
-  "cio-components cio-button cursor-pointer inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-sm text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive cursor-pointer",
+  "cio-components cio-button cio:cursor-pointer cio:inline-flex cio:items-center cio:justify-center cio:gap-2 cio:whitespace-nowrap cio:rounded-sm cio:text-sm cio:font-medium cio:transition-all cio:disabled:pointer-events-none cio:disabled:opacity-50 cio:[&_svg]:pointer-events-none cio:[&_svg:not([class*='cio:size-'])]:size-4 cio:shrink-0 cio:[&_svg]:shrink-0 cio:outline-none cio:focus-visible:border-ring cio:focus-visible:ring-ring/50 cio:focus-visible:ring-[3px] cio:aria-invalid:ring-destructive/20 cio:dark:aria-invalid:ring-destructive/40 cio:aria-invalid:border-destructive",
   {
     variants: {
       variant: {
-        default: 'bg-primary text-primary-foreground shadow-xs hover:bg-primary/90',
-        secondary: 'bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80',
+        default: 'cio:bg-primary cio:text-primary-foreground cio:shadow-xs cio:hover:bg-primary/90',
+        secondary:
+          'cio:bg-secondary cio:text-secondary-foreground cio:shadow-xs cio:hover:bg-secondary/80',
         outline:
-          'border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50',
-        ghost: 'hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50',
-        link: 'text-primary underline-offset-4 hover:underline',
+          'cio:border cio:bg-background cio:shadow-xs cio:hover:bg-accent cio:hover:text-accent-foreground cio:dark:bg-input/30 cio:dark:border-input cio:dark:hover:bg-input/50',
+        ghost: 'cio:hover:bg-accent cio:hover:text-accent-foreground cio:dark:hover:bg-accent/50',
+        link: 'cio:text-primary cio:underline-offset-4 cio:hover:underline',
         destructive:
-          'bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60',
+          'cio:bg-destructive cio:text-white cio:shadow-xs cio:hover:bg-destructive/90 cio:focus-visible:ring-destructive/20 cio:dark:focus-visible:ring-destructive/40 cio:dark:bg-destructive/60',
       },
       size: {
-        sm: 'h-6 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5',
-        md: 'h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5',
-        default: 'h-10 px-4 py-2 has-[>svg]:px-3',
-        xl: 'h-12 rounded-md px-6 has-[>svg]:px-4',
-        icon: 'size-9',
+        sm: 'cio:h-6 cio:rounded-md cio:gap-1.5 cio:px-3 cio:has-[>svg]:px-2.5',
+        md: 'cio:h-8 cio:rounded-md cio:gap-1.5 cio:px-3 cio:has-[>svg]:px-2.5',
+        default: 'cio:h-10 cio:px-4 cio:py-2 cio:has-[>svg]:px-3',
+        xl: 'cio:h-12 cio:rounded-md cio:px-6 cio:has-[>svg]:px-4',
+        icon: 'cio:size-9',
       },
       shape: {
-        beveled: 'rounded-sm',
-        rounded: 'rounded-full',
-        sharp: 'rounded-none',
+        beveled: 'cio:rounded-sm',
+        rounded: 'cio:rounded-full',
+        sharp: 'cio:rounded-none',
       },
     },
     defaultVariants: {

@@ -1,10 +1,11 @@
-import React, { createContext, useCallback, useContext } from 'react';
-import { cn, RenderPropsWrapper, dispatchCioEvent, CIO_EVENTS } from '@/utils';
+import React, { createContext, useCallback, useContext, useMemo } from 'react';
+import { cn, RenderPropsWrapper, dispatchCioEvent, CIO_EVENTS, isHexColor } from '@/utils';
 import { Card, CardContentProps, CardFooterProps } from '@/components/card';
 import Button from '@/components/button';
 import BadgeComponent from '@/components/badge';
 import HeartIcon from '@/assets/icons/HeartIcon';
 import HeartFilledIcon from '@/assets/icons/HeartFilledIcon';
+import { useProductSwatch } from '@/hooks/useProductSwatch';
 
 import {
   AddToCartButtonProps,
@@ -14,16 +15,22 @@ import {
   PriceSectionProps,
   ProductCardProps,
   ProductCardOverrides,
+  ProductSwatchObject,
   RatingSectionProps,
   TagsSectionProps,
   TitleSectionProps,
   WishlistButtonProps,
   Product,
+  SwatchSectionProps,
+  SwatchItem,
 } from '@/types/productCardTypes';
 
 // Context for sharing ProductCard data
 interface ProductCardContextValue {
-  renderProps: Omit<ProductCardProps, 'children' | 'componentOverrides' | 'className'>;
+  renderProps: Omit<ProductCardProps, 'children' | 'componentOverrides' | 'className'> & {
+    displayProduct: Product;
+    swatch: ProductSwatchObject;
+  };
   componentOverrides?: ProductCardOverrides;
 }
 
@@ -49,12 +56,12 @@ const WishlistButton: React.FC<WishlistButtonProps> = (props) => {
     (e: React.MouseEvent) => {
       dispatchCioEvent(
         CIO_EVENTS.productCard.wishlist,
-        { product: renderProps.product },
+        { product: renderProps.displayProduct },
         e.currentTarget,
       );
-      onAddToWishlist?.(e, renderProps.product);
+      onAddToWishlist?.(e, renderProps.displayProduct);
     },
-    [renderProps.product, onAddToWishlist],
+    [renderProps.displayProduct, onAddToWishlist],
   );
 
   return (
@@ -91,7 +98,7 @@ const WishlistButton: React.FC<WishlistButtonProps> = (props) => {
 
 const PriceSection: React.FC<PriceSectionProps> = (props) => {
   const { renderProps, componentOverrides } = useProductCardContext();
-  const { price, salePrice } = renderProps.product;
+  const { price, salePrice } = renderProps.displayProduct;
   const { priceCurrency = renderProps.priceCurrency || '$' } = props;
 
   return (
@@ -120,7 +127,7 @@ const PriceSection: React.FC<PriceSectionProps> = (props) => {
 
 const RatingSection: React.FC<RatingSectionProps> = (props) => {
   const { renderProps, componentOverrides } = useProductCardContext();
-  const { rating: contextRating, reviewsCount: contextReviewsCount } = renderProps.product;
+  const { rating: contextRating, reviewsCount: contextReviewsCount } = renderProps.displayProduct;
 
   // Use props with fallback to context values
   const rating = props.rating ?? contextRating;
@@ -146,7 +153,7 @@ const RatingSection: React.FC<RatingSectionProps> = (props) => {
 
 const TagsSection: React.FC<TagsSectionProps> = (props) => {
   const { renderProps, componentOverrides } = useProductCardContext();
-  const { tags: contextTags } = renderProps.product;
+  const { tags: contextTags } = renderProps.displayProduct;
 
   // Use props with fallback to context values
   const tags = props.tags || contextTags;
@@ -173,7 +180,7 @@ const TagsSection: React.FC<TagsSectionProps> = (props) => {
 
 const ImageSection: React.FC<ImageSectionProps> = (props) => {
   const { renderProps, componentOverrides } = useProductCardContext();
-  const { imageUrl: contextImageUrl, name } = renderProps.product;
+  const { imageUrl: contextImageUrl, name } = renderProps.displayProduct;
 
   // Use props with fallback to context values
   const imageUrl = props.imageUrl || contextImageUrl;
@@ -182,22 +189,22 @@ const ImageSection: React.FC<ImageSectionProps> = (props) => {
     (e: React.MouseEvent) => {
       dispatchCioEvent(
         CIO_EVENTS.productCard.imageEnter,
-        { product: renderProps.product },
+        { product: renderProps.displayProduct },
         e.currentTarget,
       );
     },
-    [renderProps.product],
+    [renderProps.displayProduct],
   );
 
   const handleMouseLeave = useCallback(
     (e: React.MouseEvent) => {
       dispatchCioEvent(
         CIO_EVENTS.productCard.imageLeave,
-        { product: renderProps.product },
+        { product: renderProps.displayProduct },
         e.currentTarget,
       );
     },
-    [renderProps.product],
+    [renderProps.displayProduct],
   );
 
   return (
@@ -219,7 +226,7 @@ const ImageSection: React.FC<ImageSectionProps> = (props) => {
 
 const TitleSection: React.FC<TitleSectionProps> = (props) => {
   const { renderProps, componentOverrides } = useProductCardContext();
-  const { name: contextName } = renderProps.product;
+  const { name: contextName } = renderProps.displayProduct;
 
   // Use props with fallback to context values
   const name = props.name || contextName;
@@ -241,7 +248,7 @@ const TitleSection: React.FC<TitleSectionProps> = (props) => {
 
 const DescriptionSection: React.FC<DescriptionSectionProps> = (props) => {
   const { renderProps, componentOverrides } = useProductCardContext();
-  const { description: contextDescription } = renderProps.product;
+  const { description: contextDescription } = renderProps.displayProduct;
 
   // Use props with fallback to context values
   const description = props.description || contextDescription;
@@ -275,12 +282,12 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = (props) => {
     (e: React.MouseEvent) => {
       dispatchCioEvent(
         CIO_EVENTS.productCard.conversion,
-        { product: renderProps.product },
+        { product: renderProps.displayProduct },
         e.currentTarget,
       );
-      onAddToCart?.(e, renderProps.product);
+      onAddToCart?.(e, renderProps.displayProduct);
     },
-    [renderProps.product, onAddToCart],
+    [renderProps.displayProduct, onAddToCart],
   );
 
   return (
@@ -304,7 +311,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = (props) => {
 
 const Badge: React.FC<ProductBadgeProps> = ({ children, ...props }) => {
   const { renderProps, componentOverrides } = useProductCardContext();
-  const { badge: contextBadge } = renderProps.product;
+  const { badge: contextBadge } = renderProps.displayProduct;
 
   // If children is a render prop function, use it as override
   const renderPropFn = typeof children === 'function' && children;
@@ -371,6 +378,68 @@ const ProductCardFooter: React.FC<CardFooterProps> = ({ children, ...props }) =>
   );
 };
 
+const SwatchSection: React.FC<SwatchSectionProps> = ({
+  children,
+  swatchList = [],
+  selectedSwatch,
+  onSwatchClick,
+  showViewMoreSwatches,
+  viewMoreSwatchesLabel,
+  onViewMoreSwatchesClick,
+  className,
+}) => {
+  const { componentOverrides, renderProps } = useProductCardContext();
+
+  if (!swatchList?.length) return null;
+
+  return (
+    <RenderPropsWrapper
+      props={renderProps}
+      override={children || componentOverrides?.content?.swatches?.reactNode}>
+      <div
+        className={cn(
+          'cio-product-card-swatch-section cio:flex cio:flex-wrap cio:gap-2.5 cio:py-2 cio:cursor-default',
+          className,
+        )}>
+        {swatchList.map((swatchItem) => {
+          const isSelected = swatchItem.variationId === selectedSwatch?.variationId;
+          const bgValue = isHexColor(swatchItem.swatchPreview)
+            ? swatchItem.swatchPreview
+            : `url(${swatchItem.swatchPreview}) center/cover`;
+
+          return (
+            <button
+              type='button'
+              key={swatchItem.variationId}
+              data-testid={`cio-swatch-${swatchItem.variationId}`}
+              data-cnstrc-item-variation-id={swatchItem.variationId}
+              className={cn(
+                'cio-swatch-item cio:size-[25px] cio:rounded-full cio:border cio:border-black cio:cursor-pointer p-0',
+                isSelected &&
+                  'cio:outline-3 cio:outline-offset-[4px] cio:outline-current cio:opacity-60',
+              )}
+              style={{ background: bgValue }}
+              onClick={(e) => onSwatchClick?.(e, swatchItem)}
+              aria-label={swatchItem.name || swatchItem.variationId}
+              aria-pressed={isSelected}
+            />
+          );
+        })}
+        {showViewMoreSwatches && (
+          <button
+            type='button'
+            data-testid='cio-swatch-show-more'
+            className='cio-swatch-show-more cio:bg-transparent cio:border-0 cio:p-0 cio:text-xs cio:underline cio:cursor-pointer cio:text-[var(--cio-swatch-more-color,#333)] cio:hover:text-[var(--cio-swatch-more-hover-color,#000)]'
+            onClick={(e) => onViewMoreSwatchesClick?.(e, selectedSwatch)}
+            aria-label={viewMoreSwatchesLabel || 'View more'}>
+            {viewMoreSwatchesLabel || 'View more'}
+          </button>
+        )}
+      </div>
+    </RenderPropsWrapper>
+  );
+};
+
 function getProductCardDataAttributes({
   id,
   name,
@@ -391,12 +460,28 @@ function getProductCardDataAttributes({
 }
 
 function ProductCard({ componentOverrides, children, className, ...props }: ProductCardProps) {
+  const swatch = useProductSwatch(
+    props.product,
+    props.showViewMoreSwatches ? props.maxSwatches : undefined,
+  );
+  const displayProduct = useMemo(() => {
+    const filtered = Object.fromEntries(
+      Object.entries(swatch.selectedSwatch || {}).filter(([, v]) => v !== undefined),
+    );
+    return { ...props.product, ...filtered };
+  }, [props.product, swatch.selectedSwatch]);
+
   const contextValue = React.useMemo(
     () => ({
-      renderProps: { ...props, ...getProductCardDataAttributes(props.product) },
+      renderProps: {
+        ...props,
+        displayProduct,
+        swatch,
+        ...getProductCardDataAttributes(displayProduct),
+      },
       componentOverrides,
     }),
-    [props, componentOverrides],
+    [props, displayProduct, swatch, componentOverrides],
   );
 
   // Extract all ProductCard-specific Props so we don't pass it to Card
@@ -408,6 +493,11 @@ function ProductCard({ componentOverrides, children, className, ...props }: Prod
     addToCartText,
     isInWishlist,
     onAddToWishlist,
+    expandInline = true,
+    onViewMoreSwatchesClick,
+    viewMoreSwatchesLabel,
+    showViewMoreSwatches,
+    maxSwatches,
     ...restProps
   } = props;
 
@@ -420,10 +510,20 @@ function ProductCard({ componentOverrides, children, className, ...props }: Prod
         return;
       }
 
-      dispatchCioEvent(CIO_EVENTS.productCard.click, { product }, e.currentTarget);
-      onProductClick?.(product);
+      dispatchCioEvent(CIO_EVENTS.productCard.click, { product: displayProduct }, e.currentTarget);
+      onProductClick?.(displayProduct);
     },
-    [product, onProductClick],
+    [displayProduct, onProductClick],
+  );
+
+  const handleViewMoreSwatchesClick = useCallback(
+    (e: React.MouseEvent, selected: SwatchItem | undefined) => {
+      if (expandInline) {
+        swatch.onViewMoreSwatchesClick();
+      }
+      onViewMoreSwatchesClick?.(e, selected);
+    },
+    [expandInline, swatch.onViewMoreSwatchesClick, onViewMoreSwatchesClick],
   );
 
   const renderPropFn = typeof children === 'function' && children;
@@ -438,7 +538,7 @@ function ProductCard({ componentOverrides, children, className, ...props }: Prod
             className,
           )}
           onClick={handleProductClick}
-          {...getProductCardDataAttributes(product)}
+          {...getProductCardDataAttributes(displayProduct)}
           {...restProps}>
           <RenderPropsWrapper props={props} override={children}>
             {/* Image Section */}
@@ -452,11 +552,19 @@ function ProductCard({ componentOverrides, children, className, ...props }: Prod
               <PriceSection priceCurrency={priceCurrency} />
               <TitleSection />
               <DescriptionSection />
+              <SwatchSection
+                swatchList={swatch.visibleSwatches}
+                selectedSwatch={swatch.selectedSwatch}
+                onSwatchClick={(_e, selectedSwatch) => swatch.onSwatchClick(selectedSwatch)}
+                showViewMoreSwatches={swatch.hasMoreSwatches}
+                viewMoreSwatchesLabel={viewMoreSwatchesLabel}
+                onViewMoreSwatchesClick={handleViewMoreSwatchesClick}
+              />
               <RatingSection />
             </ProductCardContent>
 
             {/* Footer Section */}
-            {(onAddToCart || product.tags) && (
+            {(onAddToCart || displayProduct.tags) && (
               <ProductCardFooter>
                 <AddToCartButton onAddToCart={onAddToCart} addToCartText={addToCartText} />
                 <TagsSection />
@@ -470,6 +578,7 @@ function ProductCard({ componentOverrides, children, className, ...props }: Prod
 }
 
 // Attach compound components to ProductCard
+ProductCard.SwatchSection = SwatchSection;
 ProductCard.ImageSection = ImageSection;
 ProductCard.Badge = Badge;
 ProductCard.WishlistButton = WishlistButton;

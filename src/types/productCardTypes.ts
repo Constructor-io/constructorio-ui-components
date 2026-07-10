@@ -1,6 +1,31 @@
 import { BadgeProps } from '@/components/badge';
 import { ComponentOverrideProps, IncludeRenderProps, RenderPropsChildren } from '@/types';
 
+export interface SwatchItem {
+  variationId: string;
+  swatchPreview: string;
+
+  name?: string;
+  description?: string;
+  imageUrl?: string;
+  price?: string | number;
+  salePrice?: string | number;
+  rating?: string | number;
+  reviewsCount?: string | number;
+  tags?: string[];
+  slCampaignId?: string;
+  slCampaignOwner?: string;
+  badge?: string;
+}
+
+export interface ProductSwatchObject {
+  selectedSwatch: SwatchItem | undefined;
+  onSwatchClick: (swatch: SwatchItem) => void;
+  visibleSwatches: SwatchItem[];
+  hasMoreSwatches: boolean;
+  onViewMoreSwatchesClick: () => void;
+}
+
 export interface Product {
   id: string;
   name: string;
@@ -15,6 +40,7 @@ export interface Product {
   slCampaignId?: string;
   slCampaignOwner?: string;
   badge?: string;
+  swatchList?: SwatchItem[];
 }
 
 export interface ProductCardProps extends Omit<React.ComponentProps<'div'>, 'children'> {
@@ -25,6 +51,14 @@ export interface ProductCardProps extends Omit<React.ComponentProps<'div'>, 'chi
   onAddToCart?: (e: React.MouseEvent, product: Product) => void;
   onAddToWishlist?: (e: React.MouseEvent, product: Product) => void;
   onProductClick?: (product: Product) => void;
+  onViewMoreSwatchesClick?: (
+    event: React.MouseEvent,
+    selectedSwatch: SwatchItem | undefined,
+  ) => void;
+  viewMoreSwatchesLabel?: string;
+  showViewMoreSwatches?: boolean;
+  expandInline?: boolean;
+  maxSwatches?: number;
   children?: RenderPropsChildren<ProductCardProps>;
   componentOverrides?: ProductCardOverrides;
 }
@@ -39,6 +73,7 @@ export type ProductCardOverrides = ComponentOverrideProps<ProductCardProps> & {
     description?: ComponentOverrideProps<ProductCardProps>;
     rating?: ComponentOverrideProps<ProductCardProps>;
     price?: ComponentOverrideProps<ProductCardProps>;
+    swatches?: ComponentOverrideProps<ProductCardProps>;
   };
   footer?: ComponentOverrideProps<ProductCardProps> & {
     addToCartButton?: ComponentOverrideProps<ProductCardProps>;
@@ -92,6 +127,19 @@ export interface AddToCartButtonProps extends IncludeRenderProps<ProductCardProp
   onAddToCart?: (e: React.MouseEvent, product: Product) => void;
   addToCartText?: string;
   className?: string;
+}
+
+export interface SwatchSectionProps extends IncludeRenderProps<ProductCardProps> {
+  className?: string;
+  swatchList?: SwatchItem[];
+  selectedSwatch?: SwatchItem;
+  onSwatchClick?: (e: React.MouseEvent, swatch: SwatchItem) => void;
+  showViewMoreSwatches?: boolean;
+  viewMoreSwatchesLabel?: string;
+  onViewMoreSwatchesClick?: (
+    event: React.MouseEvent,
+    selectedSwatch: SwatchItem | undefined,
+  ) => void;
 }
 
 export interface ProductBadgeProps

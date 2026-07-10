@@ -18,3 +18,12 @@ export function getPreferredColorScheme() {
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
+
+export function isHexColor(value?: string): boolean {
+  return (
+    typeof value === 'string' &&
+    value.length === 7 &&
+    value[0] === '#' &&
+    !Number.isNaN(Number(`0x${value.substring(1)}`))
+  );
+}

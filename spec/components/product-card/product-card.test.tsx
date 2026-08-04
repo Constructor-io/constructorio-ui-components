@@ -913,6 +913,42 @@ describe('ProductCard component', () => {
       const swatchButtons = screen.getAllByTestId(/^cio-swatch-(?!show-more)/);
       expect(swatchButtons).toHaveLength(5);
     });
+
+    test('clicking "View more" does NOT call onProductClick', () => {
+      const mockOnProductClick = vi.fn();
+      render(
+        <ProductCard
+          {...mockSwatchProduct}
+          maxSwatches={3}
+          showViewMoreSwatches
+          onProductClick={mockOnProductClick}
+        />,
+      );
+
+      fireEvent.click(screen.getByTestId('cio-swatch-show-more'));
+      expect(mockOnProductClick).not.toHaveBeenCalled();
+    });
+
+    test('clicking a swatch does NOT dispatch productCard.click event', () => {
+      const clickListener = vi.fn();
+      render(<ProductCard {...mockSwatchProduct} data-testid='product-card' />);
+
+      const el = screen.getByTestId('product-card');
+      el.addEventListener(CIO_EVENTS.productCard.click, clickListener);
+
+      fireEvent.click(screen.getByTestId('cio-swatch-var-green'));
+
+      expect(clickListener).not.toHaveBeenCalled();
+      el.removeEventListener(CIO_EVENTS.productCard.click, clickListener);
+    });
+
+    test('clicking a swatch does NOT call onProductClick', () => {
+      const mockOnProductClick = vi.fn();
+      render(<ProductCard {...mockSwatchProduct} onProductClick={mockOnProductClick} />);
+
+      fireEvent.click(screen.getByTestId('cio-swatch-var-green'));
+      expect(mockOnProductClick).not.toHaveBeenCalled();
+    });
   });
 
   describe('Swatch Section - Compound Components', () => {

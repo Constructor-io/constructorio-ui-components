@@ -22,8 +22,6 @@ export function cn(...inputs: ClassValue[]) {
 export function isHexColor(value?: string): boolean {
   return (
     typeof value === 'string' &&
-    value.length === 7 &&
-    value[0] === '#' &&
-    !Number.isNaN(Number(`0x${value.substring(1)}`))
+    /^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/.test(value)
   );
 }

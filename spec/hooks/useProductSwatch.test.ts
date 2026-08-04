@@ -106,4 +106,36 @@ describe('useProductSwatch', () => {
     expect(result.current.visibleSwatches).toHaveLength(5);
     expect(result.current.hasMoreSwatches).toBe(false);
   });
+
+  test('resets selected swatch and isExpanded when product changes', () => {
+    const productA: Product = {
+      id: 'product-a',
+      name: 'Product A',
+      variationId: 'var-red',
+      swatchList: mockSwatchList,
+    };
+    const productB: Product = {
+      id: 'product-b',
+      name: 'Product B',
+      variationId: 'var-blue',
+      swatchList: mockSwatchList,
+    };
+
+    const { result, rerender } = renderHook(
+      ({ product }) => useProductSwatch(product, 3),
+      { initialProps: { product: productA } },
+    );
+
+    expect(result.current.selectedSwatch?.variationId).toBe('var-red');
+
+    // Expand swatches on product A
+    act(() => { result.current.onViewMoreSwatchesClick(); });
+    expect(result.current.visibleSwatches).toHaveLength(5);
+
+    // Switch to product B — state should reset
+    rerender({ product: productB });
+
+    expect(result.current.selectedSwatch?.variationId).toBe('var-blue');
+    expect(result.current.visibleSwatches).toHaveLength(3);
+  });
 });

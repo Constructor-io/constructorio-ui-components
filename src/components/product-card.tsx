@@ -405,7 +405,7 @@ const SwatchSection: React.FC<SwatchSectionProps> = ({
           const isSelected = swatchItem.variationId === selectedSwatch?.variationId;
           const bgValue = isHexColor(swatchItem.swatchPreview)
             ? swatchItem.swatchPreview
-            : `url(${swatchItem.swatchPreview}) center/cover`;
+            : `url("${swatchItem.swatchPreview.replace(/["\\]/g, '\\$&')}") center/cover`;
 
           return (
             <button
@@ -414,12 +414,15 @@ const SwatchSection: React.FC<SwatchSectionProps> = ({
               data-testid={`cio-swatch-${swatchItem.variationId}`}
               data-cnstrc-item-variation-id={swatchItem.variationId}
               className={cn(
-                'cio-swatch-item cio:size-[25px] cio:rounded-full cio:border cio:border-black cio:cursor-pointer p-0',
+                'cio-swatch-item cio:size-[25px] cio:rounded-full cio:border cio:border-black cio:cursor-pointer cio:p-0',
                 isSelected &&
                   'cio:outline-3 cio:outline-offset-[4px] cio:outline-current cio:opacity-60',
               )}
               style={{ background: bgValue }}
-              onClick={(e) => onSwatchClick?.(e, swatchItem)}
+              onClick={(e) => {
+                e.stopPropagation();
+                onSwatchClick?.(e, swatchItem);
+              }}
               aria-label={swatchItem.name || swatchItem.variationId}
               aria-pressed={isSelected}
             />
@@ -430,7 +433,10 @@ const SwatchSection: React.FC<SwatchSectionProps> = ({
             type='button'
             data-testid='cio-swatch-show-more'
             className='cio-swatch-show-more cio:bg-transparent cio:border-0 cio:p-0 cio:text-xs cio:underline cio:cursor-pointer cio:text-[var(--cio-swatch-more-color,#333)] cio:hover:text-[var(--cio-swatch-more-hover-color,#000)]'
-            onClick={(e) => onViewMoreSwatchesClick?.(e, selectedSwatch)}
+            onClick={(e) => {
+              e.stopPropagation();
+              onViewMoreSwatchesClick?.(e, selectedSwatch);
+            }}
             aria-label={viewMoreSwatchesLabel || 'View more'}>
             {viewMoreSwatchesLabel || 'View more'}
           </button>

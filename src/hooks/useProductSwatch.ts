@@ -2,13 +2,21 @@ import { useMemo, useState, useCallback } from 'react';
 import type { Product, SwatchItem, ProductSwatchObject } from '@/types/productCardTypes';
 
 export function useProductSwatch(
-  { swatchList = [], variationId }: Product,
+  { swatchList = [], variationId, id }: Product,
   maxSwatches?: number,
 ): ProductSwatchObject {
   const [selectedSwatch, setSelectedSwatch] = useState<SwatchItem | undefined>(() =>
     swatchList.find((swatch) => swatch.variationId === variationId),
   );
   const [isExpanded, setIsExpanded] = useState(false);
+
+  const productKey = JSON.stringify([id, variationId ?? null]);
+  const [prevProductKey, setPrevProductKey] = useState(productKey);
+  if (productKey !== prevProductKey) {
+    setPrevProductKey(productKey);
+    setSelectedSwatch(swatchList.find((swatch) => swatch.variationId === variationId));
+    setIsExpanded(false);
+  }
 
   const onSwatchClick = useCallback((swatch: SwatchItem) => {
     setSelectedSwatch((selectedSwatch) => {

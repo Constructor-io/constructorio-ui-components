@@ -12,7 +12,7 @@ const meta = {
   },
   tags: ['autodocs'],
   args: {
-    onChange: () => { },
+    onChange: () => {},
   },
   argTypes: {
     checkboxPosition: {
@@ -203,15 +203,15 @@ const singleOptionOverride: FilterOptionsListOverrides = {
   filterOption: (option) =>
     option.id === 'apparel-mens'
       ? {
-        reactNode: (props) => (
-          <li style={{ display: 'flex', flexDirection: 'column' }}>
-            <strong style={{ padding: '6px 10px', background: '#fff3cd', borderRadius: 4 }}>
-              {props?.displayValue} (highlighted)
-            </strong>
-            {props?.children}
-          </li>
-        ),
-      }
+          reactNode: (props) => (
+            <li style={{ display: 'flex', flexDirection: 'column' }}>
+              <strong style={{ padding: '6px 10px', background: '#fff3cd', borderRadius: 4 }}>
+                {props?.displayValue} (highlighted)
+              </strong>
+              {props?.children}
+            </li>
+          ),
+        }
       : undefined,
 };
 

@@ -207,6 +207,26 @@ describe('FilterOption component', () => {
       );
       expect(screen.queryByText('Red')).not.toBeInTheDocument();
     });
+
+    test('render-prop reactNode receives children so nested content can be re-emitted', () => {
+      render(
+        <FilterOption
+          id='test-1'
+          optionValue='red'
+          displayValue='Red'
+          componentOverrides={{
+            reactNode: (props) => <li data-testid='custom-override'>{props.children}</li>,
+          }}
+          onChange={() => {}}>
+          <span data-testid='nested-child'>Nested</span>
+        </FilterOption>,
+      );
+      const override = screen.getByTestId('custom-override');
+      expect(override).toBeInTheDocument();
+      expect(screen.getByTestId('nested-child')).toBeInTheDocument();
+      // The nested child is inside the overridden node, not lost.
+      expect(override).toContainElement(screen.getByTestId('nested-child'));
+    });
   });
 
   describe('CSS classes', () => {

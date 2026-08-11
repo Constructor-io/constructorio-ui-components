@@ -18,8 +18,10 @@
   "types": "lib/types/index.d.ts",
   "exports": {
     "./styles.css": {
+      "style": "./lib/mjs/styles.css",
       "import": "./lib/mjs/styles.css",
-      "require": "./lib/cjs/styles.css"
+      "require": "./lib/cjs/styles.css",
+      "default": "./lib/mjs/styles.css"
     },
     ".": {
       "types": "./lib/types/index.d.ts",

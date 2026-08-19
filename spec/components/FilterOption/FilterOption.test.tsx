@@ -261,6 +261,20 @@ describe('FilterOption component', () => {
       const listItem = screen.getByRole('listitem');
       expect(listItem.classList.contains('cio:text-base')).toBeTruthy();
     });
+
+    test('label takes the leftover space rather than sizing to its text', () => {
+      const { container } = render(
+        <FilterOption id='test-1' optionValue='red' displayValue='Red' onChange={() => {}}>
+          <button type='button'>beside the label</button>
+        </FilterOption>,
+      );
+      // `grow basis-0 min-w-0`: a long display value wraps inside the label instead of claiming
+      // the whole flex line and pushing a sibling (e.g. a hierarchy toggle) onto its own line.
+      const label = container.querySelector('.cio-filter-option-label');
+      expect(label?.classList.contains('cio:grow')).toBeTruthy();
+      expect(label?.classList.contains('cio:basis-0')).toBeTruthy();
+      expect(label?.classList.contains('cio:min-w-0')).toBeTruthy();
+    });
   });
 
   describe('data attributes', () => {

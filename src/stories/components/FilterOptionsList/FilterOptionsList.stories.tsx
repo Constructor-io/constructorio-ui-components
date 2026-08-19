@@ -38,13 +38,13 @@ const hierarchicalOptions: FilterOptionData[] = [
     optionValue: 'apparel',
     displayValue: 'Apparel',
     displayCountValue: '1240',
-    hierarchies: [
+    options: [
       {
         id: 'apparel-mens',
         optionValue: 'apparel/mens',
         displayValue: "Men's",
         displayCountValue: '540',
-        hierarchies: [
+        options: [
           {
             id: 'apparel-mens-shirts',
             optionValue: 'apparel/mens/shirts',
@@ -65,7 +65,7 @@ const hierarchicalOptions: FilterOptionData[] = [
         optionValue: 'apparel/women',
         displayValue: "Women's",
         displayCountValue: '700',
-        hierarchies: [
+        options: [
           {
             id: 'apparel-women-dresses',
             optionValue: 'apparel/women/dresses',
@@ -82,7 +82,7 @@ const hierarchicalOptions: FilterOptionData[] = [
     displayValue: 'Electronics',
     displayCountValue: '860',
     isChecked: true,
-    hierarchies: [
+    options: [
       {
         id: 'electronics-phones',
         optionValue: 'electronics/phones',
@@ -99,7 +99,7 @@ const hierarchicalOptions: FilterOptionData[] = [
   },
 ];
 
-// Options with no `hierarchies` render as a flat list — flatness is a property of the data.
+// Options with no nested `options` render as a flat list — flatness is a property of the data.
 const flatOptions: FilterOptionData[] = [
   { id: 'white', optionValue: 'white', displayValue: 'White', displayCountValue: '1572' },
   { id: 'black', optionValue: 'black', displayValue: 'Black', displayCountValue: '685' },
@@ -110,6 +110,87 @@ const flatOptions: FilterOptionData[] = [
     displayValue: 'Blue',
     displayCountValue: '394',
     isChecked: true,
+  },
+];
+
+// An option renders as a swatch row (`FilterOptionVisual`) as soon as it carries a
+// `visual` — there is no `isVisual` flag to set; it is derived.
+const visualOptions: FilterOptionData[] = [
+  {
+    id: 'visual-white',
+    optionValue: 'white',
+    displayValue: 'White',
+    displayCountValue: '1572',
+    visual: { type: 'color', value: '#FFFFFF' },
+  },
+  {
+    id: 'visual-black',
+    optionValue: 'black',
+    displayValue: 'Black',
+    displayCountValue: '685',
+    visual: { type: 'color', value: '#000000' },
+    isChecked: true,
+  },
+  {
+    id: 'visual-red',
+    optionValue: 'red',
+    displayValue: 'Red',
+    displayCountValue: '646',
+    visual: { type: 'color', value: '#EF4444' },
+  },
+  {
+    id: 'visual-pattern',
+    optionValue: 'constructor',
+    displayValue: 'Constructor',
+    displayCountValue: '128',
+    visual: {
+      type: 'image',
+      value: 'https://constructor.com/hubfs/constructor-favicon-2024-1.svg',
+    },
+  },
+];
+
+// Visual and plain options are the same shape, so they nest and mix at any depth: a plain
+// parent row with visual children, and a visual parent with visual children.
+const mixedOptions: FilterOptionData[] = [
+  {
+    id: 'mixed-color',
+    optionValue: 'color',
+    displayValue: 'Color',
+    displayCountValue: '2903',
+    options: [
+      {
+        id: 'mixed-blue',
+        optionValue: 'blue',
+        displayValue: 'Blue',
+        displayCountValue: '394',
+        visual: { type: 'color', value: '#3B82F6' },
+        options: [
+          {
+            id: 'mixed-navy',
+            optionValue: 'navy',
+            displayValue: 'Navy',
+            displayCountValue: '112',
+            visual: { type: 'color', value: '#1E3A8A' },
+            isChecked: true,
+          },
+        ],
+      },
+      {
+        id: 'mixed-green',
+        optionValue: 'green',
+        displayValue: 'Green',
+        displayCountValue: '221',
+        visual: { type: 'color', value: '#22C55E' },
+      },
+    ],
+  },
+  {
+    id: 'mixed-size',
+    optionValue: 'size',
+    displayValue: 'Size',
+    displayCountValue: '860',
+    options: [{ id: 'mixed-small', optionValue: 'small', displayValue: 'Small' }],
   },
 ];
 
@@ -131,6 +212,84 @@ export const DeepHierarchy: Story = {
   },
   parameters: {
     controls: { disable: true },
+  },
+};
+
+// Swatch rows: colors and an image, driven purely by each option's `visual` in the data.
+export const Visual: Story = {
+  args: {
+    options: visualOptions,
+  },
+};
+
+// Plain and visual rows in one tree. `checkboxPosition` is set explicitly here because the
+// two row types default differently (plain → left, visual → right).
+export const MixedVisualAndPlain: Story = {
+  args: {
+    options: mixedOptions,
+    checkboxPosition: 'left',
+  },
+};
+
+// --- Collapsing branches -----------------------------------------------------------
+// Rows with nested `options` carry a toggle for their own nested list — it collapses branches
+// *within* the list, never the list itself. Expansion is uncontrolled: the data sets the
+// starting point and the component owns it from there, since nothing outside the list depends
+// on which branches are open.
+
+// Every branch starts closed — except the path down to a checked option, which is expanded
+// automatically so an applied filter is never hidden. Here "Pants" is checked, so Apparel and
+// Men's open; Women's and Electronics stay closed.
+export const CollapsedByDefault: Story = {
+  args: {
+    options: hierarchicalOptions,
+    defaultCollapsed: true,
+  },
+};
+
+// Opting out entirely: branches render exactly as they did before collapsing existed.
+export const NonCollapsibleHierarchies: Story = {
+  args: {
+    options: hierarchicalOptions,
+    collapsible: false,
+  },
+};
+
+// Per-row control wins over the list-level defaults, so one tree can mix all three states:
+// a branch pinned open with no toggle, a branch that starts closed, and a branch left at the
+// list default.
+const perRowCollapseOptions: FilterOptionData[] = [
+  {
+    id: 'pinned',
+    optionValue: 'pinned',
+    displayValue: 'Always open (no toggle)',
+    collapsible: false,
+    options: [
+      { id: 'pinned-a', optionValue: 'pinned/a', displayValue: 'Child A' },
+      { id: 'pinned-b', optionValue: 'pinned/b', displayValue: 'Child B' },
+    ],
+  },
+  {
+    id: 'starts-closed',
+    optionValue: 'starts-closed',
+    displayValue: 'Starts collapsed',
+    defaultCollapsed: true,
+    options: [
+      { id: 'closed-a', optionValue: 'closed/a', displayValue: 'Child C' },
+      { id: 'closed-b', optionValue: 'closed/b', displayValue: 'Child D' },
+    ],
+  },
+  {
+    id: 'list-default',
+    optionValue: 'list-default',
+    displayValue: 'Follows the list default',
+    options: [{ id: 'default-a', optionValue: 'default/a', displayValue: 'Child E' }],
+  },
+];
+
+export const PerRowCollapseControl: Story = {
+  args: {
+    options: perRowCollapseOptions,
   },
 };
 
@@ -198,7 +357,7 @@ export const AllOptionsOverrideExample: Story = {
 // `filterOption` as a function is called per option; return overrides only for the rows
 // you want to customize and `undefined` for the rest. The matched row here is a parent,
 // and re-emitting `props.children` keeps its nested list, so the override customizes one
-// row without collapsing the hierarchy beneath it.
+// row without collapsing the branch beneath it.
 const singleOptionOverride: FilterOptionsListOverrides = {
   filterOption: (option) =>
     option.id === 'apparel-mens'

@@ -27,5 +27,6 @@ export type {
   FilterOptionsListOverrides,
   FilterOptionOverride,
   FilterOptionData,
+  FilterOptionVisualData,
 } from '@/components/filter-options-list';
 export * from '@/types';

@@ -209,6 +209,84 @@ describe('FilterOption component', () => {
     });
   });
 
+  describe('radio selection type', () => {
+    test('renders radio input with correct attributes and group name', () => {
+      render(
+        <FilterOption
+          id='radio-1'
+          optionValue='red'
+          displayValue='Red'
+          selectionType='radio'
+          groupName='color-facet'
+          onChange={() => {}}
+        />,
+      );
+      const radio = screen.getByRole('radio');
+      expect(radio).toBeInTheDocument();
+      expect(radio).toHaveAttribute('id', 'radio-1');
+      expect(radio).toHaveAttribute('value', 'red');
+      expect(radio).toHaveAttribute('name', 'color-facet');
+      expect(radio).not.toBeChecked();
+    });
+
+    test('renders radio visual indicator and responds to checked state', () => {
+      render(
+        <FilterOption
+          id='radio-2'
+          optionValue='blue'
+          displayValue='Blue'
+          selectionType='radio'
+          groupName='color-facet'
+          isChecked={true}
+          onChange={() => {}}
+        />,
+      );
+      const radio = screen.getByRole('radio');
+      expect(radio).toBeChecked();
+      const radioIndicator = document.querySelector('.cio-radio');
+      expect(radioIndicator).toBeInTheDocument();
+      expect(document.querySelector('.cio-checkbox')).not.toBeInTheDocument();
+    });
+
+    test('calls onChange and respects checkboxPosition for radio', () => {
+      const handleChange = vi.fn();
+      render(
+        <FilterOption
+          id='radio-3'
+          optionValue='green'
+          displayValue='Green'
+          selectionType='radio'
+          groupName='color-facet'
+          checkboxPosition='right'
+          onChange={handleChange}
+        />,
+      );
+      const radio = screen.getByRole('radio');
+      fireEvent.click(radio);
+      expect(handleChange).toHaveBeenCalledWith('green');
+      const label = document.querySelector('.cio-filter-option-label');
+      const radioIndicator = label?.querySelector('.cio-radio');
+      const displayDiv = label?.querySelector('.cio-filter-multiple-option-display');
+      expect(displayDiv?.nextElementSibling).toBe(radioIndicator);
+    });
+
+    test('hides radio indicator when checkboxPosition is none', () => {
+      render(
+        <FilterOption
+          id='radio-4'
+          optionValue='red'
+          displayValue='Red'
+          selectionType='radio'
+          groupName='color-facet'
+          checkboxPosition='none'
+          onChange={() => {}}
+        />,
+      );
+      expect(document.querySelector('.cio-radio')).not.toBeInTheDocument();
+      expect(screen.getByRole('radio')).toBeInTheDocument();
+    });
+  });
+
   describe('CSS classes', () => {
     test('has cio-filter-option class', () => {
       render(<FilterOption id='test-1' optionValue='red' displayValue='Red' onChange={() => {}} />);

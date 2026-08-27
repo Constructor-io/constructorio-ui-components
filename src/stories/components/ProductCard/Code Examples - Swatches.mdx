@@ -1,0 +1,318 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import * as ProductCardStories from './ProductCard.stories';
+
+<Meta of={ProductCardStories} />
+
+# `ProductCard` - Code Examples with Swatches
+
+Product cards support color/variant swatches that automatically update the displayed product data (image, price, name, badge, etc.) when a swatch is selected.
+
+## Basic Color Swatches
+
+The simplest swatch setup — provide a `swatchList` array on the product. Each swatch uses a hex color for `swatchPreview`. All swatches are visible by default.
+
+<Canvas of={ProductCardStories.WithSwatches} />
+
+```tsx
+import ProductCard from '@/components/product-card';
+
+function BasicSwatchExample() {
+  return (
+    <ProductCard
+      product={{
+        id: 'jersey-riviera-shirt',
+        variationId: 'var-red',
+        name: 'Jersey Riviera Shirt',
+        imageUrl: 'https://example.com/default.jpg',
+        price: '90',
+        swatchList: [
+          {
+            variationId: 'var-red',
+            name: 'Jersey Riviera Shirt (Red)',
+            imageUrl: 'https://example.com/red.jpg',
+            price: '90',
+            swatchPreview: '#e04062',
+          },
+          {
+            variationId: 'var-green',
+            name: 'Jersey Riviera Shirt (Green)',
+            imageUrl: 'https://example.com/green.jpg',
+            price: '99',
+            salePrice: '75',
+            swatchPreview: '#a3c43b',
+          },
+          {
+            variationId: 'var-blue',
+            name: 'Jersey Riviera Shirt (Blue)',
+            imageUrl: 'https://example.com/blue.jpg',
+            price: '95',
+            swatchPreview: '#3b82f6',
+          },
+        ],
+      }}
+      priceCurrency='$'
+    />
+  );
+}
+```
+
+## Image-Based Swatches
+
+Use image URLs instead of hex colors for `swatchPreview` to display fabric patterns or textures.
+
+<Canvas of={ProductCardStories.WithImageSwatches} />
+
+```tsx
+import ProductCard from '@/components/product-card';
+
+function ImageSwatchExample() {
+  return (
+    <ProductCard
+      product={{
+        id: 'patterned-polo',
+        variationId: 'var-stripe',
+        name: 'Patterned Polo Shirt',
+        imageUrl: 'https://example.com/default.jpg',
+        price: '120',
+        swatchList: [
+          {
+            variationId: 'var-stripe',
+            name: 'Patterned Polo (Stripe)',
+            imageUrl: 'https://example.com/stripe.jpg',
+            price: '120',
+            swatchPreview: 'https://example.com/swatch-stripe.png',
+          },
+          {
+            variationId: 'var-plaid',
+            name: 'Patterned Polo (Plaid)',
+            imageUrl: 'https://example.com/plaid.jpg',
+            price: '130',
+            swatchPreview: 'https://example.com/swatch-plaid.png',
+          },
+          {
+            variationId: 'var-dots',
+            name: 'Patterned Polo (Polka Dots)',
+            imageUrl: 'https://example.com/dots.jpg',
+            price: '115',
+            salePrice: '99',
+            swatchPreview: 'https://example.com/swatch-dots.png',
+          },
+        ],
+      }}
+      priceCurrency='$'
+    />
+  );
+}
+```
+
+## Mixed Swatches (Colors + Images)
+
+Combine hex colors and image URLs in the same swatch list.
+
+```tsx
+import ProductCard from '@/components/product-card';
+
+function MixedSwatchExample() {
+  return (
+    <ProductCard
+      product={{
+        id: 'casual-jacket',
+        variationId: 'var-navy',
+        name: 'Casual Jacket',
+        imageUrl: 'https://example.com/jacket.jpg',
+        price: '250',
+        swatchList: [
+          {
+            variationId: 'var-navy',
+            name: 'Casual Jacket (Navy)',
+            imageUrl: 'https://example.com/navy.jpg',
+            price: '250',
+            swatchPreview: '#1e3a5f',
+          },
+          {
+            variationId: 'var-camo',
+            name: 'Casual Jacket (Camo)',
+            imageUrl: 'https://example.com/camo.jpg',
+            price: '275',
+            swatchPreview: 'https://example.com/swatch-camo.png',
+          },
+          {
+            variationId: 'var-charcoal',
+            name: 'Casual Jacket (Charcoal)',
+            imageUrl: 'https://example.com/charcoal.jpg',
+            price: '250',
+            salePrice: '199',
+            swatchPreview: '#36454f',
+          },
+        ],
+      }}
+      priceCurrency='$'
+      onAddToCart={(e, product) => console.log('Added to cart', product)}
+    />
+  );
+}
+```
+
+## Swatches with "View More" Truncation
+
+Limit visible swatches using `maxSwatches` and enable `showViewMoreSwatches`. By default, clicking "View more" expands all swatches inline.
+
+<Canvas of={ProductCardStories.WithSwatchesViewMore} />
+
+```tsx
+import ProductCard from '@/components/product-card';
+
+function ViewMoreSwatchExample() {
+  return (
+    <ProductCard
+      product={{
+        id: 'jersey-riviera-shirt',
+        name: 'Jersey Riviera Shirt',
+        imageUrl: 'https://example.com/default.jpg',
+        price: '90',
+        swatchList: [
+          { variationId: 'var-red', swatchPreview: '#e04062', price: '90', /* ... */ },
+          { variationId: 'var-green', swatchPreview: '#a3c43b', price: '99', /* ... */ },
+          { variationId: 'var-blue', swatchPreview: '#3b82f6', price: '95', /* ... */ },
+          { variationId: 'var-black', swatchPreview: '#1a1a1a', price: '90', /* ... */ },
+          { variationId: 'var-white', swatchPreview: '#f5f5f5', price: '90', /* ... */ },
+        ],
+      }}
+      maxSwatches={3}
+      showViewMoreSwatches
+      priceCurrency='$'
+    />
+  );
+}
+```
+
+## Custom "View More" Label
+
+Customize the "View more" button text with `viewMoreSwatchesLabel`.
+
+```tsx
+import ProductCard from '@/components/product-card';
+
+function CustomViewMoreLabelExample() {
+  return (
+    <ProductCard
+      product={productWithSwatches}
+      maxSwatches={3}
+      showViewMoreSwatches
+      viewMoreSwatchesLabel='+3 more colors'
+      priceCurrency='$'
+    />
+  );
+}
+```
+
+## External "View More" Handler
+
+Set `expandInline={false}` to prevent inline expansion. The "View more" button will only fire the `onViewMoreSwatchesClick` callback — useful for navigating to a PDP or opening a modal.
+
+```tsx
+import ProductCard from '@/components/product-card';
+
+function ExternalViewMoreExample() {
+  return (
+    <ProductCard
+      product={productWithSwatches}
+      maxSwatches={2}
+      showViewMoreSwatches
+      expandInline={false}
+      viewMoreSwatchesLabel='See all colors'
+      onViewMoreSwatchesClick={(e, selectedSwatch) => {
+        // Navigate to PDP or open a color picker modal
+        console.log('Open full color selection', selectedSwatch);
+      }}
+      priceCurrency='$'
+    />
+  );
+}
+```
+
+## Rich Variants (Per-Swatch Data Overrides)
+
+Each swatch can override any product field. When selected, the card automatically displays the swatch's values for image, price, badge, rating, tags, etc.
+
+```tsx
+import ProductCard from '@/components/product-card';
+
+function RichVariantsExample() {
+  return (
+    <ProductCard
+      product={{
+        id: 'premium-sneakers',
+        variationId: 'var-white-gold',
+        name: 'Premium Sneakers',
+        imageUrl: 'https://example.com/sneakers.jpg',
+        price: '180',
+        badge: 'Bestseller',
+        swatchList: [
+          {
+            variationId: 'var-white-gold',
+            name: 'Premium Sneakers (White/Gold)',
+            imageUrl: 'https://example.com/white-gold.jpg',
+            price: '180',
+            badge: 'Bestseller',
+            rating: '4.9',
+            reviewsCount: '1024',
+            swatchPreview: '#ffd700',
+          },
+          {
+            variationId: 'var-black-red',
+            name: 'Premium Sneakers (Black/Red)',
+            imageUrl: 'https://example.com/black-red.jpg',
+            price: '180',
+            salePrice: '149',
+            badge: 'Sale',
+            rating: '4.7',
+            reviewsCount: '856',
+            tags: ['Limited Stock'],
+            swatchPreview: '#8b0000',
+          },
+          {
+            variationId: 'var-grey',
+            name: 'Premium Sneakers (Grey)',
+            imageUrl: 'https://example.com/grey.jpg',
+            price: '180',
+            badge: 'New',
+            rating: '4.8',
+            reviewsCount: '42',
+            swatchPreview: '#808080',
+          },
+        ],
+      }}
+      priceCurrency='$'
+      onAddToCart={(e, product) => console.log('Added to cart', product)}
+      onAddToWishlist={(e, product) => console.log('Added to wishlist', product)}
+    />
+  );
+}
+```
+
+## Props Reference
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `product.swatchList` | `SwatchItem[]` | `[]` | Array of swatch variants for the product |
+| `maxSwatches` | `number` | — | Max visible swatches (only applies when `showViewMoreSwatches` is `true`) |
+| `showViewMoreSwatches` | `boolean` | `false` | Show a "View more" button when swatches exceed `maxSwatches` |
+| `viewMoreSwatchesLabel` | `string` | `"View more"` | Custom label for the "View more" button |
+| `expandInline` | `boolean` | `true` | Expand hidden swatches inline on "View more" click |
+| `onViewMoreSwatchesClick` | `(e, selectedSwatch) => void` | — | Callback when "View more" is clicked |
+
+## SwatchItem Interface
+
+| Field | Type | Required | Description |
+| ----- | ---- | -------- | ----------- |
+| `variationId` | `string` | Yes | Unique identifier for the variant |
+| `swatchPreview` | `string` | Yes | Hex color (`"#e04062"`) or image URL |
+| `name` | `string` | No | Overrides product name when selected |
+| `imageUrl` | `string` | No | Overrides product image when selected |
+| `price` | `string \| number` | No | Overrides product price when selected |
+| `salePrice` | `string \| number` | No | Overrides sale price when selected |
+| `rating` | `string \| number` | No | Overrides rating when selected |
+| `reviewsCount` | `string \| number` | No | Overrides review count when selected |
+| `tags` | `string[]` | No | Overrides tags when selected |
+| `badge` | `string` | No | Overrides badge when selected |

@@ -25,6 +25,16 @@ ProductCard supports render props pattern for complete layout customization whil
 
 <Canvas of={ProductCardStories.RenderPropsExample} />
 
+## Using Product Swatches
+ProductCard supports color/variant swatches that update the displayed product data (image, price, name, badge) when selected. Provide a `swatchList` array on the product, and the card handles selection state automatically. Swatches can use hex colors or image URLs for their preview.
+
+<Canvas of={ProductCardStories.WithSwatches} />
+
+## Using Swatches with "View More" Truncation
+Limit visible swatches using `maxSwatches` and `showViewMoreSwatches`. Clicking "View more" expands all swatches inline by default, or you can set `expandInline={false}` to handle it externally (e.g., navigate to PDP or open a modal).
+
+<Canvas of={ProductCardStories.WithSwatchesViewMore} />
+
 ## Using Compound Components with Direct Props Override
 ProductCard compound components support passing props directly to individual sections to override context values from the root. This is powerful for promotional displays, A/B testing, or showing dynamic content per section while maintaining the same base product data.
 

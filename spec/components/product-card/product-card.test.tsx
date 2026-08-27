@@ -24,6 +24,55 @@ const mockProductData = {
   isInWishlist: false,
 };
 
+const mockSwatchProduct = {
+  product: {
+    id: 'swatch-product',
+    name: 'Swatch Product',
+    variationId: 'var-red',
+    imageUrl: 'https://example.com/default.jpg',
+    price: '100',
+    swatchList: [
+      {
+        variationId: 'var-red',
+        name: 'Red Variant',
+        imageUrl: 'https://example.com/red.jpg',
+        price: '90',
+        swatchPreview: '#e04062',
+      },
+      {
+        variationId: 'var-green',
+        name: 'Green Variant',
+        imageUrl: 'https://example.com/green.jpg',
+        price: '99',
+        salePrice: '75',
+        swatchPreview: '#a3c43b',
+      },
+      {
+        variationId: 'var-blue',
+        name: 'Blue Variant',
+        imageUrl: 'https://example.com/blue.jpg',
+        price: '95',
+        swatchPreview: '#3b82f6',
+      },
+      {
+        variationId: 'var-black',
+        name: 'Black Variant',
+        imageUrl: 'https://example.com/black.jpg',
+        price: '90',
+        swatchPreview: '#1a1a1a',
+      },
+      {
+        variationId: 'var-white',
+        name: 'White Variant',
+        imageUrl: 'https://example.com/white.jpg',
+        price: '90',
+        swatchPreview: '#f5f5f5',
+      },
+    ],
+  },
+  priceCurrency: '$',
+};
+
 const mockBasicProduct = {
   id: mockProductData.product.id,
   name: mockProductData.product.name,
@@ -470,7 +519,13 @@ describe('ProductCard component', () => {
 
     test('dispatches productCard.conversion event on root element on add-to-cart click', () => {
       const mockOnAddToCart = vi.fn();
-      render(<ProductCard {...mockProductData} onAddToCart={mockOnAddToCart} data-testid='product-card' />);
+      render(
+        <ProductCard
+          {...mockProductData}
+          onAddToCart={mockOnAddToCart}
+          data-testid='product-card'
+        />,
+      );
 
       const el = screen.getByTestId('product-card');
       const listener = vi.fn();
@@ -508,7 +563,11 @@ describe('ProductCard component', () => {
     test('clicking add-to-cart does NOT call onProductClick callback', () => {
       const mockOnProductClick = vi.fn();
       render(
-        <ProductCard {...mockProductData} onAddToCart={vi.fn()} onProductClick={mockOnProductClick} />,
+        <ProductCard
+          {...mockProductData}
+          onAddToCart={vi.fn()}
+          onProductClick={mockOnProductClick}
+        />,
       );
       fireEvent.click(screen.getByText('Add to Cart'));
       expect(mockOnProductClick).not.toHaveBeenCalled();
@@ -516,7 +575,13 @@ describe('ProductCard component', () => {
 
     test('dispatches productCard.wishlist event on root element on wishlist click', () => {
       const mockOnAddToWishlist = vi.fn();
-      render(<ProductCard {...mockProductData} onAddToWishlist={mockOnAddToWishlist} data-testid='product-card' />);
+      render(
+        <ProductCard
+          {...mockProductData}
+          onAddToWishlist={mockOnAddToWishlist}
+          data-testid='product-card'
+        />,
+      );
 
       const el = screen.getByTestId('product-card');
       const listener = vi.fn();
@@ -593,7 +658,10 @@ describe('ProductCard component', () => {
     });
 
     test('two product cards: events do not cross-pollinate', () => {
-      const product2 = { ...mockProductData, product: { ...mockProductData.product, id: 'product-2', name: 'Product 2' } };
+      const product2 = {
+        ...mockProductData,
+        product: { ...mockProductData.product, id: 'product-2', name: 'Product 2' },
+      };
 
       render(
         <>
@@ -621,6 +689,351 @@ describe('ProductCard component', () => {
 
       wrapper1.removeEventListener(CIO_EVENTS.productCard.click, listener1);
       wrapper2.removeEventListener(CIO_EVENTS.productCard.click, listener2);
+    });
+  });
+
+  describe('Swatch Section', () => {
+    test('renders swatch buttons when product has swatchList', () => {
+      render(<ProductCard {...mockSwatchProduct} />);
+
+      const swatchButtons = screen.getAllByTestId(/^cio-swatch-/);
+      expect(swatchButtons).toHaveLength(5);
+    });
+
+    test('does not render swatch section when product has no swatchList', () => {
+      const { container } = render(<ProductCard {...mockProductData} />);
+
+      const swatchSection = container.querySelector('.cio-product-card-swatch-section');
+      expect(swatchSection).not.toBeInTheDocument();
+    });
+
+    test('does not render swatch section when swatchList is empty', () => {
+      const product = {
+        ...mockSwatchProduct,
+        product: { ...mockSwatchProduct.product, swatchList: [] },
+      };
+      const { container } = render(<ProductCard {...product} />);
+
+      const swatchSection = container.querySelector('.cio-product-card-swatch-section');
+      expect(swatchSection).not.toBeInTheDocument();
+    });
+
+    test('pre-selects swatch matching product variationId', () => {
+      render(<ProductCard {...mockSwatchProduct} />);
+
+      const redSwatch = screen.getByTestId('cio-swatch-var-red');
+      expect(redSwatch).toHaveAttribute('aria-pressed', 'true');
+    });
+
+    test('selecting a swatch updates the displayed product image', () => {
+      render(<ProductCard {...mockSwatchProduct} />);
+
+      // Initially shows the red variant image (pre-selected via variationId)
+      const image = screen.getByAltText('Red Variant');
+      expect(image).toHaveAttribute('src', 'https://example.com/red.jpg');
+
+      // Click green swatch
+      fireEvent.click(screen.getByTestId('cio-swatch-var-green'));
+
+      const updatedImage = screen.getByAltText('Green Variant');
+      expect(updatedImage).toHaveAttribute('src', 'https://example.com/green.jpg');
+    });
+
+    test('selecting a swatch updates the displayed product price', () => {
+      render(<ProductCard {...mockSwatchProduct} />);
+
+      // Initially shows red variant price
+      expect(screen.getByText('$ 90')).toBeInTheDocument();
+
+      // Click green swatch which has a sale price
+      fireEvent.click(screen.getByTestId('cio-swatch-var-green'));
+
+      expect(screen.getByText('$ 75')).toBeInTheDocument();
+      expect(screen.getByText('$ 99')).toBeInTheDocument();
+    });
+
+    test('deselecting a swatch reverts to original product data', () => {
+      render(<ProductCard {...mockSwatchProduct} />);
+
+      // Pre-selected red swatch shows red image
+      expect(screen.getByAltText('Red Variant')).toBeInTheDocument();
+
+      // Click red swatch again to deselect
+      fireEvent.click(screen.getByTestId('cio-swatch-var-red'));
+
+      // Should revert to product's original data
+      const image = screen.getByAltText('Swatch Product');
+      expect(image).toHaveAttribute('src', 'https://example.com/default.jpg');
+    });
+
+    test('swatch buttons have correct aria-label', () => {
+      render(<ProductCard {...mockSwatchProduct} />);
+
+      expect(screen.getByRole('button', { name: 'Red Variant' })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: 'Green Variant' })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: 'Blue Variant' })).toBeInTheDocument();
+    });
+
+    test('swatch buttons have correct background for hex colors', () => {
+      render(<ProductCard {...mockSwatchProduct} />);
+
+      const redSwatch = screen.getByTestId('cio-swatch-var-red');
+      expect(redSwatch).toHaveStyle({ background: '#e04062' });
+    });
+
+    test('swatch buttons use url() background for non-hex values', () => {
+      const product = {
+        ...mockSwatchProduct,
+        product: {
+          ...mockSwatchProduct.product,
+          swatchList: [
+            {
+              variationId: 'var-pattern',
+              name: 'Pattern',
+              swatchPreview: 'https://example.com/pattern.jpg',
+            },
+          ],
+        },
+      };
+      render(<ProductCard {...product} />);
+
+      const swatch = screen.getByTestId('cio-swatch-var-pattern');
+      const bg = swatch.style.background;
+      expect(bg).toContain('https://example.com/pattern.jpg');
+      expect(bg).toContain('center');
+      expect(bg).toContain('cover');
+    });
+
+    test('swatch data attribute is set on swatch buttons', () => {
+      render(<ProductCard {...mockSwatchProduct} />);
+
+      const redSwatch = screen.getByTestId('cio-swatch-var-red');
+      expect(redSwatch.dataset.cnstrcItemVariationId).toBe('var-red');
+    });
+
+    test('selecting a swatch updates the data attributes on the card', () => {
+      render(<ProductCard {...mockSwatchProduct} data-testid='product-card' />);
+
+      const card = screen.getByTestId('product-card');
+      // Initially shows the red variation (pre-selected)
+      expect(card.dataset.cnstrcItemVariationId).toBe('var-red');
+
+      // Click green swatch
+      fireEvent.click(screen.getByTestId('cio-swatch-var-green'));
+
+      expect(card.dataset.cnstrcItemVariationId).toBe('var-green');
+    });
+  });
+
+  describe('Swatch Section - View More', () => {
+    test('limits visible swatches with maxSwatches and showViewMoreSwatches', () => {
+      render(<ProductCard {...mockSwatchProduct} maxSwatches={3} showViewMoreSwatches />);
+
+      const swatchButtons = screen.getAllByTestId(/^cio-swatch-(?!show-more)/);
+      expect(swatchButtons).toHaveLength(3);
+    });
+
+    test('shows "View more" button when there are hidden swatches', () => {
+      render(<ProductCard {...mockSwatchProduct} maxSwatches={3} showViewMoreSwatches />);
+
+      expect(screen.getByTestId('cio-swatch-show-more')).toBeInTheDocument();
+      expect(screen.getByText('View more')).toBeInTheDocument();
+    });
+
+    test('does not show "View more" button when all swatches are visible', () => {
+      render(<ProductCard {...mockSwatchProduct} maxSwatches={5} showViewMoreSwatches />);
+
+      expect(screen.queryByTestId('cio-swatch-show-more')).not.toBeInTheDocument();
+    });
+
+    test('clicking "View more" expands to show all swatches (expandInline default)', () => {
+      render(<ProductCard {...mockSwatchProduct} maxSwatches={3} showViewMoreSwatches />);
+
+      expect(screen.getAllByTestId(/^cio-swatch-(?!show-more)/).length).toBe(3);
+
+      fireEvent.click(screen.getByTestId('cio-swatch-show-more'));
+
+      expect(screen.getAllByTestId(/^cio-swatch-(?!show-more)/).length).toBe(5);
+      expect(screen.queryByTestId('cio-swatch-show-more')).not.toBeInTheDocument();
+    });
+
+    test('custom viewMoreSwatchesLabel is rendered', () => {
+      render(
+        <ProductCard
+          {...mockSwatchProduct}
+          maxSwatches={3}
+          showViewMoreSwatches
+          viewMoreSwatchesLabel='+2 more'
+        />,
+      );
+
+      expect(screen.getByText('+2 more')).toBeInTheDocument();
+    });
+
+    test('onViewMoreSwatchesClick callback is called', () => {
+      const mockOnViewMore = vi.fn();
+      render(
+        <ProductCard
+          {...mockSwatchProduct}
+          maxSwatches={3}
+          showViewMoreSwatches
+          onViewMoreSwatchesClick={mockOnViewMore}
+        />,
+      );
+
+      fireEvent.click(screen.getByTestId('cio-swatch-show-more'));
+
+      expect(mockOnViewMore).toHaveBeenCalledTimes(1);
+    });
+
+    test('expandInline=false does not expand inline on view more click', () => {
+      const mockOnViewMore = vi.fn();
+      render(
+        <ProductCard
+          {...mockSwatchProduct}
+          maxSwatches={3}
+          showViewMoreSwatches
+          expandInline={false}
+          onViewMoreSwatchesClick={mockOnViewMore}
+        />,
+      );
+
+      fireEvent.click(screen.getByTestId('cio-swatch-show-more'));
+
+      // Swatches should remain limited (not expanded inline)
+      expect(screen.getAllByTestId(/^cio-swatch-(?!show-more)/).length).toBe(3);
+      // But the callback is still fired
+      expect(mockOnViewMore).toHaveBeenCalledTimes(1);
+    });
+
+    test('maxSwatches without showViewMoreSwatches shows all swatches', () => {
+      render(<ProductCard {...mockSwatchProduct} maxSwatches={3} />);
+
+      // Without showViewMoreSwatches, maxSwatches is not applied
+      const swatchButtons = screen.getAllByTestId(/^cio-swatch-(?!show-more)/);
+      expect(swatchButtons).toHaveLength(5);
+    });
+
+    test('clicking "View more" does NOT call onProductClick', () => {
+      const mockOnProductClick = vi.fn();
+      render(
+        <ProductCard
+          {...mockSwatchProduct}
+          maxSwatches={3}
+          showViewMoreSwatches
+          onProductClick={mockOnProductClick}
+        />,
+      );
+
+      fireEvent.click(screen.getByTestId('cio-swatch-show-more'));
+      expect(mockOnProductClick).not.toHaveBeenCalled();
+    });
+
+    test('clicking a swatch does NOT dispatch productCard.click event', () => {
+      const clickListener = vi.fn();
+      render(<ProductCard {...mockSwatchProduct} data-testid='product-card' />);
+
+      const el = screen.getByTestId('product-card');
+      el.addEventListener(CIO_EVENTS.productCard.click, clickListener);
+
+      fireEvent.click(screen.getByTestId('cio-swatch-var-green'));
+
+      expect(clickListener).not.toHaveBeenCalled();
+      el.removeEventListener(CIO_EVENTS.productCard.click, clickListener);
+    });
+
+    test('clicking a swatch does NOT call onProductClick', () => {
+      const mockOnProductClick = vi.fn();
+      render(<ProductCard {...mockSwatchProduct} onProductClick={mockOnProductClick} />);
+
+      fireEvent.click(screen.getByTestId('cio-swatch-var-green'));
+      expect(mockOnProductClick).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('Swatch Section - Compound Components', () => {
+    test('SwatchSection works as compound component with custom props', () => {
+      render(
+        <ProductCard {...mockSwatchProduct}>
+          <ProductCard.ImageSection />
+          <ProductCard.Content>
+            <ProductCard.TitleSection />
+            <ProductCard.SwatchSection
+              swatchList={mockSwatchProduct.product.swatchList.slice(0, 2)}
+              onSwatchClick={vi.fn()}
+            />
+          </ProductCard.Content>
+        </ProductCard>,
+      );
+
+      const swatchButtons = screen.getAllByTestId(/^cio-swatch-(?!show-more)/);
+      expect(swatchButtons).toHaveLength(2);
+    });
+
+    test('SwatchSection compound component supports className override', () => {
+      const { container } = render(
+        <ProductCard {...mockSwatchProduct}>
+          <ProductCard.Content>
+            <ProductCard.SwatchSection
+              swatchList={mockSwatchProduct.product.swatchList}
+              onSwatchClick={vi.fn()}
+              className='custom-swatch-class'
+            />
+          </ProductCard.Content>
+        </ProductCard>,
+      );
+
+      const swatchSection = container.querySelector('.cio-product-card-swatch-section');
+      expect(swatchSection).toHaveClass('custom-swatch-class');
+    });
+
+    test('SwatchSection can be overridden via componentOverrides', () => {
+      render(
+        <ProductCard
+          {...mockSwatchProduct}
+          componentOverrides={{
+            content: {
+              swatches: {
+                reactNode: () => <div data-testid='custom-swatches'>Custom Swatch UI</div>,
+              },
+            },
+          }}
+        />,
+      );
+
+      expect(screen.getByTestId('custom-swatches')).toBeInTheDocument();
+      expect(screen.getByText('Custom Swatch UI')).toBeInTheDocument();
+      // Original swatches should not render
+      expect(screen.queryByTestId('cio-swatch-var-red')).not.toBeInTheDocument();
+    });
+
+    test('SwatchSection override receives renderProps with swatch state', () => {
+      const overrideFn = vi.fn().mockReturnValue(<div>Override</div>);
+
+      render(
+        <ProductCard
+          {...mockSwatchProduct}
+          componentOverrides={{
+            content: {
+              swatches: {
+                reactNode: overrideFn,
+              },
+            },
+          }}
+        />,
+      );
+
+      expect(overrideFn).toHaveBeenCalledWith(
+        expect.objectContaining({
+          swatch: expect.objectContaining({
+            selectedSwatch: expect.any(Object),
+            visibleSwatches: expect.any(Array),
+            hasMoreSwatches: expect.any(Boolean),
+            onSwatchClick: expect.any(Function),
+            onViewMoreSwatchesClick: expect.any(Function),
+          }),
+        }),
+      );
     });
   });
 });

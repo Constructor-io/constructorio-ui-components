@@ -1253,3 +1253,136 @@ export const RenderPropsExample: Story = {
   // '!dev' prevents a story from being listed in the sidebar.
   tags: ['!autodocs', '!dev'],
 };
+
+// Basic swatches - all visible, no "View more" button
+export const WithSwatches: Story = {
+  args: {
+    product: {
+      id: 'jersey-riviera-shirt',
+      variationId: 'var-red',
+      name: 'Jersey Riviera Shirt',
+      imageUrl: DEMO_IMAGE_URL,
+      description: 'A versatile shirt available in multiple colors',
+      price: '90',
+      swatchList: [
+        {
+          variationId: 'var-red',
+          name: 'Jersey Riviera Shirt (Red)',
+          imageUrl: DEMO_IMAGE_URL,
+          price: '90',
+          swatchPreview: '#e04062',
+        },
+        {
+          variationId: 'var-green',
+          name: 'Jersey Riviera Shirt (Green)',
+          imageUrl: DEMO_IMAGE_URL,
+          price: '99',
+          salePrice: '75',
+          swatchPreview: '#a3c43b',
+        },
+        {
+          variationId: 'var-blue',
+          name: 'Jersey Riviera Shirt (Blue)',
+          imageUrl: DEMO_IMAGE_URL,
+          price: '95',
+          swatchPreview: '#3b82f6',
+        },
+      ],
+    },
+    priceCurrency: '$',
+  },
+};
+
+// Swatches with image previews instead of hex colors
+export const WithImageSwatches: Story = {
+  args: {
+    product: {
+      id: 'patterned-polo',
+      variationId: 'var-stripe',
+      name: 'Patterned Polo Shirt',
+      imageUrl: DEMO_IMAGE_URL,
+      description: 'Classic polo with unique fabric patterns',
+      price: '120',
+      swatchList: [
+        {
+          variationId: 'var-stripe',
+          name: 'Patterned Polo (Stripe)',
+          imageUrl: DEMO_IMAGE_URL,
+          price: '120',
+          swatchPreview: DEMO_IMAGE_URL,
+        },
+        {
+          variationId: 'var-plaid',
+          name: 'Patterned Polo (Plaid)',
+          imageUrl: DEMO_IMAGE_URL,
+          price: '130',
+          swatchPreview: DEMO_IMAGE_URL,
+        },
+        {
+          variationId: 'var-dots',
+          name: 'Patterned Polo (Polka Dots)',
+          imageUrl: DEMO_IMAGE_URL,
+          price: '115',
+          salePrice: '99',
+          swatchPreview: DEMO_IMAGE_URL,
+        },
+      ],
+    },
+    priceCurrency: '$',
+  },
+};
+
+// Swatches with "View more" truncation
+export const WithSwatchesViewMore: Story = {
+  args: {
+    product: {
+      id: 'jersey-riviera-shirt',
+      variationId: 'var-default',
+      name: 'Jersey Riviera Shirt',
+      imageUrl: DEMO_IMAGE_URL,
+      description: 'Premium golf pants designed for comfort and performance on the course',
+      price: '90',
+      swatchList: [
+        {
+          variationId: 'var-red',
+          name: 'Jersey Riviera Shirt (Red)',
+          imageUrl: DEMO_IMAGE_URL,
+          price: '90',
+          swatchPreview: '#e04062',
+        },
+        {
+          variationId: 'var-green',
+          name: 'Jersey Riviera Shirt (Green)',
+          imageUrl: DEMO_IMAGE_URL,
+          price: '99',
+          salePrice: '75',
+          swatchPreview: '#a3c43b',
+        },
+        {
+          variationId: 'var-blue',
+          name: 'Jersey Riviera Shirt (Blue)',
+          imageUrl: DEMO_IMAGE_URL,
+          price: '95',
+          swatchPreview: '#3b82f6',
+        },
+        {
+          variationId: 'var-black',
+          name: 'Jersey Riviera Shirt (Black)',
+          imageUrl: DEMO_IMAGE_URL,
+          price: '90',
+          swatchPreview: '#1a1a1a',
+        },
+        {
+          variationId: 'var-white',
+          name: 'Jersey Riviera Shirt (White)',
+          imageUrl: DEMO_IMAGE_URL,
+          price: '90',
+          swatchPreview: '#f5f5f5',
+        },
+      ],
+    },
+    maxSwatches: 3,
+    showViewMoreSwatches: true,
+    priceCurrency: '$',
+  },
+};

@@ -21,7 +21,7 @@ jobs:
         with:
           node-version: "22.18.0"
       - name: Install library deps
-        run: npm i
+        run: npm i --no-audit --no-fund --package-lock=false
       - name: Build library
         run: npm run compile
       - name: Pack library

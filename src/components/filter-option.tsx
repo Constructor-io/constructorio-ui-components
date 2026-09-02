@@ -2,7 +2,10 @@ import React, { ReactNode } from 'react';
 import { cn, RenderPropsWrapper } from '@/utils';
 import { ComponentOverrideProps, IncludeComponentOverrides } from '@/types';
 const baseClasses =
-  'cio-components cio-filter-option cio-filter-multiple-option cio:group cio:cursor-pointer cio:flex cio:list-none cio:text-base cio:hover:bg-neutral-100 cio:hover:rounded';
+  'cio-components cio-filter-option cio-filter-multiple-option cio:flex cio:list-none cio:text-base';
+
+const labelClasses =
+  'cio-filter-option-label cio:group cio:text-sm cio:flex cio:flex-row cio:items-center cio:cursor-pointer cio:grow cio:basis-0 cio:min-w-0 cio:p-1 cio:hover:bg-neutral-100 cio:hover:rounded';
 
 export interface FilterOptionProps
   extends Omit<React.ComponentProps<'li'>, 'onChange' | 'children'>,
@@ -68,6 +71,7 @@ export default function FilterOption({
       groupName,
       startContent,
       className,
+      children,
     }),
     [
       props,
@@ -82,6 +86,7 @@ export default function FilterOption({
       groupName,
       startContent,
       className,
+      children,
     ],
   );
 
@@ -112,9 +117,7 @@ export default function FilterOption({
   return (
     <RenderPropsWrapper props={renderProps} override={componentOverrides?.reactNode}>
       <li data-slot='filter-option' className={cn(baseClasses, className)} {...props}>
-        <label
-          htmlFor={id}
-          className='cio-filter-option-label cio:text-sm cio:flex cio:flex-row cio:items-center cio:cursor-pointer cio:grow cio:p-1'>
+        <label htmlFor={id} className={labelClasses}>
           <input
             type={selectionType}
             id={id}

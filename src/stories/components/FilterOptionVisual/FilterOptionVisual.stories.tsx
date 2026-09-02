@@ -23,6 +23,10 @@ const meta = {
       control: 'radio',
       options: ['color', 'image'],
     },
+    selectionType: {
+      control: 'radio',
+      options: ['checkbox', 'radio'],
+    },
   },
 } satisfies Meta<typeof FilterOptionVisual>;
 
@@ -215,6 +219,75 @@ export const MixedVisualTypes: Story = {
   parameters: {
     controls: { disable: true },
   },
+};
+
+// --- Radio Selection Type ---
+
+export const RadioColor: Story = {
+  args: {
+    id: 'radio-color-red',
+    optionValue: 'red',
+    displayValue: 'Red',
+    displayCountValue: '646',
+    visualType: 'color',
+    visualValue: '#EF4444',
+    selectionType: 'radio',
+    groupName: 'color',
+    isChecked: true,
+  },
+  name: 'Radio Color',
+};
+
+export const RadioColorList: Story = {
+  args: {
+    id: 'radio-color-list',
+    optionValue: 'red',
+    displayValue: 'Red',
+    visualType: 'color',
+    visualValue: '#EF4444',
+  },
+  render: () => (
+    <ul style={{ listStyle: 'none', padding: 0, margin: 0, minWidth: 300 }}>
+      <FilterOptionVisual
+        id='radio-red'
+        optionValue='red'
+        displayValue='Red'
+        displayCountValue='646'
+        visualType='color'
+        visualValue='#EF4444'
+        selectionType='radio'
+        groupName='color'
+        isChecked={true}
+        onChange={() => {}}
+      />
+      <FilterOptionVisual
+        id='radio-blue'
+        optionValue='blue'
+        displayValue='Blue'
+        displayCountValue='394'
+        visualType='color'
+        visualValue='#3B82F6'
+        selectionType='radio'
+        groupName='color'
+        onChange={() => {}}
+      />
+      <FilterOptionVisual
+        id='radio-green'
+        optionValue='green'
+        displayValue='Green'
+        displayCountValue='195'
+        visualType='color'
+        visualValue='#22C55E'
+        selectionType='radio'
+        groupName='color'
+        onChange={() => {}}
+      />
+    </ul>
+  ),
+  parameters: {
+    controls: { disable: true },
+  },
+  name: 'Radio Color List (Single Select)',
 };
 
 // --- componentOverrides ---

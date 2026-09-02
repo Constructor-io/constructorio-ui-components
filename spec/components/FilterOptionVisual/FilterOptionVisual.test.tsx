@@ -164,6 +164,29 @@ describe('FilterOptionVisual component', () => {
     });
   });
 
+  describe('radio selection type', () => {
+    test('renders radio input with group name and visual swatch', () => {
+      render(
+        <FilterOptionVisual
+          id='visual-radio-1'
+          optionValue='red'
+          displayValue='Red'
+          visualType='color'
+          visualValue='#FF0000'
+          selectionType='radio'
+          groupName='color-facet'
+          onChange={() => {}}
+        />,
+      );
+      const radio = screen.getByRole('radio');
+      expect(radio).toBeInTheDocument();
+      expect(radio).toHaveAttribute('name', 'color-facet');
+      expect(document.querySelector('.cio-radio')).toBeInTheDocument();
+      expect(document.querySelector('.cio-checkbox')).not.toBeInTheDocument();
+      expect(document.querySelector('.cio-filter-visual-swatch')).toBeInTheDocument();
+    });
+  });
+
   describe('layout structure', () => {
     test('swatch appears before option name in DOM order', () => {
       render(

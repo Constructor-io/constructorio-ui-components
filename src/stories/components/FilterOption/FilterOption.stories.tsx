@@ -16,6 +16,10 @@ const meta = {
       control: 'radio',
       options: ['left', 'right', 'none'],
     },
+    selectionType: {
+      control: 'radio',
+      options: ['checkbox', 'radio'],
+    },
   },
   decorators: [
     (Story) => (
@@ -143,6 +147,86 @@ export const FilterList: Story = {
   parameters: {
     controls: { disable: true },
   },
+};
+
+// --- Radio Selection Type ---
+
+export const Radio: Story = {
+  args: {
+    id: 'radio-1',
+    optionValue: 'small',
+    displayValue: 'Small',
+    displayCountValue: '320',
+    selectionType: 'radio',
+    groupName: 'size',
+  },
+  name: 'Radio',
+};
+
+export const RadioChecked: Story = {
+  args: {
+    id: 'radio-2',
+    optionValue: 'medium',
+    displayValue: 'Medium',
+    displayCountValue: '512',
+    selectionType: 'radio',
+    groupName: 'size',
+    isChecked: true,
+  },
+  name: 'Radio Checked',
+};
+
+export const RadioList: Story = {
+  args: {
+    id: 'radio-list',
+    optionValue: 'small',
+    displayValue: 'Small',
+  },
+  render: () => (
+    <ul style={{ listStyle: 'none', padding: 0, margin: 0, minWidth: 300 }}>
+      <FilterOption
+        id='size-small'
+        optionValue='small'
+        displayValue='Small'
+        displayCountValue='320'
+        selectionType='radio'
+        groupName='size'
+        onChange={() => {}}
+      />
+      <FilterOption
+        id='size-medium'
+        optionValue='medium'
+        displayValue='Medium'
+        displayCountValue='512'
+        selectionType='radio'
+        groupName='size'
+        isChecked={true}
+        onChange={() => {}}
+      />
+      <FilterOption
+        id='size-large'
+        optionValue='large'
+        displayValue='Large'
+        displayCountValue='198'
+        selectionType='radio'
+        groupName='size'
+        onChange={() => {}}
+      />
+      <FilterOption
+        id='size-xl'
+        optionValue='xl'
+        displayValue='XL'
+        displayCountValue='87'
+        selectionType='radio'
+        groupName='size'
+        onChange={() => {}}
+      />
+    </ul>
+  ),
+  parameters: {
+    controls: { disable: true },
+  },
+  name: 'Radio List (Single Select)',
 };
 
 // componentOverrides example

@@ -21,6 +21,15 @@ export interface FilterOptionProps
   onChange: (value: string) => void;
   /** Position of the checkbox. Can be 'left', 'right', or 'none'. Defaults to 'left' */
   checkboxPosition?: 'left' | 'right' | 'none';
+  /**
+   * Selection input type.
+   * @default 'checkbox'
+   * @remarks The checkbox default for single-selection facets will be deprecated
+   * in the next major version — radio buttons will become the default for single-type facets.
+   */
+  selectionType?: 'checkbox' | 'radio';
+  /** Group name for the input. Required for radio inputs to form a radio group. */
+  groupName?: string;
   /** Optional content to render before the display value (e.g., color swatch) */
   startContent?: ReactNode;
   /** Optional children to render inside the component */
@@ -38,6 +47,8 @@ export default function FilterOption({
   isChecked = false,
   onChange,
   checkboxPosition = 'left',
+  selectionType = 'checkbox',
+  groupName,
   startContent,
   componentOverrides,
   children,
@@ -53,6 +64,8 @@ export default function FilterOption({
       isChecked,
       onChange,
       checkboxPosition,
+      selectionType,
+      groupName,
       startContent,
       className,
     }),
@@ -65,13 +78,16 @@ export default function FilterOption({
       isChecked,
       onChange,
       checkboxPosition,
+      selectionType,
+      groupName,
       startContent,
       className,
     ],
   );
 
-  const checkboxVisible = checkboxPosition !== 'none';
-  const checkboxEl = checkboxVisible && (
+  const indicatorVisible = checkboxPosition !== 'none';
+
+  const checkboxEl = (
     <div className='cio-checkbox cio:flex cio:justify-center cio:items-center cio:cursor-pointer cio:mx-2 cio:bg-white cio:w-5 cio:h-5 cio:min-w-5 cio:min-h-5 cio:rounded cio:transition-all cio:duration-250 cio:border cio:border-black/20 cio:group-has-[input:checked]:shadow-[inset_0_0_0_32px_#000]'>
       <svg
         width='10'
@@ -85,6 +101,14 @@ export default function FilterOption({
     </div>
   );
 
+  const radioEl = (
+    <div className='cio-radio cio:flex cio:justify-center cio:items-center cio:cursor-pointer cio:mx-2 cio:bg-white cio:w-5 cio:h-5 cio:min-w-5 cio:min-h-5 cio:rounded-full cio:transition-all cio:duration-250 cio:border cio:border-black/20'>
+      <div className='cio-radio-dot cio:w-2.5 cio:h-2.5 cio:rounded-full cio:bg-black cio:opacity-0 cio:transition-opacity cio:duration-250 cio:group-has-[input:checked]:opacity-100' />
+    </div>
+  );
+
+  const indicatorEl = indicatorVisible && (selectionType === 'radio' ? radioEl : checkboxEl);
+
   return (
     <RenderPropsWrapper props={renderProps} override={componentOverrides?.reactNode}>
       <li data-slot='filter-option' className={cn(baseClasses, className)} {...props}>
@@ -92,14 +116,15 @@ export default function FilterOption({
           htmlFor={id}
           className='cio-filter-option-label cio:text-sm cio:flex cio:flex-row cio:items-center cio:cursor-pointer cio:grow cio:p-1'>
           <input
-            type='checkbox'
+            type={selectionType}
             id={id}
+            name={groupName}
             value={optionValue}
             checked={isChecked}
             onChange={() => onChange(optionValue)}
             className='cio-filter-option-input cio:hidden'
           />
-          {checkboxPosition === 'left' && checkboxEl}
+          {checkboxPosition === 'left' && indicatorEl}
           <div className='cio-filter-multiple-option-display cio:flex cio:flex-row cio:justify-between cio:w-full cio:items-center'>
             {startContent}
             <span className='cio-filter-option-name cio:grow cio:break-words'>{displayValue}</span>
@@ -109,7 +134,7 @@ export default function FilterOption({
               </span>
             )}
           </div>
-          {checkboxPosition === 'right' && checkboxEl}
+          {checkboxPosition === 'right' && indicatorEl}
         </label>
         {children}
       </li>

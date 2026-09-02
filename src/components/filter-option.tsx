@@ -24,7 +24,7 @@ export interface FilterOptionProps
   /**
    * Selection input type.
    * @default 'checkbox'
-   * @deprecated The checkbox default for single-selection facets will be deprecated
+   * @remarks The checkbox default for single-selection facets will be deprecated
    * in the next major version — radio buttons will become the default for single-type facets.
    */
   selectionType?: 'checkbox' | 'radio';

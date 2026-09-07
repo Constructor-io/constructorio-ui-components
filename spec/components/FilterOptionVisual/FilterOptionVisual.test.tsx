@@ -206,6 +206,61 @@ describe('FilterOptionVisual component', () => {
     });
   });
 
+  describe('children', () => {
+    test('renders children inside the row', () => {
+      render(
+        <FilterOptionVisual
+          id='test-1'
+          optionValue='red'
+          displayValue='Red'
+          visualType='color'
+          visualValue='#FF0000'
+          onChange={() => {}}>
+          <span data-testid='nested'>Nested</span>
+        </FilterOptionVisual>,
+      );
+      const listItem = screen.getByRole('listitem');
+      expect(listItem).toContainElement(screen.getByTestId('nested'));
+    });
+
+    test('renders children outside the label, after it', () => {
+      render(
+        <FilterOptionVisual
+          id='test-1'
+          optionValue='red'
+          displayValue='Red'
+          visualType='color'
+          visualValue='#FF0000'
+          onChange={() => {}}>
+          <button type='button' data-testid='nested-control'>
+            Toggle
+          </button>
+        </FilterOptionVisual>,
+      );
+      const child = screen.getByTestId('nested-control');
+      // Interactive children must stay out of the <label>: a nested control is invalid markup
+      // there and its clicks would also fire the row's checkbox.
+      expect(child.closest('label')).toBeNull();
+      expect(child.previousElementSibling).toBe(document.querySelector('.cio-filter-option-label'));
+    });
+
+    test('renders no extra nodes when children are omitted', () => {
+      render(
+        <FilterOptionVisual
+          id='test-1'
+          optionValue='red'
+          displayValue='Red'
+          visualType='color'
+          visualValue='#FF0000'
+          onChange={() => {}}
+        />,
+      );
+      const listItem = screen.getByRole('listitem');
+      expect(listItem.children).toHaveLength(1);
+      expect(listItem.children[0].classList.contains('cio-filter-option-label')).toBeTruthy();
+    });
+  });
+
   describe('checkbox default position', () => {
     test('checkbox defaults to right position', () => {
       render(

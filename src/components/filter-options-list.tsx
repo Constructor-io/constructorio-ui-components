@@ -1,12 +1,10 @@
 import React from 'react';
 import { cn, RenderPropsWrapper } from '@/utils';
 import { ComponentOverrideProps, IncludeComponentOverrides } from '@/types';
-import FilterOption, {
-  type FilterOptionProps,
-  type FilterOptionOverrides,
-} from '@/components/filter-option';
+import FilterOption, { type FilterOptionProps } from '@/components/filter-option';
 import FilterOptionVisual, {
   type FilterOptionVisualProps,
+  type FilterOptionVisualOverrides,
 } from '@/components/filter-option--visual';
 
 const baseClasses =
@@ -51,7 +49,13 @@ export interface FilterOptionVisualData {
 export interface FilterOptionData
   extends Pick<
     FilterOptionProps,
-    'id' | 'optionValue' | 'displayValue' | 'displayCountValue' | 'isChecked' | 'startContent'
+    | 'id'
+    | 'optionValue'
+    | 'displayValue'
+    | 'displayCountValue'
+    | 'isChecked'
+    | 'startContent'
+    | 'endContent'
   > {
   /** Child options - rendered nested and indented. Omit (or leave empty) for a leaf row. */
   options?: FilterOptionData[];
@@ -94,6 +98,12 @@ export interface FilterOptionsListProps
    */
   checkboxPosition?: FilterOptionProps['checkboxPosition'];
   /**
+   * Selection input type for every row, at every depth. Defaults to `checkbox`.
+   */
+  selectionType?: FilterOptionProps['selectionType'];
+  /** Group name for the input. Required for radio inputs to form a radio group. */
+  groupName?: FilterOptionProps['groupName'];
+  /**
    * Whether rows that have nested `options` get a toggle that collapses their nested list. This
    * collapses branches **within** the list. Rows without nested `options` are unaffected.
    * Per-row `collapsible` wins over this. Defaults to `true`.
@@ -123,8 +133,8 @@ export interface FilterOptionsListProps
  * (fixed JSX) has nowhere to receive children and so renders without them.
  */
 export type FilterOptionOverride =
-  | FilterOptionOverrides
-  | ((option: FilterOptionData) => FilterOptionOverrides | undefined);
+  | FilterOptionVisualOverrides
+  | ((option: FilterOptionData) => FilterOptionVisualOverrides | undefined);
 
 export type FilterOptionsListOverrides = ComponentOverrideProps<FilterOptionsListProps> & {
   filterOption?: FilterOptionOverride;
@@ -276,6 +286,8 @@ function FilterOptionsListInner({
   options,
   onChange,
   checkboxPosition,
+  selectionType,
+  groupName,
   componentOverrides,
   className,
   collapsible = true,
@@ -292,11 +304,23 @@ function FilterOptionsListInner({
       options,
       onChange,
       checkboxPosition,
+      selectionType,
+      groupName,
       collapsible,
       defaultCollapsed,
       className,
     }),
-    [props, options, onChange, checkboxPosition, collapsible, defaultCollapsed, className],
+    [
+      props,
+      options,
+      onChange,
+      checkboxPosition,
+      selectionType,
+      groupName,
+      collapsible,
+      defaultCollapsed,
+      className,
+    ],
   );
 
   // Whether any row at this level shows a toggle. Rows that don't get an equal-width spacer, so
@@ -342,6 +366,8 @@ function FilterOptionsListInner({
             // back here, where the option is still in scope.
             onChange: (value: string) => onChange(value, option),
             checkboxPosition,
+            selectionType,
+            groupName,
             componentOverrides: rowOverride,
             className: cn(
               nested && nestedRowClasses,
@@ -356,6 +382,8 @@ function FilterOptionsListInner({
               options={nestedOptions}
               onChange={onChange}
               checkboxPosition={checkboxPosition}
+              selectionType={selectionType}
+              groupName={groupName}
               collapsible={collapsible}
               defaultCollapsed={defaultCollapsed}
               toggledIds={toggledIds}

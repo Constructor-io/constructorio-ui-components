@@ -19,7 +19,11 @@ const preview: Preview = {
             'Button',
             'Badge',
             'ProductCard',
-            'Carousel'
+            'Carousel',
+            'Chip',
+            'FilterOption',
+            'FilterOptionVisual',
+            'FilterOptionsList'
           ]
         ]
       }

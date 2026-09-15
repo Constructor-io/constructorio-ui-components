@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { cn, RenderPropsWrapper } from '@/utils';
+import { cn, RenderPropsWrapper, resolveOverride } from '@/utils';
 import { ComponentOverrideProps, IncludeComponentOverrides } from '@/types';
 const baseClasses =
   'cio-components cio-filter-option cio-filter-multiple-option cio:flex cio:list-none cio:text-base';
@@ -7,9 +7,8 @@ const baseClasses =
 const labelClasses =
   'cio-filter-option-label cio:group cio:text-sm cio:flex cio:flex-row cio:items-center cio:cursor-pointer cio:grow cio:basis-0 cio:min-w-0 cio:p-1 cio:hover:bg-neutral-100 cio:hover:rounded';
 
-export interface FilterOptionProps
-  extends Omit<React.ComponentProps<'li'>, 'onChange' | 'children'>,
-    IncludeComponentOverrides<FilterOptionOverrides> {
+export interface FilterOptionRenderProps
+  extends Omit<React.ComponentProps<'li'>, 'onChange' | 'children'> {
   /** Unique identifier for the filter option */
   id: string;
   /** Value to be used when the option is selected */
@@ -35,11 +34,32 @@ export interface FilterOptionProps
   groupName?: string;
   /** Optional content to render before the display value (e.g., color swatch) */
   startContent?: ReactNode;
+  /** Optional content to render after the display value and count (e.g., a trailing badge) */
+  endContent?: ReactNode;
   /** Optional children to render inside the component */
   children?: ReactNode;
 }
 
-export type FilterOptionOverrides = ComponentOverrideProps<FilterOptionProps>;
+export interface FilterOptionProps
+  extends FilterOptionRenderProps,
+    IncludeComponentOverrides<FilterOptionOverrides> {}
+
+/**
+ * Overrides for `FilterOption` and its inner parts. The root `reactNode` replaces the whole
+ * `<li>`; the keys below replace a single part. Every key
+ * takes fixed JSX or a render-prop function, and every render-prop function receives the row's own props.
+ */
+export type FilterOptionOverrides = ComponentOverrideProps<FilterOptionRenderProps> & {
+  /**
+   * The checkbox or radio indicator.
+   * Has access to `isChecked` property from the render props
+   */
+  indicator?: ComponentOverrideProps<FilterOptionRenderProps>;
+  /** The option's display name. */
+  name?: ComponentOverrideProps<FilterOptionRenderProps>;
+  /** The option's count. Not rendered when `displayCountValue` is absent. */
+  count?: ComponentOverrideProps<FilterOptionRenderProps>;
+};
 
 export default function FilterOption({
   className,
@@ -53,11 +73,12 @@ export default function FilterOption({
   selectionType = 'checkbox',
   groupName,
   startContent,
+  endContent,
   componentOverrides,
   children,
   ...props
 }: FilterOptionProps) {
-  const renderProps = React.useMemo(
+  const renderProps = React.useMemo<FilterOptionRenderProps>(
     () => ({
       ...props,
       id,
@@ -70,6 +91,7 @@ export default function FilterOption({
       selectionType,
       groupName,
       startContent,
+      endContent,
       className,
       children,
     }),
@@ -85,6 +107,7 @@ export default function FilterOption({
       selectionType,
       groupName,
       startContent,
+      endContent,
       className,
       children,
     ],
@@ -112,7 +135,16 @@ export default function FilterOption({
     </div>
   );
 
-  const indicatorEl = indicatorVisible && (selectionType === 'radio' ? radioEl : checkboxEl);
+  // Inner parts are resolved with `resolveOverride` rather than wrapped in `RenderPropsWrapper`:
+  // a row renders three of them, and a wrapper costs a fiber per part even
+  // on the path where there is no override.
+  const indicatorEl =
+    indicatorVisible &&
+    resolveOverride(
+      componentOverrides?.indicator?.reactNode,
+      renderProps,
+      selectionType === 'radio' ? radioEl : checkboxEl,
+    );
 
   return (
     <RenderPropsWrapper props={renderProps} override={componentOverrides?.reactNode}>
@@ -130,12 +162,22 @@ export default function FilterOption({
           {checkboxPosition === 'left' && indicatorEl}
           <div className='cio-filter-multiple-option-display cio:flex cio:flex-row cio:justify-between cio:w-full cio:items-center'>
             {startContent}
-            <span className='cio-filter-option-name cio:grow cio:break-words'>{displayValue}</span>
-            {displayCountValue && (
-              <span className='cio-filter-option-count cio:text-gray-400 cio:ml-2'>
-                {displayCountValue}
-              </span>
+            {resolveOverride(
+              componentOverrides?.name?.reactNode,
+              renderProps,
+              <span className='cio-filter-option-name cio:grow cio:break-words'>
+                {displayValue}
+              </span>,
             )}
+            {displayCountValue &&
+              resolveOverride(
+                componentOverrides?.count?.reactNode,
+                renderProps,
+                <span className='cio-filter-option-count cio:text-gray-400 cio:ml-2'>
+                  {displayCountValue}
+                </span>,
+              )}
+            {endContent}
           </div>
           {checkboxPosition === 'right' && indicatorEl}
         </label>

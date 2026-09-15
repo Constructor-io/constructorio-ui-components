@@ -1,0 +1,123 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import * as FilterOptionsList from './FilterOptionsList.stories';
+
+<Meta of={FilterOptionsList} name="Usage Patterns" />
+
+# Usage Examples
+
+`FilterOptionsList` renders an `options` array as filter rows, recursing into each option's
+nested `options`. A flat facet is just options with no nested `options` — the same component
+covers both.
+
+Selection is **controlled**: it comes in via each option's `isChecked` and changes flow out via
+`onChange`, which receives the option's `optionValue` *and* the option object itself (two
+branches can share a value, so use the second argument when the value alone is ambiguous).
+
+Branch expansion, by contrast, is **uncontrolled** — the component owns which branches are open,
+because expansion has no effect outside the list.
+
+## Flat Lists
+
+<Canvas of={FilterOptionsList.Flat} />
+
+## Hierarchical Lists
+Nested `options` are rendered nested and indented, to any depth. Rows with children get a
+collapse toggle.
+
+<Canvas of={FilterOptionsList.Default} />
+
+## Visual and Mixed Rows
+An option renders as a swatch row when it carries a complete `visual` (both `type` and `value`),
+and as a plain row otherwise. The two mix freely, at any depth.
+
+<Canvas of={FilterOptionsList.MixedVisualAndPlain} />
+
+## Collapsing Branches
+`defaultCollapsed` sets the starting state for the whole list. A branch containing a checked
+option auto-expands even then, so an applied filter is never hidden.
+
+<Canvas of={FilterOptionsList.CollapsedByDefault} />
+
+Per-row `collapsible` and `defaultCollapsed` override the list-level defaults, so one tree can
+mix a branch pinned open, a branch that starts closed, and a branch following the list default.
+
+<Canvas of={FilterOptionsList.PerRowCollapseControl} />
+
+Set `collapsible={false}` to opt out of toggles entirely.
+
+<Canvas of={FilterOptionsList.NonCollapsibleHierarchies} />
+
+## Radio Selection
+`selectionType` and `groupName` are **list-level**: every row at every depth joins one named
+group. Single-select is a property of the facet, not of its individual options, which is why
+these live on the list rather than on each option.
+
+`groupName` sets the inputs' `name` attribute — it does **not** make the selection exclusive.
+Selection is controlled through each option's `isChecked`, and the inputs are visually hidden, so
+the browser's "one radio per `name`" behavior never runs. Clearing the previously selected row is
+your `onChange` handler's job: for a single-select facet, replace the selection rather than
+toggling it into a set.
+
+```tsx
+const [selected, setSelected] = useState<string>();
+
+<FilterOptionsList
+  options={withChecked(options, selected)} // sets isChecked on the one selected row
+  selectionType='radio'
+  groupName='category'
+  onChange={(value) => setSelected(value)} // replaces, rather than toggling into a set
+/>;
+```
+
+<Canvas of={FilterOptionsList.RadioSelection} />
+
+## End Content
+Each option can carry `endContent`, rendered after its count on plain and visual rows alike.
+
+<Canvas of={FilterOptionsList.WithEndContent} />
+
+## Enabling Component Overrides
+`componentOverrides` works at three levels: the whole list, every row, or one specific row.
+
+### Overriding the whole list
+A list-level `reactNode` replaces the default `<ul>` wholesale. The render-prop form receives the
+list's props, so you can render your own layout from the same data.
+
+<Canvas of={FilterOptionsList.ListOverrideExample} />
+
+### Overriding every row
+`filterOption` as an object applies to every row at every depth.
+
+<Canvas of={FilterOptionsList.AllOptionsOverrideExample} />
+
+### Overriding one row
+`filterOption` as a function is called per option — return overrides for the rows you want and
+`undefined` for the rest.
+
+Note that a row-level `reactNode` replaces the whole `<li>`, which is where a row's nested list
+lives. Use the render-prop form and re-emit `{props.children}` to keep the branch beneath it; a
+static `reactNode` has nowhere to receive children and renders without them.
+
+<Canvas of={FilterOptionsList.SingleOptionOverrideExample} />
+
+### Overriding inner parts of a row
+`filterOption` also carries the row's inner-part keys — `indicator`, `name`, `count`, and `chip`
+on swatch rows. These replace one part and leave the rest of the row intact, including its
+nested list and hierarchy toggle, so they need no `children` bookkeeping.
+
+`indicator`, `name` and `count` receive the row's props. `chip` forwards to `Chip`, so it receives
+the chip's own `type`, `value` and `name` — use the function form of `filterOption` when a swatch
+override needs the row, since the option is its argument. A `name` replacement owns its own `grow`,
+or the count stops sitting at the right edge of the row.
+
+<Canvas of={FilterOptionsList.InnerPartsOverrideExample} />
+
+`chip` targets the swatch on visual rows; plain rows ignore it.
+
+<Canvas of={FilterOptionsList.SwatchOverrideExample} />
+
+## Unique Ids
+Every option's `id` must be unique across the whole document: `FilterOption` uses it for the
+`<input id>` / `<label htmlFor>` pair, and a row with nested `options` derives `<id>-hierarchy`
+for its toggle's `aria-controls` target. A page rendering several lists is responsible for
+namespacing them, and the `-hierarchy` suffix is reserved.

@@ -1,5 +1,6 @@
 import { RenderPropsChildren } from '@/types';
 import React, { ReactNode } from 'react';
+import { resolveOverride } from './resolveOverride';
 
 export interface ReactPropsWrapperProps<T> {
   /**
@@ -21,17 +22,5 @@ export default function RenderPropsWrapper<T>({
   children,
   props,
 }: ReactPropsWrapperProps<T>) {
-  const isRenderProps = typeof override === 'function';
-  const isJSX = typeof override === 'object';
-
-  return (
-    <>
-      {isRenderProps
-        ? override(props)
-        : isJSX
-          ? override
-          : // Default implementation
-            children}
-    </>
-  );
+  return <>{resolveOverride(override, props, children)}</>;
 }

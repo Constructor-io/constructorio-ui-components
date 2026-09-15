@@ -1,9 +1,19 @@
 import React from 'react';
 import { cn } from '@/utils';
-import Chip from '@/components/chip';
-import FilterOption, { type FilterOptionProps } from '@/components/filter-option';
+import { IncludeComponentOverrides } from '@/types';
+import Chip, { type ChipOverrides } from '@/components/chip';
+import FilterOption, {
+  type FilterOptionProps,
+  type FilterOptionOverrides,
+} from '@/components/filter-option';
 
-export interface FilterOptionVisualProps extends Omit<FilterOptionProps, 'startContent'> {
+export type FilterOptionVisualOverrides = FilterOptionOverrides & {
+  chip?: ChipOverrides;
+};
+
+export interface FilterOptionVisualProps
+  extends Omit<FilterOptionProps, 'startContent' | 'componentOverrides'>,
+    IncludeComponentOverrides<FilterOptionVisualOverrides> {
   /** Type of visual - 'color' for hex colors, 'image' for image URLs */
   visualType: 'color' | 'image';
   /** The visual value - hex color code or image URL */
@@ -16,9 +26,12 @@ export default function FilterOptionVisual({
   visualType,
   visualValue,
   displayValue,
+  componentOverrides,
   children,
   ...props
 }: FilterOptionVisualProps) {
+  const { chip: chipOverrides, ...filterOptionOverrides } = componentOverrides ?? {};
+
   return (
     <FilterOption
       {...props}
@@ -26,12 +39,14 @@ export default function FilterOptionVisual({
       displayValue={displayValue}
       className={cn('cio-visual-filter-option', className)}
       data-slot='visual-filter-option'
+      componentOverrides={filterOptionOverrides}
       startContent={
         <Chip
           type={visualType}
           value={visualValue}
           name={displayValue}
           className='cio-filter-visual-swatch cio:mr-2 cio:shrink-0'
+          componentOverrides={chipOverrides}
         />
       }>
       {children}

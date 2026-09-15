@@ -97,6 +97,153 @@ describe('FilterOptionVisual component', () => {
       expect(screen.getByTestId('custom-override')).toBeInTheDocument();
       expect(screen.getByText('Custom Visual Option')).toBeInTheDocument();
     });
+
+    test('chip override replaces the swatch', () => {
+      render(
+        <FilterOptionVisual
+          id='test-1'
+          optionValue='red'
+          displayValue='Red'
+          visualType='color'
+          visualValue='#FF0000'
+          componentOverrides={{
+            chip: { reactNode: <span data-testid='custom-chip'>swatch</span> },
+          }}
+          onChange={() => {}}
+        />,
+      );
+      expect(screen.getByTestId('custom-chip')).toBeInTheDocument();
+      expect(document.querySelector('.cio-filter-visual-swatch')).not.toBeInTheDocument();
+      // The rest of the row survives.
+      expect(screen.getByText('Red')).toBeInTheDocument();
+      expect(screen.getByRole('checkbox')).toBeInTheDocument();
+    });
+
+    test('chip override render-prop function receives the chip props', () => {
+      render(
+        <FilterOptionVisual
+          id='test-1'
+          optionValue='red'
+          displayValue='Red'
+          visualType='color'
+          visualValue='#FF0000'
+          componentOverrides={{
+            chip: {
+              reactNode: (props) => (
+                <span data-testid='custom-chip'>
+                  {props.type}/{props.value}/{props.name}
+                </span>
+              ),
+            },
+          }}
+          onChange={() => {}}
+        />,
+      );
+      // `chip` forwards to `Chip`, so it sees the chip's props - not the row's. Every other key
+      // sees the row's; this is the one asymmetry on the type, and it is documented there.
+      expect(screen.getByTestId('custom-chip')).toHaveTextContent('color/#FF0000/Red');
+    });
+
+    test('inherited keys receive the row props, unlike chip', () => {
+      render(
+        <FilterOptionVisual
+          id='test-1'
+          optionValue='red'
+          displayValue='Red'
+          displayCountValue='646'
+          isChecked
+          visualType='color'
+          visualValue='#FF0000'
+          componentOverrides={{
+            name: {
+              reactNode: (props) => (
+                <span data-testid='custom-name'>
+                  {props.displayValue}/{props.optionValue}/{String(props.isChecked)}
+                </span>
+              ),
+            },
+          }}
+          onChange={() => {}}
+        />,
+      );
+      expect(screen.getByTestId('custom-name')).toHaveTextContent('Red/red/true');
+    });
+
+    test('inherited inner overrides still reach FilterOption', () => {
+      render(
+        <FilterOptionVisual
+          id='test-1'
+          optionValue='red'
+          displayValue='Red'
+          displayCountValue='646'
+          visualType='color'
+          visualValue='#FF0000'
+          componentOverrides={{
+            indicator: { reactNode: <span data-testid='custom-indicator'>[x]</span> },
+            name: { reactNode: <span data-testid='custom-name'>Name</span> },
+            count: { reactNode: <span data-testid='custom-count'>Count</span> },
+          }}
+          onChange={() => {}}
+        />,
+      );
+      expect(screen.getByTestId('custom-indicator')).toBeInTheDocument();
+      expect(screen.getByTestId('custom-name')).toBeInTheDocument();
+      expect(screen.getByTestId('custom-count')).toBeInTheDocument();
+      // The swatch is untouched by the inherited keys.
+      expect(document.querySelector('.cio-filter-visual-swatch')).toBeInTheDocument();
+    });
+
+    test('chip and inherited overrides compose', () => {
+      render(
+        <FilterOptionVisual
+          id='test-1'
+          optionValue='red'
+          displayValue='Red'
+          visualType='color'
+          visualValue='#FF0000'
+          componentOverrides={{
+            chip: { reactNode: <span data-testid='custom-chip'>swatch</span> },
+            name: { reactNode: <span data-testid='custom-name'>Name</span> },
+          }}
+          onChange={() => {}}
+        />,
+      );
+      expect(screen.getByTestId('custom-chip')).toBeInTheDocument();
+      expect(screen.getByTestId('custom-name')).toBeInTheDocument();
+    });
+
+    test('componentOverrides is not forwarded to the DOM', () => {
+      render(
+        <FilterOptionVisual
+          id='test-1'
+          optionValue='red'
+          displayValue='Red'
+          visualType='color'
+          visualValue='#FF0000'
+          componentOverrides={{
+            chip: { reactNode: <span data-testid='custom-chip'>swatch</span> },
+          }}
+          onChange={() => {}}
+        />,
+      );
+      expect(screen.getByRole('listitem')).not.toHaveAttribute('componentoverrides');
+    });
+
+    test('endContent renders on a visual row', () => {
+      render(
+        <FilterOptionVisual
+          id='test-1'
+          optionValue='red'
+          displayValue='Red'
+          visualType='color'
+          visualValue='#FF0000'
+          endContent={<span data-testid='end-content'>›</span>}
+          onChange={() => {}}
+        />,
+      );
+      const display = document.querySelector('.cio-filter-multiple-option-display');
+      expect(display?.lastElementChild).toHaveAttribute('data-testid', 'end-content');
+    });
   });
 
   describe('CSS classes', () => {

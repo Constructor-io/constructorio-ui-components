@@ -1,8 +1,16 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import React from 'react';
 import FilterOptionsList, {
   type FilterOptionData,
   type FilterOptionsListOverrides,
+  type FilterOptionsListProps,
 } from '../../../components/filter-options-list';
+import {
+  COUNT_BADGE_STYLE,
+  END_CONTENT_CHEVRON_STYLE,
+  END_CONTENT_PILL_STYLE,
+  OVERRIDE_SWATCH_STYLE,
+} from '../../constants';
 
 const meta = {
   title: 'Components/FilterOptionsList',
@@ -381,4 +389,144 @@ export const SingleOptionOverrideExample: Story = {
   },
   name: 'Override a specific option (keeps nesting)',
   tags: ['!autodocs', '!dev'],
+};
+
+// --- 4. Override inner parts of every row -----------------------------------------------
+// `filterOption` also carries the row's *inner-part* keys — `indicator`, `name`, `count` and,
+// on swatch rows, `chip`. Unlike a row-level `reactNode`, these replace one part and leave the
+// rest of the row — including its nested list and hierarchy toggle — intact.
+const innerPartsOverride: FilterOptionsListOverrides = {
+  filterOption: {
+    count: {
+      reactNode: (props) => (
+        <span style={{ ...COUNT_BADGE_STYLE, background: '#eef2ff', color: '#4338ca' }}>
+          {props.displayCountValue}
+        </span>
+      ),
+    },
+  },
+};
+
+export const InnerPartsOverrideExample: Story = {
+  args: {
+    options: hierarchicalOptions,
+    componentOverrides: innerPartsOverride,
+  },
+  name: 'Override inner parts of every row (keeps nesting)',
+  tags: ['!autodocs', '!dev'],
+};
+
+// The `chip` key targets the swatch on visual rows; plain rows ignore it.
+const swatchOverride: FilterOptionsListOverrides = {
+  filterOption: {
+    chip: {
+      reactNode: (props) => (
+        <span
+          aria-label={props?.name}
+          role='img'
+          style={{ ...OVERRIDE_SWATCH_STYLE, background: props?.value }}
+        />
+      ),
+    },
+  },
+};
+
+export const SwatchOverrideExample: Story = {
+  args: {
+    options: visualOptions,
+    componentOverrides: swatchOverride,
+  },
+  name: 'Override the swatch on visual rows',
+  tags: ['!autodocs', '!dev'],
+};
+
+// --- Radio selection ---------------------------------------------------------------------
+// `selectionType` and `groupName` are list-level: every row at every depth joins one radio
+// group, so selecting a row clears its siblings. That matches HTML `name=` grouping — a
+// single-select facet is a property of the facet, not of its individual options.
+
+/**
+ * Rebuilds a tree with `isChecked` true on exactly the row matching `selected`, at any depth.
+ *
+ * A single-select facet has to be driven this way. `groupName` only names the group - selection
+ * is controlled through `isChecked`, and the inputs are visually hidden, so the browser's "one
+ * radio per name" behavior never runs. Passing a fixture with two rows already checked would
+ * render a state the data says is impossible, which is the trap this helper exists to avoid.
+ */
+function withSelection(options: FilterOptionData[], selected?: string): FilterOptionData[] {
+  return options.map((option) => ({
+    ...option,
+    isChecked: option.optionValue === selected,
+    ...(option.options ? { options: withSelection(option.options, selected) } : {}),
+  }));
+}
+
+/** Holds the one selected value, so `onChange` replaces the selection rather than toggling it. */
+function SingleSelectList({ options, ...props }: FilterOptionsListProps) {
+  const [selected, setSelected] = React.useState<string>();
+
+  return (
+    <FilterOptionsList
+      {...props}
+      options={withSelection(options, selected)}
+      onChange={(value) => setSelected(value)}
+    />
+  );
+}
+
+export const RadioSelection: Story = {
+  args: {
+    options: hierarchicalOptions,
+    selectionType: 'radio',
+    groupName: 'category',
+  },
+  render: (args) => <SingleSelectList {...args} />,
+  name: 'Radio selection (single select)',
+};
+
+export const RadioVisualSelection: Story = {
+  args: {
+    options: visualOptions,
+    selectionType: 'radio',
+    groupName: 'color',
+    checkboxPosition: 'left',
+  },
+  render: (args) => <SingleSelectList {...args} />,
+  name: 'Radio selection with swatches',
+};
+
+// --- endContent --------------------------------------------------------------------------
+// Each option can carry trailing content, rendered after its count on plain and visual rows
+// alike.
+const endContentOptions: FilterOptionData[] = [
+  {
+    id: 'ec-sale',
+    optionValue: 'sale',
+    displayValue: 'On Sale',
+    displayCountValue: '128',
+    endContent: <span style={END_CONTENT_PILL_STYLE}>NEW</span>,
+  },
+  {
+    id: 'ec-clearance',
+    optionValue: 'clearance',
+    displayValue: 'Clearance',
+    displayCountValue: '46',
+    endContent: <span style={END_CONTENT_CHEVRON_STYLE}>›</span>,
+  },
+  {
+    id: 'ec-red',
+    optionValue: 'red',
+    displayValue: 'Red',
+    displayCountValue: '646',
+    visual: { type: 'color', value: '#EF4444' },
+    endContent: <span style={END_CONTENT_CHEVRON_STYLE}>›</span>,
+  },
+];
+
+export const WithEndContent: Story = {
+  args: {
+    options: endContentOptions,
+    checkboxPosition: 'left',
+  },
+  name: 'With End Content',
 };

@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import FilterOptionVisual from '../../../components/filter-option--visual';
+import { COUNT_BADGE_STYLE, OVERRIDE_NAME_STYLE, OVERRIDE_SWATCH_STYLE } from '../../constants';
 
 const meta = {
   title: 'Components/FilterOptionVisual',
@@ -312,5 +313,62 @@ export const ComponentOverrideExample: Story = {
     componentOverrides: componentOverrides.filterOptionVisual,
   },
   name: 'componentOverride Example',
+  tags: ['!autodocs', '!dev'],
+};
+
+// --- Inner-part componentOverrides ---
+// `FilterOptionVisual` accepts every `FilterOption` override key, plus `chip` for the swatch
+// it adds of its own.
+
+// `chip` forwards to `Chip`, so its render props are the chip's own (`type`, `value`, `name`).
+export const ChipOverrideExample: Story = {
+  args: {
+    id: 'chip-override',
+    optionValue: 'gradient',
+    displayValue: 'Gradient',
+    displayCountValue: '64',
+    visualType: 'color',
+    visualValue: '#FF0000',
+    componentOverrides: {
+      chip: {
+        reactNode: (props) => (
+          <span
+            aria-label={props?.name}
+            role='img'
+            style={{
+              ...OVERRIDE_SWATCH_STYLE,
+              background: `linear-gradient(45deg, ${props?.value}, #0000ff)`,
+            }}
+          />
+        ),
+      },
+    },
+  },
+  name: 'Override the swatch',
+  tags: ['!autodocs', '!dev'],
+};
+
+export const InheritedOverridesExample: Story = {
+  args: {
+    id: 'inherited-override',
+    optionValue: 'red',
+    displayValue: 'Red',
+    displayCountValue: '646',
+    visualType: 'color',
+    visualValue: '#EF4444',
+    componentOverrides: {
+      name: {
+        reactNode: (props) => (
+          <span style={{ ...OVERRIDE_NAME_STYLE, textTransform: 'uppercase' }}>
+            {props.displayValue}
+          </span>
+        ),
+      },
+      count: {
+        reactNode: (props) => <span style={COUNT_BADGE_STYLE}>{props.displayCountValue}</span>,
+      },
+    },
+  },
+  name: 'Override inherited inner parts (swatch untouched)',
   tags: ['!autodocs', '!dev'],
 };

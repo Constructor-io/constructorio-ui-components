@@ -1,0 +1,98 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import * as FilterOption from './FilterOption.stories';
+
+<Meta of={FilterOption} name="Usage Patterns" />
+
+# Usage Examples
+
+`FilterOption` renders a single, fully controlled filter row: selection comes in via `isChecked`
+and changes flow out via `onChange`. It renders an `<li>`, so it belongs inside a list — either
+your own `<ul>` or a `FilterOptionsList`.
+
+## Basic Usage
+Each option needs a unique `id` — it drives the `<input id>` / `<label htmlFor>` pairing, so
+duplicate ids across a page break label association.
+
+<Canvas of={FilterOption.Default} />
+
+## Indicator Position
+`checkboxPosition` accepts `left` (default), `right`, or `none`. With `none` the row is still
+fully clickable — only the indicator is hidden.
+
+<Canvas of={FilterOption.WithoutCheckbox} />
+
+## Radio Selection
+Opt into single-select facets with `selectionType='radio'`, and give every row of the facet the
+same `groupName` so the inputs form one named group in the form data and in assistive technology.
+
+`groupName` does **not** make the selection exclusive. The row is fully controlled through
+`isChecked` and its input is visually hidden, so the browser's "one radio per `name`" behavior
+never runs — clearing the previously selected row is your `onChange` handler's job. For a
+single-select facet, replace the selection rather than toggling it into a set:
+
+```tsx
+const [selected, setSelected] = useState<string>();
+
+<FilterOption
+  selectionType='radio'
+  groupName='size'
+  isChecked={selected === 'small'}
+  onChange={setSelected} // replaces, rather than toggling into a set
+  {...rest}
+/>;
+```
+
+<Canvas of={FilterOption.RadioList} />
+
+## Start and End Content
+`startContent` renders before the display value, `endContent` after the count. Neither is
+wrapped or given spacing by the component, so the caller owns its own margin.
+
+<Canvas of={FilterOption.WithStartAndEndContent} />
+
+## Enabling Top-Level Overrides
+To enable top-level overrides, we should pass down the props `componentOverrides`. The top-level
+`reactNode` replaces the entire `<li>`.
+
+<Canvas of={FilterOption.ComponentOverrideExample} />
+
+## Enabling Component Overrides
+Replacing the whole row is often more than you need. `componentOverrides` also accepts keys for
+the row's inner parts, each replacing one part and leaving the rest — including the
+`<label>`/`<input>` pairing and the click behavior — intact.
+
+| Key | Replaces |
+| -- | -- |
+| `reactNode` | the whole `<li>` |
+| `indicator` | the checkbox **or** radio indicator |
+| `name` | the display-value `<span>` |
+| `count` | the count `<span>` |
+
+Each key takes either fixed JSX or a render-prop function receiving the row's props.
+
+### Overriding the indicator
+One key covers both selection types. A consumer overriding it owns its own checked styling — the
+default indicator is driven by CSS (`group-has-[input:checked]`), not by React state.
+
+<Canvas of={FilterOption.IndicatorOverrideExample} />
+
+### Overriding the name
+The default name element carries `grow`, which is what pushes the count to the right edge of the
+row. A replacement owns its own growth — without it, name and count sit together on the left.
+
+<Canvas of={FilterOption.NameOverrideExample} />
+
+### Overriding the count
+A `count` override never renders on a row without a `displayCountValue`, so an override can't
+create a count where there is no value to show.
+
+<Canvas of={FilterOption.CountOverrideExample} />
+
+### Combining inner overrides
+Inner keys compose freely. A top-level `reactNode` wins over all of them.
+
+<Canvas of={FilterOption.MultipleInnerOverridesExample} />
+
+## Passing Data-Attributes
+Data attributes can be passed down by simply setting those attributes on the `FilterOption`
+component; they land on the rendered `<li>`.

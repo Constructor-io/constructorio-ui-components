@@ -1,0 +1,39 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import * as Chip from './Chip.stories';
+
+<Meta of={Chip} name="Usage Patterns" />
+
+# Usage Examples
+
+`Chip` is a presentational swatch. It renders a color circle or a circular image and takes no
+children. `FilterOptionVisual` uses it internally for its swatch.
+
+## Color Swatches
+Pass `type='color'` with a hex code as the `value`.
+
+<Canvas of={Chip.Color} />
+
+## Image Swatches
+Pass `type='image'` with a URL as the `value`. If the image fails to load, the chip falls back to
+a neutral circle so a broken URL never breaks row alignment.
+
+<Canvas of={Chip.Image} />
+
+## Sizes
+Three sizes are available via the `size` prop. `md` is the default.
+
+<Canvas of={Chip.SizeComparison} />
+
+## Graceful Fallback
+A missing or empty `value` renders an empty circle rather than nothing, so options stay aligned.
+
+<Canvas of={Chip.EmptyFallback} />
+
+## Accessibility
+`name` is required and drives both the `aria-label` on color chips and the `alt` text on image
+chips. Pass the human-readable option name, not the raw value.
+
+## Enabling Top-Level Overrides
+To enable top-level overrides, we should pass down the props `componentOverrides`.
+
+<Canvas of={Chip.ComponentOverrideExample} />

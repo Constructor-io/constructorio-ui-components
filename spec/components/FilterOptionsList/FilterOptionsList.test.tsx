@@ -836,6 +836,359 @@ describe('FilterOptionsList component', () => {
     });
   });
 
+  describe('inner-part overrides', () => {
+    // A nested fixture whose rows are all swatch rows, so `chip` has a target at every depth.
+    const nestedVisualOptions: FilterOptionData[] = [
+      {
+        id: 'v0',
+        optionValue: 'v0',
+        displayValue: 'Parent swatch',
+        visual: { type: 'color', value: '#FF0000' },
+        options: [
+          {
+            id: 'v1',
+            optionValue: 'v1',
+            displayValue: 'Child swatch',
+            visual: { type: 'color', value: '#00FF00' },
+          },
+        ],
+      },
+    ];
+
+    test('filterOption.chip reaches swatch rows at every depth', () => {
+      render(
+        <FilterOptionsList
+          options={nestedVisualOptions}
+          componentOverrides={{
+            filterOption: { chip: { reactNode: <span data-testid='custom-chip'>swatch</span> } },
+          }}
+          onChange={() => {}}
+        />,
+      );
+      expect(screen.getAllByTestId('custom-chip')).toHaveLength(2);
+      expect(document.querySelectorAll('.cio-filter-visual-swatch')).toHaveLength(0);
+      // Rows and nesting survive.
+      expect(screen.getByText('Parent swatch')).toBeInTheDocument();
+      expect(screen.getByText('Child swatch')).toBeInTheDocument();
+    });
+
+    test('filterOption.name and .count reach nested rows', () => {
+      render(
+        <FilterOptionsList
+          options={nestedOptions}
+          componentOverrides={{
+            filterOption: {
+              name: {
+                reactNode: (props) => <span data-testid='custom-name'>{props?.displayValue}</span>,
+              },
+              count: { reactNode: <span data-testid='custom-count'>n</span> },
+            },
+          }}
+          onChange={() => {}}
+        />,
+      );
+      // All three depths get the name override.
+      expect(screen.getAllByTestId('custom-name')).toHaveLength(3);
+      // Only the row carrying a count renders the count override.
+      expect(screen.getAllByTestId('custom-count')).toHaveLength(1);
+      expect(screen.queryByText('100')).not.toBeInTheDocument();
+    });
+
+    test('filterOption.indicator reaches nested rows', () => {
+      render(
+        <FilterOptionsList
+          options={nestedOptions}
+          componentOverrides={{
+            filterOption: {
+              indicator: { reactNode: <span data-testid='custom-indicator'>[x]</span> },
+            },
+          }}
+          onChange={() => {}}
+        />,
+      );
+      expect(screen.getAllByTestId('custom-indicator')).toHaveLength(3);
+      expect(document.querySelectorAll('.cio-checkbox')).toHaveLength(0);
+    });
+
+    test('inner overrides preserve nesting and the hierarchy toggle', () => {
+      render(
+        <FilterOptionsList
+          options={nestedOptions}
+          componentOverrides={{
+            filterOption: { name: { reactNode: <span data-testid='custom-name'>Name</span> } },
+          }}
+          onChange={() => {}}
+        />,
+      );
+      // Nested lists are untouched by a part-level override, unlike a root reactNode.
+      expect(screen.getAllByRole('list')).toHaveLength(3);
+      expect(screen.getAllByRole('button', { name: /Collapse/ }).length).toBeGreaterThan(0);
+    });
+
+    test('per-option override function can target inner parts of one row', () => {
+      render(
+        <FilterOptionsList
+          options={nestedOptions}
+          componentOverrides={{
+            filterOption: (option) =>
+              option.id === 'l1'
+                ? { name: { reactNode: <span data-testid='custom-name'>Only L1</span> } }
+                : undefined,
+          }}
+          onChange={() => {}}
+        />,
+      );
+      expect(screen.getAllByTestId('custom-name')).toHaveLength(1);
+      expect(screen.getByTestId('custom-name')).toHaveTextContent('Only L1');
+      // Untargeted rows keep their default names.
+      expect(screen.getByText('Level 0')).toBeInTheDocument();
+      expect(screen.getByText('Level 2')).toBeInTheDocument();
+      expect(screen.queryByText('Level 1')).not.toBeInTheDocument();
+    });
+
+    test('row overrides receive the row props, while chip receives the chip props', () => {
+      const options: FilterOptionData[] = [
+        {
+          id: 'v',
+          optionValue: 'red',
+          displayValue: 'Red',
+          displayCountValue: '646',
+          visual: { type: 'color', value: '#FF0000' },
+        },
+      ];
+
+      render(
+        <FilterOptionsList
+          options={options}
+          componentOverrides={{
+            filterOption: {
+              chip: {
+                reactNode: (props) => (
+                  <span data-testid='chip'>
+                    {props.type}/{props.value}/{props.name}
+                  </span>
+                ),
+              },
+              name: {
+                reactNode: (props) => (
+                  <span data-testid='name'>
+                    {props.displayValue}/{props.optionValue}
+                  </span>
+                ),
+              },
+              count: {
+                reactNode: (props) => <span data-testid='count'>{props.displayCountValue}</span>,
+              },
+            },
+          }}
+          onChange={() => {}}
+        />,
+      );
+
+      // `chip` forwards to `Chip` and so sees the chip's props; every other key sees the row's.
+      expect(screen.getByTestId('chip')).toHaveTextContent('color/#FF0000/Red');
+      expect(screen.getByTestId('name')).toHaveTextContent('Red/red');
+      expect(screen.getByTestId('count')).toHaveTextContent('646');
+    });
+
+    test('a nested swatch row gets its own value in the chip override', () => {
+      const options: FilterOptionData[] = [
+        {
+          id: 'p',
+          optionValue: 'p',
+          displayValue: 'Parent',
+          visual: { type: 'color', value: '#FF0000' },
+          options: [
+            {
+              id: 'c',
+              optionValue: 'c',
+              displayValue: 'Child',
+              visual: { type: 'color', value: '#00FF00' },
+            },
+          ],
+        },
+      ];
+      render(
+        <FilterOptionsList
+          options={options}
+          componentOverrides={{
+            filterOption: {
+              chip: {
+                reactNode: (props) => <span data-testid={`chip-${props.name}`}>{props.value}</span>,
+              },
+            },
+          }}
+          onChange={() => {}}
+        />,
+      );
+      expect(screen.getByTestId('chip-Parent')).toHaveTextContent('#FF0000');
+      expect(screen.getByTestId('chip-Child')).toHaveTextContent('#00FF00');
+    });
+
+    test('the option itself is in scope for a per-row override function', () => {
+      const options: FilterOptionData[] = [
+        {
+          id: 'v',
+          optionValue: 'red',
+          displayValue: 'Red',
+          visual: { type: 'color', value: '#FF0000' },
+        },
+      ];
+      render(
+        <FilterOptionsList
+          options={options}
+          // The function form is how a swatch override reaches the row's own data - the option is
+          // the argument, so `visual` is in scope without the chip props carrying it.
+          componentOverrides={{
+            filterOption: (option) => ({
+              chip: {
+                reactNode: (
+                  <span data-testid='custom-chip'>
+                    {option.displayValue}:{option.visual?.value}
+                  </span>
+                ),
+              },
+            }),
+          }}
+          onChange={() => {}}
+        />,
+      );
+      expect(screen.getByTestId('custom-chip')).toHaveTextContent('Red:#FF0000');
+    });
+
+    test('a chip override on a plain row is inert', () => {
+      render(
+        <FilterOptionsList
+          options={flatOptions}
+          componentOverrides={{
+            filterOption: { chip: { reactNode: <span data-testid='custom-chip'>swatch</span> } },
+          }}
+          onChange={() => {}}
+        />,
+      );
+      expect(screen.queryByTestId('custom-chip')).not.toBeInTheDocument();
+      expect(screen.getByText('Alpha')).toBeInTheDocument();
+    });
+  });
+
+  describe('selectionType and groupName', () => {
+    test('renders checkbox inputs by default', () => {
+      render(<FilterOptionsList options={nestedOptions} onChange={() => {}} />);
+      expect(screen.getAllByRole('checkbox')).toHaveLength(3);
+      expect(screen.queryAllByRole('radio')).toHaveLength(0);
+    });
+
+    test('selectionType radio renders radio inputs at every depth', () => {
+      render(
+        <FilterOptionsList options={nestedOptions} selectionType='radio' onChange={() => {}} />,
+      );
+      expect(screen.getAllByRole('radio')).toHaveLength(3);
+      expect(screen.queryAllByRole('checkbox')).toHaveLength(0);
+      expect(document.querySelectorAll('.cio-radio')).toHaveLength(3);
+    });
+
+    test('groupName is shared by every row across depths, forming one radio group', () => {
+      render(
+        <FilterOptionsList
+          options={nestedOptions}
+          selectionType='radio'
+          groupName='category'
+          onChange={() => {}}
+        />,
+      );
+      const radios = screen.getAllByRole('radio');
+      expect(radios).toHaveLength(3);
+      radios.forEach((radio) => expect(radio).toHaveAttribute('name', 'category'));
+    });
+
+    test('radio rows still report selection through onChange', () => {
+      const handleChange = vi.fn();
+      render(
+        <FilterOptionsList
+          options={nestedOptions}
+          selectionType='radio'
+          groupName='category'
+          onChange={handleChange}
+        />,
+      );
+      fireEvent.click(screen.getByText('Level 2'));
+      expect(handleChange).toHaveBeenCalledWith('level-2', expect.objectContaining({ id: 'l2' }));
+    });
+
+    test('radio mode applies to visual rows too', () => {
+      const visualOptions: FilterOptionData[] = [
+        {
+          id: 'r',
+          optionValue: 'r',
+          displayValue: 'Red',
+          visual: { type: 'color', value: '#FF0000' },
+        },
+      ];
+      render(
+        <FilterOptionsList
+          options={visualOptions}
+          selectionType='radio'
+          groupName='color'
+          onChange={() => {}}
+        />,
+      );
+      expect(screen.getByRole('radio')).toHaveAttribute('name', 'color');
+    });
+  });
+
+  describe('endContent', () => {
+    test('renders per-row endContent on a plain row', () => {
+      const options: FilterOptionData[] = [
+        {
+          id: 'a',
+          optionValue: 'a',
+          displayValue: 'Alpha',
+          endContent: <span data-testid='end-content'>›</span>,
+        },
+      ];
+      render(<FilterOptionsList options={options} onChange={() => {}} />);
+      const display = document.querySelector('.cio-filter-multiple-option-display');
+      expect(display?.lastElementChild).toHaveAttribute('data-testid', 'end-content');
+    });
+
+    test('renders per-row endContent on a visual row', () => {
+      const options: FilterOptionData[] = [
+        {
+          id: 'r',
+          optionValue: 'r',
+          displayValue: 'Red',
+          visual: { type: 'color', value: '#FF0000' },
+          endContent: <span data-testid='end-content'>›</span>,
+        },
+      ];
+      render(<FilterOptionsList options={options} onChange={() => {}} />);
+      const display = document.querySelector('.cio-filter-multiple-option-display');
+      expect(display?.lastElementChild).toHaveAttribute('data-testid', 'end-content');
+      // The swatch still leads the row.
+      expect(display?.firstElementChild?.classList.contains('cio-filter-visual-swatch')).toBe(true);
+    });
+
+    test('renders endContent on nested rows', () => {
+      const options: FilterOptionData[] = [
+        {
+          id: 'p',
+          optionValue: 'p',
+          displayValue: 'Parent',
+          options: [
+            {
+              id: 'c',
+              optionValue: 'c',
+              displayValue: 'Child',
+              endContent: <span data-testid='end-content'>›</span>,
+            },
+          ],
+        },
+      ];
+      render(<FilterOptionsList options={options} onChange={() => {}} />);
+      expect(screen.getByTestId('end-content')).toBeInTheDocument();
+    });
+  });
+
   describe('empty nested options guard', () => {
     test('a node with an empty options array renders as a plain leaf row', () => {
       const options: FilterOptionData[] = [

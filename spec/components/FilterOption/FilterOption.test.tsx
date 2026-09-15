@@ -355,6 +355,244 @@ describe('FilterOption component', () => {
     });
   });
 
+  describe('endContent prop', () => {
+    test('renders endContent', () => {
+      render(
+        <FilterOption
+          id='test-1'
+          optionValue='red'
+          displayValue='Red'
+          endContent={<span data-testid='end-content'>›</span>}
+          onChange={() => {}}
+        />,
+      );
+      expect(screen.getByTestId('end-content')).toBeInTheDocument();
+    });
+
+    test('endContent renders after the count', () => {
+      render(
+        <FilterOption
+          id='test-1'
+          optionValue='red'
+          displayValue='Red'
+          displayCountValue='1572'
+          endContent={<span data-testid='end-content'>›</span>}
+          onChange={() => {}}
+        />,
+      );
+      const display = document.querySelector('.cio-filter-multiple-option-display');
+      expect(display?.lastElementChild).toHaveAttribute('data-testid', 'end-content');
+    });
+
+    test('renders both startContent and endContent', () => {
+      render(
+        <FilterOption
+          id='test-1'
+          optionValue='red'
+          displayValue='Red'
+          startContent={<span data-testid='start-content'>★</span>}
+          endContent={<span data-testid='end-content'>›</span>}
+          onChange={() => {}}
+        />,
+      );
+      const display = document.querySelector('.cio-filter-multiple-option-display');
+      expect(display?.firstElementChild).toHaveAttribute('data-testid', 'start-content');
+      expect(display?.lastElementChild).toHaveAttribute('data-testid', 'end-content');
+    });
+  });
+
+  describe('componentOverrides - inner parts', () => {
+    test('indicator override replaces the checkbox indicator', () => {
+      render(
+        <FilterOption
+          id='test-1'
+          optionValue='red'
+          displayValue='Red'
+          componentOverrides={{
+            indicator: { reactNode: <span data-testid='custom-indicator'>[x]</span> },
+          }}
+          onChange={() => {}}
+        />,
+      );
+      expect(screen.getByTestId('custom-indicator')).toBeInTheDocument();
+      expect(document.querySelector('.cio-checkbox')).not.toBeInTheDocument();
+      // The rest of the row survives.
+      expect(screen.getByText('Red')).toBeInTheDocument();
+      expect(screen.getByRole('checkbox')).toBeInTheDocument();
+    });
+
+    test('indicator override applies in radio mode too', () => {
+      render(
+        <FilterOption
+          id='test-1'
+          optionValue='red'
+          displayValue='Red'
+          selectionType='radio'
+          componentOverrides={{
+            indicator: { reactNode: <span data-testid='custom-indicator'>(o)</span> },
+          }}
+          onChange={() => {}}
+        />,
+      );
+      expect(screen.getByTestId('custom-indicator')).toBeInTheDocument();
+      expect(document.querySelector('.cio-radio')).not.toBeInTheDocument();
+      expect(screen.getByRole('radio')).toBeInTheDocument();
+    });
+
+    test('indicator override is not rendered when checkboxPosition is none', () => {
+      render(
+        <FilterOption
+          id='test-1'
+          optionValue='red'
+          displayValue='Red'
+          checkboxPosition='none'
+          componentOverrides={{
+            indicator: { reactNode: <span data-testid='custom-indicator'>[x]</span> },
+          }}
+          onChange={() => {}}
+        />,
+      );
+      expect(screen.queryByTestId('custom-indicator')).not.toBeInTheDocument();
+    });
+
+    test('name override replaces the display value', () => {
+      render(
+        <FilterOption
+          id='test-1'
+          optionValue='red'
+          displayValue='Red'
+          displayCountValue='1572'
+          componentOverrides={{
+            name: { reactNode: <span data-testid='custom-name'>Custom Name</span> },
+          }}
+          onChange={() => {}}
+        />,
+      );
+      expect(screen.getByTestId('custom-name')).toBeInTheDocument();
+      expect(screen.queryByText('Red')).not.toBeInTheDocument();
+      // Count and indicator are untouched.
+      expect(screen.getByText('1572')).toBeInTheDocument();
+      expect(document.querySelector('.cio-checkbox')).toBeInTheDocument();
+    });
+
+    test('count override replaces the count', () => {
+      render(
+        <FilterOption
+          id='test-1'
+          optionValue='red'
+          displayValue='Red'
+          displayCountValue='1572'
+          componentOverrides={{
+            count: { reactNode: <span data-testid='custom-count'>lots</span> },
+          }}
+          onChange={() => {}}
+        />,
+      );
+      expect(screen.getByTestId('custom-count')).toBeInTheDocument();
+      expect(screen.queryByText('1572')).not.toBeInTheDocument();
+      expect(screen.getByText('Red')).toBeInTheDocument();
+    });
+
+    test('count override does not render when displayCountValue is absent', () => {
+      render(
+        <FilterOption
+          id='test-1'
+          optionValue='red'
+          displayValue='Red'
+          componentOverrides={{
+            count: { reactNode: <span data-testid='custom-count'>lots</span> },
+          }}
+          onChange={() => {}}
+        />,
+      );
+      expect(screen.queryByTestId('custom-count')).not.toBeInTheDocument();
+    });
+
+    test('inner override render-prop functions receive render props', () => {
+      render(
+        <FilterOption
+          id='test-1'
+          optionValue='red'
+          displayValue='Red'
+          displayCountValue='1572'
+          isChecked
+          componentOverrides={{
+            name: {
+              reactNode: (props) => (
+                <span data-testid='custom-name'>
+                  {props.displayValue}/{props.optionValue}/{String(props.isChecked)}
+                </span>
+              ),
+            },
+            count: {
+              reactNode: (props) => (
+                <span data-testid='custom-count'>{props.displayCountValue}</span>
+              ),
+            },
+          }}
+          onChange={() => {}}
+        />,
+      );
+      expect(screen.getByTestId('custom-name')).toHaveTextContent('Red/red/true');
+      expect(screen.getByTestId('custom-count')).toHaveTextContent('1572');
+    });
+
+    test('inner overrides compose with each other', () => {
+      render(
+        <FilterOption
+          id='test-1'
+          optionValue='red'
+          displayValue='Red'
+          displayCountValue='1572'
+          componentOverrides={{
+            indicator: { reactNode: <span data-testid='custom-indicator'>[x]</span> },
+            name: { reactNode: <span data-testid='custom-name'>Name</span> },
+            count: { reactNode: <span data-testid='custom-count'>Count</span> },
+          }}
+          onChange={() => {}}
+        />,
+      );
+      expect(screen.getByTestId('custom-indicator')).toBeInTheDocument();
+      expect(screen.getByTestId('custom-name')).toBeInTheDocument();
+      expect(screen.getByTestId('custom-count')).toBeInTheDocument();
+    });
+
+    test('root reactNode override still wins over inner parts', () => {
+      render(
+        <FilterOption
+          id='test-1'
+          optionValue='red'
+          displayValue='Red'
+          displayCountValue='1572'
+          componentOverrides={{
+            reactNode: <li data-testid='root-override'>Whole row</li>,
+            name: { reactNode: <span data-testid='custom-name'>Name</span> },
+          }}
+          onChange={() => {}}
+        />,
+      );
+      expect(screen.getByTestId('root-override')).toBeInTheDocument();
+      expect(screen.queryByTestId('custom-name')).not.toBeInTheDocument();
+    });
+
+    test('inner override still fires onChange through the label', () => {
+      const handleChange = vi.fn();
+      render(
+        <FilterOption
+          id='test-1'
+          optionValue='red'
+          displayValue='Red'
+          componentOverrides={{
+            name: { reactNode: <span data-testid='custom-name'>Custom</span> },
+          }}
+          onChange={handleChange}
+        />,
+      );
+      fireEvent.click(screen.getByTestId('custom-name'));
+      expect(handleChange).toHaveBeenCalledWith('red');
+    });
+  });
+
   describe('data attributes', () => {
     test('has data-slot attribute', () => {
       render(<FilterOption id='test-1' optionValue='red' displayValue='Red' onChange={() => {}} />);

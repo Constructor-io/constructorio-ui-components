@@ -1,5 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import FilterOption from '../../../components/filter-option';
+import {
+  COUNT_BADGE_STYLE,
+  END_CONTENT_CHEVRON_STYLE,
+  END_CONTENT_PILL_STYLE,
+  OVERRIDE_NAME_STYLE,
+} from '../../constants';
 
 const meta = {
   title: 'Components/FilterOption',
@@ -249,5 +255,122 @@ export const ComponentOverrideExample: Story = {
     componentOverrides: componentOverrides.filterOption,
   },
   name: 'componentOverride Example',
+  tags: ['!autodocs', '!dev'],
+};
+
+// --- endContent ---
+
+export const WithEndContent: Story = {
+  args: {
+    id: 'filter-end',
+    optionValue: 'sale',
+    displayValue: 'On Sale',
+    displayCountValue: '128',
+    endContent: <span style={END_CONTENT_PILL_STYLE}>NEW</span>,
+  },
+  name: 'With End Content',
+};
+
+export const WithStartAndEndContent: Story = {
+  args: {
+    id: 'filter-both',
+    optionValue: 'featured',
+    displayValue: 'Featured',
+    displayCountValue: '42',
+    startContent: <span style={{ marginRight: 8 }}>⭐</span>,
+    endContent: <span style={END_CONTENT_CHEVRON_STYLE}>›</span>,
+  },
+  name: 'With Start and End Content',
+};
+
+// --- Inner-part componentOverrides ---
+// Each key below replaces one part of the row and leaves the rest intact — unlike the
+// top-level `reactNode`, which replaces the whole `<li>`.
+
+export const IndicatorOverrideExample: Story = {
+  args: {
+    id: 'indicator-override',
+    optionValue: 'red',
+    displayValue: 'Red',
+    displayCountValue: '646',
+    isChecked: true,
+    componentOverrides: {
+      indicator: {
+        reactNode: (props) => (
+          <span
+            style={{
+              marginRight: 8,
+              width: 20,
+              textAlign: 'center',
+              color: props.isChecked ? '#66bf3c' : '#ccc',
+            }}>
+            {props.isChecked ? '✔' : '○'}
+          </span>
+        ),
+      },
+    },
+  },
+  name: 'Override the indicator',
+  tags: ['!autodocs', '!dev'],
+};
+
+// A `name` replacement has to bring its own `flexGrow` (it lives in OVERRIDE_NAME_STYLE): the
+// default name element carries `grow`, which is what holds the count at the row's right edge.
+export const NameOverrideExample: Story = {
+  args: {
+    id: 'name-override',
+    optionValue: 'red',
+    displayValue: 'Red',
+    displayCountValue: '646',
+    componentOverrides: {
+      name: {
+        reactNode: (props) => (
+          <span style={{ ...OVERRIDE_NAME_STYLE, textTransform: 'uppercase' }}>
+            {props.displayValue}
+          </span>
+        ),
+      },
+    },
+  },
+  name: 'Override the name',
+  tags: ['!autodocs', '!dev'],
+};
+
+export const CountOverrideExample: Story = {
+  args: {
+    id: 'count-override',
+    optionValue: 'red',
+    displayValue: 'Red',
+    displayCountValue: '646',
+    componentOverrides: {
+      count: {
+        reactNode: (props) => <span style={COUNT_BADGE_STYLE}>{props.displayCountValue}</span>,
+      },
+    },
+  },
+  name: 'Override the count',
+  tags: ['!autodocs', '!dev'],
+};
+
+export const MultipleInnerOverridesExample: Story = {
+  args: {
+    id: 'multi-override',
+    optionValue: 'red',
+    displayValue: 'Red',
+    displayCountValue: '646',
+    isChecked: true,
+    componentOverrides: {
+      indicator: {
+        reactNode: <span style={{ marginRight: 8, width: 20, textAlign: 'center' }}>✔</span>,
+      },
+      name: {
+        reactNode: (props) => <span style={OVERRIDE_NAME_STYLE}>{props.displayValue}</span>,
+      },
+      count: {
+        reactNode: (props) => <span style={COUNT_BADGE_STYLE}>{props.displayCountValue}</span>,
+      },
+    },
+  },
+  name: 'Override several inner parts',
   tags: ['!autodocs', '!dev'],
 };

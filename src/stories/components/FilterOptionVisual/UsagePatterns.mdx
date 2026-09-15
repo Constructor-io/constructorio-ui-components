@@ -1,0 +1,70 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import * as FilterOptionVisual from './FilterOptionVisual.stories';
+
+<Meta of={FilterOptionVisual} name="Usage Patterns" />
+
+# Usage Examples
+
+`FilterOptionVisual` is a `FilterOption` with a swatch. It accepts everything `FilterOption`
+does, supplies the swatch as its `startContent`, and defaults `checkboxPosition` to `right`
+rather than `left`.
+
+## Color Swatches
+Pass `visualType='color'` with a hex code as the `visualValue`.
+
+<Canvas of={FilterOptionVisual.ColorFilterList} />
+
+## Image Swatches
+Pass `visualType='image'` with a URL. Color and image rows can be mixed in one facet.
+
+<Canvas of={FilterOptionVisual.MixedVisualTypes} />
+
+## Radio Selection
+Single-select visual facets work the same way as on `FilterOption` — `selectionType='radio'` plus
+a shared `groupName`, and an `onChange` that replaces the selection rather than toggling it into a
+set. `groupName` names the group; it does not make the selection exclusive on its own.
+
+<Canvas of={FilterOptionVisual.RadioColorList} />
+
+## Mixing With Plain Options
+Plain and visual rows default to different indicator positions (`left` and `right`
+respectively). When mixing both in one list, set `checkboxPosition` explicitly so the
+indicators line up.
+
+## Enabling Top-Level Overrides
+To enable top-level overrides, we should pass down the props `componentOverrides`. The top-level
+`reactNode` replaces the entire `<li>`.
+
+<Canvas of={FilterOptionVisual.ComponentOverrideExample} />
+
+## Enabling Component Overrides
+`componentOverrides` accepts every `FilterOption` inner key — `indicator`, `name`, `count` —
+plus `chip` for the swatch this component adds of its own.
+
+| Key | Replaces |
+| -- | -- |
+| `reactNode` | the whole `<li>` |
+| `chip` | the swatch |
+| `indicator` | the checkbox **or** radio indicator |
+| `name` | the display-value `<span>` |
+| `count` | the count `<span>` |
+
+Every key takes fixed JSX or a render-prop function. The inherited keys receive the row's props;
+`chip` is the exception — it forwards to `Chip`, so it receives the chip's own `type`, `value` and
+`name`.
+
+Note that a `name` replacement owns its own `grow`, exactly as on `FilterOption`; without it the
+count stops sitting at the right edge of the row.
+
+### Overriding the swatch
+`chip` replaces the swatch and leaves the rest of the row alone. It is forwarded straight to the
+underlying `Chip`, so its render props are the chip's own (`type`, `value`, `name`) rather than the
+row's. Read the row from what you passed in, or from `option.visual` in a `FilterOptionsList`
+override function.
+
+<Canvas of={FilterOptionVisual.ChipOverrideExample} />
+
+### Overriding inherited parts
+Inherited keys pass through to `FilterOption` and leave the swatch untouched.
+
+<Canvas of={FilterOptionVisual.InheritedOverridesExample} />

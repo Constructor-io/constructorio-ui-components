@@ -226,6 +226,7 @@ describe('FilterOptionVisual component', () => {
           onChange={() => {}}
         />,
       );
+      // cspell:ignore componentoverrides
       expect(screen.getByRole('listitem')).not.toHaveAttribute('componentoverrides');
     });
 

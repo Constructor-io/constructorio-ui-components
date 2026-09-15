@@ -1,6 +1,6 @@
 import { RenderPropsChildren } from '@/types';
 import React, { ReactNode } from 'react';
-import { resolveOverride } from './resolveOverride';
+import { resolveOverride } from '@/utils/resolveOverride';
 
 export interface ReactPropsWrapperProps<T> {
   /**

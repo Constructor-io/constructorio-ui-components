@@ -940,7 +940,6 @@ describe('FilterOptionsList component', () => {
       );
       expect(screen.getAllByTestId('custom-name')).toHaveLength(1);
       expect(screen.getByTestId('custom-name')).toHaveTextContent('Only L1');
-      // Untargeted rows keep their default names.
       expect(screen.getByText('Level 0')).toBeInTheDocument();
       expect(screen.getByText('Level 2')).toBeInTheDocument();
       expect(screen.queryByText('Level 1')).not.toBeInTheDocument();

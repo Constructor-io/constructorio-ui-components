@@ -1,5 +1,8 @@
 import { create } from 'storybook/theming';
-import { getPreferredColorScheme } from '../src/utils'
+// Imported from the module that defines it rather than the `src/utils` barrel: the barrel also
+// re-exports React components, which would pull them into Storybook's manager bundle, where the
+// app's `@/` alias is not configured.
+import { getPreferredColorScheme } from '../src/utils/styleHelpers'
 
 export default create({
   brandTitle: 'Constructor',

@@ -1,5 +1,5 @@
 import React from 'react';
-import { composeRefs } from './composeRefs';
+import { composeRefs } from '@/utils/composeRefs';
 
 function mergeProps(slotProps: Record<string, unknown>, childProps: Record<string, unknown>) {
   const overrideProps = { ...childProps };

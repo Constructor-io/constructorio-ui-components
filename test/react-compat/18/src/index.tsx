@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { createRoot } from 'react-dom/client';
-import { Button, Badge, Carousel } from '@constructor-io/constructorio-ui-components';
+import { Button, Badge, Carousel, Breadcrumbs } from '@constructor-io/constructorio-ui-components';
 
 const App = () => (
   <div>
@@ -11,6 +11,13 @@ const App = () => (
       <a href='/y'>linked badge</a>
     </Badge>
     <Carousel items={[]} />
+    <Breadcrumbs
+      items={[
+        { id: 'all', label: 'All' },
+        { id: 'coffee', label: 'Coffee' },
+      ]}
+      currentItem='Beans'
+    />
   </div>
 );
 

@@ -1,18 +1,5 @@
 import React from 'react';
-
-function setRef<T>(ref: React.Ref<T> | undefined | null, value: T | null) {
-  if (typeof ref === 'function') {
-    ref(value);
-  } else if (ref != null) {
-    (ref as React.RefObject<T | null>).current = value;
-  }
-}
-
-function composeRefs<T>(...refs: (React.Ref<T> | undefined | null)[]): React.RefCallback<T> {
-  return (node: T | null) => {
-    refs.forEach((ref) => setRef(ref, node));
-  };
-}
+import { composeRefs } from './composeRefs';
 
 function mergeProps(slotProps: Record<string, unknown>, childProps: Record<string, unknown>) {
   const overrideProps = { ...childProps };

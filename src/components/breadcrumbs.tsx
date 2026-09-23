@@ -108,6 +108,10 @@ export type BreadcrumbsOverrides = ComponentOverrideProps<BreadcrumbsProps> & {
   link?: BreadcrumbsLinkOverrides;
   page?: BreadcrumbsPageOverrides;
   separator?: BreadcrumbsSeparatorOverrides;
+  /**
+   * Replaces the ellipsis wrapper `<span>` wholesale (icon, classes and all). To keep the wrapper
+   * and swap only the glyph inside it, pass `children` to `Breadcrumbs.Ellipsis` instead.
+   */
   ellipsis?: BreadcrumbsEllipsisOverrides;
   moreMenu?: BreadcrumbsMoreMenuOverrides;
 };
@@ -222,7 +226,7 @@ const linkVariantClasses: Record<BreadcrumbsVariant, string> = {
   compact: 'cio:px-1 cio:py-0.5 cio:rounded-[4px]',
 };
 
-const BreadcrumbsLink = React.forwardRef<HTMLAnchorElement, BreadcrumbsLinkProps>(
+const BreadcrumbsLink = React.forwardRef<HTMLElement, BreadcrumbsLinkProps>(
   function BreadcrumbsLink({ children, className, asChild = false, ...props }, forwardedRef) {
     const { variant, componentOverrides } = useBreadcrumbsContext();
     const renderProps = React.useMemo(
@@ -231,14 +235,15 @@ const BreadcrumbsLink = React.forwardRef<HTMLAnchorElement, BreadcrumbsLinkProps
     );
 
     // An item without a destination is an action, not a link - PLP routes clicks through a handler.
-    const Element: React.ElementType = asChild ? Slot : props.href ? 'a' : 'button';
+    const hasHref = props.href !== undefined;
+    const Element: React.ElementType = asChild ? Slot : hasHref ? 'a' : 'button';
 
     return (
       <RenderPropsWrapper props={renderProps} override={componentOverrides?.link?.reactNode}>
         <Element
           ref={forwardedRef}
           data-slot='breadcrumbs-link'
-          type={!asChild && !props.href ? 'button' : undefined}
+          type={!asChild && !hasHref ? 'button' : undefined}
           className={cn(linkClasses, linkVariantClasses[variant], className)}
           {...props}>
           {children}
@@ -436,18 +441,21 @@ const BreadcrumbsMoreMenu = React.forwardRef<HTMLLIElement, BreadcrumbsMoreMenuP
   },
 );
 
-function Breadcrumbs({
-  items = [],
-  currentItem,
-  onItemClick,
-  collapse = DEFAULT_COLLAPSE,
-  variant = 'default',
-  moreMenuLabel,
-  componentOverrides,
-  children,
-  className,
-  ...props
-}: BreadcrumbsProps) {
+const Breadcrumbs = React.forwardRef<HTMLElement, BreadcrumbsProps>(function Breadcrumbs(
+  {
+    items = [],
+    currentItem,
+    onItemClick,
+    collapse = DEFAULT_COLLAPSE,
+    variant = 'default',
+    moreMenuLabel,
+    componentOverrides,
+    children,
+    className,
+    ...props
+  },
+  forwardedRef,
+) {
   const contextValue = React.useMemo(
     () => ({ variant, componentOverrides }),
     [variant, componentOverrides],
@@ -480,7 +488,7 @@ function Breadcrumbs({
     </BreadcrumbsItem>
   );
 
-  const entries: ReactNode[] = [
+  const entries: React.ReactElement[] = [
     ...leading.map(renderItem),
     collapsed.length > 0 && (
       <BreadcrumbsMoreMenu
@@ -496,12 +504,13 @@ function Breadcrumbs({
         <BreadcrumbsPage>{currentLabel}</BreadcrumbsPage>
       </BreadcrumbsItem>
     ),
-  ].filter(Boolean);
+  ].filter((entry): entry is React.ReactElement => Boolean(entry));
 
   return (
     <BreadcrumbsContext.Provider value={contextValue}>
       <RenderPropsWrapper props={renderProps} override={componentOverrides?.reactNode}>
         <nav
+          ref={forwardedRef}
           data-slot='breadcrumbs'
           aria-label='Breadcrumb'
           className={cn('cio-components cio-breadcrumbs', className)}
@@ -509,7 +518,7 @@ function Breadcrumbs({
           {children ?? (
             <BreadcrumbsList>
               {entries.map((entry, index) => (
-                <React.Fragment key={index}>
+                <React.Fragment key={entry.key}>
                   {index > 0 && <BreadcrumbsSeparator />}
                   {entry}
                 </React.Fragment>
@@ -520,7 +529,15 @@ function Breadcrumbs({
       </RenderPropsWrapper>
     </BreadcrumbsContext.Provider>
   );
-}
+}) as React.ForwardRefExoticComponent<BreadcrumbsProps & React.RefAttributes<HTMLElement>> & {
+  List: typeof BreadcrumbsList;
+  Item: typeof BreadcrumbsItem;
+  Link: typeof BreadcrumbsLink;
+  Page: typeof BreadcrumbsPage;
+  Separator: typeof BreadcrumbsSeparator;
+  Ellipsis: typeof BreadcrumbsEllipsis;
+  MoreMenu: typeof BreadcrumbsMoreMenu;
+};
 
 Breadcrumbs.List = BreadcrumbsList;
 Breadcrumbs.Item = BreadcrumbsItem;

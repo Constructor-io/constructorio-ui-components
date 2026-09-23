@@ -7,6 +7,16 @@ export { default as Chip } from '@/components/chip';
 export { default as FilterOption } from '@/components/filter-option';
 export { default as FilterOptionVisual } from '@/components/filter-option--visual';
 export { default as FilterOptionsList } from '@/components/filter-options-list';
+export {
+  default as Breadcrumbs,
+  BreadcrumbsList,
+  BreadcrumbsItem,
+  BreadcrumbsLink,
+  BreadcrumbsPage,
+  BreadcrumbsSeparator,
+  BreadcrumbsEllipsis,
+  BreadcrumbsMoreMenu,
+} from '@/components/breadcrumbs';
 export { RenderPropsWrapper, CIO_EVENTS, dispatchCioEvent } from '@/utils';
 
 // Hooks
@@ -29,4 +39,18 @@ export type {
   FilterOptionData,
   FilterOptionVisualData,
 } from '@/components/filter-options-list';
+export type {
+  BreadcrumbItem,
+  BreadcrumbsProps,
+  BreadcrumbsOverrides,
+  BreadcrumbsVariant,
+  CollapseConfig,
+  BreadcrumbsListProps,
+  BreadcrumbsItemProps,
+  BreadcrumbsLinkProps,
+  BreadcrumbsPageProps,
+  BreadcrumbsSeparatorProps,
+  BreadcrumbsEllipsisProps,
+  BreadcrumbsMoreMenuProps,
+} from '@/components/breadcrumbs';
 export * from '@/types';
